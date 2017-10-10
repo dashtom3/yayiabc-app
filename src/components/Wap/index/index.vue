@@ -17,6 +17,20 @@
     <classifyBox></classifyBox>
 <!--     <Brand></Brand>
     <Classify></Classify> -->
+    <div class="dialog_wrapper" v-show="isShow">
+      <div class="dialog">
+        <div class="dialog_body">
+          <h2 class="title">发现新版本</h2>
+          <span class="text">快快升级，体验我们的新版本！</span>
+        </div>
+        <div class="dialog_footer">
+          <span class="dialog_bottom">
+            <button type="button" class="btn button_default" @click="isShow=false"><span>下次再说</span></button>
+            <button type="button" class="btn button_primary" @click="download"><span>立即更新</span></button>
+          </span>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -32,6 +46,7 @@ export default {
     return {
       popupVisible: false,
       searchCargo: '',
+      isShow: true
     }
   },
   components: {
@@ -74,6 +89,11 @@ export default {
     searchActive: function() {
       var that = this
       that.$router.push({ path: '/searchWord', query: { data: 'focus' }})
+    },
+    download: function() {
+      var that = this
+      that.isShow = false
+      console.log('正在下载...')
     }
   }
 }
@@ -133,6 +153,79 @@ export default {
   position: absolute;
   top: 3.5vw;
   left: 6vw;
+}
+.dialog_wrapper{
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: 0;
+  overflow: auto;
+  z-index: 2001;
+  background: rgba(0,0,0,.3);
+  font-family: "SourceHanSansCN-Regular"
+}
+.dialog{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 206px;
+  height: 115px;
+  margin: 0 auto;
+  padding-top: 18px;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.3);
+  box-sizing: border-box;
+  color: rgb(51, 51, 51);
+}
+.dialog_body .title{
+  margin-bottom: 7px;
+  text-align: center;
+  line-height: 15px;
+  font-size: 15px;
+  font-weight: normal;
+}
+.dialog_body .text{
+  position: relative;
+  display: block;
+  text-align: center;
+  line-height: 12px;
+  font-size: 12px;
+  padding-bottom: 17px;
+}
+.text::after {
+  content:"";
+  position: absolute; 
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  transform-origin: 0 0;
+  background: rgb(204, 204, 204);
+}
+@media only screen and (-webkit-min-device-pixel-ratio: 2.0), only screen and (min-resolution: 2dppx) {
+  .text::after{
+    transform: scaleY(0.5);
+  }  
+}
+.btn{
+  display: inline-block;
+  line-height: 1;
+  box-sizing: border-box;
+  width: 48%;
+  height: 26px;
+  line-height: 26px;
+  margin-top: 10px;;
+  vertical-align: top;
+  background: #fff;
+  font-size: 14px
+}
+.button_primary{
+  border-left: 1px solid rgb(204, 204, 204);
+  color: rgb(54, 118, 182)
 }
 </style>
 
