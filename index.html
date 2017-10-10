@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-touch-fullscreen" content="yes">
+  <meta content="telephone=no,email=no" name="format-detection">
+  <!--
+  <script src=https://cdn.bootcss.com/jquery/2.0.0/jquery.js></script>
+  -->
+  <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+  <script src="static/js/qrcode.js"></script>
+  <link rel="stylesheet" type="text/css" href="./static/muse_icon/muse.css">
+  <!--   <link rel="stylesheet" href="http://dev.dcloud.net.cn/mui/dist/css/mui.min.css"> -->
+  <title>牙医abc</title>
+</head>
+<body>
+<div id="app"></div>
+<!-- built files will be auto injected -->
+<!-- <script src="http://dev.dcloud.net.cn/mui/dist/js/mui.min.js"></script> -->
+<script src="./static/js/mui.js"></script>
+<script>
+  mui.init({
+    swipeBack: false,//停用右滑关闭功能
+  });
+  var wxChannel = null; // 微信支付
+  var aliChannel = null; // 支付宝支付
+  mui.plusReady(function () {
+    // 判断有无网络
+    // if (!navigator.onLine) {
+    //   plus.nativeUI.alert("网络请求失败，请检查网络！")
+    // }
+    // 禁用右滑关闭功能
+    var wv = plus.webview.currentWebview();
+    wv.setStyle({
+      popGesture: 'none'
+    })
+//    //安卓返回键
+//    mui.back = function () {
+//      mui.confirm('确定要退出应用吗？', '牙医abc', ["确定", "取消"], function (e) {
+//        if (e.index === 0) {
+//          plus.runtime.quit();
+//        }
+//      });
+//      return false;
+//    }
+    // 设置应用非全屏显示！
+    plus.navigator.setFullscreen(false);
+    plus.navigator.setStatusBarBackground("#3676B5");
+    plus.navigator.setStatusBarStyle('light');
+    // 微信登录授权
+    plus.oauth.getServices(function (services) {
+      auths = services;
+    }, function (e) {
+      alert("获取登录服务列表失败：" + e.message + " - " + e.code);
+    });
+    // 获取支付方式通道
+    plus.payment.getChannels(function (channels) {
+      aliChannel = channels[0];
+      wxChannel = channels[1];
+    }, function (e) {
+      alert("获取支付通道失败：" + e.message);
+    });
+  });
+</script>
+</body>
+</html>
