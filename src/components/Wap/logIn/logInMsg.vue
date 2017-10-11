@@ -7,7 +7,7 @@
       </transition>
     </div>
     <div class="pwd_box">
-      <input class="pwd" v-model="identifyCode" type="text" placeholder="验证码"> 
+      <input class="pwd" v-model="identifyCode" type="text" placeholder="验证码">
       <mu-raised-button :label="Yzm" class="getCode" @click="hasYzm()" v-if="hYzm"/>
 <!--       <button class="getCode" @click="hasYzm()" v-if="hYzm">{{Yzm}}</button> -->
       <button class="getCode" style="background-color: #C8C8C8;" v-else disabled>{{Yzm1}}</button>
@@ -78,12 +78,13 @@ export default {
           tokenMethods.setWapToken(res.data.token)
           tokenMethods.setWapUser(res.data.data)
           Toast({message: '登录成功', duration: 1500})
+          console.log(res);
           that.mobilePhone = ''
           that.identifyCode = ''
           that.$router.push({ path: '/'})
         } else {
           // if (res.data.msg == '') {
-            
+
           // }
           Toast({message: res.data.msg, duration: 1500})
         }
