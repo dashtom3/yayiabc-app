@@ -14,7 +14,7 @@
 
     <div class="top_top">
     <!--地址开始-->
-    <div class="address_box" v-for="(item,index) in addressData">
+    <div class="address_box" v-for="(item,index) in addressData" :key="index">
       <div class="address">
         <div class="hovers">
           <span class="fontColor">{{item.receiverName}}</span>

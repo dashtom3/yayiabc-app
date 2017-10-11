@@ -13,7 +13,7 @@
 
     <div class="box_position">
 
-      <div class="collect" v-for="(item,index) in collectData">
+      <div class="collect" v-for="(item,index) in collectData" :key="index">
         <mt-cell-swipe
           :right="[
     {

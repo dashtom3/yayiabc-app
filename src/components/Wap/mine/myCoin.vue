@@ -104,8 +104,8 @@
       })
     },
     created(){
-      this.mBack('toBack');
       this.getSave()
+      this.mBack('toBack');
     },
     computed:{
       ...mapGetters([
@@ -115,13 +115,12 @@
     methods:{
       toCoinCash(){
 //        this.$store.dispatch('SAVE_TO_COIN', 2);
-
         this.$router.push({path:'/coinCash', query: {backJudge: 'coinCash'}})
       },
       getSave(){
         let obj = {}
         this.$store.dispatch('GET_USERS_DATA',obj).then((res) => {
-          console.log(res.data.data,'哈哈');
+          // console.log(res.data.data,'哈哈');
           this.qbNum.qbBalance = res.data.data.qbBalance;
           this.qbNum.aqb = res.data.data.cQb;
           this.qbNum.bqb = res.data.data.bQb;
@@ -135,7 +134,7 @@
           this.$router.push({path:"/yayi/index"});
         }else if(this.saveJumpIndex === 2)
         {
-          this.$router.push({path:"/yayi/mine"});
+          this.$router.push({path:'/yayi/mine'})
         }else {
           this.$router.push({path:"/yayi/mine"});
         }

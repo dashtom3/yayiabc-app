@@ -126,7 +126,6 @@
       </div>
       <!--上部结束-->
       <!--用户名开始-->
-
       <div @click="toLogin" class="userName">
       </div>
       <!--用户名结束-->
@@ -135,8 +134,8 @@
         <div class="myOrder">
           <span>我的订单</span>
           <span class="myOrder_back">
-        <img src="../../../images/mine/back.png" alt="">
-      </span>
+            <img src="../../../images/mine/back.png" alt="">
+          </span>
         </div>
         <!--我的订单结束-->
         <!--上部功能区开始-->
@@ -221,8 +220,8 @@
       // plus.navigator.setFullscreen(true);
       that.$emit('listenToChildEvent', 'mine')
       if (tokenMethods.getWapUser() === null || tokenMethods.getWapUser() === undefined) {
-        this.showLogin = false
-        this.userPic = 'static/images/defaultPic.png'
+        that.showLogin = false
+        that.userPic = 'static/images/defaultPic.png'
       }
       that.init();
       that.gBack();

@@ -40,13 +40,15 @@ import mainEnter from './mainEnter'
 import classifyBox from './classifyBox'
 import Brand from './brand'
 import Classify from './classify'
+import * as api from '../../../vuex/modules/api';
 export default {
   name: 'index',
   data () {
     return {
       popupVisible: false,
       searchCargo: '',
-      isShow: true
+      isShow: false,
+      dd: []
     }
   },
   components: {
@@ -58,6 +60,14 @@ export default {
   },
   created: function() {
     var that = this
+    api.getVersion().then((data) => {
+      Promise.resolve(data).then(function (value) {
+          console.log(value)
+        }, function (value) {
+          // 不会被调用
+        });
+    })
+    console.log(that.global.version)
     mui.back = function () {
       mui.confirm('确定要退出应用吗？', '牙医abc', ["确定", "取消"], function (e) {
         if (e.index === 0) {
@@ -93,7 +103,6 @@ export default {
     download: function() {
       var that = this
       that.isShow = false
-      console.log('正在下载...')
     }
   }
 }

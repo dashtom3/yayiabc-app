@@ -11,7 +11,10 @@ import {
   noErrorTokenGet,
   noErrorTokenPost
 } from '../base';
-
+// 获取版本号
+export function getVersion(params) {
+  return get('/adv/showAdv', params);
+}
 // 获取轮播图
 export function getCarousel(params) {
   return get('/adv/showAdv', params);
