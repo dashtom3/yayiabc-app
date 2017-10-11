@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 export default {
+  //正式用url
   baseUrl: 'http://wap.yayiabc.com:8080/api',
   // baseUrl: 'http://192.168.1.103:8081/api',
   //测试用ip，不要用ip地址
