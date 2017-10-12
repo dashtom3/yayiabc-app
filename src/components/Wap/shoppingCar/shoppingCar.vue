@@ -99,6 +99,7 @@
         that.alreadyLog = false;
       }
       that.gBack();
+
     },
     watch: {
       gwcGoods: {

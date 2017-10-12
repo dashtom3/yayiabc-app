@@ -34,7 +34,7 @@
           </div>
           <div>
             <h3>{{item.itemName}}</h3>
-            <span class="brandStyle">{{item.itemBrand.itemBrandName}}</span>
+            <span class="brandStyle">{{item.itemBrand.itemBrandName}}</span><span class="salesNum">销量：{{item.sales}}</span>
             <i>¥ {{item.itemPrice}}</i>
           </div>
           <div class="Content_list_computed">
@@ -779,14 +779,24 @@
     margin-bottom: px2vw(20);
   }
 
-  .Content_list > div > div:nth-child(2) > span {
-    color: #b6b6b6;
-    font-size: px2vw(28);
+  .brandStyle {
+    background-color: #3676b6;
+    color: #fff;
+    font-size: px2vw(22);
+    border-radius: px2vw(3);
     position: absolute;
-    top:px2vw(100);
+    padding: 0 px2vw(3);
+    top:px2vw(90);
     left:0;
   }
 
+  .salesNum{
+    position: absolute;
+    font-size: px2vw(22);
+    top:px2vw(90);
+    left: px2vw(120);
+    color: #999;
+  }
   .Content_list > div > div:nth-child(2) > i {
     color: #d81e06;
     text-decoration: none;

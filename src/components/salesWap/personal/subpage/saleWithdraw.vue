@@ -118,6 +118,10 @@
           Toast('您输入的手机号不正确')
           return
         }
+        if(!this.saleInfo.postalType){
+          Toast('请选择提现类型')
+          return
+        }
         Indicator.open()
         try {
           res = await this[GET_SALE_CAPTCHA](params)

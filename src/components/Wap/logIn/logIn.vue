@@ -266,6 +266,7 @@
             Toast({message: '登录成功', duration: 1500})
             that.mobilePhone = ''
             that.password = ''
+            console.log(res,'登录成功')
             that.$router.push({path: '/'})
           } else {
             Toast({message: res.data.msg, duration: 1500})
