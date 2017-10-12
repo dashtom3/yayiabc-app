@@ -160,6 +160,10 @@ export default {
               }
             });
           }else{
+            if(tokenMethods.getWapUser().certification.state != 2){
+              Toast('资质审核中')
+              return
+            }
             var obj = {
               itemId: that.nowGoodDetails.itemId,
               itemName: that.nowGoodDetails.itemName,

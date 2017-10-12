@@ -215,6 +215,10 @@
               }
             });
           }else {
+            if(tokenMethods.getWapUser().certification.state != 2){
+              Toast('资质审核中')
+              return
+            }
             for (let i in that.sendDataList) {
               that.sendDataList[i].totalMoney = that.sendDataList[i].price * that.sendDataList[i].num;
               that.sendDataList[i].itemName = that.sendDataList[i].name;
