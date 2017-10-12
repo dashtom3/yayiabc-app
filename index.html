@@ -12,6 +12,13 @@
   -->
   <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
   <script src="static/js/qrcode.js"></script>
+  <script src="src/components/Wap/global/fastclick.js">
+    if ('addEventListener' in document) {
+      document.addEventListener('DOMContentLoaded', function() {
+        FastClick.attach(document.body);
+      }, false);
+    }
+  </script>
   <link rel="stylesheet" type="text/css" href="./static/muse_icon/muse.css">
   <!--   <link rel="stylesheet" href="http://dev.dcloud.net.cn/mui/dist/css/mui.min.css"> -->
   <title>牙医abc</title>

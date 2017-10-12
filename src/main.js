@@ -14,7 +14,7 @@ import MuseUI from 'muse-ui'
 import 'muse-ui/dist/muse-ui.css'
 import VueLazyload from 'vue-lazyload'
 
-const FastClick = require('fastclick')
+// const FastClick = require('fastclick')
 
 Vue.use(Vuex)
 Vue.use(MintUI)
@@ -56,8 +56,8 @@ Vue.prototype.QRCode = QRCode
 Vue.config.productionTip = false
 //设置全局global
 Vue.prototype.global = Global
-//绑定fastClick
-FastClick.attach(document.body)
+// //绑定fastClick
+// FastClick.attach(document.body)
 
 Vue.config.productionTip = false;
 // simple history management

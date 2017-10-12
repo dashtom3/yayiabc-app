@@ -1,6 +1,5 @@
 <template>
   <div class="address_wrap">
-    <div class="backgrounder"></div>
     <div class="box_top">
       <div class="header_top">
         <div @click="toBack" class="header_img_box">
@@ -43,14 +42,13 @@
       <img  src="../../../images/mine/address_pic.png" alt="">
     </div>
 
-
+    <!--末尾-->
+    </div>
     <!--添加地址开始-->
     <div class="addAddress" @click="goToAddAddress(-1)">
       添加地址
     </div>
     <!--添加地址结束-->
-    <!--末尾-->
-    </div>
   </div>
 </template>
 
@@ -127,7 +125,13 @@
     margin-bottom: px2vw(113);
   }
   .top_top{
-    margin-top: px2vw(89);
+    position: fixed;
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
+    top: px2vw(88);
+    left: 0;
+    background-color: $borderColor;
+    height: 85vh;
   }
   .header{
     position: absolute;
@@ -232,15 +236,6 @@
     background-color: $themeColor;
     color: white;
     font-size: 3.733333vw;
-  }
-
-  .backgrounder {
-    position: fixed;
-    top:0;
-    width: 100vw;
-    bottom: 0;
-    background-color: $borderColor;
-    z-index: -1;
   }
   .address_pic{
     width: px2vw(196);

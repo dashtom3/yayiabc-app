@@ -10,8 +10,8 @@
     </div>
 
     <!--收藏列表开始-->
-
-    <div class="box_position">
+    <div class="c-content">
+    <div class="box_position" v-if="collectData !=0">
 
       <div class="collect" v-for="(item,index) in collectData" :key="index">
         <mt-cell-swipe
@@ -39,11 +39,10 @@
     <!--收藏列表结束-->
 
     <!--无数据显示图片-->
-    <div v-show="collectData == 0" class="collect_pic">
+    <div v-else class="collect_pic">
       <img  src="../../../images/mine/collect_pic.png" alt="">
     </div>
-
-    <div class="max_warp"></div>
+    </div>
     <!--末尾-->
   </div >
 </template>
@@ -149,6 +148,11 @@
     width: px2vw(95);
     height: px2vw(88);
   }
+  .box_position{
+    width: 100%;
+    height: 94vh;
+    background-color: #f4f4f4;
+  }
   .top_nox {
     height: px2vw(88);
     line-height: px2vw(88);
@@ -161,7 +165,14 @@
     width: 100vw;
     text-align: center;
   }
-
+  .c-content{
+    position: fixed;
+    top: px2vw(88);
+    width: 100%;
+    bottom: 0;
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
+  }
   .header_bo {
     position: fixed;
     top:0;
@@ -175,7 +186,7 @@
     position: fixed;
     width: 100%;
     height: 100%;
-    background-color: #f4f4f4;
+
     z-index: 2;
   }
 
@@ -290,6 +301,7 @@
     height: 100%;
     position: fixed;
     z-index: 999;
+    background-color: #f4f4f4;
   }
   .collect_pic>img{
     width: px2vw(220);

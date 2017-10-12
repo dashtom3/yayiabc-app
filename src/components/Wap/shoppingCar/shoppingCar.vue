@@ -29,7 +29,7 @@
               handler: () => deleteHandler(good, index)
             }
           ]">
-            <div class="fl item-img">
+            <div class="fl item-img needclick">
               <div class="check-wrap needclick fl">
                 <el-checkbox v-model="good.checked" v-if="good.state === 1" class="if-check needclick"></el-checkbox>
                 <span class="invalid" v-else>失效</span>

@@ -97,9 +97,13 @@
   @import "../../../../common/sass/factory";
 
   .orderSubpage-container {
-    padding-top: px2vw(170);
+    position: fixed;
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
+    top: px2vw(170);
+    left: 0;
     background-color: #f4f4f4;
-    min-height: 100vh;
+    min-height: 88vh;
     &.noOrder {
       background-image: url("../../../../images/order/zanwu.png");
       background-position: center center;
