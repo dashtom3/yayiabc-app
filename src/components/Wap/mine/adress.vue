@@ -122,7 +122,6 @@
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../common/sass/factory";
   .address_wrap{
-    margin-bottom: px2vw(113);
   }
   .top_top{
     position: fixed;
