@@ -72,7 +72,7 @@
       }
     },
     methods: {
-      _init() {
+      init() {
         //初始化订单的详情
         this.orderState = this.order.state
         switch (this.orderState) {
@@ -109,7 +109,7 @@
                 //将订单状态改为0
                 this.order.state = 0
                 console.log(this.order.state)
-                this._init()
+                this.init()
                 this.$emit('cancelorder', orderId)
                 Toast({message: '删除订单成功', duration: 1500})
               })
@@ -158,7 +158,7 @@
               .then(res => {
                 //将订单状态改为4
                 this.order.state = 4
-                this._init()
+                this.init()
                 this.$emit('confirmorder', orderId)
                 Toast({message: '确定收货成功', duration: 1500})
                 this.$router.replace({name: 'orderSubpage', params: {order_state: 4}})
@@ -181,11 +181,11 @@
       }
     },
     created() {
-      this._init()
+      this.init()
     },
     watch: {
       order() {
-        this._init()
+        this.init()
       }
     }
   }

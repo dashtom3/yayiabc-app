@@ -83,6 +83,9 @@
         text-align: center;
         .primary {
           font-size: px2vw(30);
+          line-height: px2vw(50);
+          vertical-align: middle;
+          color: #d81e06;
         }
       }
     }

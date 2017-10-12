@@ -369,7 +369,7 @@
       line-height: px2vw(88);
       display: inline-block;
       text-align: center;
-      font-size: px2vw(36);
+      font-size: px2vw(32);
       color: #fff;
     }
   }

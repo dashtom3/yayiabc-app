@@ -321,6 +321,9 @@
   .shoppingCar .mint-cell-value {
     margin-top: 8px;
   }
+  .mint-cell-swipe .mint-cell-wrapper{
+    padding-bottom: 1px;
+  }
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss" rel="stylesheet/scss">
@@ -527,7 +530,7 @@
   .btns {
     position: absolute;
     right: px2vw(20);
-    bottom: 0;
+    bottom: 1px;
     width: px2vw(150);
     display: flex;
     span {
