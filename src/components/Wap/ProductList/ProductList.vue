@@ -187,7 +187,7 @@
     /*height: px2vw(920);*/
     /*min-height: px2vw(920);*/
     position: absolute;
-    z-index: 10;
+    z-index: 0;
     padding-top: px2vw(88);
     top: px2vw(0);
     left: 0;
@@ -202,11 +202,12 @@
     background-color: #fff;
     /*float: right;*/
     position: fixed;
+    z-index: 200;
     min-height: px2vw(200);
     width: px2vw(568);
     top: px2vw(88);
     right: 0;
-    overflow: scroll;
+    /*overflow: scroll;*/
     -webkit-overflow-scrolling: touch;
   }
 

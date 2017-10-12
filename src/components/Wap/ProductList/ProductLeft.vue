@@ -89,6 +89,7 @@
   .ProductLeft {
     /*min-height: 100vh;*/
     background-color: #f4f4f4;
+    z-index: 0;
   }
 
   .main_ul {

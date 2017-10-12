@@ -893,7 +893,7 @@
     height: 100%;
     background: rgba(204, 204, 204, 0.5);
     /*opacity: 0.8;*/
-    z-index: 600;
+    z-index: 605;
   }
 
   .cover_hidden {
@@ -902,7 +902,7 @@
 
   .cover_close{
     position: absolute;
-    z-index: 605;
+    z-index: 700;
     width: 100%;
     height: 100%;
   }
