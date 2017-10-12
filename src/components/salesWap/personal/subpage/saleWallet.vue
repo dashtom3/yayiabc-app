@@ -53,7 +53,8 @@
       height: px2vw(365);
       padding-top: px2vw(88);
       margin-bottom: px2vw(10);
-      background-color: #1a78cd;
+      // background-color: #1a78cd;
+      background-color: #3f8bd6;
       .avatar-content {
         position: relative;
         left: 50%;

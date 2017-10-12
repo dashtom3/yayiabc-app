@@ -262,7 +262,7 @@
           if (res.data.callStatus === 'SUCCEED') {
             tokenMethods.setWapToken(res.data.token)
             tokenMethods.setWapUser(res.data.data)
-            console.log(res.data.data, 'user')
+            // console.log(res.data.data, 'user')
             Toast({message: '登录成功', duration: 1500})
             that.mobilePhone = ''
             that.password = ''

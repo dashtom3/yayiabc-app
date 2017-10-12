@@ -128,7 +128,8 @@
       display: flex;
       height: px2vw(290);
       padding: px2vw(80) px2vw(66) px2vw(50);
-      background-color: #1a78cd;
+      // background-color: #1a78cd;
+      background-color: #3f8bd6;
       .avatar-content {
         position: relative;
         flex: none;

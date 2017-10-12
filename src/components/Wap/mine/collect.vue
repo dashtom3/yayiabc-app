@@ -94,7 +94,7 @@
         }
         //获取收藏商品的信息
         this.$store.dispatch('GET_GOODS_COLLECT', obj).then((res) => {
-          console.log(res,'s');
+          // console.log(res,'s');
           this.collectData = res.data;
         })
       },

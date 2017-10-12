@@ -92,10 +92,10 @@
           token: tokenMethods.getWapToken(),
         };
         that.$store.dispatch('GET_ADDRESS', obj).then((res) => {
-          console.log(res);
+          // console.log(res);
           if (res.callStatus === 'SUCCEED') {
             this.addressData = res.data;
-            console.log(this.addressData);
+            // console.log(this.addressData);
           } else {
           }
         })

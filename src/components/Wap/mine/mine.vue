@@ -223,6 +223,9 @@
         that.showLogin = false
         that.userPic = 'static/images/defaultPic.png'
       }
+      // if (tokenMethods.getWapToken() === null) {
+
+      // }
       that.init();
       that.gBack();
     },
@@ -262,6 +265,7 @@
       //获取个人信息
       init: function () {
         let that = this
+        // console.log(tokenMethods.getWapUser())
         if (!tokenMethods.getWapUser()) return
         var obj = {
           phone: tokenMethods.getWapUser().phone,
@@ -284,8 +288,8 @@
           .catch(e => Toast(e))
         //查询个人信息
         that.$store.dispatch('GET_PERSON_LIST', obj).then((res) => {
-          console.log(res);
-          console.log(JSON.stringify(res), '绑定完微信')
+          // console.log(res);
+          // console.log(JSON.stringify(res), '绑定完微信')
           this.showLogin = true;
           if (res.errorCode === 'RE_LOGIN') {
             this.showLogin = false;
@@ -312,6 +316,8 @@
       toMyCoin() {
         this.$store.dispatch('SAVE_JUMP_INDEX', 2)
         this.$router.push({path: '/myCoin'})
+        // this.$store.dispatch('SAVE_JUMP_INDEX', 2)
+        // this.$router.push({path: '/myCoin'})
       },
       //微信登录注销
       authLogout: function () {

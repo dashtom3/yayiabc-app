@@ -58,6 +58,9 @@
         let res = null
         try {
           res = await this[GET_ORDER_LIST](this.param)
+          if (res.data.callStatus == 'FAILED') {
+            tokenMethods.removeMsg()
+          }
           this.orderList = this.orderList.concat(res.data.data)
           this.busy = false
           this.totalPage = res.data.totalPage

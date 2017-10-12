@@ -27,6 +27,9 @@
 
   export default {
     name: 'order',
+    created() {
+      this.mBack('toBack');
+    },
     methods: {
       goBack() {
         this.$router.push({path: '/yayi/mine'})
