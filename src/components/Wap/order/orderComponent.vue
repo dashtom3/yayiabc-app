@@ -12,11 +12,11 @@
           </div>
           <ul class="product-detail">
             <li class="product-detail-name">
-              <p class="title">{{item.itemInfo.itemName}}</p>
+              <p class="title">{{item.itemInfo.itemName}}<br/><span class="brand_name">{{item.itemBrandName}}</span></p>
               <p class="price">￥{{item.price | transformMoney}}</p>
             </li>
             <li class="product-detail-desc">
-              <p class="desc">{{item.itemPropertyNamea}}{{item.itemPropertyNameb}}{{item.itemPropertyNamec}}</p>
+              <p class="desc">{{item.itemPropertyNamea}}<span v-if="item.itemPropertyNameb">；</span>{{item.itemPropertyNameb}}<span v-if="item.itemPropertyNamec">；</span>{{item.itemPropertyNamec}}</p>
               <p class="num">&times;{{item.num}}</p>
             </li>
           </ul>
@@ -181,6 +181,7 @@
       }
     },
     created() {
+      console.log(this.order)
       this.init()
     },
     watch: {
@@ -250,8 +251,18 @@
             font-size: px2vw(28);
             .title {
               flex: none;
+              position: relative;
               width: px2vw(360);
               color: #333;
+              .brand_name{
+                position: absolute;
+                bottom: px2vw(4);
+                padding: 0 px2vw(3);
+                border-radius: px2vw(3);
+                background: rgb(54, 118, 180);
+                font-size: px2vw(22);
+                color: rgb(255, 255, 255);
+              }
             }
             .price {
               color: $light-font-color;

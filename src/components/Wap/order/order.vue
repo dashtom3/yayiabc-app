@@ -90,7 +90,7 @@
           text-align: center;
           line-height: px2vw(80);
           border-bottom: 1px solid $borderColor;
-          font-size: px2vw(32);
+          font-size: px2vw(28);
           &.router-link-active {
             border-bottom-color: #005aab;
             color: #005aab;
