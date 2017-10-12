@@ -202,6 +202,7 @@
     background-color: #fff;
     /*float: right;*/
     position: fixed;
+    z-index: 20;
     min-height: px2vw(200);
     width: px2vw(568);
     top: px2vw(88);
