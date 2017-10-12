@@ -128,13 +128,16 @@ export function getWithToken(url, params = {}) {
     axios.get(HOST + url, {params})
       .then((res) => {
         if (res.data.callStatus === 'SUCCEED') {
+          // console.log(res.data)
           Indicator.close();
           resolve(res.data);
           return false
         }
         if (res.data.errorCode === 'RE_LOGIN') {
+          // console.log(res.data.errorCode)
           Indicator.close();
           tokenMethods.removeMsg()
+          resolve(res.data);
           // router.push({path: '/logIn'})
           // Toast({message: '登录过期，请重新登录！', duration: 1500})
           return false

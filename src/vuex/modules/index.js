@@ -385,6 +385,7 @@ const actions = {
   [types.GET_LOGIN_OUT](context, params) {
     return new Promise((resolve, reject) => {
       api.getPersonList(params).then((data) => {
+        // console.log("222"+data);
         resolve(data);
       }).catch((err) => {
         resolve(err);
