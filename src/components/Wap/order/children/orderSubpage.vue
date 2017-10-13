@@ -1,8 +1,10 @@
 <template>
   <div :class="['orderSubpage-container',{noOrder:!orderList.length}]" v-infinite-scroll="loadMore"
        infinite-scroll-disabled="busy" infinite-scroll-distance="10">
+    <div class="order-wrap" v-if="orderList">
     <order-component :key="index" v-for="(item,index) in orderList" :order="item"
                      class="order-content"></order-component>
+    </div>
   </div>
 </template>
 <script type="text/ecmascript-6">
@@ -105,6 +107,13 @@
     -webkit-overflow-scrolling: touch;
     background-color: #f4f4f4;
     min-height: 100vh;
+    .order-wrap{
+      position: fixed;
+      top:px2vw(170);
+      left: 0;
+      height: 87vh;
+      overflow: scroll;
+    }
     &.noOrder {
       background-image: url("../../../../images/order/zanwu.png");
       background-position: center center;

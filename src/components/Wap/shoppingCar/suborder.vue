@@ -446,10 +446,6 @@
           Toast({message: '请选择一个收货地址！', duration: 1500})
           return false
         }
-        if(tokenMethods.getWapUser().certification.state != 2){
-          Toast('资质审核中')
-          return
-        }
         // that.isLoading = true;
         for (var i = 0; i < that.orderItem.length; i++) {
           // that.orderItem[i].itemName = that.orderItem[i].name

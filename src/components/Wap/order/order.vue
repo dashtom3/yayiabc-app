@@ -40,7 +40,6 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../common/sass/factory";
-
   $order-text-light-color: #999;
   .order-container {
     color: #333333;
