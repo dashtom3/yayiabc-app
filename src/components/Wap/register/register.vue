@@ -479,9 +479,6 @@
   .first-field .mint-cell-wrapper {
     background-image: none !important;
   }
-  .mint-cell-text{
-    font-size: 14px
-  }
 </style>
 <style lang="scss" rel="stylesheet/scss">
   @import "../../../common/sass/factory";
