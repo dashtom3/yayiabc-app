@@ -170,45 +170,11 @@ export default {
                   Toast('资质审核中')
                   return
                 }else {
-                  var obj = {
-                    itemId: that.nowGoodDetails.itemId,
-                    itemName: that.nowGoodDetails.itemName,
-                    picPath: that.nowGoodDetails.itemDetail.itemPica,
-                    num: that.$store.state.index.goodNum,
-                    itemSKU: nowSku,
-                    price: that.nowGoodDetails.itemPrice,
-                    goodBrandName: that.nowGoodDetails.itemBrand.itemBrandName,
-                    goodSort: that.nowGoodDetails.itemSort
-                  }
-                  sendData.allMoney = that.nowGoodDetails.itemPrice * 100 * that.$store.state.index.goodNum / 100;
-                  var list = that.nowGoodDetails.itemValueList;
-                  for(let i in list){
-                    if(nowSku==list[i].itemSKU){
-                      obj.itemPropertyInfo = list[i].itemPropertyInfo;
-                      obj.itemPropertyTwoValue = list[i].itemPropertyTwoValue;
-                      obj.itemPropertyThreeValue = list[i].itemPropertyThreeValue;
-                      obj.itemPropertyFourValue = list[i].itemPropertyFourValue;
-                      obj.itemPropertyFiveValue = list[i].itemPropertyFiveValue;
-                      obj.itemPropertySixValue = list[i].itemPropertySixValue;
-                      break;
-                    }
-                  }
-                  sendData.haveSelectedGoodNum = that.$store.state.index.goodNum;
-                  sendData.details.push(obj)
-                  window.sessionStorage.setItem("suborderData",JSON.stringify(sendData))
-
-
-                  window.scroll(0,0)
-                  var backParams = {
-                    brandName: that.brandName,
-                    itemId: that.itemId
-                  }
-                  sessionStorage.setItem('backJudgeDS', 'details');
-                  sessionStorage.setItem('backParamsDetailsID', backParams.itemId);
-                  sessionStorage.setItem('backParamsDetailsName', backParams.brandName);
-                  that.$router.push({path: '/suborder'})
+                  that.nowBuyIt();
                 }
               })
+            }else {
+              that.nowBuyIt();
             }
           }
         }else{
@@ -219,6 +185,51 @@ export default {
           that.$router.push({path: '/logIn'})
         });
       }
+    },
+    //提取的方法
+    nowBuyIt:function () {
+      let that = this;
+      that.nowGoodDetails = that.$store.state.index.nowGoodDetails
+      var nowSku = that.$store.state.index.goodSku
+      var sendData = {}
+      sendData.details = []
+      var obj = {
+        itemId: that.nowGoodDetails.itemId,
+        itemName: that.nowGoodDetails.itemName,
+        picPath: that.nowGoodDetails.itemDetail.itemPica,
+        num: that.$store.state.index.goodNum,
+        itemSKU: nowSku,
+        price: that.nowGoodDetails.itemPrice,
+        goodBrandName: that.nowGoodDetails.itemBrand.itemBrandName,
+        goodSort: that.nowGoodDetails.itemSort
+      }
+      sendData.allMoney = that.nowGoodDetails.itemPrice * 100 * that.$store.state.index.goodNum / 100;
+      var list = that.nowGoodDetails.itemValueList;
+      for(let i in list){
+        if(nowSku==list[i].itemSKU){
+          obj.itemPropertyInfo = list[i].itemPropertyInfo;
+          obj.itemPropertyTwoValue = list[i].itemPropertyTwoValue;
+          obj.itemPropertyThreeValue = list[i].itemPropertyThreeValue;
+          obj.itemPropertyFourValue = list[i].itemPropertyFourValue;
+          obj.itemPropertyFiveValue = list[i].itemPropertyFiveValue;
+          obj.itemPropertySixValue = list[i].itemPropertySixValue;
+          break;
+        }
+      }
+      sendData.haveSelectedGoodNum = that.$store.state.index.goodNum;
+      sendData.details.push(obj)
+      window.sessionStorage.setItem("suborderData",JSON.stringify(sendData))
+
+
+      window.scroll(0,0)
+      var backParams = {
+        brandName: that.brandName,
+        itemId: that.itemId
+      }
+      sessionStorage.setItem('backJudgeDS', 'details');
+      sessionStorage.setItem('backParamsDetailsID', backParams.itemId);
+      sessionStorage.setItem('backParamsDetailsName', backParams.brandName);
+      that.$router.push({path: '/suborder'})
     },
     // 加入购物车
     addGoodInCar: function() {

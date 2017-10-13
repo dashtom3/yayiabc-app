@@ -214,7 +214,7 @@
               if (err == 'cancel') {
               }
             });
-          }else {
+          } else {
             if(tokenMethods.getWapUser().certification.state != 2){
               var obj = {
                 phone: tokenMethods.getWapUser().phone,
@@ -240,6 +240,20 @@
                   that.$router.push({path: '/suborder', query: {backJudge: 'shopCar'}})
                 }
               })
+            } else {
+              for (let i in that.sendDataList) {
+                that.sendDataList[i].totalMoney = that.sendDataList[i].price * that.sendDataList[i].num;
+                that.sendDataList[i].itemName = that.sendDataList[i].name;
+                that.sendDataList[i].picPath = that.sendDataList[i].pic;
+                that.sendDataList[i].goodBrandName = that.sendDataList[i].itemBrandName;
+                that.sendDataList[i].goodSort = that.sendDataList[i].itemSort;
+              }
+              sendData.details = that.sendDataList;
+              sendData.haveSelectedGoodNum = that.haveSelectedGoodNum;
+              window.sessionStorage.setItem("suborderData", JSON.stringify(sendData));
+
+              sessionStorage.setItem('backJudgeDS', 'shoppingCarEntry')
+              that.$router.push({path: '/suborder', query: {backJudge: 'shopCar'}})
             }
           }
         } else {

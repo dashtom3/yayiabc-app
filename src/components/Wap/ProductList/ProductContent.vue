@@ -894,7 +894,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(204, 204, 204, 0.5);
+    background: rgba(0, 0, 0, 0.5);
     /*opacity: 0.8;*/
     z-index: 605;
   }
