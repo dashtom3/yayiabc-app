@@ -323,7 +323,7 @@
               color: #999999;
               .desc {
                 flex: 1;
-                line-height: 1;
+                // line-height: 1;
               }
               .num {
                 flex: none;
