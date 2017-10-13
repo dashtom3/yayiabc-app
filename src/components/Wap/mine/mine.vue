@@ -339,7 +339,6 @@
         var obj = {
           token: tokenMethods.getWapToken()
         }
-        
         that.$store.dispatch('GET_LOGIN_OUT', obj).then((res) => {
           // console.log("1111"+res);
           if (res.callStatus === 'FAILED') {
