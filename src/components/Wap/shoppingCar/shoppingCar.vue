@@ -35,8 +35,9 @@
                 <span class="invalid" v-else>失效</span>
               </div>
               <div class="img-wrap fl" @click="goProductDetail(good)">
-                <img :src="good.pic+'?imageView2/1/w/80/h/80'" alt="已购买商品">
+                <img :src="good.pic" alt="已购买商品">
               </div>
+              <!-- +'?imageView2/1/w/80/h/80' -->
             </div>
             <div class="item-info fr" @click="goProductDetail(good)">
               <h5>{{good.name}}</h5>
