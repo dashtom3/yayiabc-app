@@ -718,15 +718,18 @@
     float: left;
     /*height: px2vw(90);*/
     height: 13.33333vw;
+    margin-top: px2vw(4);
     line-height: px2vw(90);
     width: 33%;
     text-align: center;
+    text-indent: px2vw(2);
     font-size: px2vw(28);
   }
 
   .content_ul > .active_li {
     border-bottom: 2px solid #3676b6;
     color: #3676b6;
+    height: 12.73333vw;
   }
 
   .Content_main {
