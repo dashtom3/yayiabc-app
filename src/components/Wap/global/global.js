@@ -8,7 +8,6 @@ export default {
   // baseUrl: 'http://47.93.48.111:6181/api'
   qiNiuUrl: 'http://upload-z2.qiniu.com/',
   qiniuShUrl: 'http://orl5769dk.bkt.clouddn.com/',
-  version: 1.1,
   success(obj, msg, url) {
     obj.$message({
       message: msg,
