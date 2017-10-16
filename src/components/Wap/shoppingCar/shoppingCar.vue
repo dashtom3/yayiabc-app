@@ -191,6 +191,24 @@
       back: function () {
         this.$router.go(-1)
       },
+      isGoTuSuborder:function () {
+        var that = this;
+        var sendData = {};
+        sendData.allMoney = that.allMoeny;
+        for (let i in that.sendDataList) {
+          that.sendDataList[i].totalMoney = that.sendDataList[i].price * that.sendDataList[i].num;
+          that.sendDataList[i].itemName = that.sendDataList[i].name;
+          that.sendDataList[i].picPath = that.sendDataList[i].pic;
+          that.sendDataList[i].goodBrandName = that.sendDataList[i].itemBrandName;
+          that.sendDataList[i].goodSort = that.sendDataList[i].itemSort;
+        }
+        sendData.details = that.sendDataList;
+        sendData.haveSelectedGoodNum = that.haveSelectedGoodNum;
+        window.sessionStorage.setItem("suborderData", JSON.stringify(sendData));
+
+        sessionStorage.setItem('backJudgeDS', 'shoppingCarEntry')
+        that.$router.push({path: '/suborder', query: {backJudge: 'shopCar'}})
+      },
       goToSuborder: function () {
         var that = this;
         var sendData = {};
@@ -198,61 +216,42 @@
         if (sendData.allMoney > 0) {
           var certData = tokenMethods.getWapUser().certification
           //第30天是否完善资质信息
-          if( (tokenMethods.getWapUser().created && new Date().getTime() > tokenMethods.getWapUser().created + 30 * 24 * 3600 * 1000) &&    (certData.type === 1 && (certData.doctorPic === '' || certData.doctorPic === null)) || (certData.type === 2 && (certData.businessLicense === '' || certData.businessLicense === null || certData.medicalLicense === '' || certData.medicalLicense === null || certData.taxRegistration === '' || certData.taxRegistration === null))  ){
-            MessageBox.confirm('', {
-              message: '请先完善资质信息！',
-              title: '',
-              confirmButtonText: '立即完善',
-              cancelButtonText: '下次再说'
-            }).then(action => {
-              if (action == 'confirm') {
-                window.scroll(0, 0)
-                this.$router.push({path: '/personalData'})              }
-            }).catch(err => {
-              if (err == 'cancel') {
-              }
-            });
-          } else {
-            if(tokenMethods.getWapUser().certification.state != 2){
-              var obj = {
-                phone: tokenMethods.getWapUser().phone,
-                token: tokenMethods.getWapToken()
-              }
-              that.$store.dispatch('GET_PERSON_LIST', obj).then((res) => {
-                if(res.data.state != 2){
-                  Toast('资质审核中')
-                  return
-                }else {
-                  for (let i in that.sendDataList) {
-                    that.sendDataList[i].totalMoney = that.sendDataList[i].price * that.sendDataList[i].num;
-                    that.sendDataList[i].itemName = that.sendDataList[i].name;
-                    that.sendDataList[i].picPath = that.sendDataList[i].pic;
-                    that.sendDataList[i].goodBrandName = that.sendDataList[i].itemBrandName;
-                    that.sendDataList[i].goodSort = that.sendDataList[i].itemSort;
-                  }
-                  sendData.details = that.sendDataList;
-                  sendData.haveSelectedGoodNum = that.haveSelectedGoodNum;
-                  window.sessionStorage.setItem("suborderData", JSON.stringify(sendData));
-
-                  sessionStorage.setItem('backJudgeDS', 'shoppingCarEntry')
-                  that.$router.push({path: '/suborder', query: {backJudge: 'shopCar'}})
+          if( (tokenMethods.getWapUser().created && new Date().getTime() > tokenMethods.getWapUser().created + 30 * 24 * 3600 * 1000)){
+            if((certData.type === 1 && (certData.doctorPic === '' || certData.doctorPic === null)) || (certData.type === 2 && (certData.businessLicense === '' || certData.businessLicense === null || certData.medicalLicense === '' || certData.medicalLicense === null || certData.taxRegistration === '' || certData.taxRegistration === null))) {
+              MessageBox.confirm('', {
+                message: '请先完善资质信息！',
+                title: '',
+                confirmButtonText: '立即完善',
+                cancelButtonText: '下次再说'
+              }).then(action => {
+                if (action == 'confirm') {
+                  window.scroll(0, 0)
+                  this.$router.push({path: '/personalData'})
                 }
-              })
-            } else {
-              for (let i in that.sendDataList) {
-                that.sendDataList[i].totalMoney = that.sendDataList[i].price * that.sendDataList[i].num;
-                that.sendDataList[i].itemName = that.sendDataList[i].name;
-                that.sendDataList[i].picPath = that.sendDataList[i].pic;
-                that.sendDataList[i].goodBrandName = that.sendDataList[i].itemBrandName;
-                that.sendDataList[i].goodSort = that.sendDataList[i].itemSort;
+              }).catch(err => {
+                if (err == 'cancel') {
+                }
+              });
+            }else{
+              if(tokenMethods.getWapUser().certification.state != 2){
+                var obj = {
+                  phone: tokenMethods.getWapUser().phone,
+                  token: tokenMethods.getWapToken()
+                }
+                that.$store.dispatch('GET_PERSON_LIST', obj).then((res) => {
+                  if(res.data.state != 2){
+                    Toast('资质审核中')
+                    return
+                  }else {
+                    that.isGoTuSuborder();
+                  }
+                })
+              } else {
+                that.isGoTuSuborder();
               }
-              sendData.details = that.sendDataList;
-              sendData.haveSelectedGoodNum = that.haveSelectedGoodNum;
-              window.sessionStorage.setItem("suborderData", JSON.stringify(sendData));
-
-              sessionStorage.setItem('backJudgeDS', 'shoppingCarEntry')
-              that.$router.push({path: '/suborder', query: {backJudge: 'shopCar'}})
             }
+          } else {
+            that.isGoTuSuborder();
           }
         }else{
           Toast('请至少选择一件商品！');

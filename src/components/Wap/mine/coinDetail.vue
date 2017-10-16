@@ -255,7 +255,7 @@
               var dataPay = JSON.stringify(obj)
               plus.nativeUI.closeWaiting();
               if (data.callStatus == 'SUCCEED') {
-                  plus.nativeUI.alert(JSON.stringify(data),'huihui')
+//                  plus.nativeUI.alert(JSON.stringify(data),'huihui')
                   plus.payment.request(wxChannel, dataPay, function() {
                     plus.nativeUI.showWaiting()
                     that.kk = 1
@@ -265,7 +265,7 @@
                         return false
                       }
                       that.$store.dispatch('WX_COIN_SEARCH').then((res) => {
-                        plus.nativeUI.alert(JSON.stringify(res),'lihui')
+//                        plus.nativeUI.alert(JSON.stringify(res),'lihui')
                         if (res.num == 2) {
                           clearInterval(timer)
                           plus.nativeUI.closeWaiting()

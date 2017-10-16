@@ -133,7 +133,7 @@
                     if (res.data.errorCode == 'OPENID_NOT_EXIST') {
                       that.$router.push({path: '/wxLogBindPhone' , query: {openid: jsonObj.unionid}})
                     } else if (res.data.errorCode == 'Error') {
-                      plus.nativeUI.alert(res.data.msg,'dd')
+//                      plus.nativeUI.alert(res.data.msg,'dd')
                     }
                     // Toast({message: res.data.msg, duration: 3000})
                   }

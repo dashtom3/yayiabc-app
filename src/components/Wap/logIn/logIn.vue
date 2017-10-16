@@ -137,7 +137,7 @@
                     if (res.data.errorCode == 'OPENID_NOT_EXIST') {
                       that.$router.push({path: '/wxLogin' , query: {openid: jsonObj.unionid}})
                     } else if (res.data.errorCode == 'Error') {
-                      plus.nativeUI.alert(res.data.data.msg,'hhhhhh')
+                      plus.nativeUI.alert(res.data.data.msg)
                     }
                   }
                 })
