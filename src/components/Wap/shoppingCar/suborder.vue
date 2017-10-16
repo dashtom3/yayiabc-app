@@ -32,7 +32,8 @@
         <div class="cargo_word">商品清单</div>
         <div class="collect" v-for="(item,index) in orderItem">
           <div class="collect_img">
-            <img :src="item.picPath+'?imageView2/1/w/120/h/120'" alt="img">
+            <img :src="item.picPath" alt="img">
+            <!-- +'?imageView2/1/w/120/h/120' -->
           </div>
           <div class="collect_right">
             <p class="goods_color">{{item.itemName}}</p>
