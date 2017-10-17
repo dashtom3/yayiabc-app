@@ -25,8 +25,8 @@
         </div>
         <div class="dialog_footer">
           <span class="dialog_bottom">
-            <button type="button" class="btn button_default" @click="isShow=false"><span>下次再说</span></button>
-            <button type="button" class="btn button_primary" @click="download"><span>立即更新</span></button>
+            <button type="button" class="btn button_default" @click="hide"><span>下次再说</span></button>
+            <button type="button" class="btn button_primary" @click="downWgt"><span>立即更新</span></button>
           </span>
         </div>
       </div>
@@ -48,6 +48,9 @@ export default {
       popupVisible: false,
       searchCargo: '',
       isShow: false,
+      device: '',
+      wgtVer: null,
+      newVer: null,
       dd: []
     }
   },
@@ -59,15 +62,14 @@ export default {
     Classify
   },
   created: function() {
-    var that = this
-    api.getVersion().then((data) => {
-      Promise.resolve(data).then(function (value) {
-          console.log(value)
-        }, function (value) {
-          // 不会被调用
-        });
-    })
-    console.log(that.global.version)
+    var that = this;
+    if (window.plus) {
+      that.plusReady();
+    } else {
+      document.addEventListener('plusready',that.plusReady,false);
+//      document.addEventListener('plusready',that.checkUpdate,false);
+    }
+
     mui.back = function () {
       mui.confirm('确定要退出应用吗？', '牙医abc', ["确定", "取消"], function (e) {
         if (e.index === 0) {
@@ -76,7 +78,6 @@ export default {
       });
       return false;
     };
-
 
     that.$store.dispatch('GET_CLASSIFY_QUERY')
     that.$emit('listenToChildEvent','index')
@@ -100,9 +101,64 @@ export default {
       var that = this
       that.$router.push({ path: '/searchWord', query: { data: 'focus' }})
     },
-    download: function() {
+    hide: function() {
+      this.isShow = false
+      sessionStorage.setItem('isShow', 'hide')
+    },
+    plusReady: function(){
+      // 获取本地应用资源版本号
       var that = this
-      that.isShow = false
+      plus.runtime.getProperty(plus.runtime.appid,function(inf){
+        that.wgtVer=inf.version;
+        that.checkUpdate();
+      });
+    },
+    checkUpdate: function() {
+      var that = this;
+      plus.nativeUI.showWaiting();
+      mui.get(this.$store.state.index.baseUrl +  "/appVer/Ver", function (data) {
+        plus.nativeUI.closeWaiting();
+        that.newVer = data.data[0].versionNumber;
+        console.log(JSON.stringify(that.wgtVer))
+        console.log(JSON.stringify(that.newVer))
+        if(that.wgtVer && that.newVer && (that.wgtVer != that.newVer)){
+          console.log(JSON.stringify('true'))
+          that.isShow = true;
+        }else{
+          console.log(JSON.stringify('false'))
+          that.isShow = false;
+        }
+      })
+    },
+    downWgt: function(){
+      this.isShow = false;
+      var that = this;
+      var wgtUrl = "http://www.yayiabc.com:7758/H53C638B9.wgt";
+      plus.nativeUI.showWaiting();
+      plus.downloader.createDownload(wgtUrl, {filename:"_doc/update/"}, function(d,status){
+        if (status == 200){
+          console.log(JSON.stringify(d));
+          that.installWgt(d.filename); // 安装wgt包
+        } else {
+          plus.nativeUI.alert("下载wgt失败！");
+        }
+        plus.nativeUI.closeWaiting();
+      }).start();
+    },
+    installWgt: function(path){
+      plus.nativeUI.showWaiting("安装wgt文件...");
+      // force:false进行版本号校验，如果将要安装应用的版本号不高于现有应用的版本号则终止安装，并返回安装失败
+      plus.runtime.install(path,{force:false},function(){
+        plus.nativeUI.closeWaiting();
+        console.log("安装wgt文件成功！");
+        plus.nativeUI.alert("应用资源更新完成！",function(){
+          plus.runtime.restart();
+        });
+      },function(e){
+        plus.nativeUI.closeWaiting();
+        console.log("安装wgt文件失败[" + e.code + "]：" + e.message);
+        plus.nativeUI.alert("安装wgt文件失败[" + e.code + "]：" + e.message);
+      });
     }
   }
 }
@@ -207,7 +263,7 @@ export default {
 }
 .text::after {
   content:"";
-  position: absolute; 
+  position: absolute;
   left: 0;
   bottom: 0;
   width: 100%;
@@ -218,7 +274,7 @@ export default {
 @media only screen and (-webkit-min-device-pixel-ratio: 2.0), only screen and (min-resolution: 2dppx) {
   .text::after{
     transform: scaleY(0.5);
-  }  
+  }
 }
 .btn{
   display: inline-block;

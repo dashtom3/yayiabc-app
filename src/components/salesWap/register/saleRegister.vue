@@ -295,7 +295,6 @@
 </script>
 <style lang="scss" rel="stylesheet/scss">
   @import "../../../common/sass/factory";
-
   .form-wrap-sale {
     padding: 0 px2vw(20);
     position: fixed;
@@ -309,6 +308,9 @@
     }
     .mint-cell-title, .mint-cell-text {
       min-width: 170px;
+    }
+    .mint-cell-value{
+      font-size: px2vw(26);
     }
     input[type="text"], input[type="password"] {
       border: none;
