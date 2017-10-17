@@ -103,6 +103,7 @@
       Indicator.open()
       that.getNowGoodDetail()
       that.$store.state.index.goodSku = that.jiSuanSku().sku
+      that.$store.state.index.goodNum = that.goodDefaultNum
     },
     methods:{
       blurHandler($event){
@@ -112,10 +113,11 @@
           Toast({message: '数量超出范围！', duration: 1500})
         }
         this.goodDefaultNum = numVal > this.nowStock ? this.nowStock : numVal
+        this.$store.state.index.goodNum = this.goodDefaultNum
         // this.updataNum(this.gwcGoods[index].num, row)
       },
       keyupHandler($event){
-        let keyCode = $event.keyCode ? $event.keyCode : $event.charCode; 
+        let keyCode = $event.keyCode ? $event.keyCode : $event.charCode;
         if(keyCode !== 8){
           let numVal = parseInt(this.goodDefaultNum) || 0
           numVal = numVal < 1 ? 1 : numVal
@@ -125,6 +127,7 @@
           this.goodDefaultNum = numVal > this.nowStock ? this.nowStock : numVal
           // this.updataNum(this.gwcGoods[index].num, row)
         }
+        this.$store.state.index.goodNum = this.goodDefaultNum
       },
       nowGoodSKUDefault:function(){
         var that =this;
