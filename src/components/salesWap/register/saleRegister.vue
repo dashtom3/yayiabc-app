@@ -316,7 +316,7 @@
       border: none;
       padding: 0;
       margin: 0;
-      font-size: px2vw(26);
+      font-size: px2vw(28);
     }
   }
 </style>
