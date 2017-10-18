@@ -6,6 +6,7 @@
       </div>
       <span class="logWithCode">{{brandName}}</span>
     </div>
+    <div class="brandDesWrap">
     <div class="tab_box">
       <div class="tab_item" :class="{spe: isActive1}" @click="changeActive1(tab01Text);">商品</div>
       <div class="tab_item" :class="{spe: isActive2}" @click="changeActive2(tab02Text);">介绍</div>
@@ -30,7 +31,8 @@
       <div v-else class="inCar" :class="{active1: isNot}">加入购物车</div>
       <div class="nowBuy" v-if="!isNot" @click="nowBuy">立即购买</div>
       <div v-else class="nowBuy" :class="{active2: isNot}">立即购买</div>
-      </div>
+    </div>
+    </div>
   </div>
 </template>
 
@@ -201,7 +203,7 @@ export default {
         itemId: that.nowGoodDetails.itemId,
         itemName: that.nowGoodDetails.itemName,
         picPath: that.nowGoodDetails.itemDetail.itemPica,
-        num: that.$store.state.index.goodNum,
+        num: that.$store.state.index.goodNum ? that.$store.state.index.goodNum : 1,
         itemSKU: nowSku,
         price: that.nowGoodDetails.itemPrice,
         goodBrandName: that.nowGoodDetails.itemBrand.itemBrandName,
@@ -391,6 +393,13 @@ export default {
   font-size: px2vw(32);
   color: #fff;
 }
+.brandDesWrap{
+  position: fixed;
+  top: px2vw(88);
+  bottom: 0;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+}
 .spe {
   cursor: pointer;
   color: $themeColor !important;
@@ -404,7 +413,6 @@ export default {
 .tab_box {
   width: 100vw;
   height: 10vw;
-  margin-top: px2vw(88);
   border-bottom: 1px solid $borderColor;
 }
 .tab_item {
