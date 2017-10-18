@@ -11,7 +11,7 @@
       </div>
     </div>
 
-    <div class="top_top">
+    <div class="top_top" v-if="addressData">
     <!--地址开始-->
     <div class="address_box" v-for="(item,index) in addressData" :key="index">
       <div class="address">
@@ -36,13 +36,11 @@
       </div>
     </div>
     <!--地址结束-->
-
-    <!--无地址显示图片-->
-    <div v-show="addressData.length ==0" class="address_pic">
-      <img  src="../../../images/mine/address_pic.png" alt="">
-    </div>
-
     <!--末尾-->
+    </div>
+    <!--无地址显示图片-->
+    <div  class="address_pic" v-else>
+      <img  src="../../../images/mine/address_pic.png" alt="">
     </div>
     <!--添加地址开始-->
     <div class="addAddress" @click="goToAddAddress(-1)">

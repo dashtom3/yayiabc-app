@@ -10,11 +10,15 @@
         <p class="logistics-id"><span class="title">快递单号：</span>{{LogisticCode}}</p>
       </div>
     </div>
-    <div class="logistics-timeline">
+    <div class="logistics-timeline" v-if="logistics.Traces.length > 0">
       <time-line v-for="(item,index) in logistics.Traces" :key="index">
         <span slot="time">{{item.AcceptTime}}</span>
         <span slot="dec">{{item.AcceptStation}}</span>
       </time-line>
+    </div>
+    <div class="noMail" v-else="">
+      <img src="../../../../images/order/noMail.png" alt="">
+      <p>暂无物流信息，请耐心等候~</p>
     </div>
   </div>
 </template>
@@ -138,5 +142,23 @@
     .logistics-timeline {
       background-color: #fff;
     }
+  }
+  .noMail{
+    img{
+      position: fixed;
+      top:px2vw(530);
+      left: px2vw(307);
+      width: px2vw(136);
+      height: px2vw(128);
+    }
+    p{
+      position: fixed;
+      width: 100%;
+      text-align: center;
+      top:px2vw(694);
+      left: 0;
+      font-size: px2vw(24);
+      color: #999;
+    };
   }
 </style>
