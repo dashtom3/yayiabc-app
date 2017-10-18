@@ -311,7 +311,7 @@
               this.deleteHandler(itemSku);
               Toast({message: '已从购物车中移除!', duration: 1000});
             }else {
-              Toast({message: '加入购物车成功!', duration: 1000});
+//              Toast({message: '加入购物车成功!', duration: 1000});
             }
             console.log('加入购物车', this.productNum[index],nums,this.productNum,index);
             //获取购物车产品数量
