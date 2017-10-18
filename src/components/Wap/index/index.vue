@@ -63,13 +63,14 @@ export default {
   },
   created: function() {
     var that = this;
-    if (window.plus) {
-      that.plusReady();
-    } else {
-      document.addEventListener('plusready',that.plusReady,false);
-//      document.addEventListener('plusready',that.checkUpdate,false);
+    if (!sessionStorage.getItem('isShow') === 'hide') {
+      if (window.plus) {
+        that.plusReady();
+      } else {
+        document.addEventListener('plusready',that.plusReady,false);
+  //      document.addEventListener('plusready',that.checkUpdate,false);
+      }
     }
-
     mui.back = function () {
       mui.confirm('确定要退出应用吗？', '牙医abc', ["确定", "取消"], function (e) {
         if (e.index === 0) {
