@@ -20,7 +20,6 @@
       <div class="good_item">生产企业名称：{{itemDetail.producePompany}}</div>
       <div>其他：{{itemDetail.remark}}</div>
     </div>
-    <div class="clearfix" style="width: 100%; height: 10vw;"></div>
   </div>
 </template>
 
@@ -85,7 +84,7 @@ export default {
  .instruction img{
   max-width: 100% !important;
   display: block;
-  margin: 20px auto;
+  margin: 20px auto 0;
 }
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
