@@ -63,7 +63,7 @@ export default {
   },
   created: function() {
     var that = this;
-    if (!sessionStorage.getItem('isShow') === 'hide') {
+    if (sessionStorage.getItem('isShow')=== '') {
       if (window.plus) {
         that.plusReady();
       } else {
