@@ -242,6 +242,7 @@
       },
       //获取品牌列表
       getBrandList() {
+        Indicator.open();
         this.$store.dispatch(GET_BRAND_LIST, {})
           .then(res => {
             // this.brandList = res;
@@ -255,6 +256,7 @@
       },
       //获取产品列表
       getProductList(){
+        Indicator.open();
         let that = this;
         this.$store.dispatch(QUERY_ITEM_SEARCH_POST, this.args)
           .then(res => {
@@ -287,6 +289,7 @@
             Indicator.close();
           })
           .catch(err => {
+            Indicator.close();
             console.log(err);
           });
       },
