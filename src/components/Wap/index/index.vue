@@ -236,31 +236,32 @@ export default {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 206px;
-  height: 115px;
+  width: px2vw(500);
+  height: px2vw(278);
   margin: 0 auto;
-  padding-top: 18px;
+  padding-top: px2vw(50);
   transform: translate(-50%, -50%);
   background: #fff;
   border-radius: 5px;
   box-shadow: 0 1px 3px rgba(0,0,0,.3);
   box-sizing: border-box;
-  color: rgb(51, 51, 51);
 }
 .dialog_body .title{
-  margin-bottom: 7px;
+  margin-bottom: px2vw(27);
   text-align: center;
-  line-height: 15px;
-  font-size: 15px;
+  line-height: px2vw(36);
+  font-size: px2vw(36);
+  color: rgb(51, 51, 51);
   font-weight: normal;
 }
 .dialog_body .text{
   position: relative;
   display: block;
   text-align: center;
-  line-height: 12px;
-  font-size: 12px;
-  padding-bottom: 17px;
+  line-height: px2vw(30);
+  font-size: px2vw(30);
+  padding-bottom: px2vw(44);
+  color: #666666;
 }
 .text::after {
   content:"";
@@ -281,15 +282,18 @@ export default {
   display: inline-block;
   line-height: 1;
   box-sizing: border-box;
-  width: 48%;
-  height: 26px;
-  line-height: 26px;
-  margin-top: 10px;;
+  width: 49%;
+  height: px2vw(90);
+  line-height: px2vw(90);
   vertical-align: top;
   background: #fff;
-  font-size: 14px
+  font-size: px2vw(32)
+}
+.dialog_bottom .btn:nth-child(1){
+  border-bottom-left-radius: 5px;
 }
 .button_primary{
+  border-bottom-right-radius: 5px;
   border-left: 1px solid rgb(204, 204, 204);
   color: rgb(54, 118, 182)
 }
