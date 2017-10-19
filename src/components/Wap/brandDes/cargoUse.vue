@@ -5,7 +5,7 @@
       <img class="useInfo_img" src="../../../images/details/useInfo.png" alt="img">
       <p class="useInfo_word">使用说明（图文合视频）正在紧急制作中～</p>
     </div>
-    <div class="clearfix" style="width: 100%; height: 10vw;"></div>
+    <div class="clearfix"></div>
   </div>
 </template>
 

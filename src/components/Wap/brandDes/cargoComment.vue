@@ -19,7 +19,7 @@
     <div v-else class="comment_pic">
       <img src="../../../images/mine/comment_pic.png" alt="">
     </div>
-    <div class="clearfix" style="width: 100%; height: 10vw;"></div>
+    <div class="clearfix"></div>
   </div>
 </template>
 

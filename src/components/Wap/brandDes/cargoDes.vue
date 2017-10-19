@@ -47,7 +47,7 @@
           <div class="calculator">
             <button class="redBtn" :class="{btnDef:goodDefaultNum===1}" v-on:click="reduceGoodNum()" :disabled="noStock">-</button>
             <!-- <span>{{goodDefaultNum}}</span> -->
-            <input @input="oneGoodNumChange()" @keyup="keyupHandler($event)" @blur="blurHandler($event)" type="text" v-model="goodDefaultNum">
+            <input @input="oneGoodNumChange()" @keyup="keyupHandler($event)" @blur="blurHandler($event)" @focus='addBodyClass($event)' type="text" v-model="goodDefaultNum">
             <button v-if="nowGoodDetails.itemValueList" class="addBtn" :class="{btnDef:goodDefaultNum==nowGoodDetails.itemValueList[0].stockNum}" v-on:click="addGoodNum()" :disabled="noStock">+</button>
             <span v-if="!kuCunBuZu" class="kucunbuzu">(库存{{nowStock}}件)</span>
             <div class="clearfix"></div>
@@ -65,7 +65,7 @@
       </div>
 
     </div>
-    <div class="clearfix" style="width: 100%; height: 10vw;"></div>
+    <div class="clearfix"></div>
   </div>
 
 </template>
@@ -106,13 +106,22 @@
       that.$store.state.index.goodNum = that.goodDefaultNum
     },
     methods:{
+      addBodyClass(){
+        document.body.classList.add('full-body');//原生的写法
+        if( numVal > this.nowStock ){
+          Toast({message: '数量超出范围！', duration: 1500})
+        }
+        this.goodDefaultNum = numVal > this.nowStock ? this.nowStock : numVal;
+        this.$store.state.index.goodNum = this.goodDefaultNum
+      },
       blurHandler($event){
         let numVal = parseInt(this.goodDefaultNum) || 0
         numVal = numVal < 1 ? 1 : numVal
         if( numVal > this.nowStock ){
           Toast({message: '数量超出范围！', duration: 1500})
         }
-        this.goodDefaultNum = numVal > this.nowStock ? this.nowStock : numVal
+        this.goodDefaultNum = numVal > this.nowStock ? this.nowStock : numVal;
+        document.body.classList.remove('full-body')
         this.$store.state.index.goodNum = this.goodDefaultNum
         // this.updataNum(this.gwcGoods[index].num, row)
       },
