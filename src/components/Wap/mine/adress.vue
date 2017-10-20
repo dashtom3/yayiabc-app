@@ -11,7 +11,7 @@
       </div>
     </div>
 
-    <div class="top_top" v-if="addressData">
+    <div class="top_top" v-if="addressData.length > 0">
     <!--地址开始-->
     <div class="address_box" v-for="(item,index) in addressData" :key="index">
       <div class="address">

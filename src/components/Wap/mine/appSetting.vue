@@ -8,18 +8,29 @@
           <!--<img src="../../../images/mine/right.png" alt="">-->
         <!--</div>-->
         <div class="line" @click="aboutApp">
-          <span>关于牙医abc</span>
+          <span class="spanDes">关于牙医abc</span>
           <img src="../../../images/mine/right.png" alt="">
         </div>
       </div>
       <div class="setting-box">
         <div class="line" @click="goto">
-          <span>意见反馈</span>
+          <span class="spanDes">意见反馈</span>
           <img src="../../../images/mine/right.png" alt="">
         </div>
         <div class="line">
           <span>联系客服</span>
           <a href="tel:4000014980"> 400-001-4980 </a>
+        </div>
+      </div>
+      <div class="setting-box">
+        <div class="line">
+          <span class="spanDes">检查更新</span>
+          <span class="checkingVer" v-if="checking">检查更新中...</span>
+          <span class="checkingVer" v-else-if="checked">检测到新版本：{{newVer}}</span>
+          <span class="checkingVer" v-else>已是最新版本</span>
+          <img src="../../../images/mine/right.png" alt="" v-if="checked">
+          <span class="nowVer" v-if="!checked">当前版本：{{ver}}</span>
+          <span class="nowVer2" v-else @click="updateApp">点击更新</span>
         </div>
       </div>
     </div>
@@ -31,8 +42,22 @@
   import {Toast, Indicator, MessageBox} from 'mint-ui'
 
   export default {
+    data(){
+      return {
+        checking:true,
+        ver:'',
+        newVer:'',
+        checked:false
+      }
+    },
     components:{
       salesHeader
+    },
+    created(){
+      plus.runtime.getProperty(plus.runtime.appid,function(inf){
+        this.ver=inf.version;
+        this.checkUpdate();
+      });
     },
     methods:{
       aboutApp(){
@@ -46,6 +71,54 @@
 //      },
       goto(){
         this.$router.push('/feedback')
+      },
+      checkUpdate: function() {
+        var that = this;
+        plus.nativeUI.showWaiting();
+        mui.get(this.$store.state.index.baseUrl +  "/appVer/Ver", function (data) {
+          plus.nativeUI.closeWaiting();
+          that.newVer = data.data[0].versionNumber;
+//          console.log(JSON.stringify(that.wgtVer))
+//          console.log(JSON.stringify(that.newVer))
+          if(that.ver && that.newVer && (that.ver != that.newVer)){
+//            console.log(JSON.stringify('true'))
+            that.checking = false;
+            that.checked = true
+          }else{
+            console.log(JSON.stringify('false'))
+            that.cheking = false;
+            that.checked = false
+          }
+        })
+      },
+      updateApp(){
+        var that = this;
+        var wgtUrl = "http://www.yayiabc.com:7758/H53C638B9.wgt";
+        plus.nativeUI.showWaiting();
+        plus.downloader.createDownload(wgtUrl, {filename:"_doc/update/"}, function(d,status){
+          if (status == 200){
+//            console.log(JSON.stringify(d));
+            that.installWgt(d.filename); // 安装wgt包
+          } else {
+            plus.nativeUI.alert("下载升级包失败！");
+          }
+          plus.nativeUI.closeWaiting();
+        }).start();
+      },
+      installWgt: function(path){
+        plus.nativeUI.showWaiting("安装升级包文件...");
+        // force:false进行版本号校验，如果将要安装应用的版本号不高于现有应用的版本号则终止安装，并返回安装失败
+        plus.runtime.install(path,{force:false},function(){
+          plus.nativeUI.closeWaiting();
+//          console.log("安装wgt文件成功！");
+          plus.nativeUI.alert("应用资源更新完成！",function(){
+            plus.runtime.restart();
+          });
+        },function(e){
+          plus.nativeUI.closeWaiting();
+//          console.log("安装wgt文件失败[" + e.code + "]：" + e.message);
+          plus.nativeUI.alert("安装wgt文件失败[" + e.code + "]：" + e.message);
+        });
       }
     }
   }
@@ -76,8 +149,25 @@
     color: #333;
     background-color: #fff;
   }
-  .line > span{
+
+  .line > .spanDes{
     float: left;
+    margin-right: px2vw(20);
+  }
+  .line > .checkingVer{
+    float: left;
+    font-size: px2vw(24);
+    color: #999;
+  }
+  .line > .nowVer{
+    float: right;
+    font-size: px2vw(24);
+    color: #999;
+  }
+  .line > .nowVer2{
+    float: right;
+    font-size: px2vw(24);
+    color: #333;
   }
   .line > img{
     margin-top: px2vw(32);
