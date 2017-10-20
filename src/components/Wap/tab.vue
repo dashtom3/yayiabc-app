@@ -22,7 +22,7 @@
         <p class="item_word">我的</p>
       </div>
       <div class="clearfix"></div>
-    </div> --> 
+    </div> -->
     <div class="right_box">
       <!-- 点击导航后要切换的内容 -->
 <!--       <transition name="component-fade" mode="out-in"> -->
@@ -218,7 +218,7 @@
   width: 100vw;
   height: 13vw;
   background-color: #fff;
-  position: fixed;
+  position: absolute;
   left: 0;
   bottom: 0;
   z-index: 999;
