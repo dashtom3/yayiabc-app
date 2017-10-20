@@ -6,7 +6,7 @@
         <img src="../../../images/mine/logo.jpg" alt="">
       </div>
       <div class="version">
-        v1.2.4
+        v{{wgtVer}}
       </div>
       <div class="setting-box">
         <div class="line" @click="goto('/comIntro')">
@@ -29,9 +29,29 @@
     components:{
       salesHeader
     },
+    data(){
+      return {
+        wgtVer: null
+      }
+    },
+    created: function(){
+      var that = this
+      if (window.plus) {
+        that.plusReady();
+      } else {
+        document.addEventListener('plusready',that.plusReady,false);
+      }
+    },
     methods:{
       goto(it){
         this.$router.push(it)
+      },
+      plusReady: function(){
+        // 获取本地应用资源版本号
+        var that = this
+        plus.runtime.getProperty(plus.runtime.appid,function(inf){
+          that.wgtVer=inf.version;
+        });
       }
     }
   }
