@@ -6,7 +6,7 @@
         <img src="../../../images/mine/logo.jpg" alt="">
       </div>
       <div class="version">
-        v1.0
+        v1.2.4
       </div>
       <div class="setting-box">
         <div class="line" @click="goto('/comIntro')">
