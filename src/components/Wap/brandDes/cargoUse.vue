@@ -3,7 +3,7 @@
     <div v-if="isActive" class="instruction" v-html="itemDetail.itemUse"></div>
     <div class="noInfo" v-else>
       <img class="useInfo_img" src="../../../images/details/useInfo.png" alt="img">
-      <p class="useInfo_word">使用说明（图文合视频）正在紧急制作中～</p>
+      <p class="useInfo_word">使用说明（图文和视频）正在紧急制作中～</p>
     </div>
     <div class="clearfix"></div>
   </div>
