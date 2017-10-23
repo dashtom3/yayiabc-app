@@ -27,7 +27,7 @@
           <img :src="item.item_pica" alt="" @click="goProductDetail(item)">
         </div>
         <!--右边收藏商品信息-->
-        <div class="collect_right">
+        <div class="collect_right" @click="goProductDetail(item)">
           <p class="goods_color">{{item.item_name}}</p>
           <span class="state" v-if="item.state == 0">失效</span>
           <p class="goods_color1">{{item.itemBrandName}}</p>

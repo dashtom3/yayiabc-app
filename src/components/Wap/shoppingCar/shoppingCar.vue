@@ -337,16 +337,19 @@
     }
   }
 </script>
-<style>
+<style lang="scss">
+  @import "../../../common/sass/factory";
   .shoppingCar .mint-cell-title {
     display: none;
   }
-
   .shoppingCar .mint-cell-value {
-    margin-top: 8px;
+    margin-top: px2vw(20);
   }
   .mint-cell-swipe .mint-cell-wrapper{
     padding-bottom: 1px;
+  }
+  .mint-indicator-wrapper{
+    z-index: 100;
   }
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->

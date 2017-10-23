@@ -18,15 +18,15 @@
 	      </div>
 	    </div>
 	    <div v-else class="binded">
-	    	<p>
-	        <span>客服代表手机号：</span>
-	        <span>{{saleData.salePhone}}</span>
+	    	<p class="text">
+	        <span class="dname">客服代表手机号</span>
+	        <span class="fz">{{saleData.salePhone}}</span>
 	      </p>
-	      <p>
-	        <span>真实姓名：</span>
-	        <span>{{saleData.saleName}}</span>
+	      <p class="text">
+	        <span class="dname">真实姓名</span>
+	        <span class="fz">{{saleData.saleName}}</span>
 	      </p>
-	      <p class="colorRed">
+	      <p class="colorRed colorRed1">
 	        <span>温馨提示：</span>
 	        <span>若想重新绑定客服代表，可联系客服</span>
 	      </p>
@@ -156,11 +156,11 @@
   transform: translateY(-50%);
 }
 .content-box{
-  padding-top: px2vw(30);
+  // padding-top: px2vw(30);
 	input{
 		width: 100%;
 		height: px2vw(88);
-		font-size: px2vw(28);
+		font-size: px2vw(30);
 		background: #f4f4f4;
 		border: none;
 		padding: 0 px2vw(30);
@@ -172,18 +172,52 @@
 	}
 	.binded{
 		p{
-			font-size: px2vw(28);
-			color: $themeColor;
-			height: px2vw(88);
-			line-height: px2vw(88);
-			padding: 0 px2vw(20);
+			font-size: px2vw(30);
+			// color: $themeColor;
+      color: #333;
+			height: px2vw(100);
+			line-height: px2vw(100);
+			padding: 0 px2vw(30);
+      .dname{
+        display: inline-block;
+        width: px2vw(300);
+      }
+      .fz{
+        font-size: px2vw(28);
+        color: #666;
+      }
 		}
 		.colorRed{
-			color: #cb1700;
+      font-size: px2vw(28);
+      height: px2vw(60);
+			line-height: px2vw(60);
+			// color: #cb1700;
+      color: $themeColor;
 		}
+    .colorRed1{
+      margin-top: px2vw(30)
+    }
 		.sale-phone{
 			padding-left: px2vw(152);
 		}
 	}
+}
+.text{
+  position: relative;
+}
+.text::after {
+  content:"";
+  position: absolute;
+  left: px2vw(30);
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  transform-origin: 0 0;
+  background: #e5e5e5;
+}
+@media only screen and (-webkit-min-device-pixel-ratio: 2.0), only screen and (min-resolution: 2dppx) {
+  .text::after{
+    transform: scaleY(0.5);
+  }
 }
 </style>
