@@ -10,7 +10,7 @@ import {Toast, Indicator, MessageBox} from 'mint-ui';
   //  const HOST = 'http://wap.yayiabc.com:8080/api';
 // const HOST = 'http://123.56.220.72:8089/api'; //测试端口
 
-const HOST = 'http://47.93.48.111:8080/api';  //正式数据端口
+const HOST = 'http://47.93.48.111:6181/api';  //正式数据端口
 
 export default function (url, params = {}) {
   return new Promise((resolve, reject) => {

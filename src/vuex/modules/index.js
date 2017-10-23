@@ -5,7 +5,7 @@ import axios from 'axios'
 
 const state = {
   direction: 'forward',
-  baseUrl: 'http://wap.yayiabc.com:8080/api',
+  baseUrl: 'http://wap.yayiabc.com:6181/api',
   bannerList: [],
   brandListData: [],
   classifyList: [],
