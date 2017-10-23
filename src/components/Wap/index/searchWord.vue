@@ -1,7 +1,7 @@
 <template>
   <div class="searchWord">
     <div class="search_box">
-      <form action="http://47.93.48.111:6181/api/item/itemSearch" method="post" enctype="multipart/form-data" v-on:submit.prevent="search_cargo">
+      <form action="http://47.93.48.111:8080/api/item/itemSearch" method="post" enctype="multipart/form-data" v-on:submit.prevent="search_cargo">
         <input class="search_word" type="search" name="keyWord" @focus="searchActive()" v-focus @keyup.enter="search_cargo" v-model="searchCargo" autocomplete="on" placeholder="请输入关键字" >
       </form>
       <img class="search_img" src="../../../images/index/search.png" alt="img">
