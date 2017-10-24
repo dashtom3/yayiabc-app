@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="wrap">
     <!--选择钱币类型开始-->
     <ul class="coinDetail_box">
       <li>
@@ -349,6 +349,10 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../common/sass/factory";
+  .wrap{
+    overflow: scroll;
+    height: 65vh;
+  }
   .coinDetail_box {
     font-size: 3.73333vw;
     margin-top: px2vw(-15);
@@ -417,7 +421,6 @@
 
   .payWay {
     border-bottom: px2vw(20) solid #f7f7f9;
-    margin-bottom: px2vw(90);
   }
   .payWay_font {
     font-size: 4.266667vw;

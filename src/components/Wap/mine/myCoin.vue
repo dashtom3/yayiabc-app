@@ -315,7 +315,15 @@
     }
 
     .view_box {
-      margin-top: px2vw(380);
+      position: fixed;
+      top: px2vw(380);
+      left: 0;
+      width: 100%;
+      height: 72vh;
+      overflow: scroll;
+      bottom: 0;
+      overflow: scroll;
+      -webkit-overflow-scrolling: touch;
     }
 
     .color_button {

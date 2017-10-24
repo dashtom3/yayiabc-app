@@ -1,5 +1,5 @@
 <template>
-  <div class="exchangeDeatail">
+  <div class="exchangeDeatail" v-infinite-scroll="loadMore" infinite-scroll-immediate-check="true">
     <div class="detail_list" v-for="item in getData" :key="item.userId" v-if="item.qbRget">
         <div>
           <h3 >收入</h3>
@@ -26,12 +26,14 @@
   import Util from '../../../vuex/util'
   import {tokenMethods} from '../../../vuex/util'
   import {Toast} from 'mint-ui'
+  import {Indicator, InfiniteScroll,Popup} from 'mint-ui'
   export default{
     name: 'exchangeDetail',
     data(){
       return {
         getData: [],
-        totalCount: '',
+        currentPage: 1,
+        totalCount:0
       }
     },
     created: function() {
@@ -41,26 +43,40 @@
     methods: {
       // 优惠码兑换乾币
       getMoneyList:function(){
+        Indicator.open();
         var that = this
         var obj = {
-          token: tokenMethods.getWapToken()
+          token: tokenMethods.getWapToken(),
+          currentPage:this.currentPage
         }
         that.$store.dispatch('QB_DETAIL', obj).then((res) => {
           if (res.callStatus === 'SUCCEED') {
-            if(res.data.length > 0) {
+//            if(res.data.length > 0) {
               // console.log(res.data.data)
               // // that.currentMoney = res.data.data[0].user.qbBalance;
               // for(let i in res.data.data) {
               //   res.data.data[i].qbTime = Util.formatDate.format(new Date(res.data.data[i].qbTime),'yyyy-MM-dd hh:mm:ss' )
               // }
-            }
-            that.getData = res.data
-            that.totalCount = res.totalNumber
+//            }
+            res.data.forEach(function (item) {
+              that.getData.push(item);
+            })
+            that.totalCount = res.totalPage;
+            Indicator.close();
             // this.childConfig.pageNum = parseInt(this.getData.length/this.everyPageShowNum)+1;
           } else {
+            Indicator.close();
             // that.$message.error('网络出错，请稍后再试！');
           }
         })
+      },
+      loadMore() {
+        if(this.currentPage == this.totalCount){
+          Toast({message:'没有更多信息了',duration:3000})
+        }else {
+          this.currentPage = this.currentPage + 1;
+          this.getMoneyList();
+        }
       },
     }
   }
