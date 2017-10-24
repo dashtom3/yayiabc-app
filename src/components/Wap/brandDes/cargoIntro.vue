@@ -29,6 +29,7 @@ export default {
   name: 'cargoIntro',
   data () {
     return {
+      imgBoxShow: false,
       isActive1: true,
       isActive2: false,
       itemDetail: {},
@@ -71,6 +72,7 @@ export default {
           Indicator.close()
           let nowGoodDetails = res.data.data;
           that.itemDetail = nowGoodDetails.itemDetail;
+          console.log(that.itemDetail,'哈哈哈哈哈');
           that.itemName = res.data.data.itemName;
           that.itemBrandName =  res.data.data.itemBrand.itemBrandName;
           // console.log(res.data.data,"getNowGoodDetail")
@@ -80,16 +82,30 @@ export default {
   }
 }
 </script>
-<style >
- .instruction img{
-  max-width: 100% !important;
-  display: block;
-  margin: 20px auto 0;
-}
+
+<style>
+  .instruction img{
+    max-width: 100% !important;
+    display: block;
+    margin: 20px auto 0;
+
+  }
 </style>
+
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss" rel="stylesheet/scss">
 @import "../../../common/sass/factory";
+
+.imgBoxShow{
+  position: fixed;
+  bottom: 0;
+  top:0;
+  right: 0;
+  left: 0;
+  background-color: black;
+  z-index: 1000;
+  overflow: scroll;
+}
 .tab_box {
   width: 100vw;
   height: 11.2vw;

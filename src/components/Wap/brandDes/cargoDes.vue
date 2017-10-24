@@ -1,13 +1,15 @@
 <template>
   <div class="cargoDes">
     <!-- 商品图片 开始-->
-    <div class="infoLeft">
+
+    <div class="infoLeft" >
       <mt-swipe :auto="5000">
-        <mt-swipe-item v-for="(goodImg ,index) in goodAllImgs" :key="goodImg">
-          <img class="carousel_img" :src="goodAllImgs[index]+'?imageView2/1/w/600/h/600'">
+        <mt-swipe-item v-for="(goodImg,index) in goodAllImgs" :key="goodImg">
+            <img class="carousel_img" :src="goodAllImgs[index]+'?imageView2/1/w/600/h/600'">
         </mt-swipe-item>
       </mt-swipe>
     </div>
+
     <!-- 商品图片 结束-->
     <div class="infoRight">
       <h3>{{nowGoodDetails.itemName}}</h3>
@@ -79,6 +81,8 @@
     name: 'cargoDes',
     data () {
       return {
+        swiperBox: false,
+        clickSliderShow: false, //轮播点击放大开关
         kuCunBuZu:true,
         nowStock: '',
         attrLength:0,
@@ -106,6 +110,10 @@
       that.$store.state.index.goodNum = that.goodDefaultNum
     },
     methods:{
+      swiperSliderShow(){
+        this.swiperBox = true;
+        this.$emit('swiperBox', true);
+      },
       addBodyClass(){
         document.body.classList.add('full-body');//原生的写法
         if( numVal > this.nowStock ){
@@ -431,6 +439,18 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss" rel="stylesheet/scss">
 @import "../../../common/sass/factory";
+
+
+
+.swiperBox{
+  position: fixed;
+  top:0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: black;
+  z-index: 1000;
+}
   .infoLeft {
     width: 100vw;
     height: 100vw;

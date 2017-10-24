@@ -1,5 +1,6 @@
 <template>
   <div class="brandDes">
+
     <div class="brandDesHeadWrap_a">
     <div class="logIn_header">
       <div class="header_box" @click="back">
@@ -53,6 +54,8 @@ export default {
   name: 'details',
   data () {
     return {
+      switchs: false,
+      imgBoxShow: false,
       brandName: '',
       itemId: '',
       isActive1: true,
@@ -104,6 +107,9 @@ export default {
     })
   },
   methods: {
+    switchClose(switchs){
+      this.switchs = switchs;
+    },
       // 获取商品详情
       getNowGoodDetail: function() {
         var that = this;
@@ -380,6 +386,7 @@ export default {
 
 <style scoped lang="scss" rel="stylesheet/scss">
 @import "../../../common/sass/factory";
+
 .logIn_header {
   width: 100vw;
   height: px2vw(88);
@@ -430,6 +437,7 @@ export default {
   overflow: scroll;
   -webkit-overflow-scrolling: touch;
   width: 100%;
+  z-index: 1000;
 }
 .spe {
   cursor: pointer;
