@@ -209,7 +209,7 @@
         }
       },
       goDetails(good) {
-        this.$router.push({path: '/details/' + good.itemId, query: {name: good.name, itemId: good.itemId}});
+        this.$router.push({path: '/details/' + good.itemId, query: {name: good.itemInfo.itemName, itemId: good.itemId}});
         window.scroll(0, 0)
       }
     },
