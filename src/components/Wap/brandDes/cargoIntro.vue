@@ -1,3 +1,4 @@
+
 <template>
   <div class="cargoIntro">
     <div class="tab_box">
@@ -44,7 +45,8 @@ export default {
   created: function() {
     var that = this
     Indicator.open()
-    that.getNowGoodDetail()
+    that.getNowGoodDetail();
+
   },
   methods: {
     first: function() {
@@ -95,6 +97,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss" rel="stylesheet/scss">
 @import "../../../common/sass/factory";
+
 
 .imgBoxShow{
   position: fixed;

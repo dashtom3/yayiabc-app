@@ -147,6 +147,12 @@
               Toast({message: '请添加收货地址', duration: 1500})
               return;
             }
+            if(that.addressData.receiverName.length > 30)
+            {
+              console.log(that.addressData.receiverName.length);
+              Toast({message: '姓名太长了，请控制在30字内', duration: 1500});
+              return;
+            }
           }
           MessageBox.confirm('确定保存此地址吗?').then(action => {
             that.$store.dispatch('EDIT_ADDRESS', obj).then((res) => {
@@ -180,6 +186,12 @@
             if(this.hasSpace(obj[item]))
             {
               Toast({message: '请添加收货地址', duration: 1500})
+              return;
+            }
+            if(that.addressData.receiverName.length > 30)
+            {
+              console.log(that.addressData.receiverName.length);
+              Toast({message: '姓名太长了，请控制在30字内', duration: 1500});
               return;
             }
           }
