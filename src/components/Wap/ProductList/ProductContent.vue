@@ -25,7 +25,7 @@
       </ul>
     </div>
     <!--产品列表-->
-    <div class="Content_main gridlist-demo-container">
+    <mt-loadmore class="Content_main gridlist-demo-container" :top-method="loadTop" :auto-fill=false ref="loadmore">
       <!--<mu-grid-list class="gridlist-demo">-->
       <div class="Content_list" v-infinite-scroll="loadMore" infinite-scroll-immediate-check="true" >
         <div v-for="(item,index) in productData" @click="goProductDetail(item)">
@@ -56,7 +56,7 @@
         </div>
       </div>
       <!--</mu-grid-list>-->
-    </div>
+    </mt-loadmore>
     <!--模态框-->
     <div :class="['cover',{cover_hidden:moduleHidden}]">
       <div class="cover_close" @click="closeModule"></div>
@@ -654,10 +654,24 @@
           this.getCarList();
         })
       },
+      loadTop(){
+        let self = this;
+        self.args.currentPage = 1;
+        self.args.totalPage = 1;
+        self.productData = [];
+        self.productNum = [];
+        self.getProductList()
+        this.$refs.loadmore.onTopLoaded();
+      }
     }
   }
 </script>
 
+<style lang="scss" rel="stylesheet/scss">
+  .mint-loadmore-content{
+    width: 100%;
+  }
+</style>
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../common/sass/factory";
 

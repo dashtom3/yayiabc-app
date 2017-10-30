@@ -10,7 +10,8 @@
     </div>
 
     <!--收藏列表开始-->
-    <div class="c-content">
+    <mt-loadmore :top-method="loadTop" :auto-fill=false ref="loadmore" class="c-content">
+    <!--<div >-->
     <div class="box_position" v-if="collectData !=0">
 
       <div class="collect" v-for="(item,index) in collectData" :key="index">
@@ -42,7 +43,8 @@
     <div v-else class="collect_pic">
       <img  src="../../../images/mine/collect_pic.png" alt="">
     </div>
-    </div>
+    <!--</div>-->
+    </mt-loadmore>
     <!--末尾-->
   </div >
 </template>
@@ -50,7 +52,7 @@
 <script>
   import { Toast } from 'mint-ui'
   import { CellSwipe } from 'mint-ui'
-  import { MessageBox } from 'mint-ui'
+  import { MessageBox,Indicator,Loadmore } from 'mint-ui'
   import { tokenMethods } from '../../../vuex/util'
   export default {
     name: 'collect',
@@ -88,14 +90,20 @@
         this.$router.push({path:'/yayi/mine'})
       },
       inits:function () {
+        Indicator.open();
         var obj = {
           phone: tokenMethods.getWapUser().phone,
           token: tokenMethods.getWapToken()
         }
         //获取收藏商品的信息
         this.$store.dispatch('GET_GOODS_COLLECT', obj).then((res) => {
-          // console.log(res,'s');
-          this.collectData = res.data;
+          if (res.callStatus === 'SUCCEED') {
+            // console.log(res,'s');
+            this.collectData = res.data;
+            Indicator.close();
+          }else {
+            Indicator.close();
+          }
         })
       },
       // 跳转详情
@@ -105,6 +113,11 @@
         this.$router.push({path: '/details/' + item.itemId, query: {name: item.item_name, itemId: item.itemId}})
         window.scroll(0, 0)
       },
+      loadTop(){
+        this.collectData = '';
+        this.inits();
+        this.$refs.loadmore.onTopLoaded();
+      }
     }
   }
 
