@@ -40,7 +40,7 @@ export default {
         this.$store.dispatch('SAVE_JUMP_INDEX',1)
         this.$router.push('/coinDetail')
       } else {
-        this.$router.push({path: '/logIn'})
+        this.$router.push({path: '/logIn', query: {backName: '/'}});
       }
     }
   }

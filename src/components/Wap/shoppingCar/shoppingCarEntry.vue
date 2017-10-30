@@ -191,7 +191,7 @@
         })
       },
       logInHandler() {
-        this.$router.push({path: '/logIn'})
+        this.$router.push({path: '/logIn', query: {backName: '/shoppingCarEntry'}});
       },
       isGoTuSuborder:function () {
         var that = this;

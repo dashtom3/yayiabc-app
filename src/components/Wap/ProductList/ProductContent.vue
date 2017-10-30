@@ -329,7 +329,7 @@
           this.addInCar(index, item.itemValueList[0].itemSKU, -1)
         }else{
           MessageBox.confirm('请先登录!').then(action => {
-            this.$router.push({path: '/logIn'})
+            this.$router.push({path: '/logIn', query: {backName: '/productList'}});
           })
         }
       },
@@ -356,7 +356,7 @@
 
         }else{
           MessageBox.confirm('请先登录!').then(action => {
-            self.$router.push({path: '/logIn'})
+            this.$router.push({path: '/logIn', query: {backName: '/productList'}});
           })
         }
       },
@@ -515,7 +515,7 @@
         })
         }else{
           MessageBox.confirm('请先登录!').then(action => {
-            this.$router.push({path: '/logIn'})
+            this.$router.push({path: '/logIn', query: {backName: '/productList'}});
           })
         }
       },
@@ -614,7 +614,7 @@
           }
         }else{
           MessageBox.confirm('请先登录!').then(action => {
-            this.$router.push({path: '/logIn'})
+            this.$router.push({path: '/logIn', query: {backName: '/productList'}});
           })
         }
       },
