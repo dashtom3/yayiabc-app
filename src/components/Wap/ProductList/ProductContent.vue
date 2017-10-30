@@ -28,7 +28,7 @@
     <mt-loadmore class="Content_main gridlist-demo-container" :top-method="loadTop" :auto-fill=false ref="loadmore">
       <!--<mu-grid-list class="gridlist-demo">-->
       <div class="Content_list" v-infinite-scroll="loadMore" infinite-scroll-immediate-check="true" >
-        <div v-for="(item,index) in productData" @click="goProductDetail(item)">
+        <div class="Content_list_div" v-for="(item,index) in productData" @click="goProductDetail(item)">
           <div>
             <img class="product_pic" :src=item.itemDetail.itemPica alt="">
           </div>
@@ -54,9 +54,11 @@
             </div>
           </div>
         </div>
+        <div v-if="noMoreGood" class="noMoreGood">- End -</div>
       </div>
       <!--</mu-grid-list>-->
     </mt-loadmore>
+
     <!--模态框-->
     <div :class="['cover',{cover_hidden:moduleHidden}]">
       <div class="cover_close" @click="closeModule"></div>
@@ -168,12 +170,11 @@
         totalNum:0,
         items: [],
         itemKey:[["itemPropertyName","itemPropertyInfo"],["itemPropertyNameTwo","itemPropertyTwoValue"],["itemPropertyNameThree","itemPropertyThreeValue"],["itemPropertyFourName","itemPropertyFourValue"],["itemPropertyFiveName","itemPropertyFiveValue"],["itemPropertySixName","itemPropertySixValue"]],
-        allLoaded:false,
+        noMoreGood:false,
 //        pages:1,
 //        totalPage:1,
       }
     },
-    props:['chuanClaasif'],
     created() {
       var self = this;
       Indicator.open();
@@ -192,7 +193,6 @@
           return state.index.brandAndClassify;
         },
         function () {
-          Indicator.open();
           self.args.oneClassify = self.$store.state.index.brandAndClassify.oneClassify;
           self.args.twoClassify = self.$store.state.index.brandAndClassify.classifyTwoName;
           //do something on data change
@@ -211,7 +211,6 @@
           return state.index.searchKeyWord;
         },
         function () {
-          Indicator.open();
           self.args.keyWord = self.$store.state.index.searchKeyWord;
           self.args.currentPage = 1;
           self.args.totalPage = 1;
@@ -242,7 +241,6 @@
       },
       //获取品牌列表
       getBrandList() {
-        Indicator.open();
         this.$store.dispatch(GET_BRAND_LIST, {})
           .then(res => {
             // this.brandList = res;
@@ -258,6 +256,7 @@
       getProductList(){
         Indicator.open();
         let that = this;
+        that.noMoreGood = false;
         this.$store.dispatch(QUERY_ITEM_SEARCH_POST, this.args)
           .then(res => {
             res.data.data.forEach(function (item) {
@@ -637,7 +636,7 @@
       },
       loadMore() {
         if(this.args.currentPage == this.args.totalPage){
-          Toast({message:'没有更多商品了',duration:3000})
+          this.noMoreGood = true;
         }else {
           this.args.currentPage = this.args.currentPage + 1;
           this.getProductList();
@@ -676,7 +675,7 @@
   @import "../../../common/sass/factory";
 
   .ProductContent{
-    z-index: 601;
+    z-index: 10;
   }
   .Content_header {
     /*width: 100%;*/
@@ -689,7 +688,7 @@
     top: px2vw(88);
     right: 0;
     background: white;
-    z-index: 100;
+    z-index: 11;
   }
 
   .Content_header > div:nth-child(1) {
@@ -762,7 +761,7 @@
     overflow: scroll;
   }
 
-  .Content_list > div {
+  .Content_list_div {
     height: px2vw(210);
     width: 100%;
     margin-bottom: px2vw(25);
@@ -770,7 +769,7 @@
     position: relative;
   }
 
-  .Content_list > div > div:nth-child(1) {
+  .Content_list_div > div:nth-child(1) {
     width: px2vw(175);
     height: px2vw(180);
     /*background: red;*/
@@ -1208,5 +1207,11 @@
     font-size: 3.73vw;
     margin-left: 2vw;
     margin-bottom: 3vw;
+  }
+  .noMoreGood{
+    width: 100%;
+    text-align: center;
+    height: 50px;
+    color: #999;
   }
 </style>

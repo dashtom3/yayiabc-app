@@ -101,7 +101,6 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../common/sass/factory";
-
   html, body, #app {
     height: 100%;
   }

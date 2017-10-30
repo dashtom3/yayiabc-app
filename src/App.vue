@@ -41,6 +41,9 @@
 </script>
 
 <style>
+  .mint-indicator-wrapper {
+    z-index: 2000;
+  }
   * {
     padding: 0;
     margin: 0;
