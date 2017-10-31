@@ -200,7 +200,7 @@
   $active-color: #005aab;
 
   .orderComponent-container {
-    width: 100vw;
+    width: 100%;
     background-color: #fff;
     margin-bottom: px2vw(20);
     padding: 0 px2vw(20);

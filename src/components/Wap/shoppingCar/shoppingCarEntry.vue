@@ -19,6 +19,7 @@
         </el-checkbox>
       </div>
       <div class="scroll-wrapper" ref="wrapper">
+        <mt-loadmore style="width: 100%;height: 100%" :top-method="loadTop" :auto-fill=false ref="loadmore">
         <ul class="shoppingList">
           <li v-for="(good, index) in gwcGoods" :key="good.itemPropertyInfo">
             <mt-cell-swipe
@@ -69,6 +70,7 @@
             </mt-cell-swipe>
           </li>
         </ul>
+        </mt-loadmore>
       </div>
     </div>
     <div class="shopping-footer clearfix" v-if="gwcGoods.length">
@@ -82,7 +84,7 @@
 </template>
 
 <script>
-  import { Toast, Indicator, CellSwipe, MessageBox } from 'mint-ui'
+  import { Toast, Indicator, CellSwipe, MessageBox, Loadmore } from 'mint-ui'
   import {tokenMethods} from '../../../vuex/util'
 
   export default {
@@ -335,7 +337,11 @@
       back: function () {
         this.$router.push({path: '/productList'})
       },
-
+      loadTop(){
+        this.gwcGoods = [];
+        this.getGwcList()
+        this.$refs.loadmore.onTopLoaded();
+      }
     }
   }
 </script>

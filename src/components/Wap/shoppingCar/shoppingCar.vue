@@ -15,7 +15,8 @@
       </el-checkbox>
     </div>
     <div class="scroll-wrapper" ref="wrapper">
-      <ul class="shoppingList">
+      <mt-loadmore style="width: 100%;height: 100%" :top-method="loadTop" :auto-fill=false ref="loadmore">
+        <ul class="shoppingList">
         <li v-for="(good, index) in gwcGoods" :key="good.itemPropertyInfo">
           <mt-cell-swipe
             :right="[{
@@ -65,6 +66,7 @@
           </mt-cell-swipe>
         </li>
       </ul>
+      </mt-loadmore>
     </div>
     <div class="shopping-footer" v-if="gwcGoods.length">
       <div class="border needclick fl">
@@ -77,7 +79,7 @@
 </template>
 
 <script>
-  import {Toast, Indicator, CellSwipe, MessageBox} from 'mint-ui'
+  import {Toast, Indicator, CellSwipe, MessageBox, Loadmore } from 'mint-ui'
   import {tokenMethods} from '../../../vuex/util'
   export default {
     name: 'shoppingCar',
@@ -334,6 +336,11 @@
         this.$router.push({path: '/details/' + good.itemId, query: {name: good.name, itemId: good.itemId}});
         window.scroll(0, 0)
       },
+      loadTop(){
+        this.gwcGoods = [];
+        this.getGwcList()
+        this.$refs.loadmore.onTopLoaded();
+      }
     }
   }
 </script>
@@ -347,9 +354,6 @@
   }
   .mint-cell-swipe .mint-cell-wrapper{
     padding-bottom: 1px;
-  }
-  .mint-indicator-wrapper{
-    z-index: 100;
   }
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
