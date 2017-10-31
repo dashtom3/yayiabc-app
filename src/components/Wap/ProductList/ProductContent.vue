@@ -125,7 +125,7 @@
   import { Toast, MessageBox } from 'mint-ui';
   import { tokenMethods } from '../../../vuex/util'
   import MuseUI from 'muse-ui'
-  import {Indicator, InfiniteScroll,Popup} from 'mint-ui'
+  import {Indicator, InfiniteScroll,Popup, LoadMore} from 'mint-ui'
 
   export default {
     data() {
