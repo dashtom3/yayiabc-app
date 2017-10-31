@@ -84,6 +84,29 @@ export default {
     that.$emit('listenToChildEvent','index')
   },
   methods: {
+//     qq_contact() {  
+//       if (plus.os.name == "iOS") {  
+//         plus.runtime.launchApplication({  
+//         action: "mqq://im/chat?chat_type=wpa&uin=2966679536&version=1&src_type=web"  
+//       }, function(e) {  
+//         plus.nativeUI.confirm("检查到您未安装qq，请先到appstore搜索下载？", function(i) {  
+//           if (i.index == 0) {  
+//             iosAppstore("itunes.apple.com/cn/app/mqq/");  
+//           }  
+//           });  
+//         });  
+//       }  else if (plus.os.name == "Android") {
+//           let main = plus.android.runtimeMainActivity(); 
+//           let Intent = plus.android.importClass('android.content.Intent'); 
+//           let Uri = plus.android.importClass('android.net.Uri'); 
+//           let intent = new Intent(Intent.ACTION_VIEW, Uri.parse("mqqwpa://im/chat?chat_type=wpa&uin=2966679536")); 
+//           main.startActivity(intent);
+//       }
+//     }, 
+    // qq_contact: function() {
+    //   var that = this;
+    //   window.open('http://wpa.qq.com/msgrd?v=3&uin=2966679536&site=qq&menu=yes');
+    // },
     //左侧弹出框
     book_up: function() {
       var that = this
