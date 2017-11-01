@@ -322,7 +322,6 @@
       height: 72vh;
       overflow: scroll;
       bottom: 0;
-      overflow: scroll;
       -webkit-overflow-scrolling: touch;
     }
 

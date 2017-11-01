@@ -1,5 +1,6 @@
 <template>
-  <div class="wrap">
+  <div>
+    <div class="wrap">
     <!--选择钱币类型开始-->
     <ul class="coinDetail_box">
       <li>
@@ -53,6 +54,7 @@
       </div>
     </div>
     <!--支付方式结束-->
+    </div>
     <!--立即支付开始-->
     <mu-raised-button label="立即支付" class="pay" @click="pay"/>
     <!--立即支付结束-->
@@ -351,7 +353,7 @@
   @import "../../../common/sass/factory";
   .wrap{
     overflow: scroll;
-    height: 65vh;
+    height: 67vh;
   }
   .coinDetail_box {
     font-size: 3.73333vw;

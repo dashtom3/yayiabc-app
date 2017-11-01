@@ -10,6 +10,7 @@
 
 <script>
   import Vue from "vue"
+  import {Indicator} from 'mint-ui'
 
   export default {
     name: 'app',
@@ -42,7 +43,7 @@
 
 <style>
   .mint-indicator-wrapper {
-    z-index: 2000;
+    z-index: 900;
   }
   * {
     padding: 0;

@@ -218,7 +218,7 @@
   width: 100vw;
   height: 13vw;
   background-color: #fff;
-  position: absolute;
+  position: fixed;
   left: 0;
   bottom: 0;
   z-index: 999;
