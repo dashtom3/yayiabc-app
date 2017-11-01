@@ -41,7 +41,7 @@
 
     <!--无数据显示图片-->
     <div v-else class="collect_pic">
-      <img  src="../../../images/mine/collect_pic.png" alt="">
+      <img  src="../../../images/mine/collect_pic.png" alt="" v-if="isLoaded">
     </div>
     <!--</div>-->
     </mt-loadmore>
@@ -62,6 +62,7 @@
         startX: 0,       //触摸位置
         moveX: 0,       //滑动时的位置
         disX: 0,       //移动距离
+        isLoaded:false
       }
     },
     created: function () {
@@ -100,6 +101,7 @@
           if (res.callStatus === 'SUCCEED') {
             // console.log(res,'s');
             this.collectData = res.data;
+            this.isLoaded = true;
             Indicator.close();
           }else {
             Indicator.close();
@@ -114,7 +116,7 @@
         window.scroll(0, 0)
       },
       loadTop(){
-        this.collectData = '';
+//        this.collectData = '';
         this.inits();
         this.$refs.loadmore.onTopLoaded();
       }

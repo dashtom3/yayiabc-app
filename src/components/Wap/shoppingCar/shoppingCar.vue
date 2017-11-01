@@ -3,11 +3,15 @@
     <div class="logIn_header">
       <span class="logWithCode">购物车<span v-if="alreadyLog">（{{gwcGoods.length}}）</span></span>
     </div>
-    <div class="empty_car" v-if="!gwcGoods.length">
+    <div class="empty_car" v-if="!alreadyLog">
       <img src="../../../images/index/shoppingCar1.png" alt="购物车">
       <p>购物车中空空哒~</p>
-      <p v-if="!alreadyLog">登录后同步购物车中的商品</p>
-      <mu-raised-button label="登录" class="logIn_btn" v-if="!alreadyLog" @click="logInHandler"/>
+      <p>登录后同步购物车中的商品</p>
+      <mu-raised-button label="登录" class="logIn_btn" @click="logInHandler"/>
+    </div>
+    <div class="empty_car" v-if="!gwcGoods.length && isLoaded">
+      <img src="../../../images/index/shoppingCar1.png" alt="购物车">
+      <p>购物车中空空哒~</p>
     </div>
     <div class="needclick checkPos">
       <el-checkbox class="checkAll needclick" v-if="gwcGoods.length && isLoaded" v-model="selectaLL" @change="handleCheckAllChange">

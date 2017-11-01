@@ -17,7 +17,7 @@
     </div>
     <!--无数据显示图片-->
     <div v-else class="comment_pic">
-      <img src="../../../images/mine/comment_pic.png" alt="">
+      <img src="../../../images/mine/comment_pic.png" alt="" v-if="isLoaded">
     </div>
     <div class="clearfix"></div>
   </div>
@@ -33,6 +33,7 @@ export default {
       commentStar: 5,
       commentList: [],
       hasComment: true,
+      isLoaded:false,
     }
   },
   components: {
@@ -65,6 +66,7 @@ export default {
           if (that.commentList.length == 0) {
             that.hasComment = false
           }
+          that.isLoaded = true
         }
       })
     },
