@@ -105,9 +105,11 @@
 
     <!--产品数据为空显示-->
     <div v-show="productData.length==0" class="noData">
-      <img class="noDataPic1" src="../../../images/ProductList/noDataPic1.png" alt="">
-      <img class="noDataPic2" src="../../../images/ProductList/noDataPic2.png" alt="">
-      <p class="noData_text">您搜索的商品正在招募中,敬请期待!</p>
+      <div class="noData" v-show="isLoaded">
+        <img class="noDataPic1" src="../../../images/ProductList/noDataPic1.png" alt="">
+        <img class="noDataPic2" src="../../../images/ProductList/noDataPic2.png" alt="">
+        <p class="noData_text">您搜索的商品正在招募中,敬请期待!</p>
+      </div>
     </div>
 
     <!--进入购物车-->
@@ -171,6 +173,7 @@
         items: [],
         itemKey:[["itemPropertyName","itemPropertyInfo"],["itemPropertyNameTwo","itemPropertyTwoValue"],["itemPropertyNameThree","itemPropertyThreeValue"],["itemPropertyFourName","itemPropertyFourValue"],["itemPropertyFiveName","itemPropertyFiveValue"],["itemPropertySixName","itemPropertySixValue"]],
         noMoreGood:false,
+        isLoaded:false,
 //        pages:1,
 //        totalPage:1,
       }
@@ -190,39 +193,44 @@
       this.getProductList();
       this.$store.watch(
         function (state) {
-          return state.index.brandAndClassify;
+          return [state.index.brandAndClassify,state.index.searchKeyWord];
         },
         function () {
           self.args.oneClassify = self.$store.state.index.brandAndClassify.oneClassify;
           self.args.twoClassify = self.$store.state.index.brandAndClassify.classifyTwoName;
+          self.args.keyWord = self.$store.state.index.searchKeyWord;
           //do something on data change
           self.args.currentPage = 1;
           self.args.totalPage = 1;
           self.productData = [];
           self.productNum = [];
+          self.isLoaded = false;
+          self.noMoreGood = false;
           self.getProductList()
         },
         {
           deep: true, //add this if u need to watch object properties change etc.
         }
       );
-      this.$store.watch(
-        function (state) {
-          return state.index.searchKeyWord;
-        },
-        function () {
-          self.args.keyWord = self.$store.state.index.searchKeyWord;
-          self.args.currentPage = 1;
-          self.args.totalPage = 1;
-          self.productData = [];
-          self.productNum = [];
-          self.getProductList();
-//          Indicator.close();
-        },
-        {
-          deep: true, //add this if u need to watch object properties change etc.
-        }
-      );
+//      this.$store.watch(
+//        function (state) {
+//          return state.index.searchKeyWord;
+//        },
+//        function () {
+//          self.args.keyWord = self.$store.state.index.searchKeyWord;
+//          self.args.currentPage = 1;
+//          self.args.totalPage = 1;
+//          self.productData = [];
+//          self.productNum = [];
+//          self.isLoaded = false;
+//          self.noMoreGood = false;
+//          self.getProductList();
+////          Indicator.close();
+//        },
+//        {
+//          deep: true, //add this if u need to watch object properties change etc.
+//        }
+//      );
     },
     methods: {
       //获取购物车产品数量
@@ -254,8 +262,8 @@
       },
       //获取产品列表
       getProductList(){
-        Indicator.open();
         let that = this;
+        that.isLoaded = false;
         that.noMoreGood = false;
         this.$store.dispatch(QUERY_ITEM_SEARCH_POST, this.args)
           .then(res => {
@@ -263,7 +271,6 @@
               that.productData.push(item);
             })
             that.args.totalPage = res.data.totalPage;
-            console.log('aaaaa',this.args,res.data);
 //              this.productNum = this.productData.map(item => []);  //返回0
             if(tokenMethods.getWapToken()) {
 //              let count = 0;
@@ -285,10 +292,13 @@
               })
             }
             that.getCarList();
-            Indicator.close();
+            that.isLoaded = true;
+            if(that.args.currentPage == res.data.totalPage && that.args.currentPage > 1){
+              that.noMoreGood = true;
+            }
+            console.log('aaaaa',that.noMoreGood);
           })
           .catch(err => {
-            Indicator.close();
             console.log(err);
           });
       },
@@ -636,9 +646,10 @@
       },
       loadMore() {
         if(this.args.currentPage == this.args.totalPage){
-          this.noMoreGood = true;
+//          this.noMoreGood = true;
         }else {
           this.args.currentPage = this.args.currentPage + 1;
+          this.noMoreGood = false;
           this.getProductList();
         }
       },
@@ -659,6 +670,8 @@
         self.args.totalPage = 1;
         self.productData = [];
         self.productNum = [];
+        self.isLoaded = false;
+        self.noMoreGood = false;
         self.getProductList()
         this.$refs.loadmore.onTopLoaded();
       }
@@ -751,14 +764,16 @@
   }
 
   .Content_main {
-    padding: 0 px2vw(15);
-    margin-top: px2vw(140);
+    margin-top: px2vw(100);
+    background-color: #f4f4f4;
   }
 
   .Content_list {
     width: 100%;
     height: 85vh;
     overflow: scroll;
+    padding: px2vw(40) px2vw(15) 0;
+    background-color: #fff;
   }
 
   .Content_list_div {
