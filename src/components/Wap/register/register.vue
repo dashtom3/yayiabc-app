@@ -9,7 +9,7 @@
     <div class="formWrap">
       <mt-field @click.native="focus" label="手机号*" class="first-field" placeholder="请输入手机号" v-model="registerData.phone"></mt-field>
       <mt-field @click.native="focus" label="验证码*" v-model="registerData.rg_code" placeholder="请输入验证码" class="code-box">
-        <span class="code_btn" v-text="rg_Yzm" v-if="rg_hYzm" @click="rg_hasYzm(registerData.phone)"></span>
+        <span class="code_btn" v-text="rg_Yzm" v-if="rg_hYzm" @click.stop="rg_hasYzm(registerData.phone)"></span>
         <span class="code_btn" v-text="rg_Yzm1" v-else></span>
       </mt-field>
       <mt-field @click.native="focus" label="密码*" v-show="pwd_input" class="pwd_eye" type="password" placeholder="请输入密码"
@@ -295,6 +295,8 @@
         } else if (event.target.className === 'mint-cell-text') {
           target = event.target.parentNode.parentNode
           // console.log(event.target.parentNode.parentNode)
+        } else {
+          return false
         }
         target.children[1].children[0].focus()
       },
@@ -399,6 +401,7 @@
         } else {
           var params = {phone: that.registerData.phone}
           this.$store.dispatch('GET_IDENTICODE', params).then(res => {
+            console.log(res.data)
             if (res.data.callStatus === 'SUCCEED') {
               for (let i = 0; i <= 60; i++) {
                 window.setTimeout(function () {
@@ -413,6 +416,8 @@
                   }
                 }, i * 1000)
               }
+            } else {
+              console.log('fail')
             }
           })
         }
