@@ -311,9 +311,9 @@
   }
   .collect_pic{
     width: 100vw;
-    height: 100%;
+    height: 100vh;
     position: fixed;
-    z-index: 999;
+    z-index: 99;
     background-color: #f4f4f4;
   }
   .collect_pic>img{

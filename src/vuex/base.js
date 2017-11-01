@@ -14,21 +14,29 @@ const HOST = 'http://wap.yayiabc.com:6181/api';
 
 export default function (url, params = {}) {
   return new Promise((resolve, reject) => {
+    Indicator.open();
     axios.get(HOST + url, {params})
       .then((res) => {
         resolve(res.data)
-      }).catch(err => reject(err));
+        Indicator.close();
+      }).catch(err => {
+        reject(err)
+        Indicator.close();
+      });
   });
 }
 
 export function get(url, params = {}) {
   return new Promise((resolve, reject) => {
+    Indicator.open();
     axios.get(HOST + url, {params})
       .then((res) => {
         if (res.data.callStatus === 'SUCCEED') {
           resolve(res.data.data);
+          Indicator.close();
         } else {
           if (res.data.data) resolve(res.data);
+          Indicator.close();
         }
       }).catch(err => reject(err));
   });
@@ -36,25 +44,36 @@ export function get(url, params = {}) {
 
 export function noErrorGet(url, params = {}) {
   return new Promise((resolve, reject) => {
+    Indicator.open();
     axios.get(HOST + url, {params})
       .then((res) => {
         resolve(res.data);
-      }).catch(err => reject(err));
+        Indicator.close();
+      }).catch(err => {
+        reject(err);
+      Indicator.close();
+    });
   });
 }
 
 export function noErrorTokenGet(url, params = {}) {
   return new Promise((resolve, reject) => {
+    Indicator.open();
     axios.defaults.headers['token'] = tokenMethods.getToken()
     axios.get(HOST + url, {params})
       .then((res) => {
         resolve(res.data);
-      }).catch(err => reject(err));
+        Indicator.close();
+      }).catch(err => {
+        reject(err)
+      Indicator.close();
+    });
   });
 }
 
 export function noErrorTokenPost(url, params) {
   return new Promise((resolve, reject) => {
+    Indicator.open();
     var formData = new FormData()
     for (let i in params) {
       if (params[i] != null) {
@@ -65,25 +84,36 @@ export function noErrorTokenPost(url, params) {
     axios.post(HOST + url, formData)
       .then((res) => {
         resolve(res.data);
-      }).catch(err => reject(err));
+        Indicator.close();
+      }).catch(err => {
+        reject(err);
+      Indicator.close();
+    });
   });
 }
 
 export function wx_get(url, params = {}) {
   return new Promise((resolve, reject) => {
+    Indicator.open();
     axios.get(HOST + url, {params})
       .then((res) => {
         if (res.data.callStatus === 'SUCCEED') {
           resolve(res.data);
+          Indicator.close();
         } else {
           resolve(res.data);
+          Indicator.close();
         }
-      }).catch(err => reject(err));
+      }).catch(err => {
+        reject(err);
+      Indicator.close();
+    });
   });
 }
 
 export function noErrorPost(url, params) {
   return new Promise((resolve, reject) => {
+    Indicator.open();
     var formData = new FormData()
     for (let i in params) {
       if (params[i] != null) {
@@ -93,13 +123,18 @@ export function noErrorPost(url, params) {
     axios.post(HOST + url, formData)
       .then((res) => {
         resolve(res.data);
-      }).catch(err => reject(err));
+        Indicator.close();
+      }).catch(err => {
+        reject(err);
+      Indicator.close();
+    });
   });
 }
 
 
 export function post(url, params) {
   return new Promise((resolve, reject) => {
+    Indicator.open();
     const temp = new FormData();
     Object.entries(params).forEach((item) => {
       if (item[1] != null) {
@@ -111,19 +146,23 @@ export function post(url, params) {
         // console.log(JSON.stringify(res), 'base>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..')
         if (res.data.callStatus === 'SUCCEED') {
           resolve(res);
+          Indicator.close();
         } else {
           resolve(res);
+          Indicator.close();
         }
       }).catch((err) => {
       // console.log(JSON.stringify(err), 'base>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..')
       reject('网络请求错误');
       Toast({message: '网络请求错误!', duration: 3000})
+      Indicator.close();
     });
   });
 }
 
 export function getWithToken(url, params = {}) {
   return new Promise((resolve, reject) => {
+    Indicator.open();
     axios.defaults.headers['token'] = tokenMethods.getWapToken()
     axios.get(HOST + url, {params})
       .then((res) => {
@@ -150,6 +189,7 @@ export function getWithToken(url, params = {}) {
       }).catch((err) => {
       // console.log(JSON.stringify(err), 'base>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..')
       reject('网络请求错误');
+      Indicator.close();
       Toast({message: '网络请求错误!', duration: 3000})
     });
   });
@@ -157,6 +197,7 @@ export function getWithToken(url, params = {}) {
 
 export function postWithToken(url, params) {
   return new Promise((resolve, reject) => {
+    Indicator.open();
     var formData = new FormData()
     for (let i in params) {
       if (params[i] != null) {
@@ -180,10 +221,13 @@ export function postWithToken(url, params) {
         }
         if (res.data.callStatus === 'FAILED') {
           resolve(res);
+          Indicator.close();
           return false
         }
       }).catch(() => {
       reject('网络请求错误');
+      Indicator.close();
+      Toast({message: '网络请求错误!', duration: 3000})
     });
   });
 }
@@ -192,6 +236,7 @@ export function postWithToken(url, params) {
 //创客带token的get请求
 export function getWithSaleToken(url, params = {}) {
   return new Promise((resolve, reject) => {
+    Indicator.open();
     axios.defaults.headers['saleToken'] = tokenMethods.getSalesToken()
     axios.get(HOST + url, {params})
       .then((res) => {
@@ -200,9 +245,11 @@ export function getWithSaleToken(url, params = {}) {
         if (res.data.errorCode === 'RE_LOGIN_SALE') {
           router.push({path: '/salesLogin'})
           Toast({message: '登录过期，请重新登录！', duration: 1500})
+          Indicator.close();
           return
         }
         resolve(res.data)
+        Indicator.close();
       })
       .catch(() => {
         Indicator.close()
@@ -215,6 +262,7 @@ export function getWithSaleToken(url, params = {}) {
 //创客带token的post请求
 export function postWithSaleToken(url, params) {
   return new Promise((resolve, reject) => {
+    Indicator.open();
     var formData = new FormData()
     for (let i in params) {
       if (params[i] != null) {
@@ -228,9 +276,11 @@ export function postWithSaleToken(url, params) {
         if (res.data.errorCode === 'RE_LOGIN_SALE') {
           router.push({path: '/salesLogin'})
           Toast({message: '登录过期，请重新登录！', duration: 1500})
+          Indicator.close();
           return
         }
-        resolve(res.data)
+        resolve(res.data);
+        Indicator.close();
       })
       .catch(() => {
         Indicator.close()

@@ -239,6 +239,7 @@
     position: fixed;
     top:px2vw(513);
     left: px2vw(277);
+    background-color: #f4f4f4;
   }
   .address_pic>img{
     width: 100%;
