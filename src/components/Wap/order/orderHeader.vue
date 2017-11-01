@@ -12,7 +12,15 @@
   export default {
     methods: {
       goBack() {
-        this.$router.go(-1)
+        if (sessionStorage.getItem('toOrder') === 'detail') {
+          let state = sessionStorage.getItem('ORDER_STATE')
+          // let go = this.$router.push.bind(this.$router)
+          this.$router.push({path: '/order/orderSubpage/' + state})
+          sessionStorage.removeItem('toOrder')
+          sessionStorage.removeItem('ORDER_STATE')
+        } else {
+          this.$router.go(-1)
+        }
         window.scroll(0, 0)
       },
       publishEvent() {

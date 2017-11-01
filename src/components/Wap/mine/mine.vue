@@ -261,6 +261,7 @@
       },
       goOrders(state) {
         let go = this.$router.push.bind(this.$router)
+        sessionStorage.setItem('ORDER_STATE', state)
         go({name: 'orderSubpage', params: {order_state: state}})
       },
       //获取个人信息

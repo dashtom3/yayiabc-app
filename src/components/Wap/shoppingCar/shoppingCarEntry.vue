@@ -331,6 +331,7 @@
 
       // new购物车跳转商品详情 (backJudgeSKL) passFirst
       goProductDetail(good) {
+        sessionStorage.setItem('backJudgeSL', 'shopCarEntry');
         this.$router.push({path: '/details/' + good.itemId, query: {name: good.name, itemId: good.itemId}})
         window.scroll(0, 0)
       },

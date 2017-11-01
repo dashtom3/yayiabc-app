@@ -7,7 +7,7 @@
       </div>
       <ul class="product-container">
         <li class="product-content" :key="index" v-for="(item,index) in order.orderitemList">
-          <div class="product-image" @click.stop.prevent="goDetails(item)">
+           <div class="product-image"><!-- @click.stop.prevent="goDetails(item)" -->
             <img :src="item.picPath" :alt="item.itemInfo.itemName" class="image" width="100%" height="100%">
           </div>
           <ul class="product-detail">
@@ -120,13 +120,14 @@
       goOrderDetail(orderId) {
         let orderDetail = Object.assign(this.order, {orderStateText: this.orderStateText})
         this.$store.commit(SAVE_ORDERS_DETAILS, orderDetail)
+        sessionStorage.setItem('toOrder', 'detail')
         this.$router.push({name: 'orderDetail'})
         window.scroll(0, 0)
       },
-      goDetails(good) {
-        this.$router.push({path: '/details/' + good.itemId, query: {name: good.name, itemId: good.itemId}});
-        window.scroll(0, 0)
-      },
+      // goDetails(good) {
+      //   this.$router.push({path: '/details/' + good.itemId, query: {name: good.name, itemId: good.itemId}});
+      //   window.scroll(0, 0)
+      // },
       goLogistics() {
         //查看物流
         this.$store.commit(SAVE_ORDERS_DETAILS, this.order)

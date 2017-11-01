@@ -326,8 +326,23 @@ export default {
     },
 
     back: function() {
+      let judge = sessionStorage.getItem('backJudgeSL')
+      if (judge === 'collect') {
+        this.$router.push({path: '/collect'});
+        sessionStorage.removeItem('backJudgeSL')
+      } else if (judge === 'shopCar') {
+        this.$router.push({path: '/yayi/shoppingCar'});
+        sessionStorage.removeItem('backJudgeSL')
+      } else if (judge === 'shopCarEntry') {
+        this.$router.push({path: '/shoppingCarEntry'});
+        sessionStorage.removeItem('backJudgeSL')
+      } else if (judge === 'order') {
+        this.$router.push({name: 'orderDetail'})
+        sessionStorage.removeItem('backJudgeSL')
+      } else {
         this.$router.push({path:'/productList'});
-      },
+      }
+    },
     changeActive1: function(tabText) {
       this.currentView = tabText;
       this.isActive1 = true;
