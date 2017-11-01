@@ -59,7 +59,7 @@
       <!--用户名-->
       <mt-field label="用户名" placeholder="请输入用户名" v-model="personInfo.phone" readonly disableClear></mt-field>
       <!--真实姓名-->
-      <mt-field label="真实姓名*" placeholder="请输入真实姓名" class="input_arrow" v-model="personInfo.trueName" disableClear></mt-field>
+      <mt-field @click.native="focus" label="真实姓名*" placeholder="请输入真实姓名" class="input_arrow" v-model="personInfo.trueName" disableClear></mt-field>
       <!--性别-->
       <a class="mint-cell mint-field input_arrow">
         <div class="mint-cell-wrapper" @click="sexVisible = true && !ifPass">
@@ -94,7 +94,7 @@
         </div>
       </a>
       <!--单位名称-->
-      <mt-field label="单位名称*" class="input_arrow" placeholder="请输入单位名称" v-model="personInfo.companyName" disableClear></mt-field>
+      <mt-field @click.native="focus" label="单位名称*" class="input_arrow" placeholder="请输入单位名称" v-model="personInfo.companyName" disableClear></mt-field>
       <!--单位所在地-->
       <a class="mint-cell mint-field input_arrow">
         <div class="mint-cell-wrapper username" @click="openPicker('cityAddressPicker')">
@@ -107,7 +107,7 @@
         </div>
       </a>
       <!--详细地址-->
-      <mt-field label="详细地址*" class="input_arrow" placeholder="请输入详细地址" v-model="personInfo.workAddress" disableClear></mt-field>
+      <mt-field @click.native="focus" label="详细地址*" class="input_arrow" placeholder="请输入详细地址" v-model="personInfo.workAddress" disableClear></mt-field>
       <!--口腔执业医生资格证-->
       <div class="mint-cell-wrapper" v-show="personInfo.typeText === '个人'">
         <el-upload
@@ -362,6 +362,21 @@
     methods: {
       editHandler(){
         this.isEdit = true
+      },
+      focus(event) {
+        let target = ''
+        if (event.target.className === 'mint-cell-wrapper') {
+          target = event.target
+          // console.log(event.target)
+        }
+        else if (event.target.className === 'mint-cell-title') {
+          target = event.target.parentNode
+          // console.log(event.target.parentNode)
+        } else if (event.target.className === 'mint-cell-text') {
+          target = event.target.parentNode.parentNode
+          // console.log(event.target.parentNode.parentNode)
+        }
+        target.children[1].children[0].focus()
       },
       queryHandler(){
         var that = this
