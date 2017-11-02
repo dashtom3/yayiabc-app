@@ -6,57 +6,59 @@
       </div>
     <div class="login">
       <div class="loginBox">
-        <span :class="{'changeColor': changeLoginColor}" class="loginFont" @click="btnLogined">已注册,待绑定</span>
-        <span @click="btnNoLogin" :class="{'changeColor': !changeLoginColor}" class=" loginFonts">未注册</span>
+        <span :class="{'changeColor': changeLoginColor}" class="loginFont" @click="btnLogin(true)">已注册,待绑定</span>
+        <span @click="btnLogin(false)" :class="{'changeColor': !changeLoginColor}" class=" loginFonts">未注册</span>
         <div class="person_box">
           <img class="personImg" src="../../../images/salesWap/customer/person.png" alt="">
           <span class="personText" @click="toMyCoustomer">我的客户</span>
         </div>
       </div>
     </div>
-    </div>
-    <!--搜索框开始-->
-    <div class="searchBox">
+      <div class="searchBox">
       <div class="searchImgBox">
         <img class="searchImg" src="../../../images/salesWap/customer/search.png" alt="">
         <form class="fromInput">
-        <input v-model="searchText" @change="space" @keyup.enter="searchClick" placeholder="请输入联系人、手机号或单位名称查询" type="search" class="searchInput">
+          <input v-model="searchText" @change="space" @keyup.enter="searchClick" placeholder="请输入联系人、手机号或单位名称查询" type="search" class="searchInput">
         </form>
       </div>
     </div>
+    </div>
+    <!--搜索框开始-->
+
 
     <!--搜索框结束-->
     <!--详细信息开始-->
-    <div v-if="!dataShow" class="top_warp">
-    <div class="ms_wrap" v-for="item in loginData">
-        <img src="../../../images/mine/topBackGround.png" class="ms_img" alt="">
-      <div class="ms_right">
-        <div class="ms_top">
-          <span :class="{'changeFont': item.contacts == '暂无姓名'}" class="name">{{item.contacts}}</span>
-          <span class="phone_name">(&nbsp;<img class="phoneImg" src="../../../images/salesWap/customer/phone.png" alt="">&nbsp;{{item.contactsPhone}})</span>
+    <mt-loadmore v-if="!dataShow" class="top_warp" :top-method="loadTop" :auto-fill=false ref="loadmore">
+      <div v-infinite-scroll="loadMore" infinite-scroll-immediate-check="true">
+        <div class="ms_wrap" v-for="item in loginData">
+          <img src="../../../images/mine/topBackGround.png" class="ms_img" alt="">
+          <div class="ms_right">
+            <div class="ms_top">
+              <span :class="{'changeFont': item.contacts == '暂无姓名'}" class="name">{{item.contacts}}</span>
+              <span class="phone_name">(&nbsp;<img class="phoneImg" src="../../../images/salesWap/customer/phone.png" alt="">&nbsp;{{item.contactsPhone}})</span>
+            </div>
+            <div class="hospital_name_box">
+              <span class="hospital_name">{{item.unitName}}</span>
+            </div>
+            <div class="ms_bottom">
+              <img class="addressImg" src="../../../images/salesWap/customer/address.png" alt="">
+              <div class="address_name">{{item.unitAddress}}</div>
+            </div>
+          </div>
         </div>
-        <div class="hospital_name_box">
-          <span class="hospital_name">{{item.unitName}}</span>
-        </div>
-        <div class="ms_bottom">
-          <img class="addressImg" src="../../../images/salesWap/customer/address.png" alt="">
-          <div class="address_name">{{item.unitAddress}}</div>
-        </div>
+        <div class="noMore" v-if="noMore">- End -</div>
       </div>
-    </div>
-
-    </div>
+    </mt-loadmore>
 
     <!--详细信息结束-->
     <div class="top_warp2"></div>
     <salesFooter bottomNav="customer"></salesFooter>
     <div class="salesBox"></div>
 
-
-    <div class="textCenter" v-if="dataShow">
+    <mt-loadmore class="textCenter" v-if="dataShow" :top-method="loadTop" :auto-fill=false ref="loadmore">
       <img src="../../../images/salesWap/customer/noyeji.png" alt="">
       <div >暂无客户</div>
-    </div>
+    </mt-loadmore>
 
   </div>
 </template>
@@ -64,6 +66,8 @@
 <script type="text/ecmascript-6">
   import salesHeader from '../salesHeader.vue'
   import salesFooter from '../salesFooter.vue'
+  import {InfiniteScroll, LoadMore} from 'mint-ui'
+
     export default {
       name: 'salesCustomer',
       data () {
@@ -72,12 +76,28 @@
           isLogin : true , //判断是否注册
           searchText : '',
           loginData: [],
-          dataShow: false
+          dataShow: false,
+          currentPage: 1,
+          totalPage:1,
+          noMore: false,
         }
       },
       created(){
         this.salesBack();
         this.getLogined();
+      },
+      watch:{
+        changeLoginColor:{
+          deep:true,
+          handler:function () {
+            this.currentPage = 1;
+            this.totalPage = 1;
+            this.loginData = [];
+            this.searchText = '';
+            this.isLogin = !this.isLogin;
+            this.getLogined();
+          }
+        }
       },
       methods: {
         toMyCoustomer(){
@@ -86,23 +106,8 @@
         searchClick(){
           this.getLogined();
         },
-        btnLogined () {
-          this.changeLoginColor = true;
-          if(this.isLogin === false)
-          {
-            this.searchText = '';
-            this.isLogin = true;
-          }
-          this.getLogined();
-        },
-        btnNoLogin () {
-          this.changeLoginColor = false;
-          if(this.isLogin === true)
-          {
-            this.searchText = '';
-            this.isLogin = false;
-          }
-          this.getLogined();
+        btnLogin (bln) {
+          this.changeLoginColor = bln;
         },
         space(){
           if(this.searchText === '')
@@ -114,22 +119,18 @@
         getLogined(){
           let obj = {
             state : this.searchText,
-            currentPage: '',
-            numberPerPage: ''
+            currentPage: this.currentPage,
           }
           if(this.isLogin)
           {
             this.$store.dispatch('GET_LOGINED', obj).then((res) => {
-                this.loginData = ''; //初始化
-                console.log(res.data.length);
-                if(res.data.length == 0)
-                {
-                  this.dataShow = true;
-                  return
-                }else {
-                                  let dataArr = []
-                for(var i = 0,len=res.data.length; i < len; i++)
-                {
+//                this.loginData = ''; //初始化
+              if(res.data.length == 0) {
+                this.dataShow = true;
+                return
+                }
+              else {
+                for(var i = 0,len=res.data.length; i < len; i++) {
                   let data = res.data[i];
                   let arr = {}
                   if (data.phone === null) {
@@ -158,11 +159,12 @@
                     arr['unitName'] = '暂无单位名称'
                     arr['unitAddress'] = '暂无详细地址'
                   }
-                  dataArr.push(arr)
+                  console.log(this.loginData)
+                  this.loginData.push(arr)
                 }
-                this.loginData = dataArr;
-                  this.dataShow = false;
-                }
+                this.dataShow = false;
+              }
+              this.totalPage = res.totalPage;
             })
           }else {
             this.$store.dispatch('GET_NO_LOGINED', obj).then((res) => {
@@ -190,12 +192,33 @@
                   {
                     res.data[i].unitName = '暂无单位名称'
                   }
+                  this.loginData.push(data);
                 }
-                this.loginData = res.data;
                 this.dataShow = false;
               }
+              this.totalPage = res.totalPage;
             })
           }
+          if(this.currentPage === this.totalPage && this.loginData.length > 6){
+            this.noMore = true;
+          }
+        },
+        loadMore(){
+          if(this.currentPage >= this.totalPage){
+//          this.noMoreGood = true;
+          }else {
+            this.currentPage = this.currentPage + 1;
+            this.noMore = false;
+            this.getLogined();
+          }
+        },
+        loadTop(){
+          this.dataShow = false;
+          this.currentPage = 1;
+          this.loginData = [];
+          this.searchText = '';
+          this.getLogined();
+          this.$refs.loadmore.onTopLoaded();
         }
       },
       components:{
@@ -211,6 +234,7 @@
       margin-top: px2vw(170);
       text-align: center;
       font-size: px2vw(30);
+      height: 71vh;
     }
     .textCenter img{
       width: px2vw(116);
@@ -293,7 +317,6 @@
     }
 
     .searchBox {
-      margin-top: px2vw(182);
       background-color:#e5e5e5;
       padding: px2vw(10) px2vw(34);
     }
@@ -392,7 +415,11 @@
     .hospital_name{
       font-size: px2vw(28);
     }
-
+    .top_warp{
+      margin-top: px2vw(270);
+      min-height: 71vh;
+      background-color: #e5e5e5;
+    }
     .top_warp2 {
       height: px2vw(101);
       background: #e5e5e5 !important;
@@ -400,5 +427,13 @@
 
     .hospital_name_box {
       margin-bottom: px2vw(8);
+    }
+    .noMore{
+      color: #999;
+      text-align: center;
+      height: 40px;
+      line-height: 40px;
+      font-size: px2vw(28);
+      background-color: #f4f4f4;
     }
 </style>
