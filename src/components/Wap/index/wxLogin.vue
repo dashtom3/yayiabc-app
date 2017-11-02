@@ -92,7 +92,7 @@
         if (that.w_data.phone === '' || !mb.test(that.w_data.phone)) {
           Toast('请输入正确的手机号');
         } else {
-          var params = { phone: that.w_data.phone }
+          var params = { phone: that.w_data.phone, type: 2}
           this.$store.dispatch('GET_LOGIN_CAPTCHA', params).then(res => {
             if (res.callStatus === 'SUCCEED') {
               for(let i=0; i<=60; i++) {

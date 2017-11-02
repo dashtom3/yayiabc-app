@@ -257,7 +257,7 @@
         if (that.registerData.phone === '' || !mb.test(that.registerData.phone)) {
           Toast('请输入正确的手机号');
         } else {
-          var params = {phone: that.registerData.phone}
+          var params = {phone: that.registerData.phone, type: 1}
           this.$store.dispatch('sale/' + GET_SALE_IDENTICODE, params).then(res => {
             for (let i = 0; i <= 60; i++) {
               window.setTimeout(function () {

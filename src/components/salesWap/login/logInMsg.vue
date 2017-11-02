@@ -96,7 +96,7 @@ export default {
         that.mPhone_alert = true
         return false
       } else {
-        var obj = {phone: that.mobilePhone}
+        var obj = {phone: that.mobilePhone, type: 2}
         that.$store.dispatch('sale/' + GET_SALE_IDENTICODE, obj).then((res) => {
           if (res.data.callStatus === 'SUCCEED') {
             for (let i = 0; i <= 60; i++) {
