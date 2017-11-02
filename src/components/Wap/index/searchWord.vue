@@ -138,7 +138,11 @@ export default {
     },
     // 取消搜索
     cancelSearch: function() {
-      this.$router.go(-1)
+      let that = this
+      let timer1=window.setTimeout(function(){
+        that.$router.go(-1);
+        window.clearTimeout(timer1);
+      },500)
     },
   }
 }
