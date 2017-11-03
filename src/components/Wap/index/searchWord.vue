@@ -142,7 +142,7 @@ export default {
       let timer1=window.setTimeout(function(){
         that.$router.go(-1);
         window.clearTimeout(timer1);
-      },500)
+      },350)
     },
   }
 }
