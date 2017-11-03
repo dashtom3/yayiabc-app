@@ -202,7 +202,15 @@
   color: $themeColor !important;
 }
 .mu-bottom-item-active .mu-bottom-item-text {
+  font-size: px2vw(28) !important;
   color: $themeColor !important;
+}
+.mu-bottom-item-icon {
+  font-size: px2vw(48) !important;
+}
+.mu-bottom-item-text {
+  margin-top: px2vw(-18) !important;
+  font-size: px2vw(24) !important;
 }
 </style>
 <style scoped lang="scss" rel="stylesheet/scss">
