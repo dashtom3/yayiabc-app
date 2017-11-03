@@ -13,6 +13,7 @@ import 'element-ui/lib/theme-default/index.css'
 import MuseUI from 'muse-ui'
 import 'muse-ui/dist/muse-ui.css'
 import VueLazyload from 'vue-lazyload'
+import 'material-design-icons/iconfont/material-icons.css'
 
 // const FastClick = require('fastclick')
 
