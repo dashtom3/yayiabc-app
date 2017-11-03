@@ -169,7 +169,6 @@
           token: tokenMethods.getWapToken(),
         };
         that.$store.dispatch('GET_ITEM_DETAIL', obj).then((res) => {
-//           console.log(res.data,"getNowGoodDetail")
           if (res.data.callStatus === 'SUCCEED') {
             Indicator.close()
             that.ifshoucang = res.data.num;
@@ -186,6 +185,13 @@
             that.goodAllImgs[2] = that.nowGoodDetails.itemDetail.itemPicc;
             that.goodAllImgs[3] = that.nowGoodDetails.itemDetail.itemPicd;
             that.goodAllImgs[4] = that.nowGoodDetails.itemDetail.itemPice;
+            for(let i = 0 ;i<that.goodAllImgs.length;i++) {
+              if(!that.goodAllImgs[i])
+              {
+                that.goodAllImgs.splice(i,1);
+                i= i-1;
+              }
+            }
             that.bigImgUrl = that.goodAllImgs[0];
             that.items = that.nowGoodDetails.propertyList;
             that.nowStock = that.nowGoodDetails.itemValueList[0].stockNum
@@ -210,6 +216,7 @@
             if(that.nowGoodDetails.itemValueList[0].stockNum==0){
               that.kuCunBuZu = false;
             }
+            console.log(that.nowGoodDetails.itemDetail,"getNowGoodDetail")
             that.nowGoodSKUDefault();
             that.oneSkuDefault();
           }
