@@ -144,7 +144,7 @@ export default {
         that.mPhone_alert = true
         return false
       } else {
-        var obj = {phone: that.mobilePhone, type: 2}
+        var obj = {phone: that.mobilePhone, type: 4}
         that.$store.dispatch('sale/' + GET_SALE_IDENTICODE, obj).then((res) => {
           for (let i = 0; i <= 60; i++) {
             window.setTimeout(function () {

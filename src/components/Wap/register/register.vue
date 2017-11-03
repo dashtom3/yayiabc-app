@@ -401,7 +401,6 @@
         } else {
           var params = {phone: that.registerData.phone, type: 1}
           this.$store.dispatch('GET_IDENTICODE', params).then(res => {
-            console.log(res.data)
             if (res.data.callStatus === 'SUCCEED') {
               for (let i = 0; i <= 60; i++) {
                 window.setTimeout(function () {
@@ -416,8 +415,8 @@
                   }
                 }, i * 1000)
               }
-            } else {
-              console.log('fail')
+            } else if (res.data.errorCode === "Username_Already_Exist") {
+              Toast('该手机号已存在！请直接登录');
             }
           })
         }

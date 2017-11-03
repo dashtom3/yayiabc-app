@@ -23,14 +23,19 @@
     </div>
 
     <div class="bottom_box_a">
+      <div class="qq_content" @click.stop="qq_contact">
+        <img src="../../../images/details/qq.png" alt="img">
+        <span class="carNum">QQ咨询</span>
+      </div>
       <div class="collectCargo" @click="collectCargo">
         <img v-if="starImg" src="../../../images/details/star.png" alt="img">
         <img v-else src="../../../images/details/star_blue.png" alt="img">
+        <span>收藏</span>
       </div>
       <div class="seeCar" @click="goToCar">
         <span class="carNum">{{num}}</span>
         <img src="../../../images/details/shoppinpCar.png" alt="img">
-    </div>
+      </div>
       <div class="inCar" v-if="!isNot" @click="addGoodInCar">加入购物车</div>
       <div v-else class="inCar" :class="{active1: isNot}">加入购物车</div>
       <div class="nowBuy" v-if="!isNot" @click="nowBuy">立即购买</div>
@@ -245,6 +250,26 @@ export default {
       sessionStorage.setItem('backParamsDetailsName', backParams.brandName);
       that.$router.push({path: '/suborder'})
     },
+    // QQ咨询
+    qq_contact() {  
+      if (plus.os.name == "iOS") {  
+        plus.runtime.launchApplication({  
+        action: "mqq://im/chat?chat_type=wpa&uin=2966679536&version=1&src_type=web"  
+      }, function(e) {  
+        plus.nativeUI.confirm("检查到您未安装qq，请先到appstore搜索下载？", function(i) {  
+          if (i.index == 0) {  
+            iosAppstore("itunes.apple.com/cn/app/mqq/");  
+          }  
+          });  
+        });  
+      }  else if (plus.os.name == "Android") {
+          let main = plus.android.runtimeMainActivity(); 
+          let Intent = plus.android.importClass('android.content.Intent'); 
+          let Uri = plus.android.importClass('android.net.Uri'); 
+          let intent = new Intent(Intent.ACTION_VIEW, Uri.parse("mqqwpa://im/chat?chat_type=wpa&uin=2966679536")); 
+          main.startActivity(intent);
+      }
+    }, 
     // 加入购物车
     addGoodInCar: function() {
       var that = this;
@@ -485,20 +510,52 @@ export default {
   bottom: 0;
   border-top: 1px solid #DBDBDB;
 }
+.qq_content {
+  position: relative;
+  width: px2vw(92);
+  height: 12vw;
+  line-height: 12vw;
+  float: left;
+  border-right: 1px solid #DBDBDB;
+  background-color: #fff;
+  overflow: hidden;
+}
+.qq_content > img {
+  width: px2vw(32);
+  height: px2vw(36);
+  float: left;
+  margin-left: px2vw(30);
+  margin-top: px2vw(14);
+}
+.qq_content > span, .collectCargo > span{
+  position: absolute;
+  top: px2vw(57);
+  height: px2vw(28);
+  line-height: px2vw(28);
+  font-size: px2vw(20);
+}
+.qq_content > span {
+  left: px2vw(8);
+}
+.collectCargo > span {
+  left: px2vw(23);
+}
 .collectCargo {
+  position: relative;
   width: 11.8vw;
   height: 12vw;
   line-height: 12vw;
   float: left;
   border-right: 1px solid #DBDBDB;
   background-color: #fff;
+  overflow: hidden;
 }
 .collectCargo > img {
   width: 5.2vw;
   height: 4.9vw;
   float: left;
   margin-left: 3vw;
-  margin-top: 3.7vw;
+  margin-top: px2vw(14);
 }
 .seeCar {
   width: 12vw;
@@ -507,6 +564,7 @@ export default {
   float: left;
   background-color: #fff;
   position: relative;
+  overflow: hidden;
 }
 .seeCar > img {
   width: 5.2vw;
@@ -525,7 +583,8 @@ export default {
 }
 .inCar {
   display: block;
-  width: 38.1vw;
+  // width: 38.1vw;
+  width: px2vw(239);
   height: 12vw;
   line-height: 12vw;
   text-align: center;
@@ -536,7 +595,8 @@ export default {
 }
 .nowBuy {
   display: block;
-  width: 38.1vw;
+  // width: 38.1vw;
+  width: px2vw(240);
   height: 12vw;
   line-height: 12vw;
   text-align: center;

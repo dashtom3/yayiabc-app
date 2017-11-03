@@ -158,6 +158,8 @@ export default {
                 }
               }, i * 1000)
             }
+          } else if (res.data.errorCode === "Username_NOT_Exist") {
+            Toast({message: "手机号还未注册，请先注册", duration: 1500})
           } else {
             that.$message.error('获取验证码失败！');
           }

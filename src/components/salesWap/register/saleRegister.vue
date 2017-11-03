@@ -257,21 +257,23 @@
         if (that.registerData.phone === '' || !mb.test(that.registerData.phone)) {
           Toast('请输入正确的手机号');
         } else {
-          var params = {phone: that.registerData.phone, type: 1}
+          var params = {phone: that.registerData.phone, type: 3}
           this.$store.dispatch('sale/' + GET_SALE_IDENTICODE, params).then(res => {
-            for (let i = 0; i <= 60; i++) {
-              window.setTimeout(function () {
-                if (sec != 0) {
-                  that.rg_hYzm = false;
-                  that.rg_Yzm1 = sec + "秒后重发";
-                  sec--;
-                } else {
-                  sec = 60;//如果倒计时结束就让  获取验证码显示出来
-                  that.rg_hYzm = true;
-                  that.rg_Yzm = '获取验证码';
-                }
-              }, i * 1000)
-            }
+            if (res.callStatus === 'SUCCEED') {
+              for (let i = 0; i <= 60; i++) {
+                window.setTimeout(function () {
+                  if (sec != 0) {
+                    that.rg_hYzm = false;
+                    that.rg_Yzm1 = sec + "秒后重发";
+                    sec--;
+                  } else {
+                    sec = 60;//如果倒计时结束就让  获取验证码显示出来
+                    that.rg_hYzm = true;
+                    that.rg_Yzm = '获取验证码';
+                  }
+                }, i * 1000)
+              }
+            } 
           })
         }
       },

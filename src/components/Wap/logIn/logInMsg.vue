@@ -86,7 +86,7 @@ export default {
           // if (res.data.msg == '') {
 
           // }
-          Toast({message: res.data.msg, duration: 1500})
+          // Toast({message: res.data.msg, duration: 1500})
         }
       })
     },
@@ -116,7 +116,8 @@ export default {
               }, i * 1000)
             }
           } else {
-            Toast({message: res.data.msg, duration: 1500})
+            // Toast({message: res.data.msg, duration: 1500})
+            Toast({message: "手机号还未注册，请先注册", duration: 1500})
           }
         })
       }
