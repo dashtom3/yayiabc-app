@@ -340,7 +340,7 @@ export default {
         this.$router.push({name: 'orderDetail'})
         sessionStorage.removeItem('backJudgeSL')
       } else {
-        this.$router.push({path:'/productList',ListBack: 'detail'});
+        this.$router.push({path:'/productList',query:{ListBack: 'detail'}});
       }
     },
 
