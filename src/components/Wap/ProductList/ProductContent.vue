@@ -27,7 +27,7 @@
     <!--产品列表-->
     <mt-loadmore class="Content_main gridlist-demo-container" :top-method="loadTop" :auto-fill=false ref="loadmore">
       <!--<mu-grid-list class="gridlist-demo">-->
-      <div class="Content_list" v-infinite-scroll="loadMore" infinite-scroll-immediate-check="true" >
+      <div ref="scrollBox" class="Content_list" v-infinite-scroll="loadMore" infinite-scroll-immediate-check="true" >
         <div class="Content_list_div" v-for="(item,index) in productData" @click="goProductDetail(item)">
           <div>
             <img class="product_pic" :src=item.itemDetail.itemPica alt="">
@@ -132,6 +132,7 @@
   export default {
     data() {
       return {
+        scrollTopRight: 0,
         orderPriceUp: true,
         orderPriceDown: true,
         clickTime: 0,
@@ -188,7 +189,26 @@
       this.getBrandList();
       this.getCarList();
     },
+
+    activated (){
+      let scrollRight = window.sessionStorage.getItem('scrollList');
+      scrollRight = JSON.parse(scrollRight);
+      this.$refs.scrollBox.scrollTop = scrollRight.scrollTopRight;
+    },
+    deactivated (){
+      let scrollList = {
+        scrollTopRight: this.scrollTopRight,
+      };
+      scrollList = JSON.stringify(scrollList);
+      window.sessionStorage.setItem('scrollList',scrollList);
+    },
+
     mounted(){
+      let _this = this;
+      this.$refs.scrollBox.onscroll = function () {
+        _this.scrollTopRight = _this.$refs.scrollBox.scrollTop;
+      };
+
       let self = this;
       this.getProductList();
       this.$store.watch(
@@ -232,6 +252,8 @@
 //        }
 //      );
     },
+
+
     methods: {
       //获取购物车产品数量
       getCarList(){
@@ -240,7 +262,7 @@
             if(tokenMethods.getWapToken()) {
               this.carData = res.data;
               this.carNum = res.data.length;
-              console.log(this.carNum);
+//              console.log(this.carNum);
             }
           })
           .catch(err=>{
@@ -271,6 +293,7 @@
               that.productData.push(item);
             })
             that.args.totalPage = res.data.totalPage;
+
 //              this.productNum = this.productData.map(item => []);  //返回0
             if(tokenMethods.getWapToken()) {
 //              let count = 0;
@@ -303,9 +326,9 @@
           });
       },
       brandSearch(brand,index){
-        console.log(brand)
+//        console.log(brand)
         this.args.itemBrandName = brand;
-        console.log(this.args.itemBrandName);
+//        console.log(this.args.itemBrandName);
         this.productData = [];
         this.productNum = [];
         this.args.currentPage = 1;
@@ -327,7 +350,7 @@
                 Toast({message: '加入购物车成功!', duration: 1000});
               }
             }
-            console.log('加入购物车', this.productNum[index],nums,this.productNum,index);
+//            console.log('加入购物车', this.productNum[index],nums,this.productNum,index);
             //获取购物车产品数量
             this.getCarList();
           }).catch(err => {
@@ -352,7 +375,7 @@
           }
           self.$store.dispatch('GET_ITEM_DETAIL', obj).then((res) => {
             self.totalNum = res.data.data.itemValueList[0].stockNum;
-            console.log(self.totalNum);
+//            console.log(self.totalNum);
             if(self.totalNum == 0){
               Toast({message: '该商品库存为0!', duration: 1500});
               return
@@ -373,12 +396,16 @@
 
       //商品列表触发商品详情跳转(backJudgeDSK)productListFirst
       goProductDetail(item) {
+//        this.keepAlived = true;
+//        this.$emit('child-keepAlive',this.keepAlived);
+//        this.$route.meta.keepAlive = true;
         this.$router.push({path: '/details/' + item.itemId, query: {name: item.itemName, itemId: item.itemId, backJudge: 'productList'}});
-        window.scroll(0, 0)
       },
 
       //商品列表跳转new购物车(backJudgeDSK)Second
       goCar(){
+//        this.keepAlived = true;
+//        this.$emit('child-keepAlive',this.keepAlived);
         this.$router.push({path: '/shoppingCarEntry'});
       },
       changeOrder(index) {
@@ -391,21 +418,18 @@
             this.orderPriceDown = !this.orderPriceDown;
             this.clickTime = 1;
             this.args.rule = 3;
-            console.log(this.clickTime)
           }
           else{
             this.orderPriceUp = !this.orderPriceUp;
             this.orderPriceDown = !this.orderPriceDown;
             this.clickTime = 0;
             this.args.rule = 4;
-            console.log(this.clickTime)
           }
         } else {
           this.args.rule = index;
           this.orderPriceDown = true;
           this.orderPriceUp = true;
           this.clickTime = 0;
-          console.log(this.clickTime)
         }
         this.getProductList();
       },
@@ -499,12 +523,9 @@
           token: tokenMethods.getWapToken(),
         }
         that.$store.dispatch('GET_ITEM_DETAIL', obj).then((res) => {
-          console.log(res.data,"getNowGoodDetail")
           if (res.data.callStatus === 'SUCCEED') {
             that.nowGoodSKU = res.data.msg;
             that.nowGoodDetails = res.data.data;
-            // that.$store.state.index.nowGoodDetails = res.data.data;
-            // console.log(that.$store.state.index.nowGoodDetails,'90')
             that.sureGoodAttr = that.nowGoodDetails.itemValueList[0].itemPropertyInfo;
             that.items = that.nowGoodDetails.propertyList;
             that.nowStock = that.nowGoodDetails.itemValueList[0].stockNum
@@ -660,7 +681,6 @@
           token: tokenMethods.getWapToken()
         };
         this.$store.dispatch('DEL_CAR_GOODS', obj).then((res) => {
-          console.log(res,'移除');
           this.getCarList();
         })
       },

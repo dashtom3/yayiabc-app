@@ -96,6 +96,8 @@
         that.$router.push({ name: 'productList', params: { oneClassify: that.classifyList[that.defaultOne].oneClassify, twoClassify: '', threeClassify: ''}})
       },
       goToClassfy2:function(index,two){
+//        this.$router.mate.keepAlive = false;
+//       this.$router.options.routes[25].meta.keepAlive = false;
         var that = this;
 //        that.$store.dispatch('SAVE_ROOT_ROUTER', 2) //跳转判断
         sessionStorage.setItem('backJudgeIndex', 'class');

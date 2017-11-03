@@ -1,5 +1,5 @@
 <template>
-  <div class="ProductList">
+  <div v-if="keep" class="ProductList">
     <div class="logIn_header">
       <div class="header_box" @click="goBack">
         <img class="header_back" src="../../../images/logIn/back.png" alt="img">
@@ -12,14 +12,16 @@
       <img @click="clearWord" class="pImg2" src="../../../images/ProductList/clearSearch.png" alt="">
     </div>
 
-    <div class="product_left" @scroll.stop.prevent>
-      <ProductLeft></ProductLeft>
+    <div  ref="scrollBoxLeft" class="product_left" @scroll.stop.prevent>
+        <ProductLeft ></ProductLeft>
     </div>
     <div class="product_contain" @scroll.stop.prevent>
-      <ProductContent></ProductContent>
+        <!--<ProductContent  v-on:child-keepAlive="keepAlives"></ProductContent>-->
+        <ProductContent ></ProductContent>
     </div>
     <div class="clr"></div>
     <!--<ProductModule></ProductModule>-->
+
 
   </div>
 </template>
@@ -36,6 +38,10 @@
     name: 'productList',
     data() {
       return {
+        keep: true, //动态缓存开关
+        count: 0,
+        keepSaveCount : 1,
+        scrollTopLift: 0,
         chuanClassif: '',
         routes: '',
         searchWord: ''
@@ -51,6 +57,31 @@
       ProductLeft,
       ProductContent,
       ProductModule
+    },
+    activated (){
+     if(this.$route.query.ListBack !== "detail" && this.$route.query.ListBack !== "carEntry")
+     {
+       this.keep = false;
+       this.$nextTick(() => {
+         this.keep = true;
+       });
+     }else {
+       let scrollTopLeft = window.sessionStorage.getItem('scrollTopLeft');
+       this.$refs.scrollBoxLeft.scrollTop = scrollTopLeft;
+     }
+    },
+
+    deactivated (){
+      let scrollTopLeft =  this.scrollTopLift;
+      window.sessionStorage.setItem('scrollTopLeft',scrollTopLeft);
+      this.$route.meta.count = 0;
+      this.$route.meta.keepAlive = false
+    },
+    mounted (){
+      let _this = this;
+      this.$refs.scrollBoxLeft.onscroll = function () {
+        _this.scrollTopLift = _this.$refs.scrollBoxLeft.scrollTop;
+      };
     },
     created() {
       this.mBack('goBack');

@@ -1,5 +1,5 @@
 <template>
-  <div class="ProductLeft">
+  <div ref="scrollBoxLeft" class="ProductLeft">
     <!--<mu-grid-list class="gridlist-demo">-->
     <ul class="main_ul" v-for="(item,index) in leftDate">
       <li @click="downFade(item.oneClassify)">
@@ -31,6 +31,7 @@
   export default {
     data() {
       return {
+        classifName: '',
         //一级目录选中的数组中的位置
         idx: null,
         //二级目录选中的数组中的位置
@@ -40,9 +41,9 @@
     },
     created() {
       console.log('left', this.$route.params);
-      var classifName = this.$route.params;
-      this.idx = classifName.oneClassify;
-      this.idx_next = classifName.twoClassify;
+      this.classifName = this.$route.params;
+      this.idx = this.classifName.oneClassify;
+      this.idx_next = this.classifName.twoClassify;
       this.$store.dispatch(SHOW_CLASSIFY, {})
         .then(res => {
           this.leftDate = res;
@@ -50,6 +51,17 @@
         .catch(err => {
           console.log(err);
         })
+    },
+    watch: {
+      classifName: function () {
+
+      }
+    },
+    activated (){
+
+    },
+    deactivated (){
+
     },
     methods: {
       //设置分类数据

@@ -20,7 +20,7 @@ export default {
   },
   created: function() {
     var that = this
-    that.$emit('listenToChildEvent','classify')
+    that.$emit('listenToChildEvent','classify');
   },
   methods: {
   }

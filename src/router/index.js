@@ -245,7 +245,8 @@ let router = new Router({
     {
       name: 'productList',
       path: '/productList',
-      component: ProductList
+      component: ProductList,
+
     },
     {
       name: 'logistics',
@@ -290,7 +291,7 @@ let router = new Router({
     {
       name: 'salesRegister',
       path: '/salesRegister',
-      component: salesRegister
+      component: salesRegister,
     },
     {
       name: 'salesRange',
@@ -362,7 +363,7 @@ let router = new Router({
       name: 'indexDetail',
       path: '/indexDetail',
       component: indexDetail
-    }, 
+    },
     {
       name: 'billDetails',
       path: '/salePersonal/billDetails',

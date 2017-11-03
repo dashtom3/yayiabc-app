@@ -196,7 +196,9 @@
             }
           }
           MessageBox.confirm('确定保存此地址吗?').then(action => {
+            console.log(121);
             that.$store.dispatch('SAVE_ADDRESS', obj).then((res) => {
+              console.log(res);
               if (res.data.callStatus === 'SUCCEED') {
                 Toast('成功保存地址!');
                 if(this.isToGoAddress)

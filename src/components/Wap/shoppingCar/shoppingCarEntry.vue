@@ -343,7 +343,7 @@
         window.scroll(0, 0)
       },
       back: function () {
-        this.$router.push({path: '/productList'})
+        this.$router.push({path: '/productList', query:{ ListBack:'carEntry'}})
       },
       loadTop(){
 //        this.gwcGoods = [];

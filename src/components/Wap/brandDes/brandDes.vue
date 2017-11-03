@@ -1,6 +1,5 @@
 <template>
   <div class="brandDes">
-
     <div class="brandDesHeadWrap_a">
     <div class="logIn_header">
       <div class="header_box" @click="back">
@@ -326,6 +325,7 @@ export default {
     },
 
     back: function() {
+
       let judge = sessionStorage.getItem('backJudgeSL')
       if (judge === 'collect') {
         this.$router.push({path: '/collect'});
@@ -340,9 +340,10 @@ export default {
         this.$router.push({name: 'orderDetail'})
         sessionStorage.removeItem('backJudgeSL')
       } else {
-        this.$router.push({path:'/productList'});
+        this.$router.push({path:'/productList',ListBack: 'detail'});
       }
     },
+
     changeActive1: function(tabText) {
       this.currentView = tabText;
       this.isActive1 = true;

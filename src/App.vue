@@ -1,9 +1,17 @@
 <template>
   <div id="app">
      <!--<transition :name="'vux-pop-' + ($store.state.index.direction === 'forward' ? 'in' : 'out')">-->
-      <keep-alive :include="['register', 'salesRegister', 'wxlogIn']">
+      <keep-alive :include="['register', 'salesRegister', 'wxlogIn', 'productList']">
         <router-view></router-view>
       </keep-alive>
+
+    <!--<keep-alive>-->
+      <!--<router-view v-if="$route.meta.keepAlive"></router-view>-->
+    <!--</keep-alive>-->
+
+    <!--&lt;!&ndash; 这里不会被keepalive &ndash;&gt;-->
+    <!--<router-view v-if="!$route.meta.keepAlive"></router-view>-->
+
      <!--</transition>-->
   </div>
 </template>
@@ -19,10 +27,6 @@
     },
     components: {},
     created: function () {
-    },
-    created() {
-      //安卓返回键
-      let that = this;
 //      mui.back = function () {
 //        mui.confirm('确定要退出应用吗？', '牙医abc', ["确定", "取消"], function (e) {
 //          if (e.index === 0) {
