@@ -191,9 +191,12 @@
     },
 
     activated (){
-      let scrollRight = window.sessionStorage.getItem('scrollList');
-      scrollRight = JSON.parse(scrollRight);
-      this.$refs.scrollBox.scrollTop = scrollRight.scrollTopRight;
+      if(this.$route.query.ListBack === "detail" || this.$route.query.ListBack === "carEntry")
+      {
+        let scrollRight = window.sessionStorage.getItem('scrollList');
+        scrollRight = JSON.parse(scrollRight);
+        this.$refs.scrollBox.scrollTop = scrollRight.scrollTopRight;
+      }
     },
     deactivated (){
       let scrollList = {
