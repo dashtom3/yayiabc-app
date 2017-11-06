@@ -18,7 +18,7 @@
         <p>购物车中空空哒~</p>
       </div>
       <div class="needclick checkPos">
-        <el-checkbox class="checkAll needclick" v-if="gwcGoods.length && !isLoading" v-model="selectaLL"
+        <el-checkbox class="checkAll needclick" v-if="gwcGoods.length" v-model="selectaLL"
                      @change="handleCheckAllChange">全选
         </el-checkbox>
       </div>
@@ -109,7 +109,7 @@
     },
     created: function () {
       var that = this;
-      that.isLoaded = false;
+      that.isLoading = false;
       that.mBack('back');
       that.getGwcList();
       that.$emit('listenToChildEvent', 'shopping_cart')
