@@ -28,7 +28,9 @@
 
     <!--搜索框结束-->
     <!--详细信息开始-->
-    <mt-loadmore v-if="!dataShow" class="top_warp" :top-method="loadTop" :auto-fill=false ref="loadmore">
+    <mt-loadmore v-if="!dataShow" class="top_warp" :top-method="loadTop" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState">
+      <!--loading:判断加载状态布尔值，loaded：加载完成后的回调-->
+      <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
       <div v-infinite-scroll="loadMore" infinite-scroll-immediate-check="true">
         <div class="ms_wrap" v-for="item in loginData">
           <img src="../../../images/mine/topBackGround.png" class="ms_img" alt="">
@@ -48,6 +50,7 @@
         </div>
         <div class="noMore" v-if="noMore">- End -</div>
       </div>
+      <div class="fixed"></div>
     </mt-loadmore>
 
     <!--详细信息结束-->
@@ -66,6 +69,7 @@
 <script type="text/ecmascript-6">
   import salesHeader from '../salesHeader.vue'
   import salesFooter from '../salesFooter.vue'
+  import topLoadMore from '../index/topLoadMore.vue'
   import {InfiniteScroll, LoadMore} from 'mint-ui'
 
     export default {
@@ -80,6 +84,7 @@
           currentPage: 1,
           totalPage:1,
           noMore: false,
+          isLoading:false
         }
       },
       created(){
@@ -117,6 +122,7 @@
         },
         //获取已注册的信息
         getLogined(){
+          this.isLoading = true;
           let obj = {
             state : this.searchText,
             currentPage: this.currentPage,
@@ -159,12 +165,12 @@
                     arr['unitName'] = '暂无单位名称'
                     arr['unitAddress'] = '暂无详细地址'
                   }
-                  console.log(this.loginData)
                   this.loginData.push(arr)
                 }
                 this.dataShow = false;
               }
               this.totalPage = res.totalPage;
+              this.isLoading = false;
             })
           }else {
             this.$store.dispatch('GET_NO_LOGINED', obj).then((res) => {
@@ -197,6 +203,7 @@
                 this.dataShow = false;
               }
               this.totalPage = res.totalPage;
+              this.isLoading = false;
             })
           }
           if(this.currentPage === this.totalPage && this.loginData.length > 6){
@@ -218,12 +225,20 @@
           this.loginData = [];
           this.searchText = '';
           this.getLogined();
+        },
+        //mt中接受的val值作为参数传入我的组件里
+        isState(val){
+          this.$refs.topLoadMore.states(val)
+        },
+        //把下拉刷新完成之后回调的mt的方法传入我的组件里
+        isLoaded(){
           this.$refs.loadmore.onTopLoaded();
         }
       },
       components:{
         salesHeader,
-        salesFooter
+        salesFooter,
+        topLoadMore
       }
     }
 </script>
@@ -416,9 +431,18 @@
       font-size: px2vw(28);
     }
     .top_warp{
-      margin-top: px2vw(270);
-      min-height: 71vh;
+      position: fixed;
+      bottom: 0;
+      overflow: scroll;
+      -webkit-overflow-scrolling: touch;
+      top: px2vw(270);
+      min-height: 72vh;
+      width: 100%;
       background-color: #e5e5e5;
+      .fixed{
+        height: px2vw(101);
+        width: 100%;
+      }
     }
     .top_warp2 {
       height: px2vw(101);

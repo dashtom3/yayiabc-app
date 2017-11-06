@@ -245,7 +245,9 @@
     width: 100vw;
     margin-top: px2vw(88);
   }
+  .top_warp{
 
+  }
   .customerImgBack {
     position: absolute;
     top:px2vw(29);

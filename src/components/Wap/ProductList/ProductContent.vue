@@ -25,8 +25,9 @@
       </ul>
     </div>
     <!--产品列表-->
-    <mt-loadmore class="Content_main gridlist-demo-container" :top-method="loadTop" :auto-fill=false ref="loadmore">
+    <mt-loadmore class="Content_main gridlist-demo-container" :top-method="loadTop" :auto-fill=false ref="loadmore" v-on:top-status-change="isState">
       <!--<mu-grid-list class="gridlist-demo">-->
+      <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
       <div ref="scrollBox" class="Content_list" v-infinite-scroll="loadMore" infinite-scroll-immediate-check="true" >
         <div class="Content_list_div" v-for="(item,index) in productData" @click="goProductDetail(item)">
           <div>
@@ -105,7 +106,7 @@
 
     <!--产品数据为空显示-->
     <div v-show="productData.length==0" class="noData">
-      <div class="noData" v-show="isLoaded">
+      <div class="noData" v-show="!isLoading">
         <img class="noDataPic1" src="../../../images/ProductList/noDataPic1.png" alt="">
         <img class="noDataPic2" src="../../../images/ProductList/noDataPic2.png" alt="">
         <p class="noData_text">您搜索的商品正在招募中,敬请期待!</p>
@@ -128,6 +129,7 @@
   import { tokenMethods } from '../../../vuex/util'
   import MuseUI from 'muse-ui'
   import {Indicator, InfiniteScroll,Popup, LoadMore} from 'mint-ui'
+  import topLoadMore from '../../salesWap/index/topLoadMore.vue'
 
   export default {
     data() {
@@ -174,20 +176,18 @@
         items: [],
         itemKey:[["itemPropertyName","itemPropertyInfo"],["itemPropertyNameTwo","itemPropertyTwoValue"],["itemPropertyNameThree","itemPropertyThreeValue"],["itemPropertyFourName","itemPropertyFourValue"],["itemPropertyFiveName","itemPropertyFiveValue"],["itemPropertySixName","itemPropertySixValue"]],
         noMoreGood:false,
-        isLoaded:false,
+        isLoading:false,
 //        pages:1,
 //        totalPage:1,
       }
     },
+    components:{
+      topLoadMore
+    },
     created() {
       var self = this;
-      Indicator.open();
-      self.args.oneClassify = self.$route.params.oneClassify;
-      self.args.twoClassify = self.$route.params.twoClassify;
 //      this.args.keyWord = this.$route.params.word;
 //      console.log(this.getSearchData,this.getSearchWord,'返回的数据');
-      this.getBrandList();
-      this.getCarList();
     },
 
     activated (){
@@ -213,6 +213,10 @@
       };
 
       let self = this;
+      self.args.oneClassify = self.$route.params.oneClassify;
+      self.args.twoClassify = self.$route.params.twoClassify;
+      this.getBrandList();
+      this.getCarList();
       this.getProductList();
       this.$store.watch(
         function (state) {
@@ -227,7 +231,7 @@
           self.args.totalPage = 1;
           self.productData = [];
           self.productNum = [];
-          self.isLoaded = false;
+          self.isLoading = false;
           self.noMoreGood = false;
           self.getProductList()
         },
@@ -245,7 +249,7 @@
 //          self.args.totalPage = 1;
 //          self.productData = [];
 //          self.productNum = [];
-//          self.isLoaded = false;
+//          self.isLoading = false;
 //          self.noMoreGood = false;
 //          self.getProductList();
 ////          Indicator.close();
@@ -288,7 +292,7 @@
       //获取产品列表
       getProductList(){
         let that = this;
-        that.isLoaded = false;
+        that.isLoading = true;
         that.noMoreGood = false;
         this.$store.dispatch(QUERY_ITEM_SEARCH_POST, this.args)
           .then(res => {
@@ -318,11 +322,10 @@
               })
             }
             that.getCarList();
-            that.isLoaded = true;
+            that.isLoading = false;
             if(that.args.currentPage == res.data.totalPage && that.args.currentPage > 1){
               that.noMoreGood = true;
             }
-            console.log('aaaaa',that.noMoreGood);
           })
           .catch(err => {
             console.log(err);
@@ -693,9 +696,15 @@
         self.args.totalPage = 1;
         self.productData = [];
         self.productNum = [];
-        self.isLoaded = false;
+        self.isLoading = false;
         self.noMoreGood = false;
         self.getProductList()
+      },
+      isState(val){
+        this.$refs.topLoadMore.states(val)
+      },
+      //把下拉刷新完成之后回调的mt的方法传入我的组件里
+      isLoaded(){
         this.$refs.loadmore.onTopLoaded();
       }
     }

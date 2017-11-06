@@ -2,8 +2,8 @@
   <div :class="['orderSubpage-container',{noOrder:!orderList.length && isLoaded}]" v-infinite-scroll="loadMore"
        infinite-scroll-disabled="busy" infinite-scroll-distance="10">
     <div class="order-wrap" v-if="orderList">
-      <mt-loadmore style="width: 100%;height: 100%" :top-method="loadTop" :auto-fill=false ref="loadmore">
-    <order-component :key="index" v-for="(item,index) in orderList" :order="item"
+      <mt-loadmore class="orders" :top-method="loadTop" :auto-fill=false ref="loadmore">
+        <order-component :key="index" v-for="(item,index) in orderList" :order="item"
                      class="order-content"></order-component>
       </mt-loadmore>
     </div>
@@ -13,7 +13,7 @@
   import orderComponent from '../orderComponent.vue'
   import {GET_ORDER_LIST, SAVE_ORDERS_LIST} from '../../../../vuex/types'
   import {tokenMethods} from '../../../../vuex/util'
-  import {Toast, MessageBox, Indicator, Loadmore} from 'mint-ui'
+  import {Toast, MessageBox, Indicator, Loadmore, InfiniteScroll} from 'mint-ui'
   import {mapActions} from 'vuex'
 
   export default {
@@ -133,5 +133,10 @@
       background-repeat: no-repeat;
       background-size: px2vw(136) px2vw(199);
     }
+  }
+  .orders{
+    width: 100%;
+    height: 100%;
+    overflow: scroll;
   }
 </style>

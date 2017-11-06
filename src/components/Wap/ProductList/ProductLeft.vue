@@ -41,9 +41,10 @@
     },
     created() {
       console.log('left', this.$route.params);
-      this.classifName = this.$route.params;
-      this.idx = this.classifName.oneClassify;
-      this.idx_next = this.classifName.twoClassify;
+      var classifName = this.$route.params;
+      this.idx = classifName.oneClassify;
+      this.idx_next = classifName.twoClassify;
+      this.setClassify();
       this.$store.dispatch(SHOW_CLASSIFY, {})
         .then(res => {
           this.leftDate = res;
