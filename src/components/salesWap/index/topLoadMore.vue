@@ -52,7 +52,6 @@
             this.pullImg = false;
             this.dropImg = false;
             this.loadingImg = true;
-//            return
             break;
         }
       }

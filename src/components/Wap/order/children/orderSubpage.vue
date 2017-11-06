@@ -1,9 +1,10 @@
 <template>
-  <div :class="['orderSubpage-container',{noOrder:!orderList.length && isLoaded}]" v-infinite-scroll="loadMore"
+  <div :class="['orderSubpage-container',{noOrder:!orderList.length && !isLoading}]" v-infinite-scroll="loadMore"
        infinite-scroll-disabled="busy" infinite-scroll-distance="10">
     <div class="order-wrap" v-if="orderList">
-      <mt-loadmore class="orders" :top-method="loadTop" :auto-fill=false ref="loadmore">
-        <order-component :key="index" v-for="(item,index) in orderList" :order="item"
+      <mt-loadmore class="orders" :top-method="loadTop" :auto-fill=false ref="loadmore" v-on:top-status-change="isState">
+        <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
+          <order-component :key="index" v-for="(item,index) in orderList" :order="item"
                      class="order-content"></order-component>
       </mt-loadmore>
     </div>
@@ -15,6 +16,7 @@
   import {tokenMethods} from '../../../../vuex/util'
   import {Toast, MessageBox, Indicator, Loadmore, InfiniteScroll} from 'mint-ui'
   import {mapActions} from 'vuex'
+  import topLoadMore from '../../../salesWap/index/topLoadMore.vue'
 
   export default {
     name: 'allOrders',
@@ -24,11 +26,12 @@
         currentPage: 1,
         loading: false,
         totalPage: 1,
-        isLoaded:false,
+        isLoading:false,
       }
     },
     components: {
-      orderComponent
+      orderComponent,
+      topLoadMore
     },
     computed: {
       busy: {
@@ -41,7 +44,7 @@
     },
     methods: {
       _init() {
-        this.isLoaded = false;
+        this.isLoading = true;
         let phone = tokenMethods.getWapUser() && tokenMethods.getWapUser().phone
         if (!phone) MessageBox.alert('请先进行登录').then(() => {
           this.$router.push({name: 'logIn'})
@@ -67,7 +70,7 @@
           if (res.data.callStatus == 'FAILED') {
             tokenMethods.removeMsg()
           }
-          this.isLoaded = true
+          this.isLoading = false
           this.orderList = this.orderList.concat(res.data.data)
           this.busy = false
           this.totalPage = res.data.totalPage
@@ -85,6 +88,12 @@
 //        this.orderList = []
         Indicator.open()
         this._init();
+      },
+      isState(val){
+        this.$refs.topLoadMore.states(val)
+      },
+      //把下拉刷新完成之后回调的mt的方法传入我的组件里
+      isLoaded(){
         this.$refs.loadmore.onTopLoaded();
       }
     },
@@ -103,7 +112,7 @@
       '$route'(to, from) {
         this.currentPage = 1
         this.orderList = []
-        this.isLoaded = false
+        this.isLoading = false
         Indicator.open()
         this._init()
       }
