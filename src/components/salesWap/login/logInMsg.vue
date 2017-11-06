@@ -76,8 +76,9 @@ export default {
       }
       that.$store.dispatch('sale/' + SALE_MSG_LOGIN, obj).then((res) => {
         if (res.data.callStatus === 'SUCCEED') {
-          tokenMethods.setWapToken(res.data.token)
-          tokenMethods.setWapUser(res.data.data)
+//          tokenMethods.setWapToken(res.data.token);
+          tokenMethods.setSalesToken(res.data.token);
+          tokenMethods.setWapUser(res.data.data);
           Toast({message: '登录成功', duration: 3000})
           that.mobilePhone = ''
           that.identifyCode = ''

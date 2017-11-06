@@ -180,10 +180,13 @@ export const tokenMethods = {
     localStorage.setItem('wapToken', token)
   },
   getWapToken() {
+    console.log(localStorage.getItem('wapToken'), '厚大司考很大声');
     return localStorage.getItem('wapToken')
+
   },
   setWapUser(data) {
     localStorage.setItem('wapUser', JSON.stringify(data))
+    console.log(localStorage.getItem('wapUser'), '厚大司考很大声');
   },
   getWapUser() {
     return JSON.parse(localStorage.getItem('wapUser'))
