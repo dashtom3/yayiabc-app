@@ -146,18 +146,23 @@ export default {
       } else {
         var obj = {phone: that.mobilePhone, type: 4}
         that.$store.dispatch('sale/' + GET_SALE_IDENTICODE, obj).then((res) => {
-          for (let i = 0; i <= 60; i++) {
-            window.setTimeout(function () {
-              if (sec != 0) {
-                that.hYzm = false;
-                that.Yzm1 = sec + "秒后重发验证";
-                sec--;
-              } else {
-                sec = 60;//如果倒计时结束就让  获取验证码显示出来
-                that.hYzm = true;
-                that.Yzm = '获取验证码';
-              }
-            }, i * 1000)
+          if (res.callStatus === 'SUCCEED') {
+            for (let i = 0; i <= 60; i++) {
+              window.setTimeout(function () {
+                if (sec != 0) {
+                  that.hYzm = false;
+                  that.Yzm1 = sec + "秒后重发验证";
+                  sec--;
+                } else {
+                  sec = 60;//如果倒计时结束就让  获取验证码显示出来
+                  that.hYzm = true;
+                  that.Yzm = '获取验证码';
+                }
+              }, i * 1000)
+            }
+          } else {
+            // Toast({message: res.data.msg, duration: 1500})
+            Toast({message: "手机号还未注册，请先注册", duration: 1500})
           }
         })
       }

@@ -273,7 +273,9 @@
                   }
                 }, i * 1000)
               }
-            } 
+            } else if (res.errorCode === "Username_Already_Exist") {
+              Toast('该手机号已存在！请直接登录');
+            }
           })
         }
       },

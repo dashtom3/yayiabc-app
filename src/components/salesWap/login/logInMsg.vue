@@ -98,7 +98,7 @@ export default {
       } else {
         var obj = {phone: that.mobilePhone, type: 4}
         that.$store.dispatch('sale/' + GET_SALE_IDENTICODE, obj).then((res) => {
-          if (res.data.callStatus === 'SUCCEED') {
+          if (res.callStatus === 'SUCCEED') {
             for (let i = 0; i <= 60; i++) {
               window.setTimeout(function () {
                 if (sec != 0) {
@@ -113,7 +113,8 @@ export default {
               }, i * 1000)
             }
           } else {
-            Toast({message: res.data.msg, duration: 3000})
+            // Toast({message: res.data.msg, duration: 1500})
+            Toast({message: "手机号还未注册，请先注册", duration: 1500})
           }
         })
       }
