@@ -160,9 +160,11 @@ export default {
                 }
               }, i * 1000)
             }
-          } else {
+          } else if (res.errorCode === "Username_NOT_Exist") {
             // Toast({message: res.data.msg, duration: 1500})
             Toast({message: "手机号还未注册，请先注册", duration: 1500})
+          } else {
+            Toast({message: "获取验证码失败", duration: 1500})
           }
         })
       }
