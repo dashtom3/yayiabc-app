@@ -14,7 +14,7 @@
       <p>购物车中空空哒~</p>
     </div>
     <div class="needclick checkPos">
-      <el-checkbox class="checkAll needclick" v-if="gwcGoods.length && !isLoading" v-model="selectaLL" @change="handleCheckAllChange">
+      <el-checkbox class="checkAll needclick" v-if="gwcGoods.length" v-model="selectaLL" @change="handleCheckAllChange">
         全选
       </el-checkbox>
     </div>
@@ -73,7 +73,7 @@
         </ul>
       </mt-loadmore>
     </div>
-    <div class="shopping-footer" v-if="gwcGoods.length && !isLoading">
+    <div class="shopping-footer" v-if="gwcGoods.length">
       <div class="border needclick fl">
         <el-checkbox class="check-all needclick" v-model="selectaLL" @change="handleCheckAllChange">全选</el-checkbox>
         <span class="total">合计： <i>￥{{allMoeny}}</i></span>

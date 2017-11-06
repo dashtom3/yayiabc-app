@@ -13,7 +13,7 @@
         <p>登录后同步购物车中的商品</p>
         <mu-raised-button label="登录" class="logIn_btn" @click="logInHandler"/>
       </div>
-      <div class="empty_car" v-if="!gwcGoods.length && !isLoading">
+      <div class="empty_car" v-if="!gwcGoods.length">
         <img src="../../../images/index/shoppingCar1.png" alt="购物车">
         <p>购物车中空空哒~</p>
       </div>
@@ -78,7 +78,7 @@
         </mt-loadmore>
       </div>
     </div>
-    <div class="shopping-footer clearfix" v-if="gwcGoods.length && !isLoading">
+    <div class="shopping-footer clearfix" v-if="gwcGoods.length">
       <div class="border needclick fl">
         <el-checkbox class="check-all needclick" v-model="selectaLL" @change="handleCheckAllChange">全选</el-checkbox>
         <span class="total">合计： <i>￥{{allMoeny}}</i></span>
