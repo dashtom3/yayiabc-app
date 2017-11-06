@@ -417,6 +417,8 @@
               }
             } else if (res.data.errorCode === "Username_Already_Exist") {
               Toast('该手机号已存在！请直接登录');
+            } else {
+              Toast('获取验证码失败');
             }
           })
         }
