@@ -9,7 +9,7 @@
     <div class="list_sub">
       <!--选择收货地址 开始-->
       <div v-if="addressShow" class="backRightL username" @click="toGoAddress">
-        <span>请选择收货地址</span>
+        <span class="add_address">添加收货地址</span>
         <img class="backRightJ" src="../../../images/mine/back.png" alt="img">
       </div>
       <!--选择收货地址 结束-->
@@ -511,7 +511,8 @@
         if(that.addressShow)
         {
           console.log('没有收货地址');
-          Toast({message: '请选择收货地址', duration: 1500})
+          Toast({message: '请选择收货地址', duration: 1500});
+          window.scroll(0,0);
           return
         }
         Indicator.open()
@@ -756,6 +757,10 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../common/sass/factory";
+  .add_address{
+    font-size: px2vw(32);
+    font-weight: 500;
+  }
   input {
     width: 45vw;
     height: px2vw(70);
@@ -895,8 +900,8 @@
     margin-top: px2vw(88);
     .username {
       width: 100vw;
-      height: px2vw(108);
-      line-height: px2vw(108);
+      height: px2vw(180);
+      line-height: px2vw(170) !important;
       border-bottom: px2vw(20) solid #F4F4F4;
       img {
         vertical-align: middle;
@@ -1032,7 +1037,7 @@
     width: px2vw(15) !important;
     height: px2vw(25) !important;
     float: right;
-    margin-top: px2vw(31);
+    margin-top: px2vw(68);
     margin-right: px2vw(20);
   }
   .backRightL {
