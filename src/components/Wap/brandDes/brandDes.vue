@@ -251,7 +251,7 @@ export default {
       that.$router.push({path: '/suborder'})
     },
     // QQ咨询
-    qq_contact() {  
+    qq_contact() {
       if (plus.os.name == "iOS") {  
         plus.runtime.launchApplication({  
         action: "mqq://im/chat?chat_type=wpa&uin=2966679536&version=1&src_type=web"  
@@ -263,10 +263,12 @@ export default {
           });  
         });  
       }  else if (plus.os.name == "Android") {
-          let main = plus.android.runtimeMainActivity(); 
+          let main = plus.android.runtimeMainActivity();
+          var packageManager = main.getPackageManager()
+          console.log(packageManager)
           let Intent = plus.android.importClass('android.content.Intent'); 
-          let Uri = plus.android.importClass('android.net.Uri'); 
-          let intent = new Intent(Intent.ACTION_VIEW, Uri.parse("mqqwpa://im/chat?chat_type=wpa&uin=2966679536")); 
+          let Uri = plus.android.importClass('android.net.Uri');
+          let intent = new Intent(Intent.ACTION_VIEW, Uri.parse("mqqwpa://im/chat?chat_type=wpa&uin=2966679536"));
           main.startActivity(intent);
       }
     }, 
