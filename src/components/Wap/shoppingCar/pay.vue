@@ -174,7 +174,7 @@
                     return false
                   }
                   var obj = {
-                    out_trade_no: that.orderId
+                    out_trade_no: that.orderId,
                   }
                   that.$store.dispatch('WX_ORDER_SEARCH', obj).then((res) => {
                     // plus.nativeUI.alert(JSON.stringify(res),'lihui')

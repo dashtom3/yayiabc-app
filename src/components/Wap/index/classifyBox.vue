@@ -1,8 +1,8 @@
 <template>
   <div class="classifyBox">
 
-    <div class="Box_list1" @click="gotoProductList(classify.cl1)">
-      <div class="Box_list1_img1">
+    <div class="Box_list1" >
+      <div @click="gotoProductList(classify.cl1)" class="Box_list1_img1">
 
         <div>
           <span class="upText">
@@ -83,9 +83,7 @@ export default {
   methods: {
     gotoProductList(classify){
 //      this.$store.dispatch('SAVE_ROOT_ROUTER', 1) //跳转判断
-
       sessionStorage.setItem('backJudgeIndex', 'index');
-
       this.$router.push({ name: 'productList', params: { oneClassify: classify , twoClassify: ''}})
     }
   }
