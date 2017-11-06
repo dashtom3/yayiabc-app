@@ -187,7 +187,8 @@
         addressShow:true, //是否显示选择地址节点
         addressData: '',//储存默认地址信息并显示
         isDefault: '', //判断有无默认地址
-        qb_input: false,
+        qb_input: true,
+        // qb_input: false,
         allQb: '', //用户QB总额
         nowQb: '',
         qianbi_des: '', //用户输入的乾币
@@ -201,7 +202,8 @@
           tax: '',
           paper: '',
           payText: '请选择支付方式',
-          qbText: '是否使用乾币',
+          qbText: '使用',
+          // qbText: '是否使用乾币',
           taxText: '是否需要',
           paperText: '不需要',
         },
@@ -354,11 +356,13 @@
           if (res.callStatus === 'SUCCEED') {
               that.allQb = res.fl;
               that.nowQb = res.fl;
+              that.qianbi_des = that.nowQb
               let total = that.gwcTotal + that.freight
               if (that.allQb >= total) {
                 that.nowQb = total
               }
           }
+          that.qbDed();
         })
       },
       //获取收货地址列表信息
