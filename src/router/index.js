@@ -80,6 +80,8 @@ const Standard = resolve => require(['@/components/salesWap/index/standard'], re
 /*ProductList组件*/
 const ProductList = resolve => require(['@/components/Wap/ProductList/ProductList.vue'], resolve)
 
+//病例
+const newCase = resolve => require(['@/components/Wap/case/newCase'], resolve)
 
 Vue.use(Router)
 
@@ -405,6 +407,11 @@ let router = new Router({
       name: 'feedback',
       path: '/feedback',
       component: feedback
+    },
+    {
+      name: 'newCase',
+      path: '/newCase',
+      component: newCase
     },
   ],
 })
