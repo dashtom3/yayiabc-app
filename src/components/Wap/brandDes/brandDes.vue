@@ -264,8 +264,12 @@ export default {
         });  
       }  else if (plus.os.name == "Android") {
           let main = plus.android.runtimeMainActivity();
-          var packageManager = main.getPackageManager()
-          console.log(packageManager)
+          let packageManager = main.getPackageManager() ;
+          let packageName = "com.tencent.mobileqq";
+          var PackageManager = plus.android.importClass(packageManager)
+          var packageInfo = packageManager.getPackageInfo(packageName,PackageManager.GET_ACTIVITIES);
+          console.log(packageInfo)
+          // console.log(arr, '11111')
           let Intent = plus.android.importClass('android.content.Intent'); 
           let Uri = plus.android.importClass('android.net.Uri');
           let intent = new Intent(Intent.ACTION_VIEW, Uri.parse("mqqwpa://im/chat?chat_type=wpa&uin=2966679536"));
@@ -443,7 +447,8 @@ export default {
   position: fixed;
   top:0;
   left: 0;
-  z-index: 999;
+  background: #fff;
+  z-index: 9999;
 }
 .header_box {
   width: px2vw(70);
@@ -511,6 +516,7 @@ export default {
   position: fixed;
   bottom: 0;
   border-top: 1px solid #DBDBDB;
+  z-index: 1030;
 }
 .qq_content {
   position: relative;

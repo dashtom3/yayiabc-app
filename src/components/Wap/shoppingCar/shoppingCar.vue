@@ -13,8 +13,8 @@
       <img src="../../../images/index/shoppingCar1.png" alt="购物车">
       <p>购物车中空空哒~</p>
     </div>
-    <div class="needclick checkPos">
-      <el-checkbox class="checkAll needclick" v-if="gwcGoods.length" v-model="selectaLL" @change="handleCheckAllChange">
+    <div class="needclick checkPos" v-if="gwcGoods.length">
+      <el-checkbox class="checkAll needclick" v-model="selectaLL" @change="handleCheckAllChange">
         全选
       </el-checkbox>
     </div>

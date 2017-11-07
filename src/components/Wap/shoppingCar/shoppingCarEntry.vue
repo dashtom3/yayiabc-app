@@ -13,12 +13,12 @@
         <p>登录后同步购物车中的商品</p>
         <mu-raised-button label="登录" class="logIn_btn" @click="logInHandler"/>
       </div>
-      <div class="empty_car" v-if="!gwcGoods.length">
+      <div class="empty_car" v-if="!gwcGoods.length && !isLoading">
         <img src="../../../images/index/shoppingCar1.png" alt="购物车">
         <p>购物车中空空哒~</p>
       </div>
-      <div class="needclick checkPos">
-        <el-checkbox class="checkAll needclick" v-if="gwcGoods.length" v-model="selectaLL"
+      <div class="needclick checkPos" v-if="gwcGoods.length">
+        <el-checkbox class="checkAll needclick" v-model="selectaLL"
                      @change="handleCheckAllChange">全选
         </el-checkbox>
       </div>
@@ -393,12 +393,12 @@
     position: fixed;
     left: 0;
     width: 100%;
-    height: 100%;
+    // height: 100%;
     top: px2vw(188);
     bottom: px2vw(108);
     z-index: 10;
     overflow: scroll;
-    background-color: #f4f4f4;
+    // background-color: #f4f4f4;
     -webkit-overflow-scrolling: touch;
   }
 
