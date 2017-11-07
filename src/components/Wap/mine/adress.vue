@@ -236,15 +236,30 @@
     font-size: 3.733333vw;
   }
   .address_pic{
-    width: px2vw(196);
-    /*height: px2vw(145);*/
+    /*width: px2vw(196);*/
+    /*!*height: px2vw(145);*!*/
+    /*position: fixed;*/
+    /*top:px2vw(513);*/
+    /*left: px2vw(277);*/
+
     position: fixed;
-    top:px2vw(513);
-    left: px2vw(277);
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
     background-color: #f4f4f4;
   }
   .address_pic>img{
-    width: 100%;
+    width: px2vw(192);
+    height: px2vw(195);
+    position: absolute;
+    top:50%;
+    left: 50%;
+    transform:translate(-40%,-70%);
+    -ms-transform:translate(-50%,-70%); 	/* IE 9 */
+    -moz-transform:translate(-50%,-70%); 	/* Firefox */
+    -webkit-transform:translate(-50%,-70%); /* Safari 和 Chrome */
+    -o-transform:translate(-50%,-70%); 	/* Opera */
   }
 
   .box_top {
