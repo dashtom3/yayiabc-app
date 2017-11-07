@@ -85,7 +85,7 @@
         this.updateOrderList(this.currentPage)
       },
       loadTop(){
-//        this.orderList = []
+        this.orderList = []
         Indicator.open()
         this._init();
       },
