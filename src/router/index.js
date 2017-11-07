@@ -30,6 +30,7 @@ import appSetting from '@/components/Wap/mine/appSetting'
 import aboutApp from '@/components/Wap/mine/aboutApp'
 import comIntro from '@/components/Wap/mine/comIntro'
 import feedback from '@/components/Wap/mine/feedback'
+import caseOfIllness from '@/components/Wap/case/caseOfIllness'
 
 const coinDetail = resolve => require(['@/components/Wap/mine/coinDetail'], resolve)
 const payResult = resolve => require(['@/components/Wap/mine/payResult'], resolve)
@@ -412,6 +413,11 @@ let router = new Router({
       name: 'newCase',
       path: '/newCase',
       component: newCase
+    },
+    {
+      name: 'caseOfIllness',
+      path: '/caseOfIllness',
+      component: caseOfIllness
     },
   ],
 })
