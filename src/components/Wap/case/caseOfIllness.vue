@@ -1,6 +1,6 @@
 <template>
     <div>
-      dsada
+      <div class="headerBox"></div>
     </div>
 </template>
 
@@ -9,7 +9,11 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss" rel="stylesheet/scss">
-    @import "../../../common/sass/factory";
-
+  @import "../../../common/sass/factory";
+  .headerBox {
+    height: px2vw(88);
+    padding-left: px2vw(20);
+    background-color: $themeColor;
+  }
 </style>
 
