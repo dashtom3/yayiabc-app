@@ -25,12 +25,12 @@
     <div class="bottom_box_a">
       <div class="qq_content" @click.stop="qq_contact">
         <img src="../../../images/details/qq.png" alt="img">
-        <span class="carNum">QQ咨询</span>
+        <span class="text">客服</span>
       </div>
       <div class="collectCargo" @click="collectCargo">
         <img v-if="starImg" src="../../../images/details/star.png" alt="img">
         <img v-else src="../../../images/details/star_blue.png" alt="img">
-        <span>收藏</span>
+        <span class="text">收藏</span>
       </div>
       <div class="seeCar" @click="goToCar">
         <span class="carNum">{{num}}</span>
@@ -252,28 +252,38 @@ export default {
     },
     // QQ咨询
     qq_contact() {
+      console.dir(this)
+      console.log(this)
       if (plus.os.name == "iOS") {  
         plus.runtime.launchApplication({  
         action: "mqq://im/chat?chat_type=wpa&uin=2966679536&version=1&src_type=web"  
       }, function(e) {  
-        plus.nativeUI.confirm("检查到您未安装qq，请先到appstore搜索下载？", function(i) {  
+        plus.nativeUI.confirm("检查到您未安装QQ，请先到appstore搜索下载？", function(i) {  
           if (i.index == 0) {  
             iosAppstore("itunes.apple.com/cn/app/mqq/");  
           }  
           });  
         });  
       }  else if (plus.os.name == "Android") {
+          // plus.runtime.openURL("mqqwpa://im/chat?chat_type=wpa&uin=2966679536", 
+          // ,function (e) {
+          //   alert('请下载腾讯QQ')
+          // }, "com.tencent.mobileqq");
+          // ApplicationInfo info = context.getPackageManager().getApplicationInfo(packageName, PackageManager.GET_UNINSTALLED_PACKAGES); 
           let main = plus.android.runtimeMainActivity();
-          let packageManager = main.getPackageManager() ;
-          let packageName = "com.tencent.mobileqq";
-          var PackageManager = plus.android.importClass(packageManager)
-          var packageInfo = packageManager.getPackageInfo(packageName,PackageManager.GET_ACTIVITIES);
-          console.log(packageInfo)
-          // console.log(arr, '11111')
+          // let packageManager = main.getPackageManager() ;
+          // let packageName = "com.tencent.mobileqq";
+          // var PackageManager = plus.android.importClass(packageManager)
+          // var packageInfo = packageManager.getPackageInfo(packageName,PackageManager.GET_ACTIVITIES);
           let Intent = plus.android.importClass('android.content.Intent'); 
           let Uri = plus.android.importClass('android.net.Uri');
-          let intent = new Intent(Intent.ACTION_VIEW, Uri.parse("mqqwpa://im/chat?chat_type=wpa&uin=2966679536"));
-          main.startActivity(intent);
+          try{
+            let intent = new Intent(Intent.ACTION_VIEW, Uri.parse("mqqwpa://im/chat?chat_type=wpa&uin=2966679536"));
+            main.startActivity(intent);
+          }catch (e){
+            plus.nativeUI.alert("检查到您未安装QQ，请先下载！");
+          }
+          
       }
     }, 
     // 加入购物车
@@ -537,16 +547,13 @@ export default {
 }
 .qq_content > span, .collectCargo > span{
   position: absolute;
+  width: 100%;
   top: px2vw(57);
+  left: 0;
   height: px2vw(28);
   line-height: px2vw(28);
+  text-align: center;
   font-size: px2vw(20);
-}
-.qq_content > span {
-  left: px2vw(8);
-}
-.collectCargo > span {
-  left: px2vw(23);
 }
 .collectCargo {
   position: relative;

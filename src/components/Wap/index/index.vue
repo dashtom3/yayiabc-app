@@ -25,7 +25,7 @@
         </div>
         <div class="dialog_footer">
           <span class="dialog_bottom">
-            <button type="button" class="btn button_default" @click="hide"><span>下次再说</span></button>
+            <button type="button" class="btn button_default" @click="hide"><span>关闭</span></button>
             <button type="button" class="btn button_primary" @click="downWgt"><span>立即更新</span></button>
           </span>
         </div>
@@ -103,8 +103,9 @@ export default {
       that.$router.push({ path: '/searchWord', query: { data: 'focus' }})
     },
     hide: function() {
-      this.isShow = false
-      sessionStorage.setItem('isShow', 'hide')
+      // this.isShow = false;
+      plus.runtime.quit();
+      // sessionStorage.setItem('isShow', 'hide')
     },
     plusReady: function(){
       // 获取本地应用资源版本号
