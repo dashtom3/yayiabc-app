@@ -6,7 +6,7 @@
 
     <!--筛选按钮-->
     <span @click="caseDate.dressingSwitch = !caseDate.dressingSwitch" class="dressingBtn">
-            <img src="../../../images/case/caseOfIllness/classflsy.png" alt="">
+            <img src="../../../../images/case/caseOfIllness/classflsy.png" alt="">
             <transition name="fade">
             <span v-show="caseDate.dressingSwitch" class="dressingFunction">
               <span :class="{'DressingColor': index === caseListArgs.order}" @click.stop="dressingFunction(index)" class="updata" v-for="(item, index) in caseDate.updataTime">
@@ -27,7 +27,7 @@
       <div v-for="(item, index) in listCaseData" class="caseBox">
         <div class="userBox addChange1">
           <div class="userPicture">
-            <img src="../../../images/mine/zhifubao.png" alt="">
+            <img src="../../../../images/mine/zhifubao.png" alt="">
             <span class="userName">{{item.writer}}</span>
             <span class="userName userTime">5分钟前</span>
           </div>
@@ -36,7 +36,7 @@
           </div>
         </div>
         <div class="userImgBox addChange2">
-          <img src="../../../images/case/caseOfIllness/1.png" alt="">
+          <img src="../../../../images/case/caseOfIllness/1.png" alt="">
         </div>
 
         <div class="readeBox">
@@ -50,8 +50,8 @@
     </div>
     </mt-loadmore>
     <!--编辑按钮-->
-    <div class="edit">
-      <img src="../../../images/case/caseOfIllness/editer.png" alt="">
+    <div class="edit" @click.stop="gotoPage(newCase)">
+      <img src="../../../../images/case/caseOfIllness/editer.png" alt="">
     </div>
     <!--编辑按钮-->
 
@@ -159,14 +159,19 @@
         this.caseListArgs.classify = item;
         this.getCaseList();
       },
+      gotoPage(page){
+        this.$router.push(page)
+      }
     },
-    components:{topLoadMore}
+    components:{
+      topLoadMore
+    }
   }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss" rel="stylesheet/scss">
-    @import "../../../common/sass/factory";
+    @import "../../../../common/sass/factory";
 
     .container{
       position: fixed;

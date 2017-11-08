@@ -84,7 +84,7 @@ const Standard = resolve => require(['@/components/salesWap/index/standard'], re
 const ProductList = resolve => require(['@/components/Wap/ProductList/ProductList.vue'], resolve)
 
 //病例
-const newCase = resolve => require(['@/components/Wap/case/newCase'], resolve)
+const newCase = resolve => require(['@/components/Wap/community/case/newCase'], resolve)
 
 Vue.use(Router)
 

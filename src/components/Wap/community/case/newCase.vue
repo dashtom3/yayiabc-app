@@ -4,11 +4,11 @@
       <div class="backIco" @click="closePage"></div>
       <div class="saveAndRelease">
         <div class="release" @click="postCase(1)">
-          <img src="../../../images/case/release.png" alt="">
+          <img src="../../../../images/case/release.png" alt="">
           发布
         </div>
         <div class="save" @click="postCase(2)">
-          <img src="../../../images/case/save.png" alt="">
+          <img src="../../../../images/case/save.png" alt="">
           保存
         </div>
       </div>
@@ -42,11 +42,11 @@
           <span>分类</span>
           <span class="othersSelect" >
             <span v-html="args.classify?args.classify:'请选择分类'" @click="selectClassify"></span>
-            <img src="../../../images/mine/coin_img1.png" alt="">
+            <img src="../../../../images/mine/coin_img1.png" alt="">
           </span>
         </div>
         <div class="line">
-          <el-checkbox></el-checkbox><span> 分享到牙医圈</span>
+          <el-checkbox></el-checkbox><span @click="labelFor"> 分享到牙医圈</span>
         </div>
       </div>
     </div>
@@ -200,6 +200,10 @@
           s2[0].click();
         })
       },
+      labelFor(){
+        var labels = document.getElementsByClassName("el-checkbox__original")
+        labels[0].click();
+      },
       upLoading(){
         Indicator.open('图片上传中...');
       },
@@ -298,7 +302,7 @@
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
-  @import "../../../common/sass/factory";
+  @import "../../../../common/sass/factory";
 
   .header {
     position: fixed;
@@ -318,7 +322,7 @@
       height: 100%;
       left: 0;
       width: px2vw(150);
-      background: url("../../../images/case/close.png") px2vw(20) center no-repeat;
+      background: url("../../../../images/case/close.png") px2vw(20) center no-repeat;
       background-size: px2vw(30) px2vw(30);
     }
     .saveAndRelease{
@@ -419,7 +423,7 @@
 </style>
 
 <style lang="scss" rel="stylesheet/scss">
-  @import "../../../common/sass/factory";
+  @import "../../../../common/sass/factory";
 
   .ql-toolbar.ql-snow .ql-formats{
     margin-right: 0;
