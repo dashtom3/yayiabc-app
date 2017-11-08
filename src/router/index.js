@@ -31,6 +31,8 @@ import aboutApp from '@/components/Wap/mine/aboutApp'
 import comIntro from '@/components/Wap/mine/comIntro'
 import feedback from '@/components/Wap/mine/feedback'
 import caseOfIllness from '@/components/Wap/case/caseOfIllness'
+import video from '@/components/Wap/video/video'
+import caseIllness from '@/components/Wap/case/caseIllness'
 
 const coinDetail = resolve => require(['@/components/Wap/mine/coinDetail'], resolve)
 const payResult = resolve => require(['@/components/Wap/mine/payResult'], resolve)
@@ -414,10 +416,23 @@ let router = new Router({
       path: '/newCase',
       component: newCase
     },
+
     {
-      name: 'caseOfIllness',
-      path: '/caseOfIllness',
-      component: caseOfIllness
+      name: 'caseIllness', redirect: {name: 'caseOfIllness'},
+      path: '/caseIllness',
+      component: caseIllness,
+      children: [
+        {
+          name: 'caseOfIllness',
+          path: '/caseOfIllness',
+          component: caseOfIllness
+        },
+        {
+          name: 'video',
+          path: '/video',
+          component: video
+        },
+      ]
     },
   ],
 })

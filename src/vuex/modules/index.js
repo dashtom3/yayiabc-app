@@ -1021,6 +1021,16 @@ const actions = {
       }).catch((err) => {
         reject(err);
       });
+      })
+  },
+  // 获取发现病例列表信息
+  [types.GET_CASE_LIST](context, params) {
+    return new Promise((resolve, reject) => {
+      api.getCaseList(params).then((data) => {
+        resolve(data);
+      }).catch((err) => {
+        reject(err);
+      });
     });
   },
 }

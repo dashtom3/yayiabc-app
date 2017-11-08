@@ -162,3 +162,9 @@ export const GET_SALES_ORDERDETAIL = 'GET_SALES_ORDERDETAIL'              // 获
 
 
 
+export const GET_CASE_LIST = 'GET_CASE_LIST'                               //发现病例
+
+
+
+
+

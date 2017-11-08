@@ -507,3 +507,7 @@ export function getCustomerDetail(params) {
 export function postEditSaleinfo(params) {
   return postWithSaleToken('/saleInfo/updateSale', params)
 }
+// 获取发现病例列表信息
+export function getCaseList(params) {
+  return get('/cottoms/queryPost', params)
+}
