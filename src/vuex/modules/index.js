@@ -1013,6 +1013,16 @@ const actions = {
       });
     });
   },
+  //上传病例
+  [types.UPLOAD_CASE](context, params) {
+    return new Promise((resolve, reject) => {
+      api.upLoadCase(params).then((data) => {
+        resolve(data);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  },
 }
 
 export default {

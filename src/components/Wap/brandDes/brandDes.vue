@@ -417,29 +417,6 @@ export default {
 }
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" rel="stylesheet/scss">
-  @import "../../../common/sass/factory";
-  body {
-    &.full-body{
-      position: fixed !important;
-      top: 0 !important;
-      right: 0 !important;
-      bottom: 0 !important;
-      left: 0 !important;
-      width: 100% !important;
-      height: 100% !important;
-      padding: 0 !important;
-      margin: 0 !important;
-      overflow: hidden !important;
-      .bottom_box_a{
-        position: absolute !important;
-      }
-      .brandDesHeadWrap_a{
-        position: absolute !important;
-      }
-    }
-  }
-</style>
 
 <style scoped lang="scss" rel="stylesheet/scss">
 @import "../../../common/sass/factory";

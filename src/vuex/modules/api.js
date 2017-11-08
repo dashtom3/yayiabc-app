@@ -325,6 +325,11 @@ export function wxH5Pay(params) {
   return post('/weixinPhone/phoneBuy', params);
 }
 
+//上传病例
+export function upLoadCase(params) {
+  return postWithToken('/cottoms/add', params)
+}
+
 /*
 wx_绑定用户&扫码绑定销售的接口
 */

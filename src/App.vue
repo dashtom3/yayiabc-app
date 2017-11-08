@@ -203,6 +203,58 @@
 <style lang="scss" rel="stylesheet/scss">
   @import "./common/sass/factory";
 
+  body {
+    &.full-body{
+      position: fixed !important;
+      top: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      overflow: hidden !important;
+      .bottom_box_a{
+        position: absolute !important;
+      }
+      .brandDesHeadWrap_a{
+        position: absolute !important;
+      }
+      #quillFee .ql-toolbar.ql-snow {
+        width: 100%;
+        position: absolute !important;
+        display: block !important;
+        bottom: 0 !important;
+        left: 0 !important;
+      }
+    }
+  }
+  body {
+    &.full-body2{
+      position: fixed !important;
+      top: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      overflow: hidden !important;
+      #quillCharge .ql-toolbar.ql-snow {
+        /*background-color: red;*/
+        /*.ql-toolbar.ql-snow {*/
+        width: 100%;
+        position: absolute !important;
+        display: block !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        /*}*/
+      }
+    }
+  }
+
   .logIn_header {
     width: 100vw;
     height: px2vw(88);
