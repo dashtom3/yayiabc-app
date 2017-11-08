@@ -1,5 +1,6 @@
 import {
   get,
+  geters,
   getWithToken,
   getWithSaleToken,
   getWithVerfiCode,
@@ -509,5 +510,5 @@ export function postEditSaleinfo(params) {
 }
 // 获取发现病例列表信息
 export function getCaseList(params) {
-  return get('/cottoms/queryPost', params)
+  return geters('/cottoms/queryPost', params)
 }

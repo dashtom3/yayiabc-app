@@ -1,6 +1,6 @@
 <template>
   <!--筛选功能栏开始-->
-  <div>
+  <div ref="scrollBox" class="container">
   <div class="dressingBox">
     <span v-for="(item, index) in caseDate.dressing" @click="dressing(item)"  :class="{'DressingColor': caseListArgs.classify === item}">{{item == null ? '不限':item}}</span>
 
@@ -18,8 +18,10 @@
           </transition>
           </span>
   </div>
+
   <!--筛选功能栏结束-->
-    <div>
+    <mt-loadmore :top-method="loadMore" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded">
+    <div  v-infinite-scroll="getCaseListMore" infinite-scroll-immediate-check="true">
       <div v-for="(item, index) in listCaseData" class="caseBox">
         <div class="userBox addChange1">
           <div class="userPicture">
@@ -44,7 +46,7 @@
         </div>
       </div>
     </div>
-
+    </mt-loadmore>
     <!--编辑按钮-->
     <div class="edit">
       <img src="../../../images/case/caseOfIllness/editer.png" alt="">
@@ -56,15 +58,17 @@
 </template>
 
 <script>
+  import { InfiniteScroll, LoadMore } from 'mint-ui';
   export default {
     data (){
       return{
         caseDate: {
           dressing: [null, '外科', '内科', '修复', '种植', '正畸'],
           dressingSwitch: false,
-          updataTime: ['最新发布', '最多评论', '最多赞']
+          updataTime: ['最新发布', '最多评论', '最多赞'],
+          totalPage: 1
         },
-        caseListArgs:{
+        caseListArgs: {
           classify: null,
           currentPage: 1,
           numberPerPage: 10,
@@ -91,19 +95,49 @@
       this.getCaseList();
     },
     methods: {
+      getCaseListMore (){
+        if(this.caseDate.totalPage < this.caseListArgs.currentPage)
+        {
+          return
+        }else {
+          this.$store.dispatch('GET_CASE_LIST', this.caseListArgs).then( (res) => {
+            for(var i = 0; i < res.data.length; i++)
+            {
+              this.listCaseData.push(res.data[i])
+            }
+            this.caseDate.totalPage = res.totalPage;
+            this.caseListArgs.currentPage += 1;
+          })
+        }
+      },
       getCaseList (){
         this.$store.dispatch('GET_CASE_LIST', this.caseListArgs).then( (res) => {
-           this.listCaseData = res;
-           console.log(this.listCaseData,'呵呵');
-        });
+          this.listCaseData = res.data;
+          this.caseDate.totalPage = res.totalPage;
+          this.caseListArgs.currentPage += 1;
+        })
+      },
+      //下拉刷新
+      loadMore (){
+        this.$refs.scrollBox.scrollTop = 0;
+        this.caseDate.totalPage = 1;
+        this.caseListArgs.currentPage = 1;
+        this.caseDate.dressingSwitch = false;
+        this.getCaseList();
       },
       dressingFunction (index){
+        this.$refs.scrollBox.scrollTop = 0;
+        this.caseDate.totalPage = 1;
+        this.caseListArgs.currentPage = 1;
         this.caseListArgs.order = index;
         this.caseDate.dressingSwitch = false;
         this.getCaseList();
       },
       //上部筛选功能栏
       dressing (item){
+        this.$refs.scrollBox.scrollTop = 0;
+        this.caseDate.totalPage = 1;
+        this.caseListArgs.currentPage = 1;
         this.caseListArgs.classify = item;
         this.getCaseList();
       },
@@ -115,7 +149,15 @@
 <style scoped lang="scss" rel="stylesheet/scss">
     @import "../../../common/sass/factory";
 
-
+    .container{
+      position: fixed;
+      z-index: -1;
+      top: px2vw(208);
+      bottom: 0;
+      overflow: scroll;
+      width: 100%;
+      -webkit-overflow-scrolling: touch;
+    }
     /* 有图添加样式 */
     .addChange2{
       display: inline-block !important;

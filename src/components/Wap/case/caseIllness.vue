@@ -27,9 +27,7 @@
 
 
       <!--内容开始-->
-      <div class="container">
         <router-view></router-view>
-      </div>
       <!--内容结束-->
 
     </div>
@@ -64,17 +62,6 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../common/sass/factory";
-
-  .container{
-    position: fixed;
-    z-index: -1;
-    top: px2vw(208);
-    bottom: 0;
-    overflow: scroll;
-    width: 100%;
-    -webkit-overflow-scrolling: touch;
-  }
-
   .DressingColor{
     color: #3676b6;
   }

@@ -41,6 +41,24 @@ export function get(url, params = {}) {
   });
 }
 
+export function geters(url, params = {}) {
+  return new Promise((resolve, reject) => {
+    Indicator.open();
+    axios.get(HOST + url, {params})
+      .then((res) => {
+        if (res.data.callStatus === 'SUCCEED') {
+          resolve(res.data);
+          Indicator.close();
+        } else {
+          if (res.data) resolve(res.data);
+          Indicator.close();
+        }
+      }).catch(err => reject(err));
+  });
+}
+
+
+
 export function getWithVerfiCode(url, params = {}) {
   return new Promise((resolve, reject) => {
     Indicator.open();
