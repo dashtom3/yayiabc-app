@@ -72,7 +72,7 @@
 
 <script type="text/ecmascript-6">
   import { quillEditor } from 'vue-quill-editor'
-  import {GET_UPLOAD_TOKEN, UPLOAD_CASE} from '../../../vuex/types'
+  import {GET_UPLOAD_TOKEN, UPLOAD_CASE} from '../../../../vuex/types'
   import {Indicator, Picker, Toast, MessageBox  } from 'mint-ui'
 
   export default {

@@ -4,7 +4,7 @@
       <div class="headerBox">
         <!--搜索按钮开始-->
         <span class="searchImgBox">
-          <img src="../../../images/case/caseOfIllness/search.png" alt="img">
+          <img src="../../../../images/case/caseOfIllness/search.png" alt="img">
         </span>
         <!--搜索按钮结束-->
 
@@ -19,7 +19,7 @@
           <span class="numBox">
             <span class="tsNum">5</span>
           </span>
-          <img src="../../../images/case/caseOfIllness/tishi.png" alt="">
+          <img src="../../../../images/case/caseOfIllness/tishi.png" alt="">
         </span>
         <!--提示铃结束-->
       </div>
@@ -61,7 +61,7 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss" rel="stylesheet/scss">
-  @import "../../../common/sass/factory";
+  @import "../../../../common/sass/factory";
   .DressingColor{
     color: #3676b6;
   }

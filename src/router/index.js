@@ -30,9 +30,9 @@ import appSetting from '@/components/Wap/mine/appSetting'
 import aboutApp from '@/components/Wap/mine/aboutApp'
 import comIntro from '@/components/Wap/mine/comIntro'
 import feedback from '@/components/Wap/mine/feedback'
-import caseOfIllness from '@/components/Wap/case/caseOfIllness'
-import video from '@/components/Wap/video/video'
-import caseIllness from '@/components/Wap/case/caseIllness'
+import caseOfIllness from '@/components/Wap/community/case/caseOfIllness'
+import video from '@/components/Wap/community/video/video'
+import caseIllness from '@/components/Wap/community/case/caseIllness'
 
 const coinDetail = resolve => require(['@/components/Wap/mine/coinDetail'], resolve)
 const payResult = resolve => require(['@/components/Wap/mine/payResult'], resolve)
