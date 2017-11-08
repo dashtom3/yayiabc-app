@@ -20,7 +20,9 @@
   </div>
 
   <!--筛选功能栏结束-->
-    <mt-loadmore :top-method="loadMore" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded">
+    <mt-loadmore :top-method="loadMore" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState">
+      <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
+
     <div  v-infinite-scroll="getCaseListMore" infinite-scroll-immediate-check="true">
       <div v-for="(item, index) in listCaseData" class="caseBox">
         <div class="userBox addChange1">
@@ -59,6 +61,7 @@
 
 <script>
   import { InfiniteScroll, LoadMore } from 'mint-ui';
+  import topLoadMore from '../../salesWap/index/topLoadMore.vue'
   export default {
     data (){
       return{
@@ -74,6 +77,7 @@
           numberPerPage: 10,
           order: 0,
         },
+        isLoading:false,
         listCaseData: [] //获取到列表的数据
 //        listCaseData: {
 //          totalPage: null,
@@ -118,12 +122,26 @@
         })
       },
       //下拉刷新
-      loadMore (){
+      loadMore (id){
         this.$refs.scrollBox.scrollTop = 0;
         this.caseDate.totalPage = 1;
         this.caseListArgs.currentPage = 1;
         this.caseDate.dressingSwitch = false;
-        this.getCaseList();
+        this.isLoading = true;
+        this.$store.dispatch('GET_CASE_LIST', this.caseListArgs).then( (res) => {
+          this.listCaseData = res.data;
+          this.caseDate.totalPage = res.totalPage;
+          this.caseListArgs.currentPage += 1;
+          this.isLoading = false;
+        })
+      },
+      //mt中接受的val值作为参数传入我的组件里
+      isState(val){
+        this.$refs.topLoadMore.states(val)
+      },
+      //把下拉刷新完成之后回调的mt的方法传入我的组件里
+      isLoaded(){
+        this.$refs.loadmore.onTopLoaded();
       },
       dressingFunction (index){
         this.$refs.scrollBox.scrollTop = 0;
@@ -141,7 +159,8 @@
         this.caseListArgs.classify = item;
         this.getCaseList();
       },
-    }
+    },
+    components:{topLoadMore}
   }
 </script>
 
