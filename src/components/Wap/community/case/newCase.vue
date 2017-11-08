@@ -46,7 +46,7 @@
           </span>
         </div>
         <div class="line">
-          <el-checkbox></el-checkbox><span @click="labelFor"> 分享到牙医圈</span>
+          <el-checkbox></el-checkbox><span @click.stop="labelFor"> 分享到牙医圈</span>
         </div>
       </div>
     </div>

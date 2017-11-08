@@ -11,7 +11,7 @@
             <span v-show="caseDate.dressingSwitch" class="dressingFunction">
               <span :class="{'DressingColor': index === caseListArgs.order}" @click.stop="dressingFunction(index)" class="updata" v-for="(item, index) in caseDate.updataTime">
                 {{item}}
-                <img v-show="caseListArgs.order === index" src="../../../images/case/caseOfIllness/yes.png" alt="">
+                <img v-show="caseListArgs.order === index" src="../../../../images/case/caseOfIllness/yes.png" alt="">
               </span>
               <span class="before"></span>
             </span>
@@ -61,7 +61,7 @@
 
 <script>
   import { InfiniteScroll, LoadMore } from 'mint-ui';
-  import topLoadMore from '../../salesWap/index/topLoadMore.vue'
+  import topLoadMore from '../../../salesWap/index/topLoadMore.vue'
   export default {
     data (){
       return{
