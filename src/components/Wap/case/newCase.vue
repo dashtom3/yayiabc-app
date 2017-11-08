@@ -165,7 +165,7 @@
         document.body.classList.add('full-body')
       },
       onEditorFocusCharge({editor, html, text}){
-        document.body.classList.add('full-body')
+        document.body.classList.remove('full-body')
         document.body.classList.add('full-body2')
       },
       onEditorChangeCharge({editor, html, text}) {
