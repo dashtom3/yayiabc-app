@@ -10,10 +10,10 @@
     </div>
 
     <!--收藏列表开始-->
-    <mt-loadmore :top-method="loadTop" :auto-fill=false ref="loadmore" class="c-content" v-on:top-status-change="isState">
+    <mt-loadmore :top-method="loadTop" :auto-fill="true" ref="loadmore" class="c-content" v-on:top-status-change="isState">
       <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
     <!--<div >-->
-    <div class="box_position" v-if="collectData !=0">
+    <div class="box_position" v-show="collectData != 0">
 
       <div class="collect" v-for="(item,index) in collectData" :key="index">
         <mt-cell-swipe
@@ -41,7 +41,7 @@
     <!--收藏列表结束-->
 
     <!--无数据显示图片-->
-    <div v-else class="collect_pic">
+    <div v-show="collectData == 0" class="collect_pic">
       <img  src="../../../images/mine/collect_pic.png" alt="" v-if="!isLoading">
     </div>
     <!--</div>-->
@@ -61,7 +61,7 @@
     name: 'collect',
     data () {
       return {
-        collectData:'',
+        collectData: [],
         startX: 0,       //触摸位置
         moveX: 0,       //滑动时的位置
         disX: 0,       //移动距离
@@ -123,7 +123,8 @@
         window.scroll(0, 0)
       },
       loadTop(){
-//        this.collectData = '';
+        Indicator.open()
+        this.collectData = [];
         this.inits();
       },
       isState(val){

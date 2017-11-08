@@ -25,7 +25,6 @@
         </div>
         <div class="dialog_footer">
           <span class="dialog_bottom">
-            <button type="button" class="btn button_default" @click="hide"><span>关闭</span></button>
             <button type="button" class="btn button_primary" @click="downWgt"><span>立即更新</span></button>
           </span>
         </div>
@@ -102,11 +101,11 @@ export default {
       var that = this
       that.$router.push({ path: '/searchWord', query: { data: 'focus' }})
     },
-    hide: function() {
+    // hide: function() {
       // this.isShow = false;
-      plus.runtime.quit();
+      // plus.runtime.quit();
       // sessionStorage.setItem('isShow', 'hide')
-    },
+    // },
     plusReady: function(){
       // 获取本地应用资源版本号
       var that = this
@@ -283,19 +282,19 @@ export default {
   display: inline-block;
   line-height: 1;
   box-sizing: border-box;
-  width: 49%;
+  width: 100%;
   height: px2vw(90);
   line-height: px2vw(90);
   vertical-align: top;
   background: #fff;
-  font-size: px2vw(32)
+  font-size: px2vw(36)
 }
 .dialog_bottom .btn:nth-child(1){
   border-bottom-left-radius: 5px;
 }
 .button_primary{
   border-bottom-right-radius: 5px;
-  border-left: 1px solid rgb(204, 204, 204);
+  text-align: center;
   color: rgb(54, 118, 182)
 }
 </style>
