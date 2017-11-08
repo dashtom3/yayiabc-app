@@ -227,6 +227,7 @@
         display: block !important;
         bottom: 0 !important;
         left: 0 !important;
+        z-index: 100;
       }
     }
   }
@@ -250,6 +251,7 @@
         display: block !important;
         bottom: 0 !important;
         left: 0 !important;
+        z-index: 100;
         /*}*/
       }
     }

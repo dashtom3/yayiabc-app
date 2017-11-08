@@ -1,22 +1,20 @@
 <template>
   <div>
-    <div class="header">
+    <div class="header" @click="blurClass">
       <div class="backIco" @click="closePage"></div>
       <div class="saveAndRelease">
         <div class="release" @click="postCase(1)">
           <img src="../../../images/case/release.png" alt="">
-          <br>
           发布
         </div>
         <div class="save" @click="postCase(2)">
           <img src="../../../images/case/save.png" alt="">
-          <br>
           保存
         </div>
       </div>
     </div>
     <div class="newCaseWrap">
-      <div class="inputTitle">
+      <div class="inputTitle" @click="blurClass">
         <input class="textArea"  v-model="args.headLine" placeholder="请输入标题">
       </div>
       <div id="quillFee">
@@ -24,8 +22,7 @@
                       :content="args.freeContent"
                       :options = "editorOptionFee"
                       @change="onEditorChangeFee($event)"
-                      @focus="onEditorFocusFee($event)"
-                      @blur="onEditorBlurFee($event)">
+                      @focus="onEditorFocusFee($event)">
         </quill-editor>
       </div>
       <div id="quillCharge">
@@ -33,18 +30,20 @@
                       :content="args.chargeContent"
                       :options = "editorOptionCharge"
                       @change="onEditorChangeCharge($event)"
-                      @focus="onEditorFocusCharge($event)"
-                      @blur="onEditorBlurCharge($event)">
+                      @focus="onEditorFocusCharge($event)">
         </quill-editor>
       </div>
-      <div class="others">
+      <div class="others" @click="blurClass">
         <div class="line"  v-if="args.chargeContent">
           <span>价格（乾币）</span>
           <input type="number" placeholder="请输入付费内容的价格" class="othersInput" v-model="args.feeNumber">
         </div>
         <div class="line">
           <span>分类</span>
-          <span class="othersSelect" v-html="args.classify?args.classify:'请选择分类' + '<img src=\'../../../images/mine/coin_img1.png\'>'" @click="selectClassify"></span>
+          <span class="othersSelect" >
+            <span v-html="args.classify?args.classify:'请选择分类'" @click="selectClassify"></span>
+            <img src="../../../images/mine/coin_img1.png" alt="">
+          </span>
         </div>
         <div class="line">
           <el-checkbox></el-checkbox><span> 分享到牙医圈</span>
@@ -86,9 +85,6 @@
           modules:{
             toolbar: [
               'bold', 'italic',        // toggled buttons
-
-              { 'indent': '-1'},          // outdent/indent
-
               { 'color': [] }, { 'background': [] },          // dropdown with defaults from theme
               { 'align': [] },
               'image'
@@ -101,9 +97,6 @@
           modules:{
             toolbar: [
               'bold', 'italic',        // toggled buttons
-
-              { 'indent': '-1'},          // outdent/indent
-
               { 'color': [] }, { 'background': [] },          // dropdown with defaults from theme
               { 'align': [] },
               'image'
@@ -126,14 +119,15 @@
         args:{
           headLine:'',
           classify:'',
-          chargeType:1,
           freeContent:'',
           chargeContent:'',
           writer:'',
-          feeNumber:'',
+          feeNumber:null,
           postStater:1,
           cover:'',
+          postId:null,
         },
+
         slots: [
           {
             flex: 1,
@@ -158,23 +152,25 @@
       }
     },
     methods:{
+      blurClass(){
+        document.body.classList.remove('full-body');
+        document.body.classList.remove('full-body2')
+      },
       onEditorFocusFee({editor, html, text}){
+        document.body.classList.remove('full-body2')
         document.body.classList.add('full-body')
       },
       onEditorChangeFee({editor, html, text}) {
         this.args.freeContent = html
-      },
-      onEditorBlurFee({editor, html, text}){
-        document.body.classList.remove('full-body')
+        document.body.classList.add('full-body')
       },
       onEditorFocusCharge({editor, html, text}){
+        document.body.classList.add('full-body')
         document.body.classList.add('full-body2')
       },
       onEditorChangeCharge({editor, html, text}) {
         this.args.chargeContent = html
-      },
-      onEditorBlurCharge({editor, html, text}){
-        document.body.classList.remove('full-body2')
+        document.body.classList.add('full-body2')
       },
       initFee(file){
         let that = this;
@@ -241,12 +237,6 @@
         this.isClassPicker = false
       },
       postCase(num){
-        if(this.args.chargeContent){
-          this.args.chargeType = 2;
-        }else {
-          this.args.chargeType = 1
-          this.args.feeNumber = 0;
-        }
         this.args.postStater = num;
         for(let i = 0;i < this.contImgList.length;i++){
           if(this.args.freeContent.indexOf(this.contImgList[i]) !== -1){
@@ -289,20 +279,6 @@
         });
       }
     },
-//    watch:{
-//      args:{
-//        handler:function (val) {
-//          console.log(val)
-//          if(val.chargeContent){
-//            this.args.chargeType = 2;
-//            this.args.feeNumber = 0;
-//          }else {
-//            this.args.chargeType = 1
-//          }
-//        },
-//        deep:true
-//      }
-//    },
     created() {
 //      this.mBack("back");
       //获取七牛token,防止重复请求
@@ -311,6 +287,7 @@
           token: res.msg
         }
       })
+      //获取postId，请求数据
       //获取旧的文章接口数据，有数据就反到args里
     },
     mounted() {
@@ -345,6 +322,7 @@
       background-size: px2vw(30) px2vw(30);
     }
     .saveAndRelease{
+      line-height: px2vw(52);
       .save{
         float: right;
         display: inline-block;
@@ -357,8 +335,9 @@
       }
     }
     img{
-      margin: px2vw(8) 0 0 px2vw(8);
+      margin: px2vw(8) auto 0;
       height: px2vw(36);
+      display: block;
     }
   }
   .newCaseWrap{
@@ -407,6 +386,10 @@
           float: right;
           color: #999;
         }
+        img{
+          margin-left: px2vw(6);
+          width: px2vw(14);
+        }
       }
     }
   }
@@ -449,6 +432,8 @@
   .ql-toolbar.ql-snow{
     display: none;
     border: none;
+    background-color: #fff;
+    border-top: 1px solid #ddd;
   }
   .ql-container.ql-snow{
     border: none;
@@ -464,5 +449,8 @@
   .picker{
     background-color: #fff;
     border-top: 1px solid #ddd;
+  }
+  .ql-picker-options{
+    margin-top: -131px;
   }
 </style>
