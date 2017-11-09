@@ -56,7 +56,6 @@
 </template>
 
 <script>
-  import {mapGetters} from 'vuex';
   export default {
     data (){
       return{
@@ -75,11 +74,7 @@
         },
       }
     },
-    computed: {
-      ...mapGetters([
-        'saveCaseDressing', //分类筛选的值  不限 外科 内科等一栏
-      ])
-    },
+
     methods: {
       dressingFunction (index){
         if( this.caseDate.caseClassNum === 0)
