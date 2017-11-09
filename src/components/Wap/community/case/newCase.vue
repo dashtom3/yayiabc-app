@@ -279,7 +279,7 @@
           console.log('save')
         }).catch(reject =>{
           console.log('cancel')
-//          this.$router.push()
+          this.$router.go(-1)
         });
       }
     },

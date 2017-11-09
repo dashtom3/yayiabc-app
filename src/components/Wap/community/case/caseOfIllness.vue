@@ -30,7 +30,7 @@
     </div>
     </mt-loadmore>
     <!--编辑按钮-->
-    <div class="edit" @click.stop="gotoPage(newCase)">
+    <div class="edit" @click="gotoPage('/newCase')">
       <img src="../../../../images/case/caseOfIllness/editer.png" alt="">
     </div>
     <!--编辑按钮-->

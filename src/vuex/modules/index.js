@@ -18,6 +18,10 @@ const state = {
   productsList: [],
   productsScrollText: '',
   qiNiuToken: {},            //七牛token
+  qiNiuConfig: {
+    url: 'http://upload-z2.qiniu.com/',
+    ShUrl: 'http://orl5769dk.bkt.clouddn.com/'
+  },
   goodNum: 1,
   goodSku: '',
   goodStar: null,

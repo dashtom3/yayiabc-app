@@ -86,6 +86,9 @@ const ProductList = resolve => require(['@/components/Wap/ProductList/ProductLis
 //病例
 const newCase = resolve => require(['@/components/Wap/community/case/newCase'], resolve)
 
+//牙医圈
+const newTrend = resolve => require(['@/components/Wap/yayiCircle/newTrend'], resolve)
+
 Vue.use(Router)
 
 let router = new Router({
@@ -415,6 +418,11 @@ let router = new Router({
       name: 'newCase',
       path: '/newCase',
       component: newCase
+    },
+    {
+      name: 'newTrend',
+      path: '/newTrend',
+      component: newTrend
     },
 
     {
