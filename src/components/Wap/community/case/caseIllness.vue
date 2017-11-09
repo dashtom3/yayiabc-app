@@ -25,25 +25,82 @@
       </div>
       <!--头部结束-->
 
+      <!--筛选功能栏开始-->
+      <div  class="container">
+        <div class="dressingBox">
+          <span v-for="(item, index) in caseDate.dressing" @click="dressing(item)"  :class="{'DressingColor': caseListArgs.classify === item}">{{item == null ? '不限':item}}</span>
 
-      <!--内容开始-->
-        <router-view></router-view>
-      <!--内容结束-->
+          <!--筛选按钮-->
+          <span @click="caseDate.dressingSwitch = !caseDate.dressingSwitch" class="dressingBtn">
+            <img src="../../../../images/case/caseOfIllness/classflsy.png" alt="">
+            <transition name="fade">
+            <span v-show="caseDate.dressingSwitch" class="dressingFunction">
+              <span :class="{'DressingColor': index === caseListArgs.order}" @click.stop="dressingFunction(index)" class="updata" v-for="(item, index) in caseDate.updataTime">
+                {{item}}
+                <img v-show="caseListArgs.order === index" src="../../../../images/case/caseOfIllness/yes.png" alt="">
+              </span>
+              <span class="before"></span>
+            </span>
+          </transition>
+          </span>
+        </div>
+        <!--筛选功能栏结束-->
+        <!--内容开始-->
+        <div class="wrap">
+          <router-view></router-view>
+        </div>
 
+        <!--内容结束-->
+      </div>
     </div>
 </template>
 
 <script>
+  import {mapGetters} from 'vuex';
   export default {
     data (){
       return{
         caseDate: {
           caseClass: ['病例', '视频', '培训'],
           caseClassNum: 0,
-        }
+          dressing: [null, '外科', '内科', '修复', '种植', '正畸'],
+          dressingSwitch: false,
+          updataTime: ['最新发布', '最多评论', '最多赞'],
+        },
+        caseListArgs: {
+          classify: null,
+          currentPage: 1,
+          numberPerPage: 10,
+          order: 0,
+        },
       }
     },
+    computed: {
+      ...mapGetters([
+        'saveCaseDressing', //分类筛选的值  不限 外科 内科等一栏
+      ])
+    },
     methods: {
+      dressingFunction (index){
+        if( this.caseDate.caseClassNum === 0)
+        {
+          this.$store.dispatch('SAVE_CASE_ORDER',  index);
+        }
+
+        this.caseListArgs.order = index;
+        this.caseDate.dressingSwitch = false;
+      },
+      //上部筛选功能栏
+      dressing (item){
+        if( this.caseDate.caseClassNum === 0)
+        {
+          this.$store.dispatch('SAVE_CASE_DRESSING',  this.caseListArgs.classify);
+        }
+        this.caseListArgs.classify = item;
+      },
+      gotoPage(page){
+        this.$router.push(page)
+      },
       // 病例 视频 培训分类
       changeClass (index){
         this.caseDate.caseClassNum = index;
@@ -62,6 +119,15 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../../common/sass/factory";
+  .wrap{
+    position: fixed;
+    z-index: -1;
+    top: px2vw(208);
+    bottom: 0;
+    overflow: scroll;
+    width: 100%;
+    -webkit-overflow-scrolling: touch;
+  }
   .DressingColor{
     color: #3676b6;
   }
@@ -153,5 +219,103 @@
     background-color: #f4f4f4;
   }
 
+
+  .container{
+    position: fixed;
+    z-index: -1;
+    top: px2vw(208);
+    bottom: 0;
+    overflow: scroll;
+    width: 100%;
+    -webkit-overflow-scrolling: touch;
+  }
+  .dressingBox>.dressingBtn{
+    z-index: 999;
+    position: absolute;
+    width: px2vw(80);
+    right: px2vw(6);
+    top: 0;
+    padding-top: px2vw(26);
+  }
+  .dressingBox .dressingFunction>.updata{
+    display: block;
+    width: 90%;
+    margin: 0 auto;
+    line-height: px2vw(90);
+    font-size: px2vw(28);
+    text-align: left;
+    padding-left: px2vw(6);
+    img{
+      width: px2vw(26);
+      height: px2vw(21);
+      float: right;
+      margin-top: px2vw(35);
+      margin-right: px2vw(12);
+    }
+  }
+  .dressingBox .dressingFunction>.updata:nth-child(2){
+    border-bottom: 1px solid #dcdcdc;
+    border-top: 1px solid #dcdcdc;
+  }
+  .dressingBox .before{
+    display: inline-block;
+    width: 0;
+    position: absolute;
+    top:px2vw(-90);
+    right: px2vw(16);
+    border-top: px2vw(20) solid transparent;
+    border-right: px2vw(12) solid transparent;
+    border-left: px2vw(12) solid transparent;
+    border-bottom: px2vw(20) solid #9ac8f6;
+    border-radius: px2vw(6);
+  }
+  .dressingBox .before::after{
+    content: '';
+    display: inline-block;
+    width: 0;
+    position: absolute;
+    top:px2vw(38);
+    right: px2vw(-10);
+    border-top: px2vw(16) solid transparent;
+    border-right: px2vw(10) solid transparent;
+    border-left: px2vw(10) solid transparent;
+    border-bottom: px2vw(16) solid white;
+
+  }
+  .dressingBox .dressingFunction{
+    display: inline-block;
+    position: absolute;
+    top: px2vw(80);
+    left: px2vw(-128);
+    border: 1px solid #9ac8f6;
+    width: px2vw(200);
+    height: px2vw(280);
+    border-radius: px2vw(10);
+    background-color: white;
+    z-index: 1000;
+  }
+  .dressingBox{
+    position: fixed;
+    top:px2vw(88);
+    width: 100vw;
+    height: px2vw(90);
+    font-size: px2vw(30);
+    background-color: #ffffff;
+    span{
+      display: table-cell;
+      width: px2vw(106);
+      height: px2vw(90);
+      vertical-align: middle;
+      text-align: center;
+    }
+  }
+
+  .dressingBtn img{
+    width: px2vw(30);
+    height: px2vw(29);
+  }
+  .DressingColor{
+    color: #3676b6;
+  }
 </style>
 

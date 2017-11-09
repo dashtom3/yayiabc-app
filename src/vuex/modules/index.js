@@ -44,6 +44,8 @@ const state = {
   companyInvoice: {}, //保存普通公司发票信息
 
   checkedDate: {},//保存创客我的业绩选择的日期
+  saveCaseDressing: null,
+  saveCaseOrder: 0,
 }
 
 const getters = {
@@ -77,6 +79,12 @@ const getters = {
   [types.COMPANY_INVOICE]: state => {
     return state.companyInvoice
   },
+  saveCaseDressing : state => {
+    return state.saveCaseDressing
+  },
+  saveCaseOrder : state => {
+    return state.saveCaseOrder
+  }
 };
 
 const mutations = {
@@ -84,8 +92,15 @@ const mutations = {
   [types.UPDATE_DIRECTION](state,payload) {
     state.direction = payload.direction
   },
+  [types.SAVE_CASE_ORDER](state,all) {
+    state.saveCaseOrder = all
+  },
+
   [types.SAVE_TIME_SHOW](state,all) {
     state.TXData.isShowDX = all;
+  },
+  [types.SAVE_CASE_DRESSING](state,params) {
+    state.saveCaseDressing = params;
   },
   [types.SAVE_CHANGE_VERIFY](state,all) {
     state.saveChangeVerify = all;
@@ -1032,6 +1047,13 @@ const actions = {
         reject(err);
       });
     });
+  },
+  // 保存发现病分类筛选的值
+  [types.SAVE_CASE_DRESSING]({commit}, params) {
+    commit(types.SAVE_CASE_DRESSING,params);
+  },
+  [types.SAVE_CASE_ORDER]({commit}, params) {
+    commit(types.SAVE_CASE_ORDER,params);
   },
 }
 

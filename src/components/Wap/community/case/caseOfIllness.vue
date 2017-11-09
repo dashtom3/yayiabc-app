@@ -1,25 +1,5 @@
 <template>
-  <!--筛选功能栏开始-->
-  <div ref="scrollBox" class="container">
-  <div class="dressingBox">
-    <span v-for="(item, index) in caseDate.dressing" @click="dressing(item)"  :class="{'DressingColor': caseListArgs.classify === item}">{{item == null ? '不限':item}}</span>
-
-    <!--筛选按钮-->
-    <span @click="caseDate.dressingSwitch = !caseDate.dressingSwitch" class="dressingBtn">
-            <img src="../../../../images/case/caseOfIllness/classflsy.png" alt="">
-            <transition name="fade">
-            <span v-show="caseDate.dressingSwitch" class="dressingFunction">
-              <span :class="{'DressingColor': index === caseListArgs.order}" @click.stop="dressingFunction(index)" class="updata" v-for="(item, index) in caseDate.updataTime">
-                {{item}}
-                <img v-show="caseListArgs.order === index" src="../../../../images/case/caseOfIllness/yes.png" alt="">
-              </span>
-              <span class="before"></span>
-            </span>
-          </transition>
-          </span>
-  </div>
-
-  <!--筛选功能栏结束-->
+<div ref="scrollBox">
     <mt-loadmore :top-method="loadMore" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState">
       <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
 
@@ -55,20 +35,18 @@
     </div>
     <!--编辑按钮-->
 
+</div>
 
-  </div>
 </template>
 
 <script>
   import { InfiniteScroll, LoadMore } from 'mint-ui';
-  import topLoadMore from '../../../salesWap/index/topLoadMore.vue'
+  import topLoadMore from '../../../salesWap/index/topLoadMore.vue';
+  import {mapGetters} from 'vuex';
   export default {
     data (){
       return{
         caseDate: {
-          dressing: [null, '外科', '内科', '修复', '种植', '正畸'],
-          dressingSwitch: false,
-          updataTime: ['最新发布', '最多评论', '最多赞'],
           totalPage: 1
         },
         caseListArgs: {
@@ -97,6 +75,22 @@
     },
     created (){
       this.getCaseList();
+    },
+    computed: {
+    ...mapGetters([
+        'saveCaseDressing', //分类筛选的值  不限 外科 内科等一栏
+        'saveCaseOrder',   //order 筛选按钮的值
+      ])
+    },
+    watch: {
+      saveCaseDressing: function (newVal, oldVal) {
+        this.dressing(newVal);
+        this.$refs.scrollBox.scrollTop = 0;
+      },
+      saveCaseOrder: function (newVal, oldVal) {
+        this.dressingFunction(newVal);
+        this.$refs.scrollBox.scrollTop = 0;
+      }
     },
     methods: {
       getCaseListMore (){
@@ -144,7 +138,6 @@
         this.$refs.loadmore.onTopLoaded();
       },
       dressingFunction (index){
-        this.$refs.scrollBox.scrollTop = 0;
         this.caseDate.totalPage = 1;
         this.caseListArgs.currentPage = 1;
         this.caseListArgs.order = index;
@@ -153,7 +146,6 @@
       },
       //上部筛选功能栏
       dressing (item){
-        this.$refs.scrollBox.scrollTop = 0;
         this.caseDate.totalPage = 1;
         this.caseListArgs.currentPage = 1;
         this.caseListArgs.classify = item;
@@ -173,15 +165,6 @@
 <style scoped lang="scss" rel="stylesheet/scss">
     @import "../../../../common/sass/factory";
 
-    .container{
-      position: fixed;
-      z-index: -1;
-      top: px2vw(208);
-      bottom: 0;
-      overflow: scroll;
-      width: 100%;
-      -webkit-overflow-scrolling: touch;
-    }
     /* 有图添加样式 */
     .addChange2{
       display: inline-block !important;
@@ -194,6 +177,7 @@
       width: px2vw(508) !important;
     }
     /* 有图添加样式 */
+
 
     .edit{
       width: px2vw(100);
@@ -266,93 +250,8 @@
       padding: px2vw(36) px2vw(17) px2vw(35) px2vw(17);
     }
 
-    .dressingBtn img{
-      width: px2vw(30);
-      height: px2vw(29);
-    }
-    .dressingBox>.dressingBtn{
-      z-index: 999;
-      position: absolute;
-      width: px2vw(80);
-      right: px2vw(6);
-      top: 0;
-      padding-top: px2vw(26);
-    }
-    .dressingBox .dressingFunction>.updata{
-      display: block;
-      width: 90%;
-      margin: 0 auto;
-      line-height: px2vw(90);
-      font-size: px2vw(28);
-      text-align: left;
-      padding-left: px2vw(6);
-      img{
-        width: px2vw(26);
-        height: px2vw(21);
-        float: right;
-        margin-top: px2vw(35);
-        margin-right: px2vw(12);
-      }
-    }
-    .dressingBox .dressingFunction>.updata:nth-child(2){
-      border-bottom: 1px solid #dcdcdc;
-      border-top: 1px solid #dcdcdc;
-    }
-    .dressingBox .before{
-      display: inline-block;
-      width: 0;
-      position: absolute;
-      top:px2vw(-90);
-      right: px2vw(16);
-      border-top: px2vw(20) solid transparent;
-      border-right: px2vw(12) solid transparent;
-      border-left: px2vw(12) solid transparent;
-      border-bottom: px2vw(20) solid #9ac8f6;
-      border-radius: px2vw(6);
-    }
-    .dressingBox .before::after{
-      content: '';
-      display: inline-block;
-      width: 0;
-      position: absolute;
-      top:px2vw(38);
-      right: px2vw(-10);
-      border-top: px2vw(16) solid transparent;
-      border-right: px2vw(10) solid transparent;
-      border-left: px2vw(10) solid transparent;
-      border-bottom: px2vw(16) solid white;
 
-    }
-    .dressingBox .dressingFunction{
-      display: inline-block;
-      position: absolute;
-      top: px2vw(80);
-      left: px2vw(-128);
-      border: 1px solid #9ac8f6;
-      width: px2vw(200);
-      height: px2vw(280);
-      border-radius: px2vw(10);
-      background-color: white;
-      z-index: 1000;
-    }
-    .dressingBox{
-      position: fixed;
-      top:px2vw(88);
-      width: 100vw;
-      height: px2vw(90);
-      font-size: px2vw(30);
-      background-color: #ffffff;
-      span{
-        display: table-cell;
-        width: px2vw(106);
-        height: px2vw(90);
-        vertical-align: middle;
-        text-align: center;
-      }
-    }
-    .DressingColor{
-      color: #3676b6;
-    }
+
     .fade-enter-active, .fade-leave-active {
       transition: opacity .5s
     }
