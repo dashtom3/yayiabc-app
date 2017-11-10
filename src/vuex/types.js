@@ -166,6 +166,7 @@ export const GET_SALES_ORDERDETAIL = 'GET_SALES_ORDERDETAIL'              // 获
 export const GET_CASE_LIST = 'GET_CASE_LIST';                               //发现病例
 export const SAVE_CASE_DRESSING = 'SAVE_CASE_DRESSING';                     //保存发现病例筛选按钮的值
 export const SAVE_CASE_ORDER = 'SAVE_CASE_ORDER';                         //保存发现病例排序按钮的值
+export const GET_CASE_DETAIL = 'GET_CASE_DETAIL';                         //保存病例详情
 
 
 

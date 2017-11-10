@@ -1,10 +1,10 @@
 <template>
-<div ref="scrollBox">
+<div ref="scrollBox" class="wrap">
     <mt-loadmore :top-method="loadMore" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState">
       <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
 
     <div  v-infinite-scroll="getCaseListMore" infinite-scroll-immediate-check="true">
-      <div v-for="(item, index) in listCaseData" class="caseBox">
+      <div @click="goCaseDetailed()" v-for="(item, index) in listCaseData" class="caseBox">
         <div class="userBox addChange1">
           <div class="userPicture">
             <img src="../../../../images/mine/zhifubao.png" alt="">
@@ -84,15 +84,18 @@
     },
     watch: {
       saveCaseDressing: function (newVal, oldVal) {
-        this.dressing(newVal);
+        this.dressing(this.saveCaseDressing);
         this.$refs.scrollBox.scrollTop = 0;
       },
       saveCaseOrder: function (newVal, oldVal) {
-        this.dressingFunction(newVal);
+        this.dressingFunction(this.saveCaseOrder);
         this.$refs.scrollBox.scrollTop = 0;
       }
     },
     methods: {
+      goCaseDetailed(){
+        this.$router.push({path: '/caseDetailed'})
+      },
       getCaseListMore (){
         if(this.caseDate.totalPage < this.caseListArgs.currentPage)
         {
@@ -178,7 +181,15 @@
     }
     /* 有图添加样式 */
 
-
+    .wrap{
+      position: fixed;
+      z-index: -1;
+      top: px2vw(208);
+      bottom: 0;
+      overflow: scroll;
+      width: 100%;
+      -webkit-overflow-scrolling: touch;
+    }
     .edit{
       width: px2vw(100);
       height: px2vw(100);
@@ -219,7 +230,6 @@
       text-align: center;
       color: #3676b6;
       line-height: 0;
-
       padding-bottom: px2vw(2);
       border-radius: px2vw(8);
     }
@@ -249,8 +259,6 @@
       border-bottom: 1px solid #f4f4f4;
       padding: px2vw(36) px2vw(17) px2vw(35) px2vw(17);
     }
-
-
 
     .fade-enter-active, .fade-leave-active {
       transition: opacity .5s

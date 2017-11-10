@@ -85,6 +85,7 @@ const ProductList = resolve => require(['@/components/Wap/ProductList/ProductLis
 
 //病例
 const newCase = resolve => require(['@/components/Wap/community/case/newCase'], resolve)
+const caseDetailed = resolve => require(['@/components/Wap/community/case/caseDetailed'], resolve)
 
 //牙医圈
 const newTrend = resolve => require(['@/components/Wap/yayiCircle/newTrend'], resolve)
@@ -420,9 +421,16 @@ let router = new Router({
       component: newCase
     },
     {
+
       name: 'newTrend',
       path: '/newTrend',
       component: newTrend
+    },
+    {
+      name: 'caseDetailed',
+      path: '/caseDetailed',
+      component: caseDetailed
+
     },
 
     {

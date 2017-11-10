@@ -74,7 +74,20 @@
         },
       }
     },
-
+    //*******导航钩子*********//
+    beforeRouteEnter (to, from, next) {
+      // 通过 `vm` 访问组件实例
+      next(vm => {
+        console.log(vm.$router.history.current.name);
+        if (vm.$router.history.current.name === 'caseOfIllness') {
+          vm.caseDate.caseClassNum = 0
+        } else if(vm.$router.history.current.name === 'video') {
+          vm.caseDate.caseClassNum = 1
+        } else if(vm.$router.history.current.name === '') {
+          vm.caseDate.caseClassNum = 2
+        }
+      })
+    },
     methods: {
       dressingFunction (index){
         if( this.caseDate.caseClassNum === 0)
@@ -87,9 +100,10 @@
       },
       //上部筛选功能栏
       dressing (item){
+
         if( this.caseDate.caseClassNum === 0)
         {
-          this.$store.dispatch('SAVE_CASE_DRESSING',  this.caseListArgs.classify);
+          this.$store.dispatch('SAVE_CASE_DRESSING',  item);
         }
         this.caseListArgs.classify = item;
       },

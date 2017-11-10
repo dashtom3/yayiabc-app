@@ -1063,6 +1063,16 @@ const actions = {
       });
     });
   },
+  // 获取病例详情信息
+  [types.GET_CASE_DETAIL](context, params) {
+    return new Promise((resolve, reject) => {
+      api.getCaseDetail(params).then((data) => {
+        resolve(data);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  },
   // 保存发现病分类筛选的值
   [types.SAVE_CASE_DRESSING]({commit}, params) {
     commit(types.SAVE_CASE_DRESSING,params);
