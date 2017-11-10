@@ -1,36 +1,34 @@
 <template>
   <div>
     <div class="header">
-      <span>取消</span>
+      <span @click="closePage">取消</span>
       <span>发动态</span>
-      <span :class="{isInput:inputer}" class="noInput">发布</span>
+      <span :class="{isInput:inputer || imageUrl.length > 0}" class="noInput" @click="release">发布</span>
     </div>
     <div class="container">
       <div class="inputArea">
-        <textarea name="" id="" cols="30" rows="10" v-model="inputer"></textarea>
+        <textarea name="" id="" cols="30" rows="10" v-model="inputer" placeholder="这一刻的想法..."></textarea>
       </div>
       <div>
         <el-upload
-          v-if="imageUrl.length < 10"
+          limit = '9'
           :action="qiNiuConfig.url"
           :data="qiNiuToken"
           list-type="picture-card"
-          :on-preview="handlePictureCardPreview"
+          :on-remove="handleRemove"
           :on-success="uploadFile">
-          <!--:on-remove="handleRemove">-->
+          <!--:on-preview="handlePictureCardPreview"-->
           <i class="el-icon-plus"></i>
         </el-upload>
-        <el-dialog :visible.sync="dialogVisible" size="tiny"  v-for="(item,index) in imageUrl">
-          <img width="100%" :src="item" alt="">
-        </el-dialog>
       </div>
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-  import {GET_UPLOAD_TOKEN} from '../../../vuex/types'
+  import {GET_UPLOAD_TOKEN, NEW_TREND } from '../../../vuex/types'
   import {mapState} from 'vuex'
+  import {Toast, MessageBox } from 'mint-ui'
 
   export default {
     data() {
@@ -45,27 +43,45 @@
     },
     methods: {
       handleRemove(file, fileList) {
-        console.log(file, fileList);
+        let r = this.imageUrl.indexOf(file.response.key);
+        this.imageUrl.splice(r,1)
       },
-      handlePictureCardPreview(file) {
+//      handlePictureCardPreview(file) {
 //        this.dialogImageUrl = file.url;
-        this.dialogVisible = true;
-      },
+//        this.dialogVisible = true;
+//      },
       uploadFile(response, file, fileList){
-        this.imageUrl.push(this.qiNiuConfig.ShUrl + file.response.key)
-        console.log(this.imageUrl)
+        this.imageUrl.push(file.response.key)
       },
-      removeImg(index){
-        console.log(index)
+      release(){
+        if(!this.inputer && this.imageUrl.length === 0){
+          return
+        }
+        let args = {
+          momentType: 1,
+          momentContent: '',
+          momentPicture: '',
+          momentContentId:''
+        };
+        if(this.imageUrl) {
+          let tmp = this.imageUrl.map((val, index, arr) => {
+            return this.qiNiuConfig.ShUrl + val;
+          })
+          args.momentPicture = tmp.join(";")
+        }
+        args.momentContent = this.inputer
+        console.log(args);
+        this.$store.dispatch(NEW_TREND,args).then(res => {
+          Toast({message: '发布成功！', duration: 1500})
+//          this.$router.push()
+        })
+      },
+      closePage(){
+        MessageBox.confirm('是否退出本次编辑?').then(action => {
+          this.$router.go(-1)
+        })
       }
     },
-//    watch:{
-//      imageUrl:{
-//        handler:function (val) {
-//          console.log(val)
-//        }
-//      }
-//    },
     created(){
       this.$store.dispatch(GET_UPLOAD_TOKEN).then(res => {
         this.qiNiuToken = {

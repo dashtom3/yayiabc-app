@@ -331,6 +331,11 @@ export function upLoadCase(params) {
   return postWithToken('/cottoms/add', params)
 }
 
+//发布新的牙医圈
+export function newTrend(params) {
+  return postWithToken('/moment/add', params)
+}
+
 /*
 wx_绑定用户&扫码绑定销售的接口
 */

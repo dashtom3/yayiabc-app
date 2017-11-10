@@ -938,6 +938,17 @@ const actions = {
     });
   },
 
+  //发布新的牙医圈
+  [types.NEW_TREND](context, params) {
+    return new Promise((resolve, reject) => {
+      api.newTrend(params).then((data) => {
+        // state.productData = data.data.data
+        resolve(data);
+      }).catch((err) => {
+        resolve(data);
+      });
+    });
+  },
 
   //创客登录
   [types.SALE_LOGIN](context, params) {

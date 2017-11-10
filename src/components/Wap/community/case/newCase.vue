@@ -45,8 +45,8 @@
             <img src="../../../../images/mine/coin_img1.png" alt="">
           </span>
         </div>
-        <div class="line">
-          <el-checkbox></el-checkbox><span @click.stop="labelFor"> 分享到牙医圈</span>
+        <div class="line" v-if="!this.args.postId">
+          <el-checkbox @change="isShare"></el-checkbox><span @click.stop="labelFor"> 分享到牙医圈</span>
         </div>
       </div>
     </div>
@@ -72,7 +72,7 @@
 
 <script type="text/ecmascript-6">
   import { quillEditor } from 'vue-quill-editor'
-  import {GET_UPLOAD_TOKEN, UPLOAD_CASE} from '../../../../vuex/types'
+  import {GET_UPLOAD_TOKEN, UPLOAD_CASE, NEW_TREND} from '../../../../vuex/types'
   import {Indicator, Picker, Toast, MessageBox  } from 'mint-ui'
 
   export default {
@@ -127,7 +127,6 @@
           cover:'',
           postId:null,
         },
-
         slots: [
           {
             flex: 1,
@@ -138,6 +137,7 @@
         ],
         isClassPicker:false,
         classify:'',
+        share:false
       }
     },
     component:{
@@ -152,6 +152,7 @@
       }
     },
     methods:{
+      //监听是否显示出富文本编辑的框，和保存输入的内容
       blurClass(){
         document.body.classList.remove('full-body');
         document.body.classList.remove('full-body2')
@@ -172,6 +173,7 @@
         this.args.chargeContent = html
         document.body.classList.add('full-body2')
       },
+      //初始化两个富文本编辑器
       initFee(file){
         let that = this;
         that.editorFee.on('text-change',(delta,oldDelta,source)=>{
@@ -204,6 +206,7 @@
         var labels = document.getElementsByClassName("el-checkbox__original")
         labels[0].click();
       },
+      //上传图片
       upLoading(){
         Indicator.open('图片上传中...');
       },
@@ -217,7 +220,7 @@
           this.editorCharge.insertEmbed(10, 'image', this.qiNiuConfig.ShUrl + file.response.key)
         }
         Indicator.close();
-        console.log(this.contImgList)
+//        console.log(this.contImgList)
       },
       selectClassify(){
         this.isClassPicker =true;
@@ -237,9 +240,10 @@
         }else {
 //          this.args.classify = ''
         }
-        console.log(this.args.classify);
+//        console.log(this.args.classify);
         this.isClassPicker = false
       },
+      //保存和发布的方法。
       postCase(num){
         this.args.postStater = num;
         for(let i = 0;i < this.contImgList.length;i++){
@@ -249,7 +253,7 @@
           }
         }
         //下面就要调用接口了
-        console.log(this.args)
+//        console.log(this.args)
         switch (true){
           case !this.args.headLine:
             Toast({message: '标题不能为空', duration: 1500});
@@ -265,13 +269,32 @@
             return
         }
         this.$store.dispatch(UPLOAD_CASE,this.args).then(res => {
+          console.log(res)
           if(this.args.postStater === 1) {
             Toast({message: '病例发布成功！', duration: 1500});
+            if(this.share){
+              //把返回结果的postid传进去
+//              this.shareCase();
+            }
           }else {
             Toast({message: '病例保存成功！', duration: 1500});
           }
 //          this.$router.push()
         })
+      },
+      //是否分享到牙医圈功能
+      isShare(){
+        this.share = !this.share;
+        console.log(this.share)
+      },
+      shareCase(postId){
+        let obj = {
+          momentType: 3,
+          momentContent: null,
+          momentPicture: null,
+          momentContentId: postId
+        }
+        this.$store.dispatch(NEW_TREND,obj).then(res => {})
       },
       closePage(){
         MessageBox.confirm('是否保存为草稿方便下次继续编辑?').then(action => {
@@ -292,7 +315,7 @@
         }
       })
       //获取postId，请求数据
-      //获取旧的文章接口数据，有数据就反到args里
+      //获取旧的文章接口数据，有数据就返到args里
     },
     mounted() {
       this.initFee();
