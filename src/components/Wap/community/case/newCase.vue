@@ -73,6 +73,7 @@
 <script type="text/ecmascript-6">
   import { quillEditor } from 'vue-quill-editor'
   import {GET_UPLOAD_TOKEN, UPLOAD_CASE, NEW_TREND} from '../../../../vuex/types'
+  import {mapState} from 'vuex'
   import {Indicator, Picker, Toast, MessageBox  } from 'mint-ui'
 
   export default {
@@ -103,17 +104,14 @@
             ]
           }
         },
-        articleDataFee:{
-          content:'',
-        },
-        articleDataCharge:{
-          content:'',
-        },
+//        articleDataFee:{
+//          content:'',
+//        },
+//        articleDataCharge:{
+//          content:'',
+//        },
         isFee:false,
-        qiNiuConfig: {
-          url: 'http://upload-z2.qiniu.com/',
-          ShUrl: 'http://orl5769dk.bkt.clouddn.com/'
-        },
+        qiNiuConfig:this.$store.state.index.qiNiuConfig,
         qiNiuToken:{},
         contImgList:[],
         args:{
@@ -176,11 +174,11 @@
       //初始化两个富文本编辑器
       initFee(file){
         let that = this;
-        that.editorFee.on('text-change',(delta,oldDelta,source)=>{
-          if(source == 'user'){
-            that.articleDataFee.content = that.editorFee.container.firstChild.innerHTML;
-          }
-        })
+//        that.editorFee.on('text-change',(delta,oldDelta,source)=>{
+//          if(source == 'user'){
+//            that.articleDataFee.content = that.editorFee.container.firstChild.innerHTML;
+//          }
+//        })
         var toolbar1 = that.editorFee.getModule('toolbar');
         toolbar1.addHandler('image',()=>{
           that.isFee = true
@@ -190,11 +188,11 @@
       },
       initCharge(file){
         let that = this;
-        that.editorCharge.on('text-change',(delta,oldDelta,source)=>{
-          if(source == 'user'){
-            that.articleDataCharge.content = that.editorCharge.container.firstChild.innerHTML;
-          }
-        })
+//        that.editorCharge.on('text-change',(delta,oldDelta,source)=>{
+//          if(source == 'user'){
+//            that.articleDataCharge.content = that.editorCharge.container.firstChild.innerHTML;
+//          }
+//        })
         var toolbar2 = that.editorCharge.getModule('toolbar');
         toolbar2.addHandler('image',()=>{
           that.isFee = false
@@ -255,33 +253,33 @@
         }
         //下面就要调用接口了
         console.log(this.args)
-//        switch (true){
-//          case !this.args.headLine:
-//            Toast({message: '标题不能为空', duration: 1500});
-//            return
-//          case !this.args.freeContent:
-//            Toast({message: '一定要有免费内容喔', duration: 1500});
-//            return
-//          case !this.args.classify:
-//            Toast({message: '请选择一个分类', duration: 1500});
-//            return
-//          case this.args.chargeContent && !this.args.feeNumber:
-//            Toast({message: '请输入价格', duration: 1500});
-//            return
-//        }
-//        this.$store.dispatch(UPLOAD_CASE,this.args).then(res => {
-//          console.log(res)
-//          if(this.args.postStater === 1) {
-//            Toast({message: '病例发布成功！', duration: 1500});
-//            if(this.share){
-//              //把返回结果的postid传进去
-////              this.shareCase();
-//            }
-//          }else {
-//            Toast({message: '病例保存成功！', duration: 1500});
-//          }
-////          this.$router.push()
-//        })
+        switch (true){
+          case !this.args.headLine:
+            Toast({message: '标题不能为空', duration: 1500});
+            return
+          case !this.args.freeContent:
+            Toast({message: '一定要有免费内容喔', duration: 1500});
+            return
+          case !this.args.classify:
+            Toast({message: '请选择一个分类', duration: 1500});
+            return
+          case this.args.chargeContent && !this.args.feeNumber:
+            Toast({message: '请输入价格', duration: 1500});
+            return
+        }
+        this.$store.dispatch(UPLOAD_CASE,this.args).then(res => {
+          console.log(res)
+          if(this.args.postStater === 1) {
+            Toast({message: '病例发布成功！', duration: 1500});
+            if(this.share){
+              //把返回结果的postid传进去
+//              this.shareCase();
+            }
+          }else {
+            Toast({message: '病例保存成功！', duration: 1500});
+          }
+//          this.$router.push()
+        })
       },
       //是否分享到牙医圈功能
       isShare(){
@@ -315,6 +313,7 @@
           token: res.msg
         }
       })
+//      this.qiNiuConfig = this.$store.state.index.qiNiuConfig
       //获取postId，请求数据
       //获取旧的文章接口数据，有数据就返到args里
     },

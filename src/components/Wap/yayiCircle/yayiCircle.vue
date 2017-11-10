@@ -8,18 +8,32 @@
       </div>
     </div>
     <div class="container">
-      <!--有数据的状态-->
-        <!--数据到底-->
+      <mt-loadmore :top-method="loadTop" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState">
+        <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
+        <!--有数据的状态-->
+        <div v-infinite-scroll="loadMore" infinite-scroll-immediate-check="true">
+          <div v-for="(item,index) in yayiCircleData">
+            <div>
+              <img src="" alt="">
+            </div>
+            <div>
 
-      <!--请求完毕后，无数据显示状态-->
+            </div>
+          </div>
+        </div>
+          <!--数据到底-->
+
+        <!--请求完毕后，无数据显示状态-->
+      </mt-loadmore>
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+  import topLoadMore from '../../salesWap/index/topLoadMore.vue'
   import {YAYI_CIRCLE, } from '../../../vuex/types'
   import Util from '../../../vuex/util'
-
+  import {Indicator, InfiniteScroll,Popup, LoadMore} from 'mint-ui'
 
   export default {
     data(){
@@ -33,6 +47,9 @@
         noMoreData:false,     //没有更多数据
         timeStamp:null,       //进入页面获取当前时间戳，下拉刷新会更新，但是加载更多不会
       }
+    },
+    components:{
+      topLoadMore
     },
     created(){
       this.timeStamp = Date.parse(new Date());
@@ -49,6 +66,7 @@
         console.log(this.timeStamp);
         this.$store.dispatch(YAYI_CIRCLE, this.args).then(res =>{
           res.data.forEach(item => {
+            //图片字符串转数组
             if(item.momentPicture) {
               item.momentPicture = item.momentPicture.split(';');
             }
@@ -71,11 +89,31 @@
             console.log(item);
           })
           this.totalPage = res.totalPage
+          //控制是否显示加载到底的一个判断值，虽然我觉得基本上用不到。
           if(this.args.currentPage === res.totalPage && this.args.currentPage > 1){
             this.noMoreData = true
           }
         })
       }
+    },
+    loadMore(){
+      if(this.args.currentPage >= this.args.totalPage){
+//          this.noMoreGood = true;
+      }else {
+        this.args.currentPage = this.args.currentPage + 1;
+        //  再加载下一页
+      }
+    },
+    loadTop(){
+      //把所有参数回归为初始值，并且重新获得时间戳
+    },
+    //mt中接受的val值作为参数传入我的组件里
+    isState(val){
+      this.$refs.topLoadMore.states(val)
+    },
+    //把下拉刷新完成之后回调的mt的方法传入我的组件里
+    isLoaded(){
+      this.$refs.loadmore.onTopLoaded();
     }
   }
 </script>
