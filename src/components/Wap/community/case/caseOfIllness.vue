@@ -179,7 +179,7 @@
     }
     /* 有图添加样式 */
 
-    .wrap{
+    /* .wrap{
       position: fixed;
       z-index: -1;
       top: px2vw(208);
@@ -187,7 +187,7 @@
       overflow: scroll;
       width: 100%;
       -webkit-overflow-scrolling: touch;
-    }
+    }*/
     .edit{
       width: px2vw(100);
       height: px2vw(100);
