@@ -29,15 +29,20 @@
 
       <!--病历内容-->
       <div class="content">
-        <div class="contentImgBox">
-          <img src="../../../../images/case/caseOfIllness/2.jpg" alt="">
+        <!--<div class="contentImgBox">-->
+          <!--<img src="../../../../images/case/caseOfIllness/2.jpg" alt="">-->
+        <!--</div>-->
+        <!--<div class="contentImgBox">-->
+          <!--<img src="../../../../images/case/caseOfIllness/3.jpg" alt="">-->
+        <!--</div>-->
+        <!--<div class="contentImgBox">-->
+          <!--<img src="../../../../images/case/caseOfIllness/4.jpg" alt="">-->
+        <!--</div>-->
+
+        <div v-html="caseDetailArgs.freeContent">
+
         </div>
-        <div class="contentImgBox">
-          <img src="../../../../images/case/caseOfIllness/3.jpg" alt="">
-        </div>
-        <div class="contentImgBox">
-          <img src="../../../../images/case/caseOfIllness/4.jpg" alt="">
-        </div>
+
       </div>
 
 
@@ -141,14 +146,12 @@
         containerScrollTop: 0,
         caseDetailArgs: [],
         postId: {
-          postId: 1
+          postId: 152
         }
       }
     },
     created (){
       this.getCaseData()
-    },
-    mounted (){
     },
     methods:{
       //获取病例数据
@@ -182,6 +185,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../../common/sass/factory";
+
   .conmentsBox{
     display: table-cell;
     vertical-align: middle;
@@ -377,8 +381,8 @@
     max-width: 100%;
     height: auto;
   }
-  .contentImgBox img{
-    width: 100%;
+  .content img{
+    width: 100% !important;
     height: auto;
   }
   .commentBox{

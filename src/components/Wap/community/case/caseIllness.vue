@@ -34,7 +34,7 @@
           <span @click="caseDate.dressingSwitch = !caseDate.dressingSwitch" class="dressingBtn">
             <img src="../../../../images/case/caseOfIllness/classflsy.png" alt="">
             <transition name="fade">
-            <span v-show="caseDate.dressingSwitch" class="dressingFunction">
+            <span v-show="caseDate.dressingSwitch" class="dressingFunction" :class="{'dressingSecond': caseDate.caseClassNum === 0, 'dressingThree': caseDate.caseClassNum === 1}">
               <span :class="{'DressingColor': index === caseListArgs.order}" @click.stop="dressingFunction(index)" class="updata" v-for="(item, index) in caseDate.updataTime">
                 {{item}}
                 <img v-show="caseListArgs.order === index" src="../../../../images/case/caseOfIllness/yes.png" alt="">
@@ -88,6 +88,18 @@
         }
       })
     },
+    watch: {
+      'caseDate.caseClassNum': function (newVal, odlVal) {
+        console.log(newVal);
+        if(newVal === 0)
+        {
+          this.caseDate.updataTime = ['最新发布', '最多评论','最多赞'];
+        }else if(newVal === 1)
+        {
+          this.caseDate.updataTime = ['最多播放', '最多评论'];
+        }
+      }
+    },
     methods: {
       dressingFunction (index){
         if( this.caseDate.caseClassNum === 0)
@@ -100,7 +112,6 @@
       },
       //上部筛选功能栏
       dressing (item){
-
         if( this.caseDate.caseClassNum === 0)
         {
           this.$store.dispatch('SAVE_CASE_DRESSING',  item);
@@ -262,9 +273,18 @@
       margin-right: px2vw(12);
     }
   }
+  .dressingSecond{
+    height: px2vw(275) !important;
+  }
+  .dressingThree{
+    height: px2vw(185) !important;
+  }
   .dressingBox .dressingFunction>.updata:nth-child(2){
     border-bottom: 1px solid #dcdcdc;
     border-top: 1px solid #dcdcdc;
+  }
+  .dressingBox .dressingThree>.updata:nth-child(2){
+    border-bottom: none;
   }
   .dressingBox .before{
     display: inline-block;
@@ -298,7 +318,6 @@
     left: px2vw(-128);
     border: 1px solid #9ac8f6;
     width: px2vw(200);
-    height: px2vw(280);
     border-radius: px2vw(10);
     background-color: white;
     z-index: 1000;

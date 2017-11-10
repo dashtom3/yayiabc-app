@@ -54,6 +54,7 @@
           currentPage: 1,
           numberPerPage: 10,
           order: 0,
+          totalPage: -1
         },
         isLoading:false,
         listCaseData: [] //获取到列表的数据
@@ -80,7 +81,8 @@
     ...mapGetters([
         'saveCaseDressing', //分类筛选的值  不限 外科 内科等一栏
         'saveCaseOrder',   //order 筛选按钮的值
-      ])
+      ]),
+
     },
     watch: {
       saveCaseDressing: function (newVal, oldVal) {
@@ -101,36 +103,30 @@
         {
           return
         }else {
-          this.$store.dispatch('GET_CASE_LIST', this.caseListArgs).then( (res) => {
-            for(var i = 0; i < res.data.length; i++)
-            {
-              this.listCaseData.push(res.data[i])
-            }
-            this.caseDate.totalPage = res.totalPage;
-            this.caseListArgs.currentPage += 1;
-          })
+          this.getCaseList();
         }
       },
       getCaseList (){
         this.$store.dispatch('GET_CASE_LIST', this.caseListArgs).then( (res) => {
-          this.listCaseData = res.data;
-          this.caseDate.totalPage = res.totalPage;
-          this.caseListArgs.currentPage += 1;
+          this.listCaseData = this.listCaseData.concat(res.data);
+          this.caseListArgs.totalPage = res.totalPage;
+          this.caseListArgs.currentPage = res.cuurentPage;
+          this.isLoading = false;
         })
       },
       //下拉刷新
       loadMore (id){
         this.$refs.scrollBox.scrollTop = 0;
-        this.caseDate.totalPage = 1;
         this.caseListArgs.currentPage = 1;
+        this.listCaseData = [];
         this.caseDate.dressingSwitch = false;
         this.isLoading = true;
-        this.$store.dispatch('GET_CASE_LIST', this.caseListArgs).then( (res) => {
-          this.listCaseData = res.data;
-          this.caseDate.totalPage = res.totalPage;
-          this.caseListArgs.currentPage += 1;
-          this.isLoading = false;
-        })
+        this.getCaseList();
+//        this.$store.dispatch('GET_CASE_LIST', this.caseListArgs).then( (res) => {
+//          this.listCaseData = res.data;
+//          this.caseDate.totalPage = res.totalPage;
+//          this.caseListArgs.currentPage += 1;
+//        })
       },
       //mt中接受的val值作为参数传入我的组件里
       isState(val){
@@ -145,6 +141,7 @@
         this.caseListArgs.currentPage = 1;
         this.caseListArgs.order = index;
         this.caseDate.dressingSwitch = false;
+        this.listCaseData = [];
         this.getCaseList();
       },
       //上部筛选功能栏
@@ -152,6 +149,7 @@
         this.caseDate.totalPage = 1;
         this.caseListArgs.currentPage = 1;
         this.caseListArgs.classify = item;
+        this.listCaseData = [];
         this.getCaseList();
       },
       gotoPage(page){
