@@ -89,6 +89,7 @@ const caseDetailed = resolve => require(['@/components/Wap/community/case/caseDe
 
 //牙医圈
 const newTrend = resolve => require(['@/components/Wap/yayiCircle/newTrend'], resolve)
+const yayiCircle = resolve => require(['@/components/Wap/yayiCircle/yayiCircle'], resolve)
 
 Vue.use(Router)
 
@@ -430,7 +431,11 @@ let router = new Router({
       name: 'caseDetailed',
       path: '/caseDetailed',
       component: caseDetailed
-
+    },
+    {
+      name: 'yayiCircle',
+      path: '/yayiCircle',
+      component: yayiCircle
     },
 
     {

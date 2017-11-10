@@ -118,7 +118,7 @@ export const GET_UPLOAD_TOKEN = 'GET_UPLOAD_TOKEN'                              
 export const UPDATE_USER_INFO = 'UPDATE_USER_INFO'                                        // 更新用户信息
 export const UPDATE_SALE_INFO = 'UPDATE_SALE_INFO'                                        // 更新销售信息
 
-
+export const YAYI_CIRCLE = 'YAYI_CIRCLE'                                              //获取牙医圈数据
 export const NEW_TREND = 'NEW_TREND'                                                //牙医圈发布新内容
 /*
 * 创客系统管理模块

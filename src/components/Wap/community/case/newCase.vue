@@ -162,7 +162,7 @@
         document.body.classList.add('full-body')
       },
       onEditorChangeFee({editor, html, text}) {
-        this.args.freeContent = html
+        this.args.freeContent = html.replace(/img/g,"img style='max-width:100%;'");
         document.body.classList.add('full-body')
       },
       onEditorFocusCharge({editor, html, text}){
@@ -170,7 +170,7 @@
         document.body.classList.add('full-body2')
       },
       onEditorChangeCharge({editor, html, text}) {
-        this.args.chargeContent = html
+        this.args.chargeContent = html.replace(/img/g,"img style='max-width:100%;'");
         document.body.classList.add('full-body2')
       },
       //初始化两个富文本编辑器
@@ -246,6 +246,7 @@
       //保存和发布的方法。
       postCase(num){
         this.args.postStater = num;
+        this.args.postId = this.args.postId ? this.args.postId : 0;
         for(let i = 0;i < this.contImgList.length;i++){
           if(this.args.freeContent.indexOf(this.contImgList[i]) !== -1){
             this.args.cover = this.contImgList[i];
@@ -253,34 +254,34 @@
           }
         }
         //下面就要调用接口了
-//        console.log(this.args)
-        switch (true){
-          case !this.args.headLine:
-            Toast({message: '标题不能为空', duration: 1500});
-            return
-          case !this.args.freeContent:
-            Toast({message: '一定要有免费内容喔', duration: 1500});
-            return
-          case !this.args.classify:
-            Toast({message: '请选择一个分类', duration: 1500});
-            return
-          case this.args.chargeContent && !this.args.feeNumber:
-            Toast({message: '请输入价格', duration: 1500});
-            return
-        }
-        this.$store.dispatch(UPLOAD_CASE,this.args).then(res => {
-          console.log(res)
-          if(this.args.postStater === 1) {
-            Toast({message: '病例发布成功！', duration: 1500});
-            if(this.share){
-              //把返回结果的postid传进去
-//              this.shareCase();
-            }
-          }else {
-            Toast({message: '病例保存成功！', duration: 1500});
-          }
-//          this.$router.push()
-        })
+        console.log(this.args)
+//        switch (true){
+//          case !this.args.headLine:
+//            Toast({message: '标题不能为空', duration: 1500});
+//            return
+//          case !this.args.freeContent:
+//            Toast({message: '一定要有免费内容喔', duration: 1500});
+//            return
+//          case !this.args.classify:
+//            Toast({message: '请选择一个分类', duration: 1500});
+//            return
+//          case this.args.chargeContent && !this.args.feeNumber:
+//            Toast({message: '请输入价格', duration: 1500});
+//            return
+//        }
+//        this.$store.dispatch(UPLOAD_CASE,this.args).then(res => {
+//          console.log(res)
+//          if(this.args.postStater === 1) {
+//            Toast({message: '病例发布成功！', duration: 1500});
+//            if(this.share){
+//              //把返回结果的postid传进去
+////              this.shareCase();
+//            }
+//          }else {
+//            Toast({message: '病例保存成功！', duration: 1500});
+//          }
+////          this.$router.push()
+//        })
       },
       //是否分享到牙医圈功能
       isShare(){

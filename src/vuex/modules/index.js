@@ -950,6 +950,18 @@ const actions = {
     });
   },
 
+  //获取牙医圈列表
+  [types.YAYI_CIRCLE](context, params) {
+    return new Promise((resolve, reject) => {
+      api.yayiCircle(params).then((data) => {
+        // state.productData = data.data.data
+        resolve(data);
+      }).catch((err) => {
+        resolve(data);
+      });
+    });
+  },
+
   //创客登录
   [types.SALE_LOGIN](context, params) {
     return new Promise((resolve, reject) => {

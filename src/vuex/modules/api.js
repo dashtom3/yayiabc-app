@@ -336,6 +336,10 @@ export function newTrend(params) {
   return postWithToken('/moment/add', params)
 }
 
+//获取牙医圈列表
+export function yayiCircle(params) {
+  return geters('/moment/queryList', params);
+}
 /*
 wx_绑定用户&扫码绑定销售的接口
 */
