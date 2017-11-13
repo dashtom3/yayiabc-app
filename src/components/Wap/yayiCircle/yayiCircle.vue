@@ -11,14 +11,57 @@
       <mt-loadmore :top-method="loadTop" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState">
         <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
         <!--有数据的状态-->
-        <div v-infinite-scroll="loadMore" infinite-scroll-immediate-check="true">
-          <div v-for="(item,index) in yayiCircleData">
-            <div>
-              <img src="" alt="">
+        <div v-infinite-scroll="loadMore" infinite-scroll-immediate-check="true" class="innerContainer">
+          <div v-for="(item,index) in yayiCircleData" class="eachContainer">
+            <div class="headerImgBox">
+              <div class="imgBox">
+                <img :src="item.userPic" alt="" v-if="item.userPic">
+                <img src="../../../images/mine/loadUserImg3.png" alt="" v-else>
+              </div>
             </div>
-            <div>
+            <div class="details">
+              <div class="userName">{{item.userName}}</div>
+              <div v-if="item.momentType == 1" class="type1">
+                <div>
+                  <div :class="{overWord:isDisplayOrFold}">{{item.momentContent}}</div>
+                  <div v-if="item.momentContent.length > 100" v-html="isDisplayOrFold?'全文':'收起'" @click="displayOrFold" class="isDisplayOrFold"></div>
+                </div>
 
+                <div class="pictures">
+                  <div v-for="(pic,picIndex) in item.momentPicture" :class="{onePic:item.momentPicture.length < 2,twoPic:item.momentPicture.length > 1}">
+                    <img :src="pic" alt="" v-if="item.momentPicture.length < 2">
+                    <img :src="pic" alt="" v-else>
+                  </div>
+                </div>
+              </div>
+              <div class="typeOther" v-else>
+                <div>
+                  分享了xx
+                </div>
+                <div class="shareBox">
+                  <img :src="item.momentPicture" alt="">
+                  <div class="shareTitle">{{item.momentContentTitle}}</div>
+                </div>
+              </div>
+              <div class="menuBar">
+                <span>{{item.momentTime}}</span>
+                <span v-if="myUserId == item.userId" class="deleteBtn" @click="deleteTrend(item.momentId)">删除</span>
+                <span class="commentAndLike">赞：{{item.zanNumber}}</span>
+                <span class="commentAndLike">评论：{{item.subCommentList.length}}</span>
+              </div>
+              <div class="commentBox" v-if="item.subCommentList.length > 0">
+                <ul>
+                  <li v-for="(comments,commentsIndex) in item.subCommentList">
+                    <span class="commentUserName">{{comments.userName}}</span>
+                    <span v-if="comments.replyUserName" class="commentUserName">回复{{comments.replyUserName}}</span>
+                    <span class="commentUserName">:</span>
+                    <span>{{comments.commentContent}}</span>
+                    <span v-if="myUserId == comments.userId" class="commentUserName">删除</span>
+                  </li>
+                </ul>
+              </div>
             </div>
+            <div class="clr"></div>
           </div>
         </div>
           <!--数据到底-->
@@ -26,6 +69,7 @@
         <!--请求完毕后，无数据显示状态-->
       </mt-loadmore>
     </div>
+    <div class="inputBox"></div>
   </div>
 </template>
 
@@ -33,6 +77,7 @@
   import topLoadMore from '../../salesWap/index/topLoadMore.vue'
   import {YAYI_CIRCLE, } from '../../../vuex/types'
   import Util from '../../../vuex/util'
+  import { tokenMethods } from '../../../vuex/util'
   import {Indicator, InfiniteScroll,Popup, LoadMore} from 'mint-ui'
 
   export default {
@@ -40,12 +85,14 @@
       return{
         isLoading:false,      //判断是否在加载中
         args:{                //请求牙医圈列表接口参数
-          currentPage:2,
+          currentPage:1,
         },
         totalPage: null,      //总页数
         yayiCircleData:[],    //请求结果保存的数组
         noMoreData:false,     //没有更多数据
         timeStamp:null,       //进入页面获取当前时间戳，下拉刷新会更新，但是加载更多不会
+        isDisplayOrFold:true, //显示全部和折叠按钮
+        myUserId:tokenMethods.getWapUser().userId     //获取当前登录账号的userID
       }
     },
     components:{
@@ -53,8 +100,7 @@
     },
     created(){
       this.timeStamp = Date.parse(new Date());
-      let tmp = new Date(this.timeStamp).getHours();
-      console.log(tmp)
+      console.log(this.myUserId)
       this.getYayiCircle();
     },
     methods:{
@@ -63,8 +109,8 @@
       },
       getYayiCircle(){
         this.isLoading = true;
-        console.log(this.timeStamp);
         this.$store.dispatch(YAYI_CIRCLE, this.args).then(res =>{
+//          console.log(res);
           res.data.forEach(item => {
             //图片字符串转数组
             if(item.momentPicture) {
@@ -94,27 +140,34 @@
             this.noMoreData = true
           }
         })
-      }
-    },
-    loadMore(){
-      if(this.args.currentPage >= this.args.totalPage){
+      },
+      //删除动态
+      deleteTrend(id){
+        
+      },
+      loadMore(){
+        if(this.args.currentPage >= this.args.totalPage){
 //          this.noMoreGood = true;
-      }else {
-        this.args.currentPage = this.args.currentPage + 1;
-        //  再加载下一页
-      }
+        }else {
+          this.args.currentPage = this.args.currentPage + 1;
+          //  再加载下一页
+        }
+      },
+      loadTop(){
+        //把所有参数回归为初始值，并且重新获得时间戳
+      },
+      //mt中接受的val值作为参数传入我的组件里
+      isState(val){
+        this.$refs.topLoadMore.states(val)
+      },
+      //把下拉刷新完成之后回调的mt的方法传入我的组件里
+      isLoaded(){
+        this.$refs.loadmore.onTopLoaded();
+      },
+      displayOrFold(){
+        this.isDisplayOrFold = !this.isDisplayOrFold
+      },
     },
-    loadTop(){
-      //把所有参数回归为初始值，并且重新获得时间戳
-    },
-    //mt中接受的val值作为参数传入我的组件里
-    isState(val){
-      this.$refs.topLoadMore.states(val)
-    },
-    //把下拉刷新完成之后回调的mt的方法传入我的组件里
-    isLoaded(){
-      this.$refs.loadmore.onTopLoaded();
-    }
   }
 </script>
 
@@ -151,12 +204,145 @@
       }
     }
   }
-  .contianer{
+  .container{
     position: fixed;
     top: px2vw(88);
     bottom: 0;
     overflow: scroll;
     width: 100%;
     -webkit-overflow-scrolling: touch;
+    padding: px2vw(20) px2vw(20) 0;
+    background-color: #fff;
+    .innerContainer{
+      width: 100%;
+      .eachContainer{
+        width:100%;
+        margin-bottom: px2vw(30);
+        .headerImgBox{
+          float: left;
+          width: px2vw(110);
+          .imgBox{
+            margin: px2vw(40) auto 0;
+            width: px2vw(80);
+            height: px2vw(80);
+            border-radius: 50%;
+            img{
+              width: 100%;
+            }
+          }
+        }
+        .details{
+          margin: px2vw(40) 0 0;
+          float: right;
+          width: px2vw(600);
+          .userName{
+            height: px2vw(32);
+            font-size: px2vw(32);
+            color: $themeColor;
+            line-height: px2vw(32);
+          }
+          .type1{
+            width: 100%;
+            font-size: px2vw(30);
+            color: #333;
+            margin-top: px2vw(34);
+            line-height: px2vw(50);
+            /*height: px2vw(250);*/
+            .overWord{
+              display: -webkit-box;
+              -webkit-box-orient: vertical;
+              -webkit-line-clamp: 5;
+              overflow: hidden;
+            }
+            .isDisplayOrFold{
+              color: $themeColor;
+              font-size: px2vw(30);
+              line-height: px2vw(80);
+              height: px2vw(60);
+            }
+            .pictures{
+              margin: px2vw(20) 0;
+              .onePic{
+                img{
+                  max-height: px2vw(360);
+                  max-width: 100%;
+                }
+              }
+              .twoPic{
+                display: inline-block;
+                margin: 0 px2vw(10) px2vw(10) 0;
+                width: px2vw(190);
+                height: px2vw(190);
+                overflow: hidden;
+                img{
+                  max-width: px2vw(400);
+                  max-height: px2vw(400);
+                }
+              }
+            }
+          }
+          .typeOther{
+            width: 100%;
+            font-size: px2vw(30);
+            color: #333;
+            margin-top: px2vw(34);
+            line-height: px2vw(80);
+            .shareBox{
+              width: 100%;
+              height: px2vw(120);
+              padding: px2vw(15);
+              img{
+                width: px2vw(90);
+                margin-right: px2vw(15);
+              }
+              .shareTitle{
+                font-size: px2vw(28);
+                line-height: px2vw(44);
+                color: #333;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 2;
+                overflow: hidden;
+              }
+            }
+          }
+          .menuBar{
+            margin-top: px2vw(20);
+            font-size: px2vw(24);
+            color: #999;
+            .deleteBtn{
+              margin-left: px2vw(30);
+              display: inline-block;
+              color: $themeColor;
+            }
+            .commentAndLike{
+              float: right;
+              display: inline-block;
+              width: px2vw(100);
+              text-align: right;
+            }
+          }
+          .commentBox{
+            color: #333;
+            margin-top: px2vw(20);
+            border-top: 1px solid #ddd;
+            ul{
+              margin: px2vw(30) 0;
+              padding: 0 px2vw(10) px2vw(20);
+              background-color: #f6f6f6;
+              li{
+                padding: px2vw(20) px2vw(10) 0;
+                .commentUserName{
+                  color: $themeColor;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .clr{
+    clear: both;
   }
 </style>

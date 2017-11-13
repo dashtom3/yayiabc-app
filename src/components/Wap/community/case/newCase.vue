@@ -273,7 +273,7 @@
             Toast({message: '病例发布成功！', duration: 1500});
             if(this.share){
               //把返回结果的postid传进去
-//              this.shareCase();
+              this.shareCase(res.data.num);
             }
           }else {
             Toast({message: '病例保存成功！', duration: 1500});

@@ -37,7 +37,7 @@
         dialogVisible: false,
         inputer:'',
         qiNiuToken:{},
-        qiNiuConfig:{},
+        qiNiuConfig:this.$store.state.index.qiNiuConfig,
         imageUrl:[],
       };
     },
@@ -88,7 +88,6 @@
           token: res.msg
         }
       })
-      this.qiNiuConfig = this.$store.state.index.qiNiuConfig
     }
   }
 </script>
