@@ -29,18 +29,15 @@
 
       <!--病历内容-->
       <div class="content">
-        <!--<div class="contentImgBox">-->
-          <!--<img src="../../../../images/case/caseOfIllness/2.jpg" alt="">-->
-        <!--</div>-->
-        <!--<div class="contentImgBox">-->
-          <!--<img src="../../../../images/case/caseOfIllness/3.jpg" alt="">-->
-        <!--</div>-->
-        <!--<div class="contentImgBox">-->
-          <!--<img src="../../../../images/case/caseOfIllness/4.jpg" alt="">-->
-        <!--</div>-->
-
-        <div v-html="caseDetailArgs.freeContent">
-
+        <div class="padding_Box" v-html="caseDetailArgs.freeContent"></div>
+        <!--付费内容-->
+        <div class="padding_Box" v-if="caseDetailArgs.chargeContent !== null" v-html="caseDetailArgs.chargeContent"></div>
+        <div class="payBox" v-if="caseDetailArgs.chargeContent === null">
+          <span class="payText">查看完整病例,&nbsp;需要支付2乾币~</span>
+          <span class="payNow">
+            <span class="payNowText">立即支付</span>
+            <img src="../../../../images/case/back_1.png" alt="">
+          </span>
         </div>
 
       </div>
@@ -82,29 +79,29 @@
           </div>
           <div style="clear: both"></div>
 
-
-
           <div class="endFonts">
             -End-
           </div>
-
         </div>
       </div>
     </div>
 
-
     <!--下部导航栏-->
-    <div class="tabDevBox">
+    <div  class="tabDevBox">
+      <div :class="{'areaShow': writeSwitch === false}" class="areaBox">
+        <div id="area" contenteditable="true"></div>
+        <div class="sendBtn" @click="send">发布</div>
+      </div>
 
+    <div v-show="!writeSwitch">  <!--开关-->
       <div v-show="commentSwitch" class="writeCommentBox">
-        <div class="writeCommentBoxSecond">
+        <div @click="write()" class="writeCommentBoxSecond">
           <span class="writeImgBox">
             <img src="../../../../images/case/caseOfIllness/write.png" alt="">
           </span>
-          <input id="write" type="text" class="writeInput">
+          <span>有想法就写下来吧&nbsp;.&nbsp;.&nbsp;.</span>
         </div>
       </div>
-
 
       <div class="tabDev">
       <div @click="comment()" class="tabButtonBox">
@@ -113,19 +110,19 @@
         </div>
         <div>评论224</div>
       </div>
-      <div class="tabButtonBox">
+      <div @click="like()" class="tabButtonBox">
         <div>
           <img class="img2" src="../../../../images/case/caseOfIllness/like.png" alt="">
         </div>
         <div>赞</div>
       </div>
-      <div class="tabButtonBox">
+      <div @click="collect()" class="tabButtonBox">
         <div>
           <img class="img3" src="../../../../images/case/caseOfIllness/collect.png" alt="">
         </div>
         <div>收藏</div>
       </div>
-      <div class="tabButtonBox">
+      <div @click="share()" class="tabButtonBox">
         <div>
           <img class="img4" src="../../../../images/case/caseOfIllness/fenxiang.png" alt="">
         </div>
@@ -133,31 +130,93 @@
       </div>
       </div>
     </div>
-
+    </div>
   </div>
 </template>
 
 <script>
+  import { MessageBox } from 'mint-ui';
   import { tokenMethods } from '../../../../vuex/util'
   export default {
     data(){
       return{
         commentSwitch: false,
+        writeSwitch: false,
         containerScrollTop: 0,
         caseDetailArgs: [],
         postId: {
-          postId: 152
+          postId: 162
         }
       }
     },
     created (){
-      this.getCaseData()
+      this.getCaseData();
+      this.getCaseComment();
+    },
+    mounted (){
+
     },
     methods:{
+      //收藏按钮
+      collect(){
+        if(this.pointLogin())
+        {
+
+        }else {
+          this.isLogin();
+        }
+      },
+      //赞
+      like(){
+        if(this.pointLogin())
+        {
+
+        }else {
+          this.isLogin();
+        }
+      },
+      //分享按钮
+      share(){
+
+      },
+      //发布按钮
+      send(){
+        if(this.pointLogin())
+        {
+
+        }else {
+          this.isLogin();
+        }
+      },
+      write(){
+        if(this.pointLogin())
+        {
+          this.writeSwitch = true;
+          let area = this.$el.querySelector('#area');
+          let area2 = this.$el.querySelector('.container');
+          area.focus();
+
+          setTimeout(function () {
+            window.scrollTo(0,area2.scrollHeight);
+          },300);
+        }else {
+          this.isLogin();
+        }
+      },
+      //获取病例评论数据
+      getCaseComment(){
+        this.$store.dispatch('GET_CASE_COMMENT', {
+          beCommentedId:this.postId.postId, //病例id
+          currentPage: 0,//当前页数
+          numberPerPage: 10, //每页显示多少条
+          type: '病例'
+        }).then((res) => {
+            console.log(res);
+        })
+      },
       //获取病例数据
       getCaseData(){
         this.$store.dispatch('GET_CASE_DETAIL', this.postId).then((res) => {
-          console.log(res.data);
           this.caseDetailArgs = res.data;
         })
       },
@@ -175,6 +234,19 @@
           window.scroll(0,that.containerScrollTop);
         }
       },
+      //提示需要登录
+      pointLogin(){
+        let userToken = tokenMethods.getWapToken();
+        return userToken;
+      },
+      //判断是否登录
+      isLogin() {
+        MessageBox.confirm('请先登录!').then(action => {
+          this.$router.push({path: '/logIn'})
+        }).catch(function (error) {
+          return '';
+        });
+      },
       back (){
         this.$router.go(-1);
       }
@@ -186,6 +258,76 @@
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../../common/sass/factory";
 
+  .padding_Box{
+    padding: px2vw(40) px2vw(20) px2vw(0) px2vw(20);
+  }
+
+  .payBox{
+    width: 100vw;
+    display: table;
+    vertical-align: middle;
+    height: px2vw(90);
+    font-size: px2vw(28);
+    color: white;
+    background-color: $themeColor;
+    padding-left: px2vw(22);
+    padding-right: px2vw(10);
+    margin-top: px2vw(20);
+    box-shadow: px2vw(0) px2vw(5) px2vw(8) darkgray ;
+  }
+  .payBox span{
+    display: table-cell;
+    vertical-align: middle;
+  }
+  .payBox span img{
+    width: px2vw(15) !important;
+    height: px2vw(25);
+    vertical-align: middle;
+  }
+  .payNowText{
+    display: inline-block !important;
+  }
+  .payNow{
+    width: px2vw(170);
+  }
+  .areaShow{
+    position: absolute;
+    top:0;
+    left: 0;
+    z-index: -2;
+  }
+  .areaBox{
+    padding-top: px2vw(14);
+    padding-bottom: px2vw(14);
+    background-color: white;
+  }
+  .sendBtn{
+    color: green;
+    display: inline-block;
+    text-align: center;
+    width: 17.8%;
+    vertical-align: middle;
+  }
+  #area{
+    min-height: px2vw(20);
+    max-height: px2vw(200) !important;
+    _height: px2vw(120);
+    outline: 0;
+    border: 1px solid #a0b3d6;
+    font-size: px2vw(26);
+    line-height: 24px;
+    padding:px2vw(2);
+    word-wrap: break-word;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px rgba(82, 168, 236, 0.6);
+    vertical-align: middle;
+    display: inline-block;
+    margin-left: 2%;
+    width: 78%;
+
+  }
   .conmentsBox{
     display: table-cell;
     vertical-align: middle;
@@ -209,6 +351,11 @@
   .writeImgBox>img{
     width: 100%;
   }
+  .writeCommentBoxSecond span:nth-child(2){
+    font-size: px2vw(24);
+    color: #999999;
+    vertical-align: middle;
+  }
   .writeCommentBoxSecond{
     margin: 0 auto;
     border: 1px solid #eeeeee;
@@ -216,7 +363,7 @@
     height: px2vw(60);
     width: px2vw(710);
     background-color: #f4f4f4;
-    padding-top: px2vw(12);
+    padding-top: px2vw(8);
     padding-left: px2vw(19);
   }
   .writeCommentBox{
@@ -251,6 +398,7 @@
   }
   .tabDevBox{
     position: fixed;
+    width: 100vw;
     bottom: 0;
     left: 0;
     border-top: 1px solid #eeeeee;
@@ -300,7 +448,6 @@
     height: px2vw(42);
   }
   .container{
-    /*margin-top: px2vw(88);*/
     position: absolute;
     top:px2vw(88);
     overflow: scroll;
@@ -373,7 +520,7 @@
   .content{
     background-color: white;
     width: 100vw;
-    padding: px2vw(40) px2vw(20) px2vw(52) px2vw(20);
+    padding-bottom: px2vw(52);
   }
   .contentImgBox{
     display: inline-block;

@@ -90,7 +90,6 @@
     },
     watch: {
       'caseDate.caseClassNum': function (newVal, odlVal) {
-        console.log(newVal);
         if(newVal === 0)
         {
           this.caseDate.updataTime = ['最新发布', '最多评论','最多赞'];
