@@ -1,5 +1,5 @@
 <template>
-  <div class="titleWrap">
+  <div  class="titleWrap">
     <div class="backgroundImg"></div>
     <div class="wrapTop">
       <span class="title">病例详情</span>
@@ -23,7 +23,7 @@
       </div>
 
       <div class="read">
-        <span class="readS">{{caseDetailArgs.readNumber}}阅读</span><span class="drop">&nbsp;·</span><span class="readS">&nbsp;31评论&nbsp;</span><span class="drop">·</span><span class="readS">&nbsp;20赞</span>
+        <span class="readS">{{caseDetailArgs.readNumber}}阅读</span><span class="drop">&nbsp;·</span><span class="readS">&nbsp;{{detailedCommentArgs.totalNumber}}评论&nbsp;</span><span class="drop">·</span><span class="readS">&nbsp;20赞</span>
         <span class="readTime">{{caseDetailArgs.postTime}}</span>
       </div>
 
@@ -45,9 +45,12 @@
 
       <div class="commentBox">
         <div id="allCount" class="allCount">
-          全部评论&nbsp;(33)
+          全部评论&nbsp;({{detailedCommentArgs.totalNumber}})
         </div>
-        <div class="comments">
+
+
+
+        <div v-for="(item, index) in detailedCommentArgs.data" class="comments">
           <div class="headReadPicBox">
             <img src="../../../../images/case/caseOfIllness/4.jpg" alt="">
           </div>
@@ -55,8 +58,8 @@
           <div class="commentsRightBox">
             <div class="clearFix">
               <div class="nameWrap">
-                <div class="userRightName">小悟空</div>
-                <div class="rightTime">2017.10.16 17:52</div>
+                <div class="userRightName">{{item.userName}}</div>
+                <div class="rightTime">{{item.commentTime}}</div>
               </div>
 
               <div class="likeBox">
@@ -67,15 +70,15 @@
                   <span class="commentImgBoxs">
                     <img src="../../../../images/case/caseOfIllness/like.png" alt="">
                   </span>
-                  <span>500000</span>
+                  <span>{{item.zan}}</span>
               </div>
             </div>
 
             <div class="commentContent">
-              我是评论我是评论我是评论我是评论我是评论我是评论我是评论我是评论我是评论
+              {{item.commentContent}}
             </div>
 
-            <div class="conmentsBox">真实姓名B等人 共2条回复&nbsp;></div>
+            <div @click="childComment(index)" v-if="item.subCommentList.length != 0" class="conmentsBox">{{item.subCommentList[0].replyUserName}}<span v-if="item.subCommentList.length != 1">等人</span>共{{item.subCommentList.length}}条回复&nbsp;></div>
           </div>
           <div style="clear: both"></div>
 
@@ -83,6 +86,7 @@
             -End-
           </div>
         </div>
+
       </div>
     </div>
 
@@ -108,7 +112,7 @@
         <div>
           <img class="img1" src="../../../../images/case/caseOfIllness/comment.png" alt="">
         </div>
-        <div>评论224</div>
+        <div>评论{{detailedCommentArgs.totalNumber}}</div>
       </div>
       <div @click="like()" class="tabButtonBox">
         <div>
@@ -131,22 +135,46 @@
       </div>
     </div>
     </div>
+
+
+    <!--子评论的分组件-->
+    <div v-if="commentChild.switchShow" class="commentChildBox">
+      <div class="wrapTop2">
+        <span class="title2">{{commentChild.commentChildData.subCommentList.length}}条回复</span>
+        <span @click="backChild()" class="backImgBox2">
+        <img src="../../../../images/case/backer.png" alt="">
+      </span>
+      </div>
+      <comment-child :comment="commentChild.commentChildData"></comment-child>
+    </div>
+
+
+
   </div>
 </template>
 
 <script>
-  import { MessageBox } from 'mint-ui';
+  import { MessageBox , InfiniteScroll} from 'mint-ui';
   import { tokenMethods } from '../../../../vuex/util'
+  import commentChild from './commentChild.vue';
   export default {
     data(){
       return{
         commentSwitch: false,
         writeSwitch: false,
         containerScrollTop: 0,
-        caseDetailArgs: [],
-        postId: {
-          postId: 162
-        }
+        caseDetailArgs: [], //病例详情的内容数据
+        detailedCommentParameter: {  //获取详情评论的参数
+          beCommentedId: 162, //病例id
+          currentPage: 1,//当前页数
+          numberPerPage: 10, //每页显示多少条
+          type: '病例'
+        },
+        detailedCommentArgs: [], //获取详情评论的数据
+        commentChild:{
+          commentChildData: [],
+          switchShow: false
+        },  //子组件传值
       }
     },
     created (){
@@ -205,20 +233,22 @@
       },
       //获取病例评论数据
       getCaseComment(){
-        this.$store.dispatch('GET_CASE_COMMENT', {
-          beCommentedId:this.postId.postId, //病例id
-          currentPage: 0,//当前页数
-          numberPerPage: 10, //每页显示多少条
-          type: '病例'
-        }).then((res) => {
-            console.log(res);
+        this.$store.dispatch('GET_CASE_COMMENT', this.detailedCommentParameter).then((res) => {
+            this.detailedCommentArgs = res;
+            console.log(this.detailedCommentArgs);
         })
       },
       //获取病例数据
       getCaseData(){
-        this.$store.dispatch('GET_CASE_DETAIL', this.postId).then((res) => {
+        this.$store.dispatch('GET_CASE_DETAIL', {postId: this.detailedCommentParameter.beCommentedId}).then((res) => {
           this.caseDetailArgs = res.data;
         })
+      },
+      //子组件传值 跳转二级评论
+      childComment(index){
+        this.commentChild.commentChildData = this.detailedCommentArgs.data[index];
+        this.commentChild.switchShow = true;
+        document.getElementsByTagName("html")[0].className = 'changeFixed';
       },
       //底部评论按钮
       comment (){
@@ -249,15 +279,43 @@
       },
       back (){
         this.$router.go(-1);
-      }
-    }
+      },
+      //子组件返回按钮
+      backChild(){
+        let reg = new RegExp("(\\s|^)" + "changeFixed" + "(\\s|$)");
+        let _html = document.getElementsByTagName("html")[0];
+        _html.className = _html.className.replace(reg, " ");
+
+        this.commentChild.switchShow = false;
+      },
+    },
+    components:{commentChild}
   }
 </script>
+
+<style>
+  .changeFixed{
+    overflow-x: hidden !important;
+    overflow-y: hidden !important;
+  }
+</style>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../../common/sass/factory";
 
+
+  .commentChildBox{
+    position: fixed;
+    bottom: 0;
+    top:0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background-color: #f8f8f8;
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
+  }
   .padding_Box{
     padding: px2vw(40) px2vw(20) px2vw(0) px2vw(20);
   }
@@ -647,6 +705,35 @@
     color: #999999;
     text-align: center;
     margin-top: px2vw(35);
+  }
+  .wrapTop2{
+    z-index: 999;
+    position: fixed;
+    height: px2vw(88);
+    top:0;
+    width: 100vw;
+    background-color: $themeColor;
+    text-align: center;
+    color: #ffffff;
+    font-size: px2vw(36);
+  }
+  .title2{
+    display: table-cell;
+    vertical-align: middle;
+    height: px2vw(88);
+    width: 100vw;
+    text-align: center;
+  }
+  .backImgBox2{
+    position: absolute;
+    padding: px2vw(23) px2vw(35) 0 px2vw(20);
+    top:0;
+    left: 0;
+    height: px2vw(88);
+  }
+  .backImgBox2>img{
+    width: px2vw(24);
+    height: px2vw(42);
   }
 </style>
 

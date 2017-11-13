@@ -527,5 +527,5 @@ export function getCaseDetail(params) {
 }
 // 获取发现病例评论信息
 export function getCaseComment(params) {
-  return get('/comment/queryCom', params)
+  return geters('/comment/queryCom', params)
 }
