@@ -45,13 +45,13 @@
               </div>
               <div class="menuBar">
                 <span>{{item.momentTime}}</span>
-                <span v-if="myUserId == item.userId" class="deleteBtn" @click="deleteTrend(item.momentId)">删除</span>
+                <span v-if="myUserId == item.userId" class="deleteBtn" @click="deleteTrend(item.momentId,index)">删除</span>
                 <span class="commentAndLike">赞：{{item.zanNumber}}</span>
-                <span class="commentAndLike">评论：{{item.subCommentList.length}}</span>
+                <span class="commentAndLike" @click="doComment(index,item.momentId)">评论：{{item.subCommentList.length}}</span>
               </div>
               <div class="commentBox" v-if="item.subCommentList.length > 0">
                 <ul>
-                  <li v-for="(comments,commentsIndex) in item.subCommentList">
+                  <li v-for="(comments,commentsIndex) in item.subCommentList" @click="doComment(index,item.momentId,comments.commentId,comments.userName)">
                     <span class="commentUserName">{{comments.userName}}</span>
                     <span v-if="comments.replyUserName" class="commentUserName">回复{{comments.replyUserName}}</span>
                     <span class="commentUserName">:</span>
@@ -69,16 +69,17 @@
         <!--请求完毕后，无数据显示状态-->
       </mt-loadmore>
     </div>
-    <div class="inputBox"></div>
+    <doComment :isShow="isComment"></doComment>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import topLoadMore from '../../salesWap/index/topLoadMore.vue'
-  import {YAYI_CIRCLE, } from '../../../vuex/types'
+  import {YAYI_CIRCLE, DELETE_TREND, ADD_COMMENT} from '../../../vuex/types'
   import Util from '../../../vuex/util'
   import { tokenMethods } from '../../../vuex/util'
-  import {Indicator, InfiniteScroll,Popup, LoadMore} from 'mint-ui'
+  import {Indicator, InfiniteScroll,Popup, LoadMore, Toast} from 'mint-ui'
+  import doComment from '../index/doComment.vue'
 
   export default {
     data(){
@@ -92,11 +93,20 @@
         noMoreData:false,     //没有更多数据
         timeStamp:null,       //进入页面获取当前时间戳，下拉刷新会更新，但是加载更多不会
         isDisplayOrFold:true, //显示全部和折叠按钮
-        myUserId:tokenMethods.getWapUser().userId     //获取当前登录账号的userID
+        myUserId:tokenMethods.getWapUser().userId,     //获取当前登录账号的userID
+        isComment:false,      //显示评论框
+        commentContent:'',    //评论内容
+        commentInfo: {        //点击评论按钮时，暂存的数据
+          index:'',
+          id:'',
+          userName:'',
+          parentId:''
+        },
       }
     },
     components:{
-      topLoadMore
+      topLoadMore,
+      doComment
     },
     created(){
       this.timeStamp = Date.parse(new Date());
@@ -142,8 +152,36 @@
         })
       },
       //删除动态
-      deleteTrend(id){
-        
+      deleteTrend(id,index){
+        this.$store.dispatch(DELETE_TREND, {momentId:id}).then(res=>{
+          console.log(res)
+          if(res.callStatus === 'SUCCEED'){
+            Toast({message: '删除成功！', duration: 1500});
+            this.yayiCircleData.splice(index,1)
+          }
+        })
+      },
+      doComment(index,id,userName,parentId){
+        this.isComment = true;
+        this.commentInfo = {
+          index:index,
+          id:id,
+          userName:userName,
+          parentId:parentId
+        }
+      },
+      releaseComment(index,id,userName,parentId){
+        let obj = {
+          type:'牙医圈',
+          beCommentedId:id,
+          commentContent:this.commentContent,
+          parentId:parentId ? parentId : null,
+        }
+        this.$store.dispatch(ADD_COMMENT, obj).then(res=>{
+          if(res.callStatus === 'SUCCEED'){
+            this.$set(this.yayiCircleData[index],'subCommentList',this.yayiCircleData[index].subCommentList.push(res.data))
+          }
+        })
       },
       loadMore(){
         if(this.args.currentPage >= this.args.totalPage){

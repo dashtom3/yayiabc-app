@@ -340,6 +340,17 @@ export function newTrend(params) {
 export function yayiCircle(params) {
   return geters('/moment/queryList', params);
 }
+
+//删除牙医圈的动态
+export function deleteTrend(params) {
+  return getWithToken('/moment/delete', params);
+}
+
+//发布评论
+export function addComment(params) {
+  return getWithToken('/comment/addCom', params);
+}
+
 /*
 wx_绑定用户&扫码绑定销售的接口
 */

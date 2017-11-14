@@ -962,6 +962,30 @@ const actions = {
     });
   },
 
+  //删除牙医圈的动态
+  [types.DELETE_TREND](context, params) {
+    return new Promise((resolve, reject) => {
+      api.deleteTrend(params).then((data) => {
+        // state.productData = data.data.data
+        resolve(data);
+      }).catch((err) => {
+        resolve(data);
+      });
+    });
+  },
+
+  //发布评论
+  [types.ADD_COMMENT](context, params) {
+    return new Promise((resolve, reject) => {
+      api.addComment(params).then((data) => {
+        // state.productData = data.data.data
+        resolve(data);
+      }).catch((err) => {
+        resolve(data);
+      });
+    });
+  },
+
   //创客登录
   [types.SALE_LOGIN](context, params) {
     return new Promise((resolve, reject) => {
