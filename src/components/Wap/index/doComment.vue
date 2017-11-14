@@ -1,10 +1,11 @@
 <template>
   <div>
     <div class="holder"></div>
-    <div class="inputArea">
-      <textarea name="" id="" cols="30" rows="10" :placeholder="placeHolder" v-model="commentContent" @focus="writeComment" class="inputArea" autofocus></textarea>
+    <div class="inputArea1">
+      <textarea name="" id="" cols="30" rows="10" :placeholder="placeHolder" v-model="commentContent" @focus="writeComment" class="textArea"></textarea>
       <div class="buttons">
         <button @click="releaseComment">发表</button>
+        <br>
         <button @click="cancelComment">取消</button>
       </div>
     </div>
@@ -31,7 +32,11 @@
       document.body.classList.add('full-body-commentArea')
     },
     mounted(){
-      this.placeHolder = "回复 " + this.args.userName ? this.args.userName : ''
+      this.placeHolder = "回复 " + this.args.userName ? this.args.userName : '';
+
+      let a = document.getElementsByClassName('textArea');
+      a[0].focus();
+
     },
     methods:{
       releaseComment(){
@@ -62,6 +67,7 @@
         console.log(false)
         document.body.classList.remove('full-body-commentArea')
         this.$emit('cancelComment',false)
+        this.$destroy()
       },
     },
     watch:{
@@ -76,6 +82,7 @@
 </script>
 
 <style lang="scss" rel="stylesheet/scss">
+  @import "../../../common/sass/factory";
   body {
     &.full-body-commentArea{
       position: fixed !important;
@@ -88,7 +95,7 @@
       padding: 0 !important;
       margin: 0 !important;
       overflow: hidden !important;
-      .inputArea{
+      .inputArea1{
         position: absolute !important;
       }
     }
@@ -96,36 +103,48 @@
 </style>
 
 <style scoped lang="scss" rel="stylesheet/scss">
+  @import "../../../common/sass/factory";
   .holder{
     position: absolute;
     height: 100%;
     width: 100%;
     z-index: 20;
   }
-  .inputArea{
-    min-height: px2vw(120);
-    max-height: px2vw(200) !important;
-    _height: px2vw(120);
-    /*outline: 0;*/
-    /*border: 1px solid #a0b3d6;*/
-    /*font-size: px2vw(26);*/
-    /*line-height: 24px;*/
-    /*padding:px2vw(2);*/
-    /*word-wrap: break-word;*/
-    /*overflow-x: hidden;*/
-    /*overflow-y: auto;*/
-    /*box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px rgba(82, 168, 236, 0.6);*/
-    /*vertical-align: middle;*/
-    /*display: inline-block;*/
-    /*margin-left: 2%;*/
-    width: 78%;
-    position: absolute;
+  .inputArea1{
+    width: 100%;
+    position: fixed;
     bottom: 0;
     left:0;
     z-index: 50;
     background-color: #fff;
+    .textArea{
+      resize: none;
+      width: px2vw(600);
+      margin: 0 px2vw(10);
+      padding: px2vw(10);
+      border-radius: px2vw(10);
+      height: px2vw(120);
+      max-height: px2vw(200);
+    }
+    .buttons{
+      float: right;
+      z-index: 50;
+      button{
+        width: px2vw(100);
+        height: px2vw(50);
+        margin: px2vw(10) 0 0;
+        background-color: #fff;
+        border-radius: px2vw(10);
+      }
+      button:nth-child(1){
+        border: 1px solid $themeColor;
+        background-color: $themeColor;
+        color: white;
+      }
+      button:nth-child(3){
+        border: 1px solid #ddd;
+      }
+    }
   }
-  .buttons{
-    float: right;
-  }
+
 </style>

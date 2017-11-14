@@ -351,6 +351,11 @@ export function addComment(params) {
   return getWithToken('/comment/addCom', params);
 }
 
+//发布评论
+export function like(params) {
+  return getWithToken('/zan/upvote', params);
+}
+
 /*
 wx_绑定用户&扫码绑定销售的接口
 */

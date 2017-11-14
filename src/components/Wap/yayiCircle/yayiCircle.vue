@@ -46,8 +46,12 @@
               <div class="menuBar">
                 <span>{{item.momentTime}}</span>
                 <span v-if="myUserId == item.userId" class="deleteBtn" @click="deleteTrend(item.momentId,index)">删除</span>
-                <span class="commentAndLike">赞：{{item.zanNumber}}</span>
-                <span class="commentAndLike" @click="commenting(index,item.momentId)">评论：{{item.subCommentList.length}}</span>
+                <span class="commentAndLike" @click="likeThisTrend(index,item.momentId)">
+                  <img src="../../../images/yayiCircle/dislike.png" alt="">
+                  <!--<img src="../../../images/yayiCircle/like.png" alt="">-->
+                  {{item.zanNumber}}</span>
+                <span class="commentAndLike" @click="commenting(index,item.momentId)">
+                  <img src="../../../images/yayiCircle/comment.png" alt=""> {{item.subCommentList.length}}</span>
               </div>
               <div class="commentBox" v-if="item.subCommentList.length > 0">
                 <ul>
@@ -69,13 +73,13 @@
         <!--请求完毕后，无数据显示状态-->
       </mt-loadmore>
     </div>
-    <doComment v-if="isComment" :args="commentInfo"  v-on:commentRes="isCommentRes" v-on:cancelComment="isCancelComment"></doComment>
+    <doComment v-if="isComment" :args="commentInfo" v-on:commentRes="isCommentRes" v-on:cancelComment="isCancelComment"></doComment>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import topLoadMore from '../../salesWap/index/topLoadMore.vue'
-  import {YAYI_CIRCLE, DELETE_TREND, ADD_COMMENT} from '../../../vuex/types'
+  import {YAYI_CIRCLE, DELETE_TREND, ADD_COMMENT, LIKE} from '../../../vuex/types'
   import Util from '../../../vuex/util'
   import { tokenMethods } from '../../../vuex/util'
   import {Indicator, InfiniteScroll,Popup, LoadMore, Toast} from 'mint-ui'
@@ -182,7 +186,22 @@
         this.isComment = res;
       },
       deleteComment(){
-        
+
+      },
+      likeThisTrend(index,id){
+        let obj = {
+          type : '牙医圈',
+          typeId : id,
+//          parentId : '',
+//          presentId : '',
+        }
+        this.$store.dispatch(LIKE, obj).then(res=>{
+          //改变是否点赞的图标
+
+          //数字变化
+          let likeNum = this.yayiCircleData[index].zanNumber;
+          //点完之后真，+1，假，-1
+        })
       },
       loadMore(){
         if(this.args.currentPage >= this.args.totalPage){
@@ -355,6 +374,10 @@
               color: $themeColor;
             }
             .commentAndLike{
+              img{
+                width: px2vw(30);
+                vertical-align: sub;
+              }
               float: right;
               display: inline-block;
               width: px2vw(100);
