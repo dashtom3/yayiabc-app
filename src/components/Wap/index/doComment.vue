@@ -32,11 +32,11 @@
       document.body.classList.add('full-body-commentArea')
     },
     mounted(){
-      this.placeHolder = "回复 " + this.args.userName ? this.args.userName : '';
-
+      if(this.args.userName){
+        this.placeHolder = "回复 " + this.args.userName
+      }
       let a = document.getElementsByClassName('textArea');
       a[0].focus();
-
     },
     methods:{
       releaseComment(){
@@ -108,7 +108,7 @@
     position: absolute;
     height: 100%;
     width: 100%;
-    z-index: 20;
+    z-index: 2100;
     top:0;
     left:0;
   }
@@ -117,7 +117,7 @@
     position: fixed;
     bottom: 0;
     left:0;
-    z-index: 50;
+    z-index: 2110;
     background-color: #fff;
     .textArea{
       resize: none;
@@ -130,7 +130,7 @@
     }
     .buttons{
       float: right;
-      z-index: 50;
+      z-index: 2120;
       button{
         width: px2vw(100);
         height: px2vw(50);

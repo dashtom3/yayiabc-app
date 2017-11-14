@@ -71,6 +71,10 @@
           <!--数据到底-->
 
         <!--请求完毕后，无数据显示状态-->
+        <div class="noTrend" v-if="yayiCircleData.length == 0 && !isLoading">
+          <img src="../../../images/yayiCircle/new.png" alt="">
+          <p><span @click="newTrend">立即发布新动态~</span></p>
+        </div>
       </mt-loadmore>
     </div>
     <doComment v-if="isComment" :args="commentInfo" v-on:commentRes="isCommentRes" v-on:cancelComment="isComment = false"></doComment>
@@ -431,6 +435,19 @@
               }
             }
           }
+        }
+      }
+      .noTrend{
+        width: 100%;
+        height: auto;
+        text-align: center;
+        img{
+          margin:px2vw(400) auto px2vw(30);
+          width: px2vw(150);
+        }
+        p{
+          font-size: px2vw(30);
+          color:$themeColor;
         }
       }
     }
