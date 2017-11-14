@@ -379,6 +379,7 @@
           Indicator.close()
           if (res.data.callStatus === 'SUCCEED') {
             Toast('恭喜您，注册成功')
+            Indicator.close();
             try{
               tokenMethods.setWapToken(res.data.token)
               tokenMethods.setWapUser(res.data.data)

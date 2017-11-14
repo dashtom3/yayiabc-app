@@ -56,7 +56,7 @@
     data(){
       return{
         invoiceHand : 1,
-        invoiceStyle : 2,
+        invoiceStyle : 1,
         InvoiceState : 1, //增值税 需要重置为空
         companyName : '',
         taxpayerNum : '',
@@ -76,10 +76,10 @@
     },
     methods:{
       judgeIsSaveed (){
-        let saveData = this.COMPANY_INVOICE;
+        // let saveData = this.COMPANY_INVOICE;
+        let saveData = JSON.parse(localStorage.getItem('INVOICE'))        
         if(saveData.value === 3)
         {
-          console.log(13315);
           this.invoiceHand = saveData.invoiceHand;
           this.invoiceStyle = saveData.invoiceStyle;
           this.InvoiceState = saveData.InvoiceState; //增值税
@@ -109,7 +109,8 @@
         let obj = {
           invoiceHand : this.invoiceHand,
           invoiceStyle : this.invoiceStyle,
-          InvoiceState : this.InvoiceState, //增值税
+          // InvoiceState : this.InvoiceState, //增值税
+          InvoiceState : '1', //增值税
           companyName : this.companyName,
           taxpayerNum : this.taxpayerNum,
           registeredAddress : this.registeredAddress,
@@ -129,14 +130,15 @@
             return;
           }
         }
-        obj['InvoiceState'] = '';
+        obj['InvoiceState'] = ''; //增值税为空
         this.$store.dispatch('COMPANY_INVOICE' , obj);
+        localStorage.setItem('INVOICE', JSON.stringify(obj));
         Toast({message: '保存发票信息成功', duration: 1500})
         this.toSuborder();
       },
       //判断有无空格 以及空字符串
       hasSpace(obj){
-        if ( obj == "" ){
+        if (obj == ""){
           return true;
         }
         let regu = "^[ ]+$";

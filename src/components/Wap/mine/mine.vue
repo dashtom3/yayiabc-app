@@ -287,8 +287,12 @@
               }
               return obj
             }, {})
+            Indicator.close();
           })
-          .catch(e => Toast(e))
+          .catch(e => {
+            Indicator.close();
+            Toast(e)}
+          )
         //查询个人信息
         that.$store.dispatch('GET_PERSON_LIST', obj).then((res) => {
           // console.log(res);

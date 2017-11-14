@@ -16,7 +16,8 @@
         <span slot="dec">{{item.AcceptStation}}</span>
       </time-line>
     </div>
-    <div class="noMail" v-else>
+    <div class="split"></div>
+    <div class="noMail" v-if="!isInfo">
       <img src="../../../../images/order/noMail.png" alt="">
       <p>暂无物流信息，请耐心等候~</p>
     </div>
@@ -71,8 +72,8 @@
       var that = this;
       let res = await this[QUERY_ORDER_LOG]({orderId: this.order.orderId}).catch(err => console.log(err))
       if (res.data.callStatus === 'SUCCEED') {
-        if (!res.data.data) return that.isInfo = false
         this.logistics = JSON.parse(res.data.data)
+        if (this.logistics.Reason === '暂无轨迹信息') return that.isInfo = false
       }
     }
   }
@@ -126,7 +127,7 @@
       display: flex;
       padding: px2vw(103) px2vw(20) px2vw(30);
       background-color: #fff;
-      margin-bottom: px2vw(20);
+      // margin-bottom: px2vw(20);
       .image {
         width: px2vw(120);
         height: px2vw(120);
@@ -144,6 +145,10 @@
     .logistics-timeline {
       background-color: #fff;
     }
+  }
+  .split{
+    width: 100%;
+    height: px2vw(20);
   }
   .noMail{
     img{

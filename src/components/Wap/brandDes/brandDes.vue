@@ -140,6 +140,7 @@ export default {
         Indicator.close()
         if (res.callStatus === 'SUCCEED') {
           that.num = res.data.length
+          Indicator.close();
         }
       })
     },

@@ -269,6 +269,8 @@
         let total = that.gwcTotal + that.freight
         if (that.allQb >= total) {
           that.nowQb = total
+          that.qianbi_des = that.nowQb
+          Toast({message: '本单最多只可使用' + that.nowQb + '乾币！', duration: 1500})
         }
       }
     },
@@ -627,11 +629,13 @@
         this.data.qb = '1';
         this.data.qbText = '使用';
         this.qb_input = true
+        this.qbDed();
       },
       selectNoUse: function () {
         this.data.qb = '0';
         this.data.qbText = '不使用';
         this.qb_input = false;
+        this.qbdk = 0;
         window.sessionStorage.removeItem('qbCount')
       },
       selectWx: function () {

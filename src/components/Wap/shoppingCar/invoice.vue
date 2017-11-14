@@ -49,11 +49,11 @@
     <div>
       <div class="border_bottom">
       <mu-tabs class="tab_box" :value="activeTab" @change="handleTabChange">
-        <mu-tab class="tab1" value="1" title="普通发票"/>
-        <mu-tab class="tab2" value="2" title="增值税发票"/>
+        <mu-tab class="tab1" value="0" title="普通发票"/>
+        <mu-tab class="tab2" value="1" title="增值税发票"/>
       </mu-tabs>
       </div>
-      <div v-if="activeTab === '1'">
+      <div v-if="activeTab === '0'">
         <div class="person">
           <span class="invoice_nature">发票性质</span>
           <span class="radio_tab1">
@@ -96,7 +96,7 @@
           <mu-raised-button label="不开发票" class="no_save" @click="no_saves" />
         </div>
       </div>
-      <div v-show="activeTab === '2'">
+      <div v-show="activeTab === '1'">
         <tax-invoice ref="childMethod"></tax-invoice>
       </div>
       <!--<mu-dialog :open="backlog" @close="backClose">-->
@@ -120,7 +120,7 @@
     name: 'invoice',
     data () {
       return {
-        activeTab: '1', //普通发票1  增值税发票2
+        activeTab: '0', //普通发票0  增值税发票1
         tab: '1', //公司发票 1  个人发票 0
         invoiceHand: '', //是否开发票 开发票为1，不开发票为0
         companyName1 : '',//公司抬头
@@ -132,7 +132,8 @@
     },
     created (){
       this.mBack('toSuborder');
-      console.log(this.COMPANY_INVOICE);
+      // console.log(this.COMPANY_INVOICE);
+      console.log(JSON.parse(localStorage.getItem('INVOICE')))
       this.judgeIsSaveed();
     },
     mounted (){
@@ -145,7 +146,8 @@
     },
     methods: {
       judgeIsSaveed (){
-        let saveData = this.COMPANY_INVOICE;
+        // let saveData = this.COMPANY_INVOICE;
+        let saveData = JSON.parse(localStorage.getItem('INVOICE'))
         if(saveData.value === 1)
         {
           this.activeTab = saveData.invoiceStyle;
@@ -158,7 +160,7 @@
         {
           this.activeTab = saveData.invoiceStyle;
           this.tab = saveData.InvoiceState;
-            this.companyName2 = saveData.companyName;
+          this.companyName2 = saveData.companyName;
           this.invoiceHand = saveData.invoiceHand;
         }else {
           return
@@ -213,6 +215,7 @@
            }
           }
           this.$store.dispatch('COMPANY_INVOICE' , obj);
+          let saveData = JSON.parse(localStorage.getItem('INVOICE'))
           Toast({message: '保存发票信息成功', duration: 1500})
           this.$router.push({path:'/suborder'})
         }
@@ -234,6 +237,7 @@
             }
           }
           this.$store.dispatch('COMPANY_INVOICE' , obj);
+          let saveData = JSON.parse(localStorage.getItem('INVOICE'))
           Toast({message: '保存发票信息成功', duration: 1500})
           this.$router.push({path:'/suborder'})
         }

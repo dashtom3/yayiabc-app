@@ -141,7 +141,7 @@ export default {
           console.log(JSON.stringify(d));
           that.installWgt(d.filename); // 安装wgt包
         } else {
-          plus.nativeUI.alert("下载wgt失败！");
+          plus.nativeUI.alert("更新失败！");
         }
         plus.nativeUI.closeWaiting();
       }).start();

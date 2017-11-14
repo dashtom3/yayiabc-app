@@ -166,6 +166,7 @@
               that.sumOrderMoney = this.orderDetailList[0].orderMoneyHaocai + this.orderDetailList[1].orderMoneyGongju
               that.sumRefundMoney = this.orderDetailList[0].refundMoneyHaocai + this.orderDetailList[1].refundMoneyGongju
               that.sumActualMoney = this.orderDetailList[0].actualMoneyHaocai + this.orderDetailList[1].actualMoneyGongju
+              Indicator.close();
             }
           })   
         },

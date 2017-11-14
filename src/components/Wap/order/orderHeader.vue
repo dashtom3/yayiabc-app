@@ -17,7 +17,6 @@
           // let go = this.$router.push.bind(this.$router)
           this.$router.push({path: '/order/orderSubpage/' + state})
           sessionStorage.removeItem('toOrder')
-          sessionStorage.removeItem('ORDER_STATE')
         } else {
           this.$router.go(-1)
         }
