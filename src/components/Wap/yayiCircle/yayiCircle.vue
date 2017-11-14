@@ -47,16 +47,16 @@
                 <span>{{item.momentTime}}</span>
                 <span v-if="myUserId == item.userId" class="deleteBtn" @click="deleteTrend(item.momentId,index)">删除</span>
                 <span class="commentAndLike">赞：{{item.zanNumber}}</span>
-                <span class="commentAndLike" @click="doComment(index,item.momentId)">评论：{{item.subCommentList.length}}</span>
+                <span class="commentAndLike" @click="commenting(index,item.momentId)">评论：{{item.subCommentList.length}}</span>
               </div>
               <div class="commentBox" v-if="item.subCommentList.length > 0">
                 <ul>
-                  <li v-for="(comments,commentsIndex) in item.subCommentList" @click="doComment(index,item.momentId,comments.commentId,comments.userName)">
+                  <li v-for="(comments,commentsIndex) in item.subCommentList" @click.stop="commenting(index,item.momentId,comments.userName,comments.commentId)">
                     <span class="commentUserName">{{comments.userName}}</span>
                     <span v-if="comments.replyUserName" class="commentUserName">回复{{comments.replyUserName}}</span>
                     <span class="commentUserName">:</span>
                     <span>{{comments.commentContent}}</span>
-                    <span v-if="myUserId == comments.userId" class="commentUserName">删除</span>
+                    <span v-if="myUserId == comments.userId" class="commentUserName" @click="deleteComment">删除</span>
                   </li>
                 </ul>
               </div>
@@ -69,7 +69,7 @@
         <!--请求完毕后，无数据显示状态-->
       </mt-loadmore>
     </div>
-    <doComment :isShow="isComment"></doComment>
+    <doComment v-if="isComment" :args="commentInfo"  v-on:commentRes="isCommentRes" v-on:cancelComment="isCancelComment"></doComment>
   </div>
 </template>
 
@@ -142,7 +142,7 @@
                 break;
             }
             this.yayiCircleData.push(item)
-            console.log(item);
+//            console.log(item);
           })
           this.totalPage = res.totalPage
           //控制是否显示加载到底的一个判断值，虽然我觉得基本上用不到。
@@ -161,27 +161,28 @@
           }
         })
       },
-      doComment(index,id,userName,parentId){
+      commenting(index,id,userName,parentId){
         this.isComment = true;
         this.commentInfo = {
+          type:'牙医圈',
           index:index,
           id:id,
           userName:userName,
           parentId:parentId
         }
       },
-      releaseComment(index,id,userName,parentId){
-        let obj = {
-          type:'牙医圈',
-          beCommentedId:id,
-          commentContent:this.commentContent,
-          parentId:parentId ? parentId : null,
-        }
-        this.$store.dispatch(ADD_COMMENT, obj).then(res=>{
-          if(res.callStatus === 'SUCCEED'){
-            this.$set(this.yayiCircleData[index],'subCommentList',this.yayiCircleData[index].subCommentList.push(res.data))
-          }
-        })
+      isCommentRes(res){
+        console.log(res,'结果')
+        let index = this.commentInfo.index;
+        this.$set(this.yayiCircleData[index],'subCommentList',this.yayiCircleData[index].subCommentList.push(res))
+        this.isComment = false;
+      },
+      isCancelComment(res){
+        console.log(res,'布尔')
+        this.isComment = res;
+      },
+      deleteComment(){
+        
       },
       loadMore(){
         if(this.args.currentPage >= this.args.totalPage){
