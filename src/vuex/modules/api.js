@@ -353,7 +353,7 @@ export function addComment(params) {
 
 //发布评论
 export function like(params) {
-  return getWithToken('/zan/upvote', params);
+  return getWithToken('/zan/upvote ', params);
 }
 
 /*

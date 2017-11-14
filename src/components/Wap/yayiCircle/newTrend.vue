@@ -73,7 +73,7 @@
         console.log(args);
         this.$store.dispatch(NEW_TREND,args).then(res => {
           Toast({message: '发布成功！', duration: 1500})
-//          this.$router.push()
+          this.$router.push('/yayiCircle')
         })
       },
       closePage(){

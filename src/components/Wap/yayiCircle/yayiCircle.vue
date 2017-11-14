@@ -8,7 +8,7 @@
       </div>
     </div>
     <div class="container">
-      <mt-loadmore :top-method="loadTop" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState">
+      <mt-loadmore :top-method="loadTop" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState" class="innerContainerWrap">
         <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
         <!--有数据的状态-->
         <div v-infinite-scroll="loadMore" infinite-scroll-immediate-check="true" class="innerContainer">
@@ -29,8 +29,8 @@
 
                 <div class="pictures">
                   <div v-for="(pic,picIndex) in item.momentPicture" :class="{onePic:item.momentPicture.length < 2,twoPic:item.momentPicture.length > 1}">
-                    <img :src="pic" alt="" v-if="item.momentPicture.length < 2">
-                    <img :src="pic" alt="" v-else>
+                    <img :src="pic" alt="" v-if="item.momentPicture.length < 2" @click="seeBigPic(pic)">
+                    <img :src="pic" alt="" v-else @click="seeBigPic(pic)">
                   </div>
                 </div>
               </div>
@@ -73,7 +73,8 @@
         <!--请求完毕后，无数据显示状态-->
       </mt-loadmore>
     </div>
-    <doComment v-if="isComment" :args="commentInfo" v-on:commentRes="isCommentRes" v-on:cancelComment="isCancelComment"></doComment>
+    <doComment v-if="isComment" :args="commentInfo" v-on:commentRes="isCommentRes" v-on:cancelComment="isComment = false"></doComment>
+    <!--<seeImg :url="picUrl" v-if="showPic" v-on:closeImgHolder="showPic = false"></seeImg>-->
   </div>
 </template>
 
@@ -84,6 +85,7 @@
   import { tokenMethods } from '../../../vuex/util'
   import {Indicator, InfiniteScroll,Popup, LoadMore, Toast} from 'mint-ui'
   import doComment from '../index/doComment.vue'
+//  import seeImg from '../index/seeImg.vue'
 
   export default {
     data(){
@@ -106,20 +108,24 @@
           userName:'',
           parentId:''
         },
+//        picUrl:'',            //查看大图的url
+//        showPic:false,        //查看大图的开关
       }
     },
     components:{
       topLoadMore,
-      doComment
+      doComment,
+//      seeImg
     },
     created(){
       this.timeStamp = Date.parse(new Date());
-      console.log(this.myUserId)
+      console.log(this.timeStamp)
       this.getYayiCircle();
     },
     methods:{
       newTrend(){
         this.$router.push('/newTrend')
+        this.$destroy()
       },
       getYayiCircle(){
         this.isLoading = true;
@@ -134,11 +140,13 @@
             switch (true){
               //几分钟前
               case this.timeStamp - item.momentTime < 3600000:
-                item.momentTime = new Date(this.timeStamp).getMinutes() - new Date(item.momentTime).getMinutes() + '分钟前';
+                console.log(this.timeStamp - item.momentTime)
+                item.momentTime = new Date((this.timeStamp - item.momentTime)).getMinutes()  + '分钟前';
                 break;
               //几小时前
               case this.timeStamp - item.momentTime >= 3600000 && this.timeStamp - item.momentTime < 86400000:
-                item.momentTime = new Date(this.timeStamp).getHours() - new Date(item.momentTime).getHours() + '小时前';
+                console.log(this.timeStamp - item.momentTime)
+                item.momentTime = new Date((this.timeStamp - item.momentTime)).getHours() + '小时前';
                 break;
               //日期
               case this.timeStamp - item.momentTime >= 86400000:
@@ -146,6 +154,7 @@
                 break;
             }
             this.yayiCircleData.push(item)
+            this.isLoading = false
 //            console.log(item);
           })
           this.totalPage = res.totalPage
@@ -181,10 +190,6 @@
         this.$set(this.yayiCircleData[index],'subCommentList',this.yayiCircleData[index].subCommentList.push(res))
         this.isComment = false;
       },
-      isCancelComment(res){
-        console.log(res,'布尔')
-        this.isComment = res;
-      },
       deleteComment(){
 
       },
@@ -192,8 +197,6 @@
         let obj = {
           type : '牙医圈',
           typeId : id,
-//          parentId : '',
-//          presentId : '',
         }
         this.$store.dispatch(LIKE, obj).then(res=>{
           //改变是否点赞的图标
@@ -203,15 +206,25 @@
           //点完之后真，+1，假，-1
         })
       },
+//      seeBigPic(url){
+//        this.showPic = true;
+//        this.picUrl = url
+//      },
       loadMore(){
-        if(this.args.currentPage >= this.args.totalPage){
+        if(this.args.currentPage >= this.totalPage){
 //          this.noMoreGood = true;
         }else {
           this.args.currentPage = this.args.currentPage + 1;
+          this.noMoreData = false;
+          this.getYayiCircle();
           //  再加载下一页
         }
       },
       loadTop(){
+        this.args.currentPage = 1;
+        this.timeStamp = Date.parse(new Date());
+        this.yayiCircleData = [];
+        this.getYayiCircle();
         //把所有参数回归为初始值，并且重新获得时间戳
       },
       //mt中接受的val值作为参数传入我的组件里
@@ -271,131 +284,134 @@
     -webkit-overflow-scrolling: touch;
     padding: px2vw(20) px2vw(20) 0;
     background-color: #fff;
-    .innerContainer{
-      width: 100%;
-      .eachContainer{
-        width:100%;
-        margin-bottom: px2vw(30);
-        .headerImgBox{
-          float: left;
-          width: px2vw(110);
-          .imgBox{
-            margin: px2vw(40) auto 0;
-            width: px2vw(80);
-            height: px2vw(80);
-            border-radius: 50%;
-            img{
-              width: 100%;
-            }
-          }
-        }
-        .details{
-          margin: px2vw(40) 0 0;
-          float: right;
-          width: px2vw(600);
-          .userName{
-            height: px2vw(32);
-            font-size: px2vw(32);
-            color: $themeColor;
-            line-height: px2vw(32);
-          }
-          .type1{
-            width: 100%;
-            font-size: px2vw(30);
-            color: #333;
-            margin-top: px2vw(34);
-            line-height: px2vw(50);
-            /*height: px2vw(250);*/
-            .overWord{
-              display: -webkit-box;
-              -webkit-box-orient: vertical;
-              -webkit-line-clamp: 5;
-              overflow: hidden;
-            }
-            .isDisplayOrFold{
-              color: $themeColor;
-              font-size: px2vw(30);
-              line-height: px2vw(80);
-              height: px2vw(60);
-            }
-            .pictures{
-              margin: px2vw(20) 0;
-              .onePic{
-                img{
-                  max-height: px2vw(360);
-                  max-width: 100%;
-                }
-              }
-              .twoPic{
-                display: inline-block;
-                margin: 0 px2vw(10) px2vw(10) 0;
-                width: px2vw(190);
-                height: px2vw(190);
-                overflow: hidden;
-                img{
-                  max-width: px2vw(400);
-                  max-height: px2vw(400);
-                }
-              }
-            }
-          }
-          .typeOther{
-            width: 100%;
-            font-size: px2vw(30);
-            color: #333;
-            margin-top: px2vw(34);
-            line-height: px2vw(80);
-            .shareBox{
-              width: 100%;
-              height: px2vw(120);
-              padding: px2vw(15);
+    .innerContainerWrap{
+      min-height: px2vw(100);
+      .innerContainer{
+        width: 100%;
+        .eachContainer{
+          width:100%;
+          margin-bottom: px2vw(30);
+          .headerImgBox{
+            float: left;
+            width: px2vw(110);
+            .imgBox{
+              margin: px2vw(40) auto 0;
+              width: px2vw(80);
+              height: px2vw(80);
+              border-radius: 50%;
               img{
-                width: px2vw(90);
-                margin-right: px2vw(15);
+                width: 100%;
               }
-              .shareTitle{
-                font-size: px2vw(28);
-                line-height: px2vw(44);
-                color: #333;
+            }
+          }
+          .details{
+            margin: px2vw(40) 0 0;
+            float: right;
+            width: px2vw(600);
+            .userName{
+              height: px2vw(32);
+              font-size: px2vw(32);
+              color: $themeColor;
+              line-height: px2vw(32);
+            }
+            .type1{
+              width: 100%;
+              font-size: px2vw(30);
+              color: #333;
+              margin-top: px2vw(34);
+              line-height: px2vw(50);
+              /*height: px2vw(250);*/
+              .overWord{
                 display: -webkit-box;
                 -webkit-box-orient: vertical;
-                -webkit-line-clamp: 2;
+                -webkit-line-clamp: 5;
                 overflow: hidden;
               }
-            }
-          }
-          .menuBar{
-            margin-top: px2vw(20);
-            font-size: px2vw(24);
-            color: #999;
-            .deleteBtn{
-              margin-left: px2vw(30);
-              display: inline-block;
-              color: $themeColor;
-            }
-            .commentAndLike{
-              img{
-                width: px2vw(30);
-                vertical-align: sub;
+              .isDisplayOrFold{
+                color: $themeColor;
+                font-size: px2vw(30);
+                line-height: px2vw(80);
+                height: px2vw(60);
               }
-              float: right;
-              display: inline-block;
-              width: px2vw(100);
-              text-align: right;
+              .pictures{
+                margin: px2vw(20) 0;
+                .onePic{
+                  img{
+                    max-height: px2vw(360);
+                    max-width: 100%;
+                  }
+                }
+                .twoPic{
+                  display: inline-block;
+                  margin: 0 px2vw(10) px2vw(10) 0;
+                  width: px2vw(190);
+                  height: px2vw(190);
+                  overflow: hidden;
+                  img{
+                    max-width: px2vw(400);
+                    max-height: px2vw(400);
+                  }
+                }
+              }
             }
-          }
-          .commentBox{
-            color: #333;
-            margin-top: px2vw(20);
-            border-top: 1px solid #ddd;
-            ul{
-              margin: px2vw(30) 0;
-              padding: 0 px2vw(10) px2vw(20);
-              background-color: #f6f6f6;
-              li{
-                padding: px2vw(20) px2vw(10) 0;
-                .commentUserName{
-                  color: $themeColor;
+            .typeOther{
+              width: 100%;
+              font-size: px2vw(30);
+              color: #333;
+              margin-top: px2vw(34);
+              line-height: px2vw(80);
+              .shareBox{
+                width: 100%;
+                height: px2vw(120);
+                padding: px2vw(15);
+                img{
+                  width: px2vw(90);
+                  margin-right: px2vw(15);
+                }
+                .shareTitle{
+                  font-size: px2vw(28);
+                  line-height: px2vw(44);
+                  color: #333;
+                  display: -webkit-box;
+                  -webkit-box-orient: vertical;
+                  -webkit-line-clamp: 2;
+                  overflow: hidden;
+                }
+              }
+            }
+            .menuBar{
+              margin-top: px2vw(20);
+              font-size: px2vw(24);
+              color: #999;
+              .deleteBtn{
+                margin-left: px2vw(30);
+                display: inline-block;
+                color: $themeColor;
+              }
+              .commentAndLike{
+                img{
+                  width: px2vw(30);
+                  vertical-align: sub;
+                }
+                float: right;
+                display: inline-block;
+                width: px2vw(100);
+                text-align: right;
+              }
+            }
+            .commentBox{
+              color: #333;
+              margin-top: px2vw(20);
+              border-top: 1px solid #ddd;
+              ul{
+                margin: px2vw(30) 0;
+                padding: 0 px2vw(10) px2vw(20);
+                background-color: #f6f6f6;
+                li{
+                  padding: px2vw(20) px2vw(10) 0;
+                  .commentUserName{
+                    color: $themeColor;
+                  }
                 }
               }
             }
@@ -403,6 +419,7 @@
         }
       }
     }
+
   }
   .clr{
     clear: both;

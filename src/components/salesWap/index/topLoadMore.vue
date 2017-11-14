@@ -83,6 +83,9 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../common/sass/factory";
+  .wrap{
+    z-index: 15;
+  }
   .upDown{
     margin-top: px2vw(30);
     height: px2vw(30);
