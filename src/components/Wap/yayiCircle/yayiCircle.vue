@@ -74,7 +74,7 @@
       </mt-loadmore>
     </div>
     <doComment v-if="isComment" :args="commentInfo" v-on:commentRes="isCommentRes" v-on:cancelComment="isComment = false"></doComment>
-    <!--<seeImg :url="picUrl" v-if="showPic" v-on:closeImgHolder="showPic = false"></seeImg>-->
+    <seeImg :url="picUrl" v-if="showPic" v-on:closeImgHolder="showPic = false"></seeImg>
   </div>
 </template>
 
@@ -83,9 +83,9 @@
   import {YAYI_CIRCLE, DELETE_TREND, ADD_COMMENT, LIKE} from '../../../vuex/types'
   import Util from '../../../vuex/util'
   import { tokenMethods } from '../../../vuex/util'
-  import {Indicator, InfiniteScroll,Popup, LoadMore, Toast} from 'mint-ui'
+  import {Indicator, InfiniteScroll,Popup, LoadMore, Toast, MessageBox} from 'mint-ui'
   import doComment from '../index/doComment.vue'
-//  import seeImg from '../index/seeImg.vue'
+  import seeImg from '../index/seeImg.vue'
 
   export default {
     data(){
@@ -99,7 +99,7 @@
         noMoreData:false,     //没有更多数据
         timeStamp:null,       //进入页面获取当前时间戳，下拉刷新会更新，但是加载更多不会
         isDisplayOrFold:true, //显示全部和折叠按钮
-        myUserId:tokenMethods.getWapUser().userId,     //获取当前登录账号的userID
+        myUserId:tokenMethods.getWapUser() ? tokenMethods.getWapUser().userId:'',     //获取当前登录账号的userID
         isComment:false,      //显示评论框
         commentContent:'',    //评论内容
         commentInfo: {        //点击评论按钮时，暂存的数据
@@ -108,14 +108,14 @@
           userName:'',
           parentId:''
         },
-//        picUrl:'',            //查看大图的url
-//        showPic:false,        //查看大图的开关
+        picUrl:'',            //查看大图的url
+        showPic:false,        //查看大图的开关
       }
     },
     components:{
       topLoadMore,
       doComment,
-//      seeImg
+      seeImg
     },
     created(){
       this.timeStamp = Date.parse(new Date());
@@ -175,6 +175,11 @@
         })
       },
       commenting(index,id,userName,parentId){
+        if(!tokenMethods.getWapToken()){
+          MessageBox.confirm('请先登录!').then(action => {
+            this.$router.push({path: '/logIn', query: {backName: '/yayiCircle'}});
+          })
+        }
         this.isComment = true;
         this.commentInfo = {
           type:'牙医圈',
@@ -194,10 +199,16 @@
 
       },
       likeThisTrend(index,id){
+        if(!tokenMethods.getWapToken()){
+          MessageBox.confirm('请先登录!').then(action => {
+            this.$router.push({path: '/logIn', query: {backName: '/yayiCircle'}});
+          })
+        }
         let obj = {
           type : '牙医圈',
           typeId : id,
         }
+        console.log('aa')
         this.$store.dispatch(LIKE, obj).then(res=>{
           //改变是否点赞的图标
 
@@ -206,10 +217,14 @@
           //点完之后真，+1，假，-1
         })
       },
-//      seeBigPic(url){
-//        this.showPic = true;
-//        this.picUrl = url
-//      },
+      seeBigPic(url){
+        this.showPic = true;
+        this.picUrl = url
+      },
+      // 未登录时
+      toLog: function () {
+        this.$router.push({path: '/logIn'})
+      },
       loadMore(){
         if(this.args.currentPage >= this.totalPage){
 //          this.noMoreGood = true;
