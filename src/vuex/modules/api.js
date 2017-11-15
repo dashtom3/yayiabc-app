@@ -351,7 +351,12 @@ export function addComment(params) {
   return getWithToken('/comment/addCom', params);
 }
 
-//发布评论
+//删除评论
+export function deleteComment(params) {
+  return getWithToken('/comment/delete', params);
+}
+
+//点赞
 export function like(params) {
   return getWithToken('/zan/upvote ', params);
 }

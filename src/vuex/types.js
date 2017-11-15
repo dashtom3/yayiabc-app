@@ -123,6 +123,7 @@ export const NEW_TREND = 'NEW_TREND'                                            
 export const ADD_COMMENT = 'ADD_COMMENT'                                            //添加评论
 export const DELETE_TREND = 'DELETE_TREND'                                          //牙医圈删除动态
 export const LIKE = 'LIKE'                                                          //点赞
+export const DELETE_COMMENT = 'DELETE_COMMENT'                                      //删除评论
 
 /*
 * 创客系统管理模块

@@ -69,7 +69,9 @@
           </div>
         </div>
           <!--数据到底-->
-
+        <div v-if="noMoreData" class="noMoreData">
+          - End -
+        </div>
         <!--请求完毕后，无数据显示状态-->
         <div class="noTrend" v-if="yayiCircleData.length == 0 && !isLoading">
           <img src="../../../images/yayiCircle/new.png" alt="">
@@ -183,6 +185,7 @@
           MessageBox.confirm('请先登录!').then(action => {
             this.$router.push({path: '/logIn', query: {backName: '/yayiCircle'}});
           })
+          return
         }
         this.isComment = true;
         this.commentInfo = {
@@ -207,6 +210,7 @@
           MessageBox.confirm('请先登录!').then(action => {
             this.$router.push({path: '/logIn', query: {backName: '/yayiCircle'}});
           })
+          return
         }
         let obj = {
           type : '牙医圈',
@@ -225,13 +229,9 @@
         this.showPic = true;
         this.picUrl = url
       },
-      // 未登录时
-      toLog: function () {
-        this.$router.push({path: '/logIn'})
-      },
       loadMore(){
         if(this.args.currentPage >= this.totalPage){
-//          this.noMoreGood = true;
+          this.noMoreData = true;
         }else {
           this.args.currentPage = this.args.currentPage + 1;
           this.noMoreData = false;
@@ -362,7 +362,7 @@
                 }
                 .twoPic{
                   display: inline-block;
-                  margin: 0 px2vw(10) px2vw(10) 0;
+                  margin: 0 px2vw(10) px2vw(4) 0;
                   width: px2vw(190);
                   height: px2vw(190);
                   overflow: hidden;
@@ -436,6 +436,14 @@
             }
           }
         }
+      }
+      .noMoreData{
+        width: 100%;
+        height: px2vw(40);
+        font-size: px2vw(26);
+        color: #999;
+        text-align: center;
+        line-height: px2vw(40);
       }
       .noTrend{
         width: 100%;

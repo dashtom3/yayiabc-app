@@ -986,6 +986,18 @@ const actions = {
     });
   },
 
+  //删除评论
+  [types.DELETE_COMMENT](context, params) {
+    return new Promise((resolve, reject) => {
+      api.deleteComment(params).then((data) => {
+        // state.productData = data.data.data
+        resolve(data);
+      }).catch((err) => {
+        resolve(data);
+      });
+    });
+  },
+
   //点赞
   [types.LIKE](context, params) {
     return new Promise((resolve, reject) => {
