@@ -53,7 +53,7 @@
                   <div class="rightTime">{{item.commentTime}}</div>
                 </div>
 
-                <div class="likeBox">
+                <div @click="write('two',item.userName)" class="likeBox">
                   <div class="replyBox">
                   <span class="commentImgBox2">
                     <img src="../../../../images/case/caseOfIllness/comment.png" alt="">
@@ -87,13 +87,12 @@
       </div>
       <!--二级评论结束-->
 
-      <doComment v-if="isComment" :args="commentInfo" v-on:commentRes="isCommentRes" v-on:cancelComment="isComment = false"></doComment>
-
 
 
 
 <!--一级评论-->
-      <div class="commentBoxOnce">
+      <!--<div :class="{'changeHeight':commentChild.switchShow == true}" class="commentBoxOnce">-->
+      <div v-show="!commentChild.switchShow" class="commentBoxOnce">
       <div  id="allCount" class="allCount ">
         全部评论&nbsp;({{detailedCommentArgs.totalNumber}})
       </div>
@@ -111,12 +110,22 @@
             </div>
 
             <div class="likeBox">
-              <div @click="write()" class="likeBox">
+              <div v-if="item.userId != myUserId" @click="write('one')" class="likeBox">
                   <span class="commentImgBox2">
                     <img src="../../../../images/case/caseOfIllness/comment.png" alt="">
                   </span>
               <span>回复</span>
                </div>
+
+
+              <div @click="_delete()" v-if="item.userId == myUserId" class="likeBox">
+                  <span class="commentImgBox2">
+                    <img src="../../../../images/case/caseOfIllness/delete.png" alt="">
+                  </span>
+                <span>删除</span>
+              </div>
+
+
               <div class="likeBox">
               <span class="commentImgBoxs">
                     <img src="../../../../images/case/caseOfIllness/like.png" alt="">
@@ -142,10 +151,10 @@
 
 
       <!--下部导航栏-->
-      <div  class="tabDevBox">
-        <div v-show="!writeSwitch">  <!--开关-->
+      <div v-show="writeSwitch"  class="tabDevBox">
+        <div>  <!--开关-->
           <div v-show="commentSwitch" class="writeCommentBox">
-            <div @click="write()" class="writeCommentBoxSecond">
+            <div @click="write('one')" class="writeCommentBoxSecond">
           <span class="writeImgBox">
             <img src="../../../../images/case/caseOfIllness/write.png" alt="">
           </span>
@@ -183,6 +192,10 @@
       </div>
       </div>
 
+
+      <doComment class="doComment" v-if="isComment" :args="commentInfo" v-on:commentRes="isCommentRes" v-on:cancelComment="escBtn"></doComment>
+
+
     </div>
 </template>
 
@@ -200,8 +213,9 @@
     },
     data(){
       return{
+        commentIndex: '',
         commentSwitch: false,
-        writeSwitch: false,
+        writeSwitch: true,
         containerScrollTop: 0,
         detailedCommentArgs: [], //获取详情评论的数据
         detailedCommentParameter: {  //获取详情评论的参数
@@ -210,6 +224,8 @@
           numberPerPage: 10, //每页显示多少条
           type: '病例'
         },
+        //获取当前登录账号的userID
+        myUserId:tokenMethods.getWapUser() ? tokenMethods.getWapUser().userId:'',
         commentChild:{
           comment: [],
           switchShow: false
@@ -222,6 +238,10 @@
       this.getCaseComment();
     },
     methods:{
+      //删除按钮
+      _delete(){
+
+      },
       //隐藏二级评论
       backChild(){
         this.commentChild.switchShow = false;
@@ -248,16 +268,12 @@
       share(){
 
       },
-      //发布按钮
-      send(){
-        if(this.pointLogin())
-        {
-
-        }else {
-          this.isLogin();
-        }
+      //评论取消按钮
+      escBtn(){
+        this.isComment = false;
+        window.scroll(0,this.containerScrollTop);
+        this.writeSwitch = true;
       },
-
       //底部评论按钮
       comment (){
         let that = this;
@@ -273,23 +289,40 @@
         }
       },
       //评论子组件品论完回调
+      //发布按钮
       isCommentRes(res){
         console.log(res,'结果');
         this.isComment = false;
+        window.scroll(0,this.containerScrollTop);
       },
-      write(){
+      write(type, name){
+        name = name || '';
         if(this.pointLogin())
         {
-
-
-          //一级评论
-          this.isComment = true;
-          this.commentInfo = {
-            type: this.types,
-            index:'',
-            id: this.detailedCommentParameter.beCommentedId,
-            userName:'',
-            parentId:''
+          this.containerScrollTop = window.document.body.scrollTop;
+          this.writeSwitch = false;
+          if(type === 'one')
+          {
+            //一级评论
+            this.isComment = true;
+            this.commentInfo = {
+              type: this.types,
+              index:'',
+              id: this.detailedCommentParameter.beCommentedId,
+              userName:'',
+              parentId:''
+            }
+          }else {
+            //二级评论
+            console.log(name, '姓名');
+            this.isComment = true;
+            this.commentInfo = {
+              type: this.types,
+              index: this.commentIndex,
+              id: this.detailedCommentParameter.beCommentedId,
+              userName: name,
+              parentId: this.commentChild.comment.commentId
+            }
           }
         }else {
           this.isLogin();
@@ -298,12 +331,12 @@
       //获取病例评论数据
       getCaseComment(){
         this.$store.dispatch('GET_CASE_COMMENT', this.detailedCommentParameter).then((res) => {
-          console.log(this.detailedCommentArgs);
           this.detailedCommentArgs = res;
         })
       },
-      //子组件传值 跳转二级评论
+      //子组件 跳转二级评论
       childComment(index){
+        this.commentIndex= index;
         this.commentChild.comment = this.detailedCommentArgs.data[index];
         this.commentChild.switchShow = true;
       },
@@ -329,6 +362,10 @@
 <style scoped lang="scss" rel="stylesheet/scss">
     @import "../../../../common/sass/factory";
 
+    .changeHeight{
+      height: 0 !important;
+      overflow: hidden !important;
+    }
     .replyBox{
       display: inline-block;
       vertical-align: middle;
@@ -701,5 +738,9 @@
       background-color: white;
       margin-bottom: px2vw(88);
     }
+  .doComment{
+    position: relative !important;
+    z-index: 20000 !important;
+  }
 </style>
 

@@ -42,22 +42,11 @@
 
       </div>
 
-
       <div>
         <comment :types="'病例'"></comment>
       </div>
     </div>
 
-
-
-
-
-    <!--子评论的分组件-->
-    <!--<div v-if="commentChild.switchShow" class="commentChildBox">-->
-      <!--<div class="backgroundWrap"></div>-->
-     <!---->
-      <!--<comment-child :comment="commentChild.commentChildData"></comment-child>-->
-    <!--</div>-->
 
   </div>
 </template>
