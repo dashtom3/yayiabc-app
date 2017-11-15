@@ -55,6 +55,7 @@
           numberPerPage: 10,
           order: 0,
           totalPage: -1
+
         },
         isLoading:false,
         listCaseData: [] //获取到列表的数据
