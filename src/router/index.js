@@ -91,6 +91,11 @@ const caseDetailed = resolve => require(['@/components/Wap/community/case/caseDe
 const newTrend = resolve => require(['@/components/Wap/yayiCircle/newTrend'], resolve)
 const yayiCircle = resolve => require(['@/components/Wap/yayiCircle/yayiCircle'], resolve)
 
+//我的消息
+const infoIndex = resolve => require(['@/components/Wap/mine/information/infoIndex'], resolve)
+const infoList = resolve => require(['@/components/Wap/mine/information/infoList'], resolve)
+const infoDetail = resolve => require(['@/components/Wap/mine/information/infoDetail'], resolve)
+
 Vue.use(Router)
 
 let router = new Router({
@@ -437,7 +442,21 @@ let router = new Router({
       path: '/yayiCircle',
       component: yayiCircle
     },
-
+    {
+      name: 'infoIndex',
+      path: '/infoIndex',
+      component: infoIndex
+    },
+    {
+      name: 'infoList',
+      path: '/infoList',
+      component: infoList
+    },
+    {
+      name: 'infoDetail',
+      path: '/infoDetail',
+      component: infoDetail
+    },
     {
       name: 'caseIllness', redirect: {name: 'caseOfIllness'},
       path: '/caseIllness',

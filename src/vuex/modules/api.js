@@ -338,7 +338,7 @@ export function newTrend(params) {
 
 //获取牙医圈列表
 export function yayiCircle(params) {
-  return geters('/moment/queryList', params);
+  return getWithToken('/moment/queryList', params);
 }
 
 //删除牙医圈的动态

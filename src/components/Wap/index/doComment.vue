@@ -50,10 +50,10 @@
           commentContent:this.commentContent,
           parentId:this.args.parentId ? this.args.parentId : '',
         }
-        console.log(obj,'obj')
+//        console.log(obj,'obj')
         this.$store.dispatch(ADD_COMMENT, obj).then(res=>{
           if(res.callStatus === 'SUCCEED'){
-            console.log(res)
+//            console.log(res)
             Toast({message: '发布成功！', duration: 1500});
             this.$emit('commentRes',res.data);
             this.commentContent = ''

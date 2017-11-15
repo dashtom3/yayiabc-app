@@ -16,7 +16,7 @@
             <div class="headerImgBox">
               <div class="imgBox">
                 <img :src="item.userPic" alt="" v-if="item.userPic">
-                <img src="../../../images/mine/loadUserImg3.png" alt="" v-else>
+                <img src="../../../images/mine/defaultHead.png" alt="" v-else>
               </div>
             </div>
             <div class="details">
@@ -47,11 +47,14 @@
                 <span>{{item.momentTime}}</span>
                 <span v-if="myUserId == item.userId" class="deleteBtn" @click="deleteTrend(item.momentId,index)">删除</span>
                 <span class="commentAndLike" @click="likeThisTrend(index,item.momentId)">
-                  <img src="../../../images/yayiCircle/dislike.png" alt="">
-                  <!--<img src="../../../images/yayiCircle/like.png" alt="">-->
-                  {{item.zanNumber}}</span>
+                  <img src="../../../images/yayiCircle/dislike.png" alt="" v-if="item.isZan === 0">
+                  <img src="../../../images/yayiCircle/like.png" alt="" v-else>
+                  {{item.zanNumber}}
+                </span>
                 <span class="commentAndLike" @click="commenting(index,item.momentId)">
-                  <img src="../../../images/yayiCircle/comment.png" alt=""> {{item.subCommentList.length}}</span>
+                  <img src="../../../images/yayiCircle/comment.png" alt="">
+                  {{item.subCommentList.length}}
+                </span>
               </div>
               <div class="commentBox" v-if="item.subCommentList.length > 0">
                 <ul>
@@ -60,7 +63,7 @@
                     <span v-if="comments.replyUserName" class="commentUserName">回复{{comments.replyUserName}}</span>
                     <span class="commentUserName">:</span>
                     <span>{{comments.commentContent}}</span>
-                    <span v-if="myUserId == comments.userId" class="commentUserName" @click="deleteComment">删除</span>
+                    <span v-if="myUserId == comments.userId" class="commentUserName" @click.stop="deleteTheComment(index,commentsIndex,item.momentId,comments.commentId)">删除</span>
                   </li>
                 </ul>
               </div>
@@ -86,7 +89,7 @@
 
 <script type="text/ecmascript-6">
   import topLoadMore from '../../salesWap/index/topLoadMore.vue'
-  import {YAYI_CIRCLE, DELETE_TREND, ADD_COMMENT, LIKE} from '../../../vuex/types'
+  import {YAYI_CIRCLE, DELETE_TREND, ADD_COMMENT, LIKE, DELETE_COMMENT} from '../../../vuex/types'
   import Util from '../../../vuex/util'
   import { tokenMethods } from '../../../vuex/util'
   import {Indicator, InfiniteScroll,Popup, LoadMore, Toast, MessageBox} from 'mint-ui'
@@ -146,13 +149,13 @@
             switch (true){
               //几分钟前
               case this.timeStamp - item.momentTime < 3600000:
-                console.log(this.timeStamp - item.momentTime)
-                item.momentTime = new Date((this.timeStamp - item.momentTime)).getMinutes()  + '分钟前';
+//                console.log(this.timeStamp - item.momentTime)
+                item.momentTime = Math.ceil((this.timeStamp - item.momentTime) / 1000 / 60) + '分钟前';
                 break;
               //几小时前
               case this.timeStamp - item.momentTime >= 3600000 && this.timeStamp - item.momentTime < 86400000:
-                console.log(this.timeStamp - item.momentTime)
-                item.momentTime = new Date((this.timeStamp - item.momentTime)).getHours() + '小时前';
+//                console.log(this.timeStamp - item.momentTime)
+                item.momentTime = Math.floor((this.timeStamp - item.momentTime) / 1000 / 60 / 60) + '小时前';
                 break;
               //日期
               case this.timeStamp - item.momentTime >= 86400000:
@@ -161,8 +164,8 @@
             }
             this.yayiCircleData.push(item)
             this.isLoading = false
-//            console.log(item);
           })
+          console.log(this.yayiCircleData,'ww');
           this.totalPage = res.totalPage
           //控制是否显示加载到底的一个判断值，虽然我觉得基本上用不到。
           if(this.args.currentPage === res.totalPage && this.args.currentPage > 1){
@@ -197,13 +200,28 @@
         }
       },
       isCommentRes(res){
-        console.log(res,'结果')
         let index = this.commentInfo.index;
-        this.$set(this.yayiCircleData[index],'subCommentList',this.yayiCircleData[index].subCommentList.push(res))
+//        console.log(index)
+//        console.log(this.yayiCircleData[index],'当前')
+//        console.log(this.yayiCircleData[index].subCommentList.push(res),'结果')
+//        this.$set(this.yayiCircleData[index],'subCommentList',this.yayiCircleData[index].subCommentList.push(res))
+        this.yayiCircleData[index].subCommentList.push(res)
         this.isComment = false;
       },
-      deleteComment(){
-
+      deleteTheComment(index,num,id,thisId){
+        let obj = {
+          type:'牙医圈',
+          beCommentedId:id,
+          parentId:thisId,
+//          presentId:''
+        }
+        this.$store.dispatch(DELETE_COMMENT, obj).then(res=>{
+          if(res.callStatus === 'SUCCEED'){
+            Toast({message: '删除成功！', duration: 1500});
+//            this.$set(this.yayiCircleData[index],'subCommentList',this.yayiCircleData[index].subCommentList.splice(num,1))
+            this.yayiCircleData[index].subCommentList.splice(num,1)
+          }
+        })
       },
       likeThisTrend(index,id){
         if(!tokenMethods.getWapToken()){
@@ -216,13 +234,13 @@
           type : '牙医圈',
           typeId : id,
         }
-        console.log('aa')
         this.$store.dispatch(LIKE, obj).then(res=>{
           //改变是否点赞的图标
-
+          this.yayiCircleData[index].isZan = this.yayiCircleData[index].isZan ? 0 : 1;
           //数字变化
-          let likeNum = this.yayiCircleData[index].zanNumber;
+//          let likeNum = this.yayiCircleData[index].zanNumber;
           //点完之后真，+1，假，-1
+          this.yayiCircleData[index].zanNumber = this.yayiCircleData[index].isZan ? this.yayiCircleData[index].zanNumber + 1 : this.yayiCircleData[index].zanNumber - 1;
         })
       },
       seeBigPic(url){
@@ -301,7 +319,7 @@
     overflow: scroll;
     width: 100%;
     -webkit-overflow-scrolling: touch;
-    padding: px2vw(20) px2vw(20) 0;
+    padding: px2vw(20) px2vw(20) 0 0;
     background-color: #fff;
     .innerContainerWrap{
       min-height: px2vw(100);
@@ -312,12 +330,13 @@
           margin-bottom: px2vw(30);
           .headerImgBox{
             float: left;
-            width: px2vw(110);
+            width: px2vw(130);
             .imgBox{
               margin: px2vw(40) auto 0;
-              width: px2vw(80);
-              height: px2vw(80);
+              width: px2vw(90);
+              height: px2vw(90);
               border-radius: 50%;
+              overflow: hidden;
               img{
                 width: 100%;
               }
