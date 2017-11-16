@@ -1,11 +1,11 @@
 <template>
-<div ref="scrollBox" class="wrap">
+<div ref="scrollBox" class="wrap loading">
     <mt-loadmore :top-method="loadMore" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState">
       <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
 
     <div  v-infinite-scroll="getCaseListMore" infinite-scroll-immediate-check="true">
       <div @click="goCaseDetailed()" v-for="(item, index) in listCaseData" class="caseBox">
-        <div class="userBox addChange1">
+        <div class="userBox " :class="{'addChange1': item.cover !== ''}">
           <div class="userPicture">
             <img src="../../../../images/mine/zhifubao.png" alt="">
             <span class="userName">{{item.writer}}</span>
@@ -15,16 +15,16 @@
             {{item.headline}}
           </div>
         </div>
-        <div class="userImgBox addChange2">
-          <img src="../../../../images/case/caseOfIllness/1.png" alt="">
+        <div v-if="item.cover !== ''" class="userImgBox" :class="{'addChange2': item.cover !== ''}">
+          <img :src="item.cover" alt="">
         </div>
 
         <div class="readeBox">
           <span class="readeClass">{{item.classify}}</span>
-          <span class="readeNum">1200 阅读</span>
-          <span class="readeNum2">· 31评论</span>
-          <span class="readeNum2">· 20赞</span>
-          <span class="coin"> {{item.charge_Number}}乾币</span>
+          <span class="readeNum">{{item.readNumber==null?0: item.readNumber}} 阅读</span>
+          <span class="readeNum2">· {{item.commentNumber}}评论</span>
+          <span class="readeNum2">· {{item.postFavour}}赞</span>
+          <span class="coin"> {{item.chargeNumber==null?0: item.chargeNumber}}乾币</span>
         </div>
       </div>
     </div>
@@ -163,6 +163,13 @@
   }
 </script>
 
+<style lang="scss" rel="stylesheet/scss">
+  @import "../../../../common/sass/factory";
+  .loading .mint-loadmore{
+    min-height:px2vw(100);
+  }
+</style>
+
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss" rel="stylesheet/scss">
     @import "../../../../common/sass/factory";
@@ -180,89 +187,88 @@
     }
     /* 有图添加样式 */
 
-    /* .wrap{
-      position: fixed;
-      z-index: -1;
-      top: px2vw(208);
-      bottom: 0;
-      overflow: scroll;
-      width: 100%;
-      -webkit-overflow-scrolling: touch;
-    }*/
-    .edit{
-      width: px2vw(100);
-      height: px2vw(100);
-      position: fixed;
-      bottom: px2vw(148);
-      right: px2vw(50);
-      img{
-        width: 100%;
-        height: 100%;
-      }
-    }
-    .userImgBox>img{
-      width: px2vw(160);
-      height: px2vw(160);
-      border: 1px solid red;
-      border-radius: px2vw(10);
-    }
-    .coin{
-      float: right;
-      font-size: px2vw(24);
-      color: #d81e06;
-    }
-    .readeNum{
-      margin-left: px2vw(18);
-      color: #999999;
-    }
-    .readeNum2{
-      margin-left: px2vw(8);
-      color: #999999;
-    }
-    .readeBox{
-      margin-top: px2vw(28);
-    }
-    .readeClass{
-      width: px2vw(98);
-      height: px2vw(26);
-      border: 1px solid #3676b6;
-      text-align: center;
-      color: #3676b6;
-      line-height: 0;
-      padding-bottom: px2vw(2);
-      border-radius: px2vw(8);
-    }
-    .caseContent{
-      min-height: px2vw(100);
-      margin-top: px2vw(24);
-      font-size: px2vw(36);
-    }
-    .userName{
-      margin-left: px2vw(20);
-      font-size: px2vw(26);
-      vertical-align: middle;
-    }
-    .userName.userTime{
-      font-size: px2vw(24);
-      color: #999999;
+    /*<!--.wrap{-->
+     <!--position: fixed;-->
+     <!--z-index: -1;-->
+     <!--top: px2vw(208);-->
+     <!--bottom: 0;-->
+     <!--overflow: scroll;-->
+     <!--width: 100%;-->
+     <!-- -webkit-overflow-scrolling: touch;-->
+   <!--}-->*/
+   .edit{
+     width: px2vw(100);
+     height: px2vw(100);
+     position: fixed;
+     bottom: px2vw(148);
+     right: px2vw(50);
+     img{
+       width: 100%;
+       height: 100%;
+     }
+   }
+   .userImgBox>img{
+     width: px2vw(160);
+     height: px2vw(160);
+     border-radius: px2vw(10);
+   }
+   .coin{
+     float: right;
+     font-size: px2vw(24);
+     color: #d81e06;
+   }
+   .readeNum{
+     margin-left: px2vw(18);
+     color: #999999;
+   }
+   .readeNum2{
+     margin-left: px2vw(8);
+     color: #999999;
+   }
+   .readeBox{
+     margin-top: px2vw(28);
+   }
+   .readeClass{
+     width: px2vw(98);
+     height: px2vw(26);
+     border: 1px solid #3676b6;
+     text-align: center;
+     color: #3676b6;
+     line-height: 0;
+     padding-bottom: px2vw(2);
+     border-radius: px2vw(8);
+   }
+   .caseContent{
+     min-height: px2vw(100);
+     margin-top: px2vw(24);
+     font-size: px2vw(36);
+   }
+   .userName{
+     margin-left: px2vw(20);
+     font-size: px2vw(26);
+     vertical-align: middle;
+   }
+   .userName.userTime{
+     font-size: px2vw(24);
+     color: #999999;
 
-    }
-    .userPicture img{
-      vertical-align: middle;
-      width: px2vw(56);
-      height: px2vw(56);
-      border-radius: 50%;
-    }
-    .caseBox{
-      background-color: #ffffff;
-      border-bottom: 1px solid #f4f4f4;
-      padding: px2vw(36) px2vw(17) px2vw(35) px2vw(17);
-    }
+   }
+   .userPicture img{
+     vertical-align: middle;
+     width: px2vw(56);
+     height: px2vw(56);
+     border-radius: 50%;
+   }
+   .caseBox{
+     background-color: #ffffff;
+     border-bottom: 1px solid #f4f4f4;
+     padding: px2vw(36) px2vw(17) px2vw(35) px2vw(17);
+   }
 
-    .fade-enter-active, .fade-leave-active {
-      transition: opacity .5s
-    }
-    .fade-enter, .fade-leave-to /* .fade-leave-active in below version 2.1.8 */ {
+   .fade-enter-active, .fade-leave-active {
+     transition: opacity .5s
+   }
+   .fade-enter, .fade-leave-to /* .fade-leave-active in below version 2.1.8 */ {
       opacity: 0
     }
 </style>

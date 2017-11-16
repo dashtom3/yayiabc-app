@@ -544,7 +544,7 @@ export function getCaseList(params) {
 }
 // 获取发现病例详情信息
 export function getCaseDetail(params) {
-  return getWithToken('/cottoms/cottomsDetail', params)
+  return geters('/cottoms/cottomsDetail', params)
 }
 // 获取发现病例评论信息
 export function getCaseComment(params) {

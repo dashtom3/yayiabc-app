@@ -1,14 +1,13 @@
 <template>
     <div>
-
       <!--二级评论开始-->
       <div v-if="commentChild.switchShow" class="back_Ground"></div>
       <div v-if="commentChild.switchShow">
         <div class="wrapTop">
           <span class="title">{{commentChild.comment.subCommentList.length}}条回复</span>
-          <span @click="backChild()" class="backImgBox2">
-        <img src="../../../../images/case/backer.png" alt="">
-      </span>
+            <span @click="backChild()" class="backImgBox2">
+              <img src="../../../../images/case/backer.png" alt="">
+            </span>
         </div>
         <div class="container">
           <div  class="comments commentBox">
@@ -78,16 +77,14 @@
             <div style="clear: both"></div>
           </div>
 
-          <div class="e ndFonts">-End-</div>
 
+          <div class="e ndFonts">-End-</div>
         </div>
 
 
 
       </div>
       <!--二级评论结束-->
-
-
 
 
 <!--一级评论-->
@@ -142,12 +139,17 @@
           <div @click="childComment(index)" v-if="item.subCommentList.length != 0" class="conmentsBox">{{item.subCommentList[0].replyUserName}}<span v-if="item.subCommentList.length != 1">等人</span>共{{item.subCommentList.length}}条回复&nbsp;></div>
         </div>
         <div style="clear: both"></div>
+      </div>
+        <div class="endFonts">-End-</div>
 
-        <div class="endFonts">
-          -End-
-        </div>
+
       </div>
 
+
+
+
+
+        <doComment class="doComment" v-if="isComment" :args="commentInfo" v-on:commentRes="isCommentRes" v-on:cancelComment="escBtn"></doComment>
 
 
       <!--下部导航栏-->
@@ -190,10 +192,10 @@
           </div>
         </div>
       </div>
-      </div>
 
 
-      <doComment class="doComment" v-if="isComment" :args="commentInfo" v-on:commentRes="isCommentRes" v-on:cancelComment="escBtn"></doComment>
+
+
 
       <share v-if="isShareShow" v-on:cancelShare="isShareShow = false" :shareData="shareData"></share>
     </div>
@@ -324,7 +326,6 @@
             }
           }else {
             //二级评论
-            console.log(name, '姓名');
             this.isComment = true;
             this.commentInfo = {
               type: this.types,
@@ -333,6 +334,8 @@
               userName: name,
               parentId: this.commentChild.comment.commentId
             }
+
+            console.log(this.commentInfo, '哈哈哈哈');
           }
         }else {
           this.isLogin();
@@ -591,7 +594,7 @@
     }
     .container{
       position: absolute;
-      top:px2vw(0);
+      top:px2vw(88);
       width: 100vw;
       left: 0;
       z-index:1001;

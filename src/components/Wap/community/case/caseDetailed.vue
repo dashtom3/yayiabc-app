@@ -41,12 +41,12 @@
         </div>
 
       </div>
-
-      <div>
-        <comment :types="'病例'"></comment>
-      </div>
     </div>
 
+
+    <div>
+      <comment :types="'病例'"></comment>
+    </div>
 
   </div>
 </template>
@@ -70,6 +70,7 @@
       getCaseData(){
         this.$store.dispatch('GET_CASE_DETAIL', {postId: 645}).then((res) => {
           this.caseDetailArgs = res.data;
+
         })
       },
       back (){
@@ -104,6 +105,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../../common/sass/factory";
+
 
 
   .backgroundWrap{
