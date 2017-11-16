@@ -550,3 +550,7 @@ export function getCaseDetail(params) {
 export function getCaseComment(params) {
   return geters('/comment/queryCom', params)
 }
+//视频播放
+export function getPlayComment(params) {
+  return geters('/vid/play', params)
+}

@@ -18,11 +18,14 @@
             <source src='./test.mp4' type="video/mp4"></source>
             <p>设备不支持</p>
            </video>
-           <img v-show="videos.centerPlayImg" @click="play()" class="vplay" src="../../../../images/video/play.png"/>
+           <img v-show="videos.centerPlayImg" class="vplay" src="../../../../images/video/play.png"/>
 
+
+
+          <transition name="fade">
           <!--视频控制条开始-->
-          <div class="controls">
-            <span @click="play()" class="playImgBox">
+          <div v-show="videos.controlShow" class="controls">
+            <span class="playImgBox">
               <img src="../../../../images/video/playRight.png" alt="">
             </span>
             <span>
@@ -47,6 +50,7 @@
               全屏
             </span>
           </div>
+          </transition>
           <!--视频控制条结束-->
         </div>
         <!--视频区域结束-->
@@ -87,8 +91,6 @@
       </div>
 
 
-
-
       <!--结尾-->
     </div>
 </template>
@@ -97,27 +99,74 @@
   export default {
     data(){
       return{
+
+        videoId: 22, //获取的视频ID
+
         videos:{
           centerPlayImg: true, //中间的播放按钮
           allTime: '00:00:00', //总时长
           currPlayTime: '00:00:00', //当前播放时间
-        }
+          controlShow: false,  //显示视频下部控件开关
+        },
       }
     },
     created(){
-
+      this.getVideos();
     },
     mounted(){
+      let timer ;
       let _this = this;
       //当视频可播放的时候
+      let controls = this.$el.querySelector('.controls'); //控件的最高级父级节点
       let video = this.$el.querySelector('.video');
       let progress = this.$el.querySelector('.progressBlue'); //进度条
       let proCircle = this.$el.querySelector('.proCircle'); //进度条 圆
       let progressBox = this.$el.querySelector('.progressBox'); //进度条父级BOX
       let expand = this.$el.querySelector('.allVideo'); //全屏按钮
+      let playImgBox = this.$el.querySelector('.playImgBox'); //控件左下角的播放按钮
+      let vplay = this.$el.querySelector('.vplay'); //中间的播放按钮
+
+      video.controls=false; //隐藏原有控件
 
 
-      video.controls=false;
+      //控件左下角的播放按钮
+      playImgBox.addEventListener('click',function () {
+        if(video.paused) {
+          video.play();
+          _this.videos.controlShow = true;
+          _this.videos.centerPlayImg = false;
+          timerFuc();
+        } else {
+          video.pause();
+          _this.videos.centerPlayImg = true;
+          timerFuc();
+        }
+      },false);
+
+      //中间的播放按钮
+      vplay.addEventListener('click',function () {
+        video.play();
+        _this.videos.controlShow = true;
+        _this.videos.centerPlayImg = false;
+        timerFuc();
+      },false);
+
+      video.addEventListener('click', function () {
+        _this.videos.controlShow = !_this.videos.controlShow;
+        if(_this.videos.controlShow)
+        {
+          timerFuc();
+        }
+      },false);
+
+      //计时隐藏控制条
+      function timerFuc() {
+        window.clearTimeout(timer);
+        timer = window.setTimeout(function () {
+          console.log(1);
+          _this.videos.controlShow = false;
+        },4500)
+      }
 
       video.oncanplay = function(){
         //显示视频总时长
@@ -159,21 +208,18 @@
             return;
         }
 
-
+        timerFuc();
 
         //计算百分比
         let proPre = distance / progressBoxWith;
-
 
         //显示进度条
         progress.style.width = (proPre * 100) + '%'; //蓝线进度
         proCircle.style.left = (proPre * 100) + '%'; //圆圈进度
 
-
         let duration = video.duration;
         //改变播放时间
         video.currentTime = (distance / progressBoxWith) * duration;
-
 
       });
 
@@ -182,6 +228,7 @@
       progressBox.touchstart = function (e) {
         let event = e || window.event;
         video.currentTime = (event.offsetX / this.offsetWidth) * video.duration;
+
       };
       progressBox.onclick = function (e) {
         let event = e || window.event;
@@ -207,18 +254,12 @@
 
     },
     methods:{
-      //播放/暂停 视频
-      play(){
-        let video = this.$el.querySelector('.video')
-        if(video.paused) {
-          video.play();
-          this.videos.centerPlayImg = false;
-        } else {
-          video.pause();
-          this.videos.centerPlayImg = true;
-        }
-      },
-
+      //获取视频
+      getVideos (){
+        this.$store.dispatch('GET_PLAY_VIDEOS', {viId: this.videoId}).then( (res)=>{
+          console.log(res);
+        });
+      }
     },
 
   }
@@ -245,7 +286,7 @@
     .videoBox .vplay{
       position: absolute;
       width: 15%;
-      z-index: 99;
+      z-index: 100;
       top: 50%;
       left: 50%;
       -webkit-transform: translate(-50%, -50%);
@@ -425,5 +466,11 @@
     color: #d81e06;
     margin-top: px2vw(10);
   }
+    .fade-enter-active, .fade-leave-active {
+      transition: opacity .6s
+    }
+    .fade-enter, .fade-leave-to  {
+      opacity: 0
+    }
 </style>
 
