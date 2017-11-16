@@ -47,7 +47,7 @@
         this.$destroy()
       },
       release(){
-        
+
       }
     },
   }
