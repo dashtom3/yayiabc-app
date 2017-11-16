@@ -178,3 +178,9 @@ export const GET_CASE_COMMENT = 'GET_CASE_COMMENT';                         //�
 
 
 
+export const GET_PLAY_VIDEOS = 'GET_PLAY_VIDEOS';                         //视频播放
+
+
+
+
+
