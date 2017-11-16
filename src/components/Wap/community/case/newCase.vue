@@ -15,7 +15,7 @@
     </div>
     <div class="newCaseWrap">
       <div class="inputTitle" @click="blurClass">
-        <input class="textArea"  v-model="args.headLine" placeholder="请输入标题">
+        <input class="textArea"  v-model="args.headline" placeholder="请输入标题">
       </div>
       <div id="quillFee">
         <quill-editor ref="editorFee"
@@ -36,7 +36,7 @@
       <div class="others" @click="blurClass">
         <div class="line"  v-if="args.chargeContent">
           <span>价格（乾币）</span>
-          <input type="number" placeholder="请输入付费内容的价格" class="othersInput" v-model="args.feeNumber">
+          <input type="number" placeholder="请输入付费内容的价格" class="othersInput" v-model="args.chargeNumber">
         </div>
         <div class="line">
           <span>分类</span>
@@ -115,12 +115,11 @@
         qiNiuToken:{},
         contImgList:[],
         args:{
-          headLine:'',
+          headline:'',
           classify:'',
           freeContent:'',
           chargeContent:'',
-          writer:'',
-          feeNumber:null,
+          chargeNumber:null,
           postStater:1,
           cover:'',
           postId:null,
@@ -254,7 +253,7 @@
         //下面就要调用接口了
         console.log(this.args)
         switch (true){
-          case !this.args.headLine:
+          case !this.args.headline:
             Toast({message: '标题不能为空', duration: 1500});
             return
           case !this.args.freeContent:
@@ -263,7 +262,7 @@
           case !this.args.classify:
             Toast({message: '请选择一个分类', duration: 1500});
             return
-          case this.args.chargeContent && !this.args.feeNumber:
+          case this.args.chargeContent && !this.args.chargeNumber:
             Toast({message: '请输入价格', duration: 1500});
             return
         }

@@ -221,7 +221,7 @@
         containerScrollTop: 0,
         detailedCommentArgs: [], //获取详情评论的数据
         detailedCommentParameter: {  //获取详情评论的参数
-          beCommentedId: 162, //病例id
+          beCommentedId: 645, //病例id
           currentPage: 1,//当前页数
           numberPerPage: 10, //每页显示多少条
           type: '病例'
