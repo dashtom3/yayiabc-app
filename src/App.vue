@@ -47,7 +47,7 @@
 
 <style>
   .mint-indicator-wrapper {
-    z-index: 900;
+    z-index: 2000;
   }
   * {
     padding: 0;

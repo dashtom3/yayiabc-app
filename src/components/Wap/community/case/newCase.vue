@@ -267,21 +267,19 @@
             return
         }
         this.$store.dispatch(UPLOAD_CASE,this.args).then(res => {
-          if(res.callStatus === 'SUCCEED') {
-            console.log(res)
-            if (this.args.postStater === 1) {
-              Toast({message: '病例发布成功！', duration: 1500});
-              if (this.share) {
-                //把返回结果的postid传进去
-                this.shareCase(res.data.num);
-              }
+          console.log(res)
+          if (this.args.postStater === 1) {
+            Toast({message: '病例发布成功！', duration: 1500});
+            if (this.share) {
+              //把返回结果的postid传进去
+              this.shareCase(res.num);
             }
-            else {
-              Toast({message: '病例保存成功！', duration: 1500});
-            }
+          }
+          else {
+            Toast({message: '病例保存成功！', duration: 1500});
+          }
           this.$router.push('/caseOfIllness');
           this.$destroy();
-          }
         })
       },
       //是否分享到牙医圈功能
