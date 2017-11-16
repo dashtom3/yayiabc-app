@@ -35,12 +35,16 @@
                 </div>
               </div>
               <div class="typeOther" v-else>
-                <div>
-                  分享了xx
+                <div class="shareContent">
+                  {{item.momentContent}}
                 </div>
-                <div class="shareBox">
-                  <img :src="item.momentPicture" alt="">
+                <div class="shareBox" @click="gotoPage">
+                  <div class="shareBoxImg">
+                    <img :src="item.momentPicture" alt="" v-if="item.momentPicture">
+                    <img src="../../../images/yayiCircle/noImgDefault.png" alt="" v-else>
+                  </div>
                   <div class="shareTitle">{{item.momentContentTitle}}</div>
+                  <div class="clr"></div>
                 </div>
               </div>
               <div class="menuBar">
@@ -63,7 +67,7 @@
                     <span v-if="comments.replyUserName" class="commentUserName">回复{{comments.replyUserName}}</span>
                     <span class="commentUserName">:</span>
                     <span>{{comments.commentContent}}</span>
-                    <span v-if="myUserId == comments.userId" class="commentUserName" @click.stop="deleteTheComment(index,commentsIndex,item.momentId,comments.commentId)">删除</span>
+                    <span v-if="myUserId == comments.userId" class="deleteComment" @click.stop="deleteTheComment(index,commentsIndex,item.momentId,comments.commentId)">删除</span>
                   </li>
                 </ul>
               </div>
@@ -144,6 +148,15 @@
             //图片字符串转数组
             if(item.momentPicture) {
               item.momentPicture = item.momentPicture.split(';');
+            }
+            //分享内容转换
+            if(!item.momentContent){
+              if(item.momentType == 3){
+                item.momentContent = '分享了病例'
+              }
+              else if(item.momentType == 2){
+                item.momentContent = '分享了视频'
+              }
             }
             //时间转换
             switch (true){
@@ -246,6 +259,9 @@
       seeBigPic(url){
         this.showPic = true;
         this.picUrl = url
+      },
+      gotoPage(){
+        //页面跳转，携带参数？
       },
       loadMore(){
         if(this.args.currentPage >= this.totalPage){
@@ -396,17 +412,29 @@
               width: 100%;
               font-size: px2vw(30);
               color: #333;
-              margin-top: px2vw(34);
+              margin-top: px2vw(10);
               line-height: px2vw(80);
+              .shareContent{
+
+              }
               .shareBox{
+                background-color: #f4f4f4;
                 width: 100%;
+                margin-top: px2vw(10);
                 height: px2vw(120);
                 padding: px2vw(15);
-                img{
+                .shareBoxImg{
                   width: px2vw(90);
-                  margin-right: px2vw(15);
+                  height: px2vw(90);
+                  overflow: hidden;
+                  float: left;
+                  img{
+                    width: 100%;
+                  }
                 }
                 .shareTitle{
+                  float: left;
+                  margin: px2vw(5) px2vw(15);
                   font-size: px2vw(28);
                   line-height: px2vw(44);
                   color: #333;
@@ -414,6 +442,9 @@
                   -webkit-box-orient: vertical;
                   -webkit-line-clamp: 2;
                   overflow: hidden;
+                }
+                .clr{
+                  clear: both;
                 }
               }
             }
@@ -449,6 +480,9 @@
                   padding: px2vw(20) px2vw(10) 0;
                   .commentUserName{
                     color: $themeColor;
+                  }
+                  .deleteComment{
+                    color:$themeColor;
                   }
                 }
               }
