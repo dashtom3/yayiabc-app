@@ -13,7 +13,7 @@
         <div class="coverImg" v-if="caseDetailArgs.cover">
           <img :src="caseDetailArgs.cover" alt="">
         </div>
-        <div :class="{caseIsTitle:caseDetailArgs.cover.length > 0,caseNoTitle:caseDetailArgs.cover.length == 0}" class="caseTitle">
+        <div :class="{caseIsTitle:isCover,caseNoTitle:isCover}" class="caseTitle">
           {{caseDetailArgs.headline}}
         </div>
       </div>
@@ -28,7 +28,8 @@
     data(){
       return{
         shareData: '',
-        caseDetailArgs:{}
+        caseDetailArgs:{},
+        isCover:true
       }
     },
     created(){
@@ -40,6 +41,7 @@
         this.caseDetailArgs = res.data;
         console.log(this.caseDetailArgs,res.data)
       });
+      this.isCover = this.caseDetailArgs.cover ? true : false
     },
     methods:{
       closePage(){

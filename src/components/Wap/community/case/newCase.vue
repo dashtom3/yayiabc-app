@@ -208,7 +208,6 @@
         Indicator.open('图片上传中...');
       },
       uploadFile(res,file){
-        console.log('cg')
         let that = this
         this.contImgList.push(that.qiNiuConfig.ShUrl + file.response.key);
         if(this.isFee) {
@@ -267,12 +266,11 @@
             return
         }
         this.$store.dispatch(UPLOAD_CASE,this.args).then(res => {
-          console.log(res)
           if (this.args.postStater === 1) {
             Toast({message: '病例发布成功！', duration: 1500});
             if (this.share) {
               //把返回结果的postid传进去
-              this.shareCase(res.num);
+              this.shareCase(res.data.num);
             }
           }
           else {
@@ -294,7 +292,10 @@
           momentPicture: null,
           momentContentId: postId
         }
-        this.$store.dispatch(NEW_TREND,obj).then(res => {})
+        console.log(obj,'obj')
+        this.$store.dispatch(NEW_TREND,obj).then(res => {
+          console.log('分享成功')
+        })
       },
       closePage(){
         MessageBox.confirm('是否保存为草稿方便下次继续编辑?').then(action => {
