@@ -181,7 +181,7 @@
               </div>
               <div>收藏</div>
             </div>
-            <div @click="share()" class="tabButtonBox">
+            <div @click="shareCase(detailedCommentParameter.beCommentedId)" class="tabButtonBox">
               <div>
                 <img class="img4" src="../../../../images/case/caseOfIllness/fenxiang.png" alt="">
               </div>
@@ -195,7 +195,7 @@
 
       <doComment class="doComment" v-if="isComment" :args="commentInfo" v-on:commentRes="isCommentRes" v-on:cancelComment="escBtn"></doComment>
 
-
+      <share v-if="isShareShow" v-on:cancelShare="isShareShow = false" :shareData="shareData"></share>
     </div>
 </template>
 
@@ -203,6 +203,8 @@
   import doComment from '../../index/doComment.vue';
   import { tokenMethods } from '../../../../vuex/util';
   import {MessageBox  } from 'mint-ui';
+  import share from '../../index/share.vue'
+
 
   export default {
     props:{
@@ -232,6 +234,8 @@
         },
         isComment: false,
         commentInfo:{}, //评论子组件传值
+        isShareShow:false, //是否显示分享按钮
+        shareData:{}  //传给分享组件的对象
       }
     },
     created(){
@@ -265,8 +269,14 @@
         }
       },
       //分享按钮
-      share(){
-
+      shareCase(postId){
+        this.shareData = {
+          momentType: 3,
+          momentContent: null,
+          momentPicture: null,
+          momentContentId: postId
+        }
+        this.isShareShow = true;
       },
       //评论取消按钮
       escBtn(){
@@ -354,7 +364,7 @@
         });
       },
     },
-    components:{doComment}
+    components:{doComment,share}
   }
 </script>
 

@@ -1,6 +1,7 @@
 <template>
   <div class="wrap">
     <div class="shadow"></div>
+    <div class="fixBox">
     <div class="shareBox">
       <div class="eachBox">
         <div class="imgBox">
@@ -14,7 +15,7 @@
         </div>
         <p>朋友圈</p>
       </div>
-      <div class="eachBox">
+      <div class="eachBox" @click="shareYayiCircle">
         <div class="imgBox">
           <img src="../../../images/case/yayiCircle.png" alt="">
         </div>
@@ -27,8 +28,9 @@
         <p>复制链接</p>
       </div>
     </div>
-    <div class="cancel">
+    <div class="cancel" @click="cancelShare">
       取消
+    </div>
     </div>
   </div>
 </template>
@@ -40,8 +42,27 @@
 
       }
     },
+    props:{
+      shareData:{
+        type:Object
+      }
+    },
     created(){
       document.body.classList.add('shareBox-ggKula');
+    },
+    mounted(){
+      console.log(this.shareData)
+    },
+    methods:{
+      shareYayiCircle(){
+        this.$router.push({path:'/shareToYayiCircle',query:this.shareData})
+        this.$emit('cancelShare',false)
+      },
+      cancelShare(){
+        this.$emit('cancelShare',false)
+        document.body.classList.remove('shareBox-ggKula');
+        this.$destroy()
+      }
     }
   }
 </script>
@@ -80,7 +101,7 @@
   @import "../../../common/sass/factory";
 
   .shadow{
-    position: absolute;
+    position: fixed;
     width: 100vw;
     height: 100vh;
     top:0;
@@ -88,40 +109,47 @@
     background-color: rgba(0,0,0,0.2);
     z-index: 901;
   }
-  .shareBox{
-    position: absolute;
+  .fixBox{
+    position: fixed;
     bottom: 0;
     left: 0;
-    width: 100vw;
-    height: px2vw(260);
-    padding: px2vw(60);
-    display: flex;
-    justify-content:space-around;
-    background-color: #f4f4f4;
-    border-bottom: 1px solid #eee;
-    .eachBox{
-      height: px2vw(140);
-      text-align: center;
-      color: #333;
-      font-size: px2vw(24);
-      .imgBox{
-        display: inline-block;
-        width: px2vw(110);
-        height: px2vw(110);
-        img{
-          width: 100%;
+    z-index: 910;
+    .shareBox{
+      width: 100vw;
+      height: px2vw(260);
+      padding: px2vw(60);
+      display: flex;
+      justify-content:space-around;
+      background-color: #f4f4f4;
+      border-bottom: 1px solid #eee;
+      .eachBox{
+        height: px2vw(140);
+        text-align: center;
+        color: #333;
+        font-size: px2vw(24);
+        .imgBox{
+          display: inline-block;
+          width: px2vw(110);
+          height: px2vw(110);
+          img{
+            width: 100%;
+          }
+        }
+        p{
+          line-height: px2vw(30);
         }
       }
-      p{
-        line-height: px2vw(30);
-      }
+    }
+    .cancel{
+      background-color: #f4f4f4;
+      height: px2vw(90);
+      width: 100%;
+      font-size: px2vw(28);
+      line-height: px2vw(90);
+      color: $themeColor;
+      text-align: center;
+      z-index: 920;
     }
   }
-  .cancel{
-    background-color: #f4f4f4;
-    height: px2vw(90);
-    width: 100%;
-    font-size: px2vw(28);
-    color: $themeColor;
-  }
+
 </style>

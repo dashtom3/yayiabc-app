@@ -91,6 +91,7 @@ const caseDetailed = resolve => require(['@/components/Wap/community/case/caseDe
 const newTrend = resolve => require(['@/components/Wap/yayiCircle/newTrend'], resolve)
 const yayiCircle = resolve => require(['@/components/Wap/yayiCircle/yayiCircle'], resolve)
 const videoDetailed = resolve => require(['@/components/Wap/community/video/videoDetailed'], resolve)
+const shareToYayiCircle = resolve => require(['@/components/Wap/yayiCircle/shareToYayiCircle'], resolve)
 
 //我的消息
 const infoIndex = resolve => require(['@/components/Wap/mine/information/infoIndex'], resolve)
@@ -463,7 +464,11 @@ let router = new Router({
       path: '/videoDetailed',
       component: videoDetailed
     },
-
+    {
+      name: 'shareToYayiCircle',
+      path: '/shareToYayiCircle',
+      component: shareToYayiCircle
+    },
 
     {
       name: 'caseIllness', redirect: {name: 'caseOfIllness'},
