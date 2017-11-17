@@ -39,14 +39,15 @@
             <img src="../../../../images/case/back_1.png" alt="">
           </span>
         </div>
-
       </div>
-    </div>
 
 
-    <div>
+
       <comment :types="'病例'"></comment>
     </div>
+
+
+
 
   </div>
 </template>

@@ -115,7 +115,7 @@
                </div>
 
 
-              <div @click="_delete()" v-if="item.userId == myUserId" class="likeBox">
+              <div @click="_delete(index)" v-if="item.userId == myUserId" class="likeBox">
                   <span class="commentImgBox2">
                     <img src="../../../../images/case/caseOfIllness/delete.png" alt="">
                   </span>
@@ -144,9 +144,6 @@
 
 
       </div>
-
-
-
 
 
         <doComment class="doComment" v-if="isComment" :args="commentInfo" v-on:commentRes="isCommentRes" v-on:cancelComment="escBtn"></doComment>
@@ -196,7 +193,6 @@
 
 
 
-
       <share v-if="isShareShow" v-on:cancelShare="isShareShow = false" :shareData="shareData"></share>
     </div>
 </template>
@@ -223,9 +219,9 @@
         containerScrollTop: 0,
         detailedCommentArgs: [], //获取详情评论的数据
         detailedCommentParameter: {  //获取详情评论的参数
-          beCommentedId: 100, //病例id
+          beCommentedId:162, //病例id
           currentPage: 1,//当前页数
-          numberPerPage: 10, //每页显示多少条
+          numberPerPage: 20, //每页显示多少条
           type: '病例'
         },
         //获取当前登录账号的userID
@@ -306,6 +302,22 @@
         console.log(res,'结果');
         this.isComment = false;
         window.scroll(0,this.containerScrollTop);
+
+        if(res.replyUserId)
+        { //二级评论
+          this.detailedCommentArgs.data[this.commentIndex].subCommentList.push(res);
+
+
+          console.log(this.commentIndex);
+
+          console.log(res,'二级评论');
+
+        }else {
+          //一级评论
+          res.subCommentList = [];
+          this.detailedCommentArgs.data.push(res);
+        }
+
       },
       write(type, name){
         name = name || '';
@@ -345,6 +357,7 @@
       getCaseComment(){
         this.$store.dispatch('GET_CASE_COMMENT', this.detailedCommentParameter).then((res) => {
           this.detailedCommentArgs = res;
+          console.log(this.detailedCommentArgs, '是是是');
         })
       },
       //子组件 跳转二级评论
