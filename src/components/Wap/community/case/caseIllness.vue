@@ -31,14 +31,11 @@
         <!--提示铃结束-->
       </div>
       <!--头部结束-->
+      <div class="dressingBox">
+        <span v-for="(item, index) in caseDate.dressing" @click="dressing(item)"  :class="{'DressingColor': caseListArgs.classify === item}">{{item == null ? '不限':item}}</span>
 
-      <!--筛选功能栏开始-->
-      <div  class="container">
-        <div class="dressingBox">
-          <span v-for="(item, index) in caseDate.dressing" @click="dressing(item)"  :class="{'DressingColor': caseListArgs.classify === item}">{{item == null ? '不限':item}}</span>
-
-          <!--筛选按钮-->
-          <span @click="caseDate.dressingSwitch = !caseDate.dressingSwitch" class="dressingBtn">
+        <!--筛选按钮-->
+        <span @click="caseDate.dressingSwitch = !caseDate.dressingSwitch" class="dressingBtn">
             <img src="../../../../images/case/caseOfIllness/classflsy.png" alt="">
             <transition name="fade">
             <span v-show="caseDate.dressingSwitch" class="dressingFunction" :class="{'dressingSecond': caseDate.caseClassNum === 0, 'dressingThree': caseDate.caseClassNum === 1}">
@@ -50,7 +47,10 @@
             </span>
           </transition>
           </span>
-        </div>
+      </div>
+      <!--筛选功能栏开始-->
+      <div  class="container">
+
         <!--筛选功能栏结束-->
         <!--内容开始-->
         <div class="wrap">
@@ -256,7 +256,7 @@
     -webkit-overflow-scrolling: touch;
   }
   .dressingBox>.dressingBtn{
-    z-index: 999;
+    z-index: 1100;
     position: absolute;
     width: px2vw(80);
     right: px2vw(6);

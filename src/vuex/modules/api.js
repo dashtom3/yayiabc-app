@@ -5,6 +5,7 @@ import {
   getWithSaleToken,
   getWithVerfiCode,
   post,
+  posts,
   postWithToken,
   postWithSaleToken,
   wx_get,
@@ -553,4 +554,8 @@ export function getCaseComment(params) {
 //视频播放
 export function getPlayComment(params) {
   return geters('/vid/play', params)
+}
+//视频播放
+export function getVideoList(params) {
+  return posts('/vid/showVid', params)
 }
