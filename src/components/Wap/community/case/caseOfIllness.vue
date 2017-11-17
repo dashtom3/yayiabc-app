@@ -4,7 +4,7 @@
       <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
 
     <div  v-infinite-scroll="getCaseListMore" infinite-scroll-immediate-check="true">
-      <div @click="goCaseDetailed()" v-for="(item, index) in listCaseData" class="caseBox">
+      <div @click="goCaseDetailed(item.postId)" v-for="(item, index) in listCaseData" class="caseBox">
         <div class="userBox " :class="{'addChange1': item.cover !== ''}">
           <div class="userPicture">
             <img src="../../../../images/mine/zhifubao.png" alt="">
@@ -41,6 +41,7 @@
 
 <script>
   import { InfiniteScroll, LoadMore } from 'mint-ui';
+  import Util from '../../../../vuex/util'
   import topLoadMore from '../../../salesWap/index/topLoadMore.vue';
   import {mapGetters} from 'vuex';
   export default {
@@ -57,6 +58,7 @@
           totalPage: -1,
           postStater:1,
         },
+        timeStamp: '', //时间戳
         isLoading:false,
         listCaseData: [] //获取到列表的数据
 //        listCaseData: {
@@ -77,6 +79,7 @@
     },
     created (){
       this.getCaseList();
+      this.timeStamp = Date.parse(new Date());
     },
     computed: {
     ...mapGetters([
@@ -96,8 +99,27 @@
       }
     },
     methods: {
-      goCaseDetailed(){
-        this.$router.push({path: '/caseDetailed'})
+      //时间计算
+      time(item){
+        switch (true){
+          //几分钟前
+          case this.timeStamp - item.momentTime < 3600000:
+//                console.log(this.timeStamp - item.momentTime)
+            item.momentTime = Math.ceil((this.timeStamp - item.momentTime) / 1000 / 60) + '分钟前';
+            break;
+          //几小时前
+          case this.timeStamp - item.momentTime >= 3600000 && this.timeStamp - item.momentTime < 86400000:
+//                console.log(this.timeStamp - item.momentTime)
+            item.momentTime = Math.floor((this.timeStamp - item.momentTime) / 1000 / 60 / 60) + '小时前';
+            break;
+          //日期
+          case this.timeStamp - item.momentTime >= 86400000:
+            item.momentTime = Util.formatDate.format(new Date(item.momentTime),'yy.MM.dd hh:mm').substring(2);
+            break;
+        }
+      },
+      goCaseDetailed(id){
+        this.$router.push({path: '/caseDetailed', query:{'caseId': id}})
       },
       getCaseListMore (){
         if(this.caseDate.totalPage < this.caseListArgs.currentPage)
@@ -117,6 +139,7 @@
       },
       //下拉刷新
       loadMore (id){
+        this.timeStamp = Date.parse(new Date());
         this.$refs.scrollBox.scrollTop = 0;
         this.caseListArgs.currentPage = 1;
         this.listCaseData = [];

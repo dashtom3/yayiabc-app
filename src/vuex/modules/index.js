@@ -6,6 +6,7 @@ import axios from 'axios'
 const state = {
   direction: 'forward',
   baseUrl: 'http://wap.yayiabc.com:6181/api',
+  // baseUrl: 'http://wap.yayiabc.com:6181/api',
   // baseUrl: 'http://wap.yayiabc.com:8080/api',
   bannerList: [],
   brandListData: [],
@@ -1147,6 +1148,16 @@ const actions = {
   [types.GET_PLAY_VIDEOS](context, params) {
     return new Promise((resolve, reject) => {
       api.getPlayComment(params).then((data) => {
+        resolve(data);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  },
+  // 视频播放
+  [types.GET_VIDEO_LIST](context, params) {
+    return new Promise((resolve, reject) => {
+      api.getVideoList(params).then((data) => {
         resolve(data);
       }).catch((err) => {
         reject(err);
