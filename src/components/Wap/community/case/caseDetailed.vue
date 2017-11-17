@@ -68,7 +68,7 @@
     methods:{
       //获取病例数据
       getCaseData(){
-        this.$store.dispatch('GET_CASE_DETAIL', {postId: 645}).then((res) => {
+        this.$store.dispatch('GET_CASE_DETAIL', {postId: 100}).then((res) => {
           this.caseDetailArgs = res.data;
 
         })

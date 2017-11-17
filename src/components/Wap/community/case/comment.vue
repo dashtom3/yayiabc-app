@@ -183,7 +183,7 @@
               </div>
               <div>收藏</div>
             </div>
-            <div @click="shareCase(detailedCommentParameter.beCommentedId)" class="tabButtonBox">
+            <div @click="shareCase(detailedCommentParameter.beCommentedId,detailedCommentParameter.type)" class="tabButtonBox">
               <div>
                 <img class="img4" src="../../../../images/case/caseOfIllness/fenxiang.png" alt="">
               </div>
@@ -223,7 +223,7 @@
         containerScrollTop: 0,
         detailedCommentArgs: [], //获取详情评论的数据
         detailedCommentParameter: {  //获取详情评论的参数
-          beCommentedId: 645, //病例id
+          beCommentedId: 100, //病例id
           currentPage: 1,//当前页数
           numberPerPage: 10, //每页显示多少条
           type: '病例'
@@ -271,9 +271,9 @@
         }
       },
       //分享按钮
-      shareCase(postId){
+      shareCase(postId,type){
         this.shareData = {
-          momentType: 3,
+          momentType: type,
           momentContent: null,
           momentPicture: null,
           momentContentId: postId

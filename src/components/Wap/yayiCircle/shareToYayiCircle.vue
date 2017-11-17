@@ -7,13 +7,14 @@
     </div>
     <div class="container">
       <div class="inputArea">
-        <textarea name="" id="" cols="30" rows="10" placeholder="分享我的想法"></textarea>
+        <textarea name="" id="" cols="30" rows="10" placeholder="分享我的想法" v-model="shareData.momentContent"></textarea>
       </div>
       <div class="casePreview">
         <div class="coverImg" v-if="caseDetailArgs.cover">
-          <img :src="caseDetailArgs.cover" alt="">
+          <img :src="caseDetailArgs.cover" alt="" v-if="caseDetailArgs.cover">
+          <img src="../../../images/yayiCircle/noImgDefault.png" alt="" v-else>
         </div>
-        <div :class="{caseIsTitle:isCover,caseNoTitle:isCover}" class="caseTitle">
+        <div class="caseTitle">
           {{caseDetailArgs.headline}}
         </div>
       </div>
@@ -23,13 +24,13 @@
 
 <script type="text/ecmascript-6">
   import {GET_CASE_DETAIL, NEW_TREND} from '../../../vuex/types'
+  import {Toast, MessageBox } from 'mint-ui'
 
   export default {
     data(){
       return{
         shareData: '',
         caseDetailArgs:{},
-        isCover:true
       }
     },
     created(){
@@ -39,9 +40,7 @@
     mounted(){
       this.$store.dispatch('GET_CASE_DETAIL', {postId: this.shareData.momentContentId}).then((res) => {
         this.caseDetailArgs = res.data;
-        console.log(this.caseDetailArgs,res.data)
       });
-      this.isCover = this.caseDetailArgs.cover ? true : false
     },
     methods:{
       closePage(){
@@ -49,7 +48,11 @@
         this.$destroy()
       },
       release(){
-
+        this.$store.dispatch(NEW_TREND,this.shareData).then(res => {
+          Toast({message: '发布成功！', duration: 1500})
+          this.$router.push('/yayiCircle');
+          this.$destroy()
+        })
       }
     },
   }
@@ -126,15 +129,9 @@
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
         overflow: hidden;
-      }
-      .caseIsTitle{
         margin: px2vw(40) px2vw(20);
         width: px2vw(480);
         float: right;
-       }
-      .caseNoTitle{
-        /*width: 100%;*/
-        margin: px2vw(40);
       }
      }
   }

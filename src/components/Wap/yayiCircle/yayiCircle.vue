@@ -143,47 +143,52 @@
       getYayiCircle(){
         this.isLoading = true;
         this.$store.dispatch(YAYI_CIRCLE, this.args).then(res =>{
-//          console.log(res);
-          res.data.forEach(item => {
-            //图片字符串转数组
-            if(item.momentPicture) {
-              item.momentPicture = item.momentPicture.split(';');
-            }
-            //分享内容转换
-            if(!item.momentContent){
-              if(item.momentType == 3){
-                item.momentContent = '分享了病例'
+          console.log(res.data);
+          if(res.data) {
+            res.data.forEach(item => {
+              //图片字符串转数组
+              if (item.momentPicture) {
+                item.momentPicture = item.momentPicture.split(';');
               }
-              else if(item.momentType == 2){
-                item.momentContent = '分享了视频'
+              //分享内容转换
+              if (!item.momentContent) {
+                if (item.momentType == 3) {
+                  item.momentContent = item.momentContent ? item.momentContent : '分享了病例'
+                }
+                else if (item.momentType == 2) {
+                  item.momentContent = item.momentContent ? item.momentContent : '分享了视频'
+                }
               }
-            }
-            //时间转换
-            switch (true){
-              //几分钟前
-              case this.timeStamp - item.momentTime < 3600000:
+              //时间转换
+              switch (true) {
+                //几分钟前
+                case this.timeStamp - item.momentTime < 3600000:
 //                console.log(this.timeStamp - item.momentTime)
-                item.momentTime = Math.ceil((this.timeStamp - item.momentTime) / 1000 / 60) + '分钟前';
-                break;
-              //几小时前
-              case this.timeStamp - item.momentTime >= 3600000 && this.timeStamp - item.momentTime < 86400000:
+                  item.momentTime = Math.ceil((this.timeStamp - item.momentTime) / 1000 / 60) + '分钟前';
+                  break;
+                //几小时前
+                case this.timeStamp - item.momentTime >= 3600000 && this.timeStamp - item.momentTime < 86400000:
 //                console.log(this.timeStamp - item.momentTime)
-                item.momentTime = Math.floor((this.timeStamp - item.momentTime) / 1000 / 60 / 60) + '小时前';
-                break;
-              //日期
-              case this.timeStamp - item.momentTime >= 86400000:
-                item.momentTime = Util.formatDate.format(new Date(item.momentTime),'yy.MM.dd hh:mm').substring(2);
-                break;
+                  item.momentTime = Math.floor((this.timeStamp - item.momentTime) / 1000 / 60 / 60) + '小时前';
+                  break;
+                //日期
+                case this.timeStamp - item.momentTime >= 86400000:
+                  item.momentTime = Util.formatDate.format(new Date(item.momentTime), 'yy.MM.dd hh:mm').substring(2);
+                  break;
+              }
+              this.yayiCircleData.push(item)
+            });
+            console.log(this.yayiCircleData, 'ww');
+            this.totalPage = res.totalPage
+            //控制是否显示加载到底的一个判断值，虽然我觉得基本上用不到。
+            if (this.args.currentPage === res.totalPage && this.args.currentPage > 1) {
+              this.noMoreData = true
             }
-            this.yayiCircleData.push(item)
-            this.isLoading = false
-          })
-          console.log(this.yayiCircleData,'ww');
-          this.totalPage = res.totalPage
-          //控制是否显示加载到底的一个判断值，虽然我觉得基本上用不到。
-          if(this.args.currentPage === res.totalPage && this.args.currentPage > 1){
-            this.noMoreData = true
           }
+          else {
+            Toast({message: '啊哦！出错了请稍后重试', duration: 1500});
+          }
+          this.isLoading = false;
         })
       },
       //删除动态
@@ -434,6 +439,7 @@
                 }
                 .shareTitle{
                   float: left;
+                  width: px2vw(450);
                   margin: px2vw(5) px2vw(15);
                   font-size: px2vw(28);
                   line-height: px2vw(44);
@@ -500,7 +506,7 @@
       }
       .noTrend{
         width: 100%;
-        height: auto;
+        height: 90vh;
         text-align: center;
         img{
           margin:px2vw(400) auto px2vw(30);

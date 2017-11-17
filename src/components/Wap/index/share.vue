@@ -4,7 +4,7 @@
     <div class="fixBox">
     <div class="shareBox">
       <div class="eachBox">
-        <div class="imgBox">
+        <div class="imgBox" @click="shareWxPal">
           <img src="../../../images/case/wxPal.png" alt="">
         </div>
         <p>微信好友</p>
@@ -51,7 +51,21 @@
       document.body.classList.add('shareBox-ggKula');
     },
     mounted(){
-      console.log(this.shareData)
+      switch (true){
+        case this.shareData.momentType === '病例':
+          this.shareData.momentType = 3;
+          break;
+        case this.shareData.momentType === '培训':
+          this.shareData.momentType = 4;
+          break;
+        case this.shareData.momentType === '视频':
+          this.shareData.momentType = 2;
+          break;
+        case this.shareData.momentType === '牙医圈':
+          this.shareData.momentType = 1;
+          break;
+      }
+      console.log(this.shareData,'ll')
     },
     methods:{
       shareYayiCircle(){
@@ -62,7 +76,10 @@
         this.$emit('cancelShare',false)
         document.body.classList.remove('shareBox-ggKula');
         this.$destroy()
-      }
+      },
+      shareWxPal(){
+
+      },
     }
   }
 </script>
