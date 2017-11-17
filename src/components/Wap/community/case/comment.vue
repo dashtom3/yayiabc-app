@@ -21,16 +21,20 @@
                   <div class="rightTime">{{commentChild.comment.commentTime}}</div>
                 </div>
 
-                <div class="likeBox">
-                  <span class="commentImgBox2">
-                    <img src="../../../../images/case/caseOfIllness/comment.png" alt="">
-                  </span>
-                  <span>回复</span>
+                <div  class="likeBox">
                   <span class="commentImgBoxs">
                     <img src="../../../../images/case/caseOfIllness/like.png" alt="">
                   </span>
                   <span>{{commentChild.comment.zan}}</span>
                 </div>
+
+                <div @click="write('two')" class="likeBox">
+                  <span class="commentImgBox2">
+                    <img src="../../../../images/case/caseOfIllness/comment.png" alt="">
+                  </span>
+                  <span>回复</span>
+                </div>
+
               </div>
 
               <div class="commentContent">
@@ -52,13 +56,16 @@
                   <div class="rightTime">{{item.commentTime}}</div>
                 </div>
 
-                <div @click="write('two',item.userName)" class="likeBox">
-                  <div class="replyBox">
+                <div class="likeBox">
+
+
+                  <div v-if="item.userId != myUserId" @click="write('two',item.userName)" class="replyBox">
                   <span class="commentImgBox2">
                     <img src="../../../../images/case/caseOfIllness/comment.png" alt="">
                   </span>
                   <span>回复</span>
                   </div>
+
 
 
                   <div class="likeBox">
@@ -67,12 +74,26 @@
                   </span>
                   <span>{{item.zan}}</span>
                   </div>
+
+
+
+
+                  <div @click="_delete('two',item.commentId, index)" v-if="item.userId == myUserId" class="likeBox">
+                  <span class="commentImgBox2">
+                    <img src="../../../../images/case/caseOfIllness/delete.png" alt="">
+                  </span>
+                    <span>删除</span>
+                  </div>
+
                 </div>
               </div>
 
+
               <div class="commentContent">
-                回复&nbsp;<span class="fontColor">{{comment.userName}}</span>:&nbsp;{{item.commentContent}}
+                回复&nbsp;<span class="fontColor">{{item.replyUserName}}</span>:&nbsp;{{item.commentContent}}
               </div>
+
+
             </div>
             <div style="clear: both"></div>
           </div>
@@ -107,7 +128,7 @@
             </div>
 
             <div class="likeBox">
-              <div v-if="item.userId != myUserId" @click="write('one')" class="likeBox">
+              <div v-if="item.userId != myUserId" @click="write('three','',index)" class="likeBox">
                   <span class="commentImgBox2">
                     <img src="../../../../images/case/caseOfIllness/comment.png" alt="">
                   </span>
@@ -115,7 +136,7 @@
                </div>
 
 
-              <div @click="_delete(index)" v-if="item.userId == myUserId" class="likeBox">
+              <div @click="_delete('one',item.commentId, index)" v-if="item.userId == myUserId" class="likeBox">
                   <span class="commentImgBox2">
                     <img src="../../../../images/case/caseOfIllness/delete.png" alt="">
                   </span>
@@ -123,10 +144,11 @@
               </div>
 
 
-              <div class="likeBox">
+              <div @click="like('one', index)" class="likeBox">
               <span class="commentImgBoxs">
                     <img src="../../../../images/case/caseOfIllness/like.png" alt="">
                   </span>
+                <!--1级-->
               <span>{{item.zan}}</span>
               </div>
             </div>
@@ -168,7 +190,7 @@
               </div>
               <div>评论{{detailedCommentArgs.totalNumber}}</div>
             </div>
-            <div @click="like()" class="tabButtonBox">
+            <div class="tabButtonBox">
               <div>
                 <img class="img2" src="../../../../images/case/caseOfIllness/like.png" alt="">
               </div>
@@ -219,9 +241,9 @@
         containerScrollTop: 0,
         detailedCommentArgs: [], //获取详情评论的数据
         detailedCommentParameter: {  //获取详情评论的参数
-          beCommentedId:162, //病例id
+          beCommentedId:100, //病例id
           currentPage: 1,//当前页数
-          numberPerPage: 20, //每页显示多少条
+          numberPerPage: 10, //每页显示多少条
           type: '病例'
         },
         //获取当前登录账号的userID
@@ -230,6 +252,12 @@
           comment: [],
           switchShow: false
         },
+        deleteArgs:{
+          type:this.types, // 类别:
+          beCommentedId: 100, //上述内容的id
+          parentId: '',  //一级评论的Id
+          presentId: ''  //二级评论的id
+        },
         isComment: false,
         commentInfo:{}, //评论子组件传值
         isShareShow:false, //是否显示分享按钮
@@ -237,16 +265,54 @@
       }
     },
     created(){
+//      [this.detailedCommentParameter.beCommentedId, this.deleteArgs.beCommentedId] = [this.$route.query.caseId, this.$route.query.caseId];
+
       this.getCaseComment();
     },
     methods:{
       //删除按钮
-      _delete(){
+      _delete(type, commentId, index){
+        if(this.pointLogin()) {
+          if(type === 'one')  //one 一级评论
+          {
+            this.deleteArgs.parentId = commentId;
+            this.deleteArgs.presentId = '';
 
+            this.$store.dispatch('DELETE_COMMENT', this.deleteArgs).then( (res)=>{
+              console.log(res);
+              if(res.callStatus === "SUCCEED")
+              {
+                this.detailedCommentArgs.data.splice(index,1);
+              }
+              else {
+                alert('删除失败');
+              }
+            });
+          }else { //two 二级评论
+            this.deleteArgs.parentId = this.commentIndex;
+            this.deleteArgs.presentId = commentId;
+
+            this.$store.dispatch('DELETE_COMMENT', this.deleteArgs).then( (res)=>{
+              console.log(res);
+              if(res.callStatus === "SUCCEED")
+              {
+                this.detailedCommentArgs.data[this.commentIndex].subCommentList.splice(index,1);
+              }
+              else {
+                alert('删除失败');
+              }
+            });
+
+          }
+        }else {
+          this.isLogin();
+        }
       },
+
       //隐藏二级评论
       backChild(){
         this.commentChild.switchShow = false;
+        this.commentSwitch = true;
       },
       //收藏按钮
       collect(){
@@ -257,10 +323,26 @@
           this.isLogin();
         }
       },
-      //赞
-      like(){
+      //赞  -----------------------
+      like(type,index){
         if(this.pointLogin())
         {
+          if(type === 'one')
+          {
+            let obj = {
+              type: this.types,
+              typeId: this.deleteArgs.beCommentedId,
+              parentId: this.detailedCommentArgs.data[index].commentId,
+              presentId: '',
+            };
+            console.log(obj);
+            this.$store.dispatch('LIKE', obj).then( (res)=>{
+              console.log(res,'数据');
+            });
+          }else {
+
+          }
+
 
         }else {
           this.isLogin();
@@ -305,22 +387,26 @@
 
         if(res.replyUserId)
         { //二级评论
-          this.detailedCommentArgs.data[this.commentIndex].subCommentList.push(res);
 
 
-          console.log(this.commentIndex);
+
+          this.detailedCommentArgs.data[this.commentIndex]['subCommentList'].unshift(res);
+
+          console.log(this.detailedCommentArgs.data[this.commentIndex], '哈哈哈哈');
 
           console.log(res,'二级评论');
 
         }else {
           //一级评论
           res.subCommentList = [];
-          this.detailedCommentArgs.data.push(res);
+          this.detailedCommentArgs.data.unshift(res);
         }
 
+
       },
-      write(type, name){
+      write(type, name, index){
         name = name || '';
+        index = index || '';
         if(this.pointLogin())
         {
           this.containerScrollTop = window.document.body.scrollTop;
@@ -336,7 +422,8 @@
               userName:'',
               parentId:''
             }
-          }else {
+          }else if(type === 'two')
+          {
             //二级评论
             this.isComment = true;
             this.commentInfo = {
@@ -345,9 +432,21 @@
               id: this.detailedCommentParameter.beCommentedId,
               userName: name,
               parentId: this.commentChild.comment.commentId
-            }
-
-            console.log(this.commentInfo, '哈哈哈哈');
+            };
+          }
+          else {
+            this.commentIndex = index;
+            this.commentChild.comment = this.detailedCommentArgs.data[index];
+            //二级评论
+            this.isComment = true;
+            this.commentInfo = {
+              type: this.types,
+              index: this.commentIndex,
+              id: this.detailedCommentParameter.beCommentedId,
+              userName: name,
+              parentId: this.commentChild.comment.commentId
+            };
+            console.log(this.commentInfo, 'hehe');
           }
         }else {
           this.isLogin();
