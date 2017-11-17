@@ -86,6 +86,7 @@ const ProductList = resolve => require(['@/components/Wap/ProductList/ProductLis
 //病例
 const newCase = resolve => require(['@/components/Wap/community/case/newCase'], resolve)
 const caseDetailed = resolve => require(['@/components/Wap/community/case/caseDetailed'], resolve)
+const communitySearch = resolve => require(['@/components/Wap/community/communitySearch'], resolve)
 
 //牙医圈
 const newTrend = resolve => require(['@/components/Wap/yayiCircle/newTrend'], resolve)
@@ -469,7 +470,11 @@ let router = new Router({
       path: '/shareToYayiCircle',
       component: shareToYayiCircle
     },
-
+    {
+      name: 'communitySearch',
+      path: '/communitySearch',
+      component: communitySearch
+    },
     {
       name: 'caseIllness', redirect: {name: 'caseOfIllness'},
       path: '/caseIllness',

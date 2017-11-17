@@ -57,6 +57,10 @@
             Toast({message: '发布成功！', duration: 1500});
             this.$emit('commentRes',res.data);
             this.commentContent = ''
+            document.body.classList.remove('full-body-commentArea')
+          }
+          else {
+            Toast({message: '发布失败！请重试', duration: 1500});
           }
         })
       },

@@ -197,11 +197,20 @@ export const tokenMethods = {
   getHistory() {
     return localStorage.getItem('userHistory')
   },
+  getCommunityHistory() {
+    return localStorage.getItem('userCommunityHistory')
+  },
   setHistory(data) {
     localStorage.setItem('userHistory', JSON.stringify(data))
   },
+  setCommunityHistory(data) {
+    localStorage.setItem('userCommunityHistory', JSON.stringify(data))
+  },
   removeHistory() {
     localStorage.removeItem('userHistory')
+  },
+  removeCommunityHistory() {
+    localStorage.removeItem('userCommunityHistory')
   },
   setToken(token) {
     sessionStorage.setItem('adverToken', token)

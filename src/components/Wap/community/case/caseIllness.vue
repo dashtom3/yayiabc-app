@@ -1,5 +1,12 @@
 <template>
     <div>
+      <!--<div class="search_box">-->
+        <!--<form action="http://47.93.48.111:6181/api/item/itemSearch" method="post" enctype="multipart/form-data" v-on:submit.prevent="search_cargo">-->
+          <!--<input class="search_word" type="search" name="keyWord" @focus="searchActive()" v-focus autofocus="autofocus" @keyup.enter="search_cargo" v-model="searchCargo" autocomplete="on" placeholder="请输入关键字" >-->
+        <!--</form>-->
+        <!--<img class="search_img" src="../../../../images/index/search.png" alt="img">-->
+        <!--<div class="cancel_btn" @click="cancelSearch">取消</div>-->
+      <!--</div>-->
       <div class="wrapBCG"></div>
       <div class="headerBox">
         <!--搜索按钮开始-->
