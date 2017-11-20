@@ -7,7 +7,7 @@
       <img class="search_img" src="../../../images/index/search.png" alt="img">
       <div class="cancel_btn" @click="cancelSearch">取消</div>
     </div>
-    <div class="history_box">
+    <div class="history_box" v-if="isSearching">
       <div class="history_container">
         <p class="history_word">历史搜索</p>
         <img class="delete_img" @click="deleteHistory" src="../../../images/index/delete.png" alt="img">
@@ -16,11 +16,36 @@
         <span class="historyBtn" v-for="(item,index) in userHistory" v-if="index<8" @click="search_cargo(item)">{{item}}</span>
       </div>
     </div>
+    <div class="firstClassify" v-else>
+      <div class="firstClassifyName" >
+        <div>病例</div>
+        <div>视频</div>
+        <div>培训</div>
+      </div>
+      <div class="secondClassifyName">
+        <div class="theSecondClassifyName" @click="isChooseSecondClassify">
+          {{secondClassify}}
+          <img src="../../../images/ProductList/Plist.png" alt="">
+        </div>
+        <div class="secondClassifyList" v-if="secondClassifyShow">
+          <div class="triOut"></div>
+          <div class="triIn"></div>
+          <ul>
+            <li v-for="(item,key) in secondClassifyArr" @click="chooseSecondClassify(item)" :class="{isCheckLi:item == secondClassify}">
+              {{item}}
+              <img src="../../../images/ProductList/brandChecked.png" alt="" v-if="item == secondClassify">
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="searchRes">
+
+    </div>
   </div>
 </template>
 
 <script>
-  import  comTop  from './comTop.vue'
   import { Toast, MessageBox } from 'mint-ui'
   import { tokenMethods } from '../../../vuex/util'
 
@@ -31,13 +56,17 @@
         searchCargo: '',
         userHistory: [],
         autofocus: true,
+        isSearching : false,
+        secondClassifyArr:['不限','外科','内科','修复','种植','正畸'],
+        secondClassify: '不限',
+        secondClassifyShow: false,
       }
     },
     components: {
-      comTop
     },
     created: function() {
       var that = this
+//      that.isSearching = true;
       if (JSON.parse(tokenMethods.getCommunityHistory())) {
         that.userHistory = JSON.parse(tokenMethods.getCommunityHistory()).reverse()
       }
@@ -57,48 +86,51 @@
         if (typeof(item) !== 'object') {
           that.searchCargo = item
         }
-        if (that.searchCargo == '') {
-          Toast({message: '请输入查询条件！', duration: 1500})
-          return false
-        }
+//        if (that.searchCargo == '') {
+//          Toast({message: '请输入查询条件！', duration: 1500})
+//          return false
+//        }
         var obj = {
           keyWord: that.searchCargo,
         }
-        that.$store.dispatch('', obj).then((res) => {
-          if (res.data.callStatus === 'SUCCEED') {
-            console.log(res.data,'searchWord')
-            if (res.data.data.length !== 0) {
-              if (JSON.parse(tokenMethods.getCommunityHistory()) == null) {
-                that.userHistory = []
-                that.userHistory.push(that.searchCargo)
-              } else {
-                that.userHistory = JSON.parse(tokenMethods.getCommunityHistory())
-                that.userHistory.push(that.searchCargo)
-                var userHistoryData = []
-                for (var i = 0; i < that.userHistory.length; i++) {
-                  if (userHistoryData.indexOf(that.userHistory[i]) == -1) {
-                    userHistoryData.push(that.userHistory[i])
-                  }
-                }
-                that.userHistory = userHistoryData
-                console.log(that.userHistory,'9999')
-              }
-              tokenMethods.setCommunityHistory(that.userHistory)
-            }
-            that.$router.push({ name: 'caseOfIllness'});
-            window.scroll(0,0);
-          } else {
-            Toast({message: '网络出错，请稍后再试！', duration: 1500})
-          }
-        })
+//        that.$store.dispatch('', obj).then((res) => {
+//          if (res.data.callStatus === 'SUCCEED') {
+//            console.log(res.data,'searchWord')
+//            if (res.data.data.length !== 0) {
+//              if (JSON.parse(tokenMethods.getCommunityHistory()) == null) {
+//                that.userHistory = []
+//                that.userHistory.push(that.searchCargo)
+//              } else {
+//                that.userHistory = JSON.parse(tokenMethods.getCommunityHistory())
+//                that.userHistory.push(that.searchCargo)
+//                var userHistoryData = []
+//                for (var i = 0; i < that.userHistory.length; i++) {
+//                  if (userHistoryData.indexOf(that.userHistory[i]) == -1) {
+//                    userHistoryData.push(that.userHistory[i])
+//                  }
+//                }
+//                that.userHistory = userHistoryData
+//                console.log(that.userHistory,'9999')
+//              }
+//              tokenMethods.setCommunityHistory(that.userHistory)
+//            }
+//            that.$router.push({ name: 'productList'});
+            that.isSearching = false
+//            window.scroll(0,0);
+//          } else {
+//            Toast({message: '网络出错，请稍后再试！', duration: 1500})
+//          }
+//        })
       },
-      //去商品列表页
-      goToList: function(classify) {
-        var that = this
-        that.$router.push({ name: 'productList', params: { oneClassify: classify.oneClassify, twoClassify: '', threeClassify: ''}})
-
+      isChooseSecondClassify(){
+        this.secondClassifyShow = !this.secondClassifyShow
+      },
+      chooseSecondClassify(val){
+        this.secondClassify = val;
+        //做点什么
       },
       searchActive: function() {
+//        this.isSearching = true;
       },
       // 删除历史搜索
       deleteHistory: function() {
@@ -110,11 +142,13 @@
       },
       // 取消搜索
       cancelSearch: function() {
-        let that = this
-        let timer1=window.setTimeout(function(){
-          that.$router.go(-1);
-          window.clearTimeout(timer1);
-        },350)
+//        this.isSearching = false
+        //记得把这个解开，上面的代码是调试用的
+//        let that = this
+//        let timer1=window.setTimeout(function(){
+//          that.$router.go(-1);
+//          window.clearTimeout(timer1);
+//        },350)
       },
     }
   }
@@ -122,6 +156,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../common/sass/factory";
+
   form {
     position: absolute;
   }
@@ -133,7 +168,7 @@
   }
   .search_box {
     width: 100vw;
-    height: 12vw;
+    height: px2vw(88);
     position: relative;
     background-color: $themeColor;
     border-bottom: 1px solid #E5E5E5;
@@ -192,6 +227,96 @@
       padding: px2vw(20) px2vw(31) px2vw(20) px2vw(31);
       margin-top: px2vw(20);
       margin-right: px2vw(20);
+    }
+  }
+
+  .firstClassify{
+    position: fixed;
+    top:px2vw(88);
+    left: 0;
+    width: 100%;
+    height: px2vw(90);
+    text-align: center;
+    background-color: #fff;
+    border-bottom: 1px solid #e5e5e5;
+    .firstClassifyName{
+      margin: 0 auto;
+      height: px2vw(90);
+      display: flex;
+      width: px2vw(320);
+      justify-content: space-between;
+      div{
+        width: px2vw(90);
+        height: px2vw(86);
+        line-height: px2vw(86);
+        font-size: px2vw(36);
+        color: #999;
+      }
+      .isCheckDiv{
+        color: $themeColor;
+        border-bottom: 1px solid $themeColor;
+      }
+    }
+    .secondClassifyName{
+      position: absolute;
+      right: px2vw(20);
+      top: 0;
+      height: px2vw(90);
+      line-height: px2vw(90);
+      font-size: px2vw(30);
+      color: $themeColor;
+      z-index: 100;
+      .theSecondClassifyName{
+        img{
+          margin-left: px2vw(10);
+        }
+      }
+      .secondClassifyList{
+        .triOut{
+          border: px2vw(12) solid transparent;
+          border-bottom: px2vw(11) solid #9ac8f6;
+          position: absolute;
+          z-index: 104;
+          right: px2vw(20);
+          top: px2vw(59);
+        }
+        .triIn{
+          border: px2vw(10) solid transparent;
+          border-bottom: px2vw(10) solid #fff;
+          position: absolute;
+          z-index: 104;
+          right: px2vw(22);
+          top: px2vw(62);
+        }
+        ul{
+          position: absolute;
+          right: 0;
+          top: px2vw(80);
+          border: 1px solid #9ac8f6;
+          width: px2vw(200);
+          padding: 0 px2vw(10);
+          border-radius: px2vw(10);
+          background-color: #fff;
+          z-index: 101;
+          li{
+            border-bottom: 1px solid #e5e5e5;
+            width: 100%;
+            height: px2vw(90);
+            line-height: px2vw(90);
+            color: #999;
+            text-align: left;
+            padding-left: px2vw(20);
+            font-size: px2vw(28);
+            img{
+              width: px2vw(26);
+              margin-left: px2vw(40);
+            }
+          }
+          .isCheckLi{
+            color: $themeColor;
+          }
+        }
+      }
     }
   }
 </style>
