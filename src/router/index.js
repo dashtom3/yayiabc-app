@@ -473,7 +473,20 @@ let router = new Router({
     {
       name: 'communitySearch',
       path: '/communitySearch',
-      component: communitySearch
+      component: communitySearch,
+      redirect: {name: 'caseOfIllnessSearch'},
+      children: [
+        {
+          name: 'caseOfIllnessSearch',
+          path: '/communitySearch/caseOfIllness',
+          component: caseOfIllness
+        },
+        {
+          name: 'videoSearch',
+          path: '/communitySearch/video',
+          component: video
+        },
+      ]
     },
     {
       name: 'caseIllness', redirect: {name: 'caseOfIllness'},

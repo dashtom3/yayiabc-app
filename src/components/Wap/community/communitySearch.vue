@@ -16,32 +16,35 @@
         <span class="historyBtn" v-for="(item,index) in userHistory" v-if="index<8" @click="search_cargo(item)">{{item}}</span>
       </div>
     </div>
-    <div class="firstClassify" v-else>
-      <div class="firstClassifyName" >
-        <div>病例</div>
-        <div>视频</div>
-        <div>培训</div>
+    <div v-else class="searchWrap">
+      <div class="firstClassify">
+        <div class="firstClassifyName" >
+          <div @click="changeClass(0)" :class="{isCheckDiv:caseClassNum === 0}">病例</div>
+          <div @click="changeClass(1)"  :class="{isCheckDiv:caseClassNum === 1}">视频</div>
+          <div @click="changeClass(2)"  :class="{isCheckDiv:caseClassNum === 2}">培训</div>
+        </div>
+        <div class="secondClassifyName">
+          <div class="theSecondClassifyName" @click="isChooseSecondClassify">
+            {{secondClassify}}
+            <img src="../../../images/ProductList/Plist.png" alt="">
+          </div>
+          <div class="secondClassifyList" v-if="secondClassifyShow">
+            <div class="triOut"></div>
+            <div class="triIn"></div>
+            <ul>
+              <li v-for="(item,key) in secondClassifyArr" @click="chooseSecondClassify(item)" :class="{isCheckLi:item == secondClassify}">
+                {{item}}
+                <img src="../../../images/ProductList/brandChecked.png" alt="" v-if="item == secondClassify">
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
-      <div class="secondClassifyName">
-        <div class="theSecondClassifyName" @click="isChooseSecondClassify">
-          {{secondClassify}}
-          <img src="../../../images/ProductList/Plist.png" alt="">
-        </div>
-        <div class="secondClassifyList" v-if="secondClassifyShow">
-          <div class="triOut"></div>
-          <div class="triIn"></div>
-          <ul>
-            <li v-for="(item,key) in secondClassifyArr" @click="chooseSecondClassify(item)" :class="{isCheckLi:item == secondClassify}">
-              {{item}}
-              <img src="../../../images/ProductList/brandChecked.png" alt="" v-if="item == secondClassify">
-            </li>
-          </ul>
-        </div>
+      <div class="searchRes">
+        <router-view></router-view>
       </div>
     </div>
-    <div class="searchRes">
 
-    </div>
   </div>
 </template>
 
@@ -60,17 +63,37 @@
         secondClassifyArr:['不限','外科','内科','修复','种植','正畸'],
         secondClassify: '不限',
         secondClassifyShow: false,
+        caseClassNum: 0,
+//        caseListArgs: {
+//          classify: null,
+//          currentPage: 1,
+//          numberPerPage: 10,
+//          order: 0,
+//        },
       }
     },
     components: {
     },
     created: function() {
       var that = this
-//      that.isSearching = true;
+      that.isSearching = true;
       if (JSON.parse(tokenMethods.getCommunityHistory())) {
         that.userHistory = JSON.parse(tokenMethods.getCommunityHistory()).reverse()
       }
 
+    },
+    beforeRouteEnter (to, from, next) {
+      // 通过 `vm` 访问组件实例
+      next(vm => {
+//        console.log(vm.$router.history.current.name);
+        if (vm.$router.history.current.name === '/communitySearch/caseOfIllness') {
+          vm.caseClassNum = 0
+        } else if(vm.$router.history.current.name === '/communitySearch/video') {
+          vm.caseClassNum = 1
+        } else if(vm.$router.history.current.name === '') {
+          vm.caseClassNum = 2
+        }
+      })
     },
     directives: {
       focus: {
@@ -86,10 +109,10 @@
         if (typeof(item) !== 'object') {
           that.searchCargo = item
         }
-//        if (that.searchCargo == '') {
-//          Toast({message: '请输入查询条件！', duration: 1500})
-//          return false
-//        }
+        if (that.searchCargo == '') {
+          Toast({message: '请输入查询条件！', duration: 1500})
+          return false
+        }
         var obj = {
           keyWord: that.searchCargo,
         }
@@ -97,40 +120,58 @@
 //          if (res.data.callStatus === 'SUCCEED') {
 //            console.log(res.data,'searchWord')
 //            if (res.data.data.length !== 0) {
-//              if (JSON.parse(tokenMethods.getCommunityHistory()) == null) {
-//                that.userHistory = []
-//                that.userHistory.push(that.searchCargo)
-//              } else {
-//                that.userHistory = JSON.parse(tokenMethods.getCommunityHistory())
-//                that.userHistory.push(that.searchCargo)
-//                var userHistoryData = []
-//                for (var i = 0; i < that.userHistory.length; i++) {
-//                  if (userHistoryData.indexOf(that.userHistory[i]) == -1) {
-//                    userHistoryData.push(that.userHistory[i])
-//                  }
-//                }
-//                that.userHistory = userHistoryData
-//                console.log(that.userHistory,'9999')
-//              }
-//              tokenMethods.setCommunityHistory(that.userHistory)
+              if (JSON.parse(tokenMethods.getCommunityHistory()) == null) {
+                that.userHistory = []
+                that.userHistory.push(that.searchCargo)
+              } else {
+                that.userHistory = JSON.parse(tokenMethods.getCommunityHistory())
+                that.userHistory.push(that.searchCargo)
+                var userHistoryData = []
+                for (var i = 0; i < that.userHistory.length; i++) {
+                  if (userHistoryData.indexOf(that.userHistory[i]) == -1) {
+                    userHistoryData.push(that.userHistory[i])
+                  }
+                }
+                that.userHistory = userHistoryData
+                console.log(that.userHistory,'9999')
+              }
+              tokenMethods.setCommunityHistory(that.userHistory)
 //            }
 //            that.$router.push({ name: 'productList'});
             that.isSearching = false
+        document.getElementsByClassName('search_word')[0].blur();
 //            window.scroll(0,0);
 //          } else {
 //            Toast({message: '网络出错，请稍后再试！', duration: 1500})
 //          }
 //        })
       },
+      changeClass(index){
+        console.log(index)
+        this.caseClassNum = index;
+        if(index === 0)
+        {
+          this.$router.push({path:'/communitySearch/caseOfIllness'});
+        }else if(index === 1)
+        {
+          this.$router.push({path:'/communitySearch/video'});
+        }
+      },
       isChooseSecondClassify(){
         this.secondClassifyShow = !this.secondClassifyShow
       },
       chooseSecondClassify(val){
         this.secondClassify = val;
+        this.secondClassifyShow = false
+        if( this.caseClassNum === 0)
+        {
+          this.$store.dispatch('SAVE_CASE_DRESSING',  val);
+        }
+//        this.caseListArgs.classify = val;
         //做点什么
       },
       searchActive: function() {
-//        this.isSearching = true;
+        this.isSearching = true;
       },
       // 删除历史搜索
       deleteHistory: function() {
@@ -230,94 +271,106 @@
     }
   }
 
-  .firstClassify{
-    position: fixed;
-    top:px2vw(88);
-    left: 0;
-    width: 100%;
-    height: px2vw(90);
-    text-align: center;
-    background-color: #fff;
-    border-bottom: 1px solid #e5e5e5;
-    .firstClassifyName{
-      margin: 0 auto;
+  .searchWrap{
+    .firstClassify{
+      position: fixed;
+      top:px2vw(88);
+      left: 0;
+      width: 100%;
       height: px2vw(90);
-      display: flex;
-      width: px2vw(320);
-      justify-content: space-between;
-      div{
-        width: px2vw(90);
-        height: px2vw(86);
-        line-height: px2vw(86);
-        font-size: px2vw(36);
-        color: #999;
+      text-align: center;
+      background-color: #fff;
+      border-bottom: 1px solid #e5e5e5;
+      .firstClassifyName{
+        margin: 0 auto;
+        height: px2vw(90);
+        display: flex;
+        width: px2vw(320);
+        justify-content: space-between;
+        div{
+          width: px2vw(90);
+          height: px2vw(90);
+          line-height: px2vw(86);
+          font-size: px2vw(36);
+          color: #999;
+        }
+        .isCheckDiv{
+          color: $themeColor;
+          border-bottom: 3px solid $themeColor;
+        }
       }
-      .isCheckDiv{
+      .secondClassifyName{
+        position: absolute;
+        right: px2vw(20);
+        top: 0;
+        height: px2vw(90);
+        line-height: px2vw(90);
+        font-size: px2vw(30);
         color: $themeColor;
-        border-bottom: 1px solid $themeColor;
-      }
-    }
-    .secondClassifyName{
-      position: absolute;
-      right: px2vw(20);
-      top: 0;
-      height: px2vw(90);
-      line-height: px2vw(90);
-      font-size: px2vw(30);
-      color: $themeColor;
-      z-index: 100;
-      .theSecondClassifyName{
-        img{
-          margin-left: px2vw(10);
+        z-index: 100;
+        .theSecondClassifyName{
+          img{
+            margin-left: px2vw(10);
+          }
         }
-      }
-      .secondClassifyList{
-        .triOut{
-          border: px2vw(12) solid transparent;
-          border-bottom: px2vw(11) solid #9ac8f6;
-          position: absolute;
-          z-index: 104;
-          right: px2vw(20);
-          top: px2vw(59);
-        }
-        .triIn{
-          border: px2vw(10) solid transparent;
-          border-bottom: px2vw(10) solid #fff;
-          position: absolute;
-          z-index: 104;
-          right: px2vw(22);
-          top: px2vw(62);
-        }
-        ul{
-          position: absolute;
-          right: 0;
-          top: px2vw(80);
-          border: 1px solid #9ac8f6;
-          width: px2vw(200);
-          padding: 0 px2vw(10);
-          border-radius: px2vw(10);
-          background-color: #fff;
-          z-index: 101;
-          li{
-            border-bottom: 1px solid #e5e5e5;
-            width: 100%;
-            height: px2vw(90);
-            line-height: px2vw(90);
-            color: #999;
-            text-align: left;
-            padding-left: px2vw(20);
-            font-size: px2vw(28);
-            img{
-              width: px2vw(26);
-              margin-left: px2vw(40);
+        .secondClassifyList{
+          .triOut{
+            border: px2vw(12) solid transparent;
+            border-bottom: px2vw(11) solid #9ac8f6;
+            position: absolute;
+            z-index: 104;
+            right: px2vw(20);
+            top: px2vw(59);
+          }
+          .triIn{
+            border: px2vw(10) solid transparent;
+            border-bottom: px2vw(10) solid #fff;
+            position: absolute;
+            z-index: 104;
+            right: px2vw(22);
+            top: px2vw(62);
+          }
+          ul{
+            position: absolute;
+            right: 0;
+            top: px2vw(80);
+            border: 1px solid #9ac8f6;
+            width: px2vw(200);
+            padding: 0 px2vw(10);
+            border-radius: px2vw(10);
+            background-color: #fff;
+            z-index: 201;
+            li{
+              border-bottom: 1px solid #e5e5e5;
+              width: 100%;
+              height: px2vw(90);
+              line-height: px2vw(90);
+              color: #999;
+              text-align: left;
+              padding-left: px2vw(20);
+              font-size: px2vw(28);
+              img{
+                width: px2vw(26);
+                margin-left: px2vw(40);
+              }
+            }
+            .isCheckLi{
+              color: $themeColor;
             }
           }
-          .isCheckLi{
-            color: $themeColor;
-          }
         }
       }
     }
+    .searchRes{
+      position: fixed;
+      top: px2vw(178);
+      bottom: 0;
+      overflow: scroll;
+      width: 100%;
+      -webkit-overflow-scrolling: touch;
+      z-index: -1;
+    }
   }
+
 </style>
 

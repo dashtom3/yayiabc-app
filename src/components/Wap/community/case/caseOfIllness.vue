@@ -30,7 +30,7 @@
     </div>
     </mt-loadmore>
     <!--编辑按钮-->
-    <div class="edit" @click="gotoPage('/newCase')">
+    <div slot="edit" class="edit" @click="gotoPage('/newCase')">
       <img src="../../../../images/case/caseOfIllness/editer.png" alt="">
     </div>
     <!--编辑按钮-->
@@ -91,10 +91,12 @@
     watch: {
       saveCaseDressing: function (newVal, oldVal) {
         this.dressing(this.saveCaseDressing);
+        console.log(this.saveCaseDressing);
         this.$refs.scrollBox.scrollTop = 0;
       },
       saveCaseOrder: function (newVal, oldVal) {
         this.dressingFunction(this.saveCaseOrder);
+        console.log(this.saveCaseOrder);
         this.$refs.scrollBox.scrollTop = 0;
       }
     },
@@ -130,6 +132,7 @@
         }
       },
       getCaseList (){
+        console.log(this.$router.history.current.name,'aa');
         this.$store.dispatch('GET_CASE_LIST', this.caseListArgs).then( (res) => {
           this.listCaseData = this.listCaseData.concat(res.data);
           this.caseListArgs.totalPage = res.totalPage;
