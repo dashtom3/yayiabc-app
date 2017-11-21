@@ -186,6 +186,7 @@ export const GET_CASE_COMMENT = 'GET_CASE_COMMENT';                         //�
 export const GET_PLAY_VIDEOS = 'GET_PLAY_VIDEOS';                         //视频播放
 export const GET_VIDEO_LIST = 'GET_VIDEO_LIST';                           //获取视频列表播放
 export const GET_VIDEOS_DETAIL = 'GET_VIDEOS_DETAIL';                           //获取视频详情
+export const SAVE_COLLECT = 'SAVE_COLLECT';                           //获取视频收藏
 
 
 

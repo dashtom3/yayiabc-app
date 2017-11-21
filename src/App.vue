@@ -23,7 +23,9 @@
   export default {
     name: 'app',
     data() {
-      return {}
+      return {
+        include:['register', 'salesRegister', 'wxlogIn', 'productList']
+      }
     },
     components: {},
     created: function () {

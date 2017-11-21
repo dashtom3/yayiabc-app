@@ -244,7 +244,7 @@
           beCommentedId:100, //病例id
           currentPage: 1,//当前页数
           numberPerPage: 10, //每页显示多少条
-          type: '病例'
+          type: this.types
         },
         //获取当前登录账号的userID
         myUserId:tokenMethods.getWapUser() ? tokenMethods.getWapUser().userId:'',
@@ -265,7 +265,7 @@
       }
     },
     created(){
-      [this.detailedCommentParameter.beCommentedId, this.deleteArgs.beCommentedId] = [this.$route.query.caseId, this.$route.query.caseId];
+      [this.detailedCommentParameter.beCommentedId, this.deleteArgs.beCommentedId] = [this.$route.query.id, this.$route.query.id];
 
       this.getCaseComment();
     },

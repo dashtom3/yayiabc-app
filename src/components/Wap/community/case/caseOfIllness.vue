@@ -139,7 +139,7 @@
         }
       },
       goCaseDetailed(id){
-        this.$router.push({path: '/caseDetailed', query:{'caseId': id}})
+        this.$router.push({path: '/caseDetailed', query:{'id': id}})
       },
       getCaseListMore (){
         if(this.caseDate.totalPage < this.caseListArgs.currentPage)

@@ -49,7 +49,18 @@
         <!--相关产品结束-->
 
 
+
+
+        <div>
+          <comment :types="'视频'"></comment>
+        </div>
+
+
       </div>
+
+
+
+
 
 
       <!--结尾-->
@@ -58,6 +69,7 @@
 
 <script>
   import videoPlay from './videoPlay.vue'
+  import comment from '../case/comment.vue'
   export default {
     data(){
       return{
@@ -71,7 +83,7 @@
     },
     methods:{
       getVideosDetail(){
-        this.$store.dispatch('GET_VIDEOS_DETAIL', {viId: this.$route.query.vid}).then( (res)=>{
+        this.$store.dispatch('GET_VIDEOS_DETAIL', {viId: this.$route.query.id}).then( (res)=>{
           this.videoArgs = res.data;
           this.videoSwitch = true
           console.log( this.videoArgs.vidRoute);
@@ -82,7 +94,7 @@
         this.$router.go(-1);
       },
     },
-    components:{videoPlay}
+    components:{videoPlay,comment}
   }
 </script>
 

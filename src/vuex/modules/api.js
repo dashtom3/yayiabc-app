@@ -575,6 +575,10 @@ export function getCaseComment(params) {
 export function getPlayComment(params) {
   return geters('/vid/play', params)
 }
+//视频收藏
+export function saveCollect(params) {
+  return getWithToken('/vid/star', params)
+}
 //视频播放
 export function getVideoList(params) {
   return posts('/vid/showVid', params)

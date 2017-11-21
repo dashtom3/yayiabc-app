@@ -13,7 +13,7 @@
             <video-play v-if="videoSwitch">
               <!--<video  src=""  controls="" x5-playsinline="" playsinline="" webkit-playsinline="" poster="" preload="auto"></video>-->
               <!--posterSrc:视频封面地址  slot必须带class="video"-->
-              <video :poster="item.vedioPic" :posterSrc="item.vedioPic" slot="video" webkit-playsinline="true" playsinline="true" class="video">
+              <video :poster="item.vedioPic"  slot="video" webkit-playsinline="true" playsinline="true" class="video">
               <source slot="sourceSrc" :src="item.vidRoute" type="video/mp4"></source>
               </video>
             </video-play>
@@ -33,7 +33,7 @@
               <span>{{item.vedioCommentNumber }}</span>
             </span>
 
-            <span class="collectionBox">
+            <span @click="collect(item.viId)" class="collectionBox">
               <img class="collectionImg" src="../../../../images/video/collection.png" alt="">
               <span>{{item.starNumber == null? 0:item.starNumber }}</span>
             </span>
@@ -50,11 +50,14 @@
 <script>
   import videoPlay from './videoPlay.vue'
   import {mapGetters} from 'vuex';
-  import { InfiniteScroll, LoadMore } from 'mint-ui';
+  import { InfiniteScroll, LoadMore ,MessageBox, Toast} from 'mint-ui';
   import topLoadMore from '../../../salesWap/index/topLoadMore.vue';
+  import { tokenMethods } from '../../../../vuex/util';
   export default {
     data(){
       return{
+        //获取当前登录账号的userID
+        myUserId:tokenMethods.getWapUser() ? tokenMethods.getWapUser().userId:'',
         videoSwitch: true,
         isLoading:false,
         videoListArgs:{
@@ -95,17 +98,34 @@
       },
     },
     created(){
-
       if(this.$router.history.current.name === 'videoSearch'){
         this.caseSearchArgs.keyWord = this.saveCaseSearching;
       }
-      console.log(this.$router.history.current.name)
+      console.log(this.$router.history.current.name);
       this.getVideoList()
     },
     mounted(){
 
     },
     methods:{
+      collect (vid){
+        if(this.pointLogin())
+        {
+          this.$store.dispatch('SAVE_COLLECT', {viId: vid}).then((res)=>{
+              console.log(res);
+              if(res.callStatus === "SUCCEED")
+              {
+                Toast({message: '收藏成功', duration: 1500})
+              }else {
+                Toast({message: '收藏失败', duration: 1500})
+              }
+
+
+          })
+        }else {
+          this.isLogin();
+        }
+      },
       getVideoList(){
         this.isLoading = true
         if(this.$router.history.current.name === 'videoSearch'){
@@ -176,8 +196,21 @@
         this.$refs.topLoadMore.states(val)
       },
       toVideo(id){
-        this.$router.push({path:'/videoDetailed',query:{vid: id}});
-      }
+        this.$router.push({path:'/videoDetailed',query:{id: id}});
+      },
+      //判断是否登录
+      pointLogin(){
+        let userToken = tokenMethods.getWapToken();
+        return userToken;
+      },
+      //提示需要登录
+      isLogin() {
+        MessageBox.confirm('请先登录!').then(action => {
+          this.$router.push({path: '/logIn'})
+        }).catch(function (error) {
+          return '';
+        });
+      },
     },
 
 
@@ -195,6 +228,7 @@
     padding-left: px2vw(20);
     padding-top: px2vw(25);
     padding-right: px2vw(20);
+
   }
   .videoWrap:nth-child(1){
     padding-top: 0 !important;

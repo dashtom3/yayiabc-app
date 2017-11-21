@@ -9,6 +9,9 @@
 
           <!--<p>设备不支持</p>-->
         <!--</video>-->
+
+
+
       <div class="backgroundEl">
         <slot name="video">
           <slot name="sourceSrc"></slot>
@@ -87,15 +90,22 @@
       let expand = this.$el.querySelector('.allVideo'); //全屏按钮
       let playImgBox = this.$el.querySelector('.playImgBox'); //控件左下角的播放按钮
       let vplay = this.$el.querySelector('.vplay'); //中间的播放按钮
-      let backgroundEl = this.$el.querySelector('.backgroundEl'); //封面背景
-
       let videoElWith = this.$el.querySelector('.videoEl').offsetLeft; //最外边边框宽度
 
 
-      console.log(video.getAttribute("posterSrc"));
-      let poster = video.getAttribute("posterSrc");
+
+
+//      let backgroundEl = this.$el.querySelector('.backgroundEl'); //封面背景
+//      console.log(video.getAttribute("posterSrc"));
+//      let poster = video.getAttribute("posterSrc");
 //      backgroundEl.style.backgroundImage="url("+ poster + ")"; //设置封面
 //      backgroundEl.style.backgroundSize="100% 100%"; //设置封面
+
+
+
+
+
+
 
       video.controls=false; //隐藏原有控件
 
@@ -261,13 +271,10 @@
     @import "../../../../common/sass/factory";
 
     video{
-      border: none;
+      object-fit: scale-down;
     }
-
     .video{
       width: 100%;
-
-
     }
     .backgroundEl{
       position: relative;
