@@ -203,6 +203,24 @@ export const tokenMethods = {
   setHistory(data) {
     localStorage.setItem('userHistory', JSON.stringify(data))
   },
+  setInfoList(data) {
+    localStorage.setItem('infoList', JSON.stringify(data))
+  },
+  getInfoList(){
+    return localStorage.getItem('infoList')
+  },
+  removeInfoList(data){
+    localStorage.removeItem('infoList')
+  },
+  setAnswerList(data) {
+    localStorage.setItem('answerList', JSON.stringify(data))
+  },
+  getAnswerList(){
+    return localStorage.getItem('answerList')
+  },
+  removeAnswerList(data){
+    localStorage.removeItem('answerList')
+  },
   setCommunityHistory(data) {
     localStorage.setItem('userCommunityHistory', JSON.stringify(data))
   },

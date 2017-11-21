@@ -4,10 +4,10 @@
     <div class="container">
       <div class="line" @click="gotoPage(1)">
         <div class="logoImg">
-          <img src="../../../../images/mine/systemInfo.png" alt="">
+          <img src="../../../../images/mine/commentInfo.png" alt="">
         </div>
         <div class="detail">
-          <span class="title">系统通知</span>
+          <span class="title">评论</span>
           <div class="floatRight">
             <span class="infoNum">15</span>
             <img src="../../../../images/mine/right.png" alt="">
@@ -20,7 +20,7 @@
           <img src="../../../../images/mine/commentInfo.png" alt="">
         </div>
         <div  class="detail">
-          <span class="title">评论</span>
+          <span class="title">问答</span>
           <div  class="floatRight">
             <span  class="infoNum">15</span>
             <img src="../../../../images/mine/right.png" alt="">

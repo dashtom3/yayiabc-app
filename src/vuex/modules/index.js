@@ -1042,10 +1042,10 @@ const actions = {
     });
   },
 
-  //获取消息列表数字
-  [types.GET_INFO_NUM](context, params) {
+  //h
+  [types.GET_INFO_DETAIL](context, params) {
     return new Promise((resolve, reject) => {
-      api.getInfoNum(params).then((data) => {
+      api.getInfoDetail(params).then((data) => {
         // state.productData = data.data.data
         resolve(data);
       }).catch((err) => {

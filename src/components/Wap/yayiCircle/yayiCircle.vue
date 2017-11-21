@@ -136,12 +136,15 @@
     created(){
       this.timeStamp = Date.parse(new Date());
       console.log(this.$router.history.current.name)
-      if(this.$router.history.current.name === 'yayiCircle'){
+      if(this.$route.query){
+        this.headTitle = '我的动态'
+      }else {
         this.thePage = 1;   //1代表牙医圈，2代表我的动态
-        this.reqUrl = YAYI_CIRCLE;
-        this.headTitle = '牙医圈'
+//        this.reqUrl = YAYI_CIRCLE;
+        this.headTitle = '牙医圈';
+        this.getYayiCircle();
       }
-      this.getYayiCircle();
+
     },
     methods:{
       newTrend(){
@@ -150,54 +153,57 @@
       },
       getYayiCircle(){
         this.isLoading = true;
-        this.$store.dispatch(this.reqUrl, this.args).then(res =>{
+        this.$store.dispatch(YAYI_CIRCLE, this.args).then(res =>{
           console.log(res.data);
-          if(res.data) {
-            res.data.forEach(item => {
-              //图片字符串转数组
-              if (item.momentPicture) {
-                item.momentPicture = item.momentPicture.split(';');
-              }
-              //分享内容转换
-              if (!item.momentContent) {
-                if (item.momentType == 3) {
-                  item.momentContent = item.momentContent ? item.momentContent : '分享了病例'
-                }
-                else if (item.momentType == 2) {
-                  item.momentContent = item.momentContent ? item.momentContent : '分享了视频'
-                }
-              }
-              //时间转换
-              switch (true) {
-                //几分钟前
-                case this.timeStamp - item.momentTime < 3600000:
-//                console.log(this.timeStamp - item.momentTime)
-                  item.momentTime = Math.ceil((this.timeStamp - item.momentTime) / 1000 / 60) + '分钟前';
-                  break;
-                //几小时前
-                case this.timeStamp - item.momentTime >= 3600000 && this.timeStamp - item.momentTime < 86400000:
-//                console.log(this.timeStamp - item.momentTime)
-                  item.momentTime = Math.floor((this.timeStamp - item.momentTime) / 1000 / 60 / 60) + '小时前';
-                  break;
-                //日期
-                case this.timeStamp - item.momentTime >= 86400000:
-                  item.momentTime = Util.formatDate.format(new Date(item.momentTime), 'yy.MM.dd hh:mm').substring(2);
-                  break;
-              }
-              this.yayiCircleData.push(item)
-            });
-            console.log(this.yayiCircleData, 'ww');
-            this.totalPage = res.totalPage
-            //控制是否显示加载到底的一个判断值，虽然我觉得基本上用不到。
-            if (this.args.currentPage === res.totalPage && this.args.currentPage > 1) {
-              this.noMoreData = true
-            }
-          }
-          else {
-            Toast({message: '啊哦！出错了请稍后重试', duration: 1500});
-          }
+          this.dataCompute(res);
           this.isLoading = false;
         })
+      },
+      dataCompute(res){
+        if(res.data) {
+          res.data.forEach(item => {
+            //图片字符串转数组
+            if (item.momentPicture) {
+              item.momentPicture = item.momentPicture.split(';');
+            }
+            //分享内容转换
+            if (!item.momentContent) {
+              if (item.momentType == 3) {
+                item.momentContent = item.momentContent ? item.momentContent : '分享了病例'
+              }
+              else if (item.momentType == 2) {
+                item.momentContent = item.momentContent ? item.momentContent : '分享了视频'
+              }
+            }
+            //时间转换
+            switch (true) {
+              //几分钟前
+              case this.timeStamp - item.momentTime < 3600000:
+//                console.log(this.timeStamp - item.momentTime)
+                item.momentTime = Math.ceil((this.timeStamp - item.momentTime) / 1000 / 60) + '分钟前';
+                break;
+              //几小时前
+              case this.timeStamp - item.momentTime >= 3600000 && this.timeStamp - item.momentTime < 86400000:
+//                console.log(this.timeStamp - item.momentTime)
+                item.momentTime = Math.floor((this.timeStamp - item.momentTime) / 1000 / 60 / 60) + '小时前';
+                break;
+              //日期
+              case this.timeStamp - item.momentTime >= 86400000:
+                item.momentTime = Util.formatDate.format(new Date(item.momentTime), 'yy.MM.dd hh:mm').substring(2);
+                break;
+            }
+            this.yayiCircleData.push(item)
+          });
+          console.log(this.yayiCircleData, 'ww');
+          this.totalPage = res.totalPage
+          //控制是否显示加载到底的一个判断值，虽然我觉得基本上用不到。
+          if (this.args.currentPage === res.totalPage && this.args.currentPage > 1) {
+            this.noMoreData = true
+          }
+        }
+        else {
+          Toast({message: '啊哦！出错了请稍后重试', duration: 1500});
+        }
       },
       //删除动态
       deleteTrend(id,index){
