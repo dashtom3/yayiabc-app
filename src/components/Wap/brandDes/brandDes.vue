@@ -459,7 +459,7 @@ export default {
   top:0;
   left: 0;
   background: #fff;
-  z-index: 2014;
+  z-index: 1990;
 }
 .header_box {
   width: px2vw(70);

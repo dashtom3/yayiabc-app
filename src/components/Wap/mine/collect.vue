@@ -26,7 +26,7 @@
   ]">
         <!--左边图片-->
         <div class="collect_img">
-          <img :src="item.item_pica" width="97%" height="97%" alt="" @click="goProductDetail(item)">
+          <img :src="item.item_pica" width="100%" height="100%" alt="" @click="goProductDetail(item)">
         </div>
         <!--右边收藏商品信息-->
         <div class="collect_right" @click="goProductDetail(item)">
