@@ -35,7 +35,7 @@
   export default {
     data(){
       return{
-        headerText:this.$route.query.type === 1 ? '系统消息' : '评论列表',
+        headerText:this.$route.query.type === 1 ? '评论列表' : '我的问答',
         isLoading:false
       }
     },

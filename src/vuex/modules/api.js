@@ -359,7 +359,17 @@ export function deleteComment(params) {
 
 //点赞
 export function like(params) {
-  return getWithToken('/zan/upvote ', params);
+  return getWithToken('/zan/upvote', params);
+}
+
+//获取消息列表
+export function getInfoDetail(params) {
+  return getWithToken('/message/getDetail', params);
+}
+
+//获取消息列表数
+export function getInfoNum(params) {
+  return getWithToken('/message/getNumber', params);
 }
 
 

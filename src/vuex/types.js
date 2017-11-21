@@ -124,6 +124,8 @@ export const ADD_COMMENT = 'ADD_COMMENT'                                        
 export const DELETE_TREND = 'DELETE_TREND'                                          //牙医圈删除动态
 export const LIKE = 'LIKE'                                                          //点赞
 export const DELETE_COMMENT = 'DELETE_COMMENT'                                      //删除评论
+export const GET_INFO_DETAIL = 'GET_INFO_DETAIL'                                    //获取消息列表
+export const GET_INFO_NUM = 'GET_INFO_NUM'                                           //获取消息列表
 
 /*
 * 创客系统管理模块

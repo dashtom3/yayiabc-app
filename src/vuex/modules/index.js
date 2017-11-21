@@ -1030,6 +1030,30 @@ const actions = {
     });
   },
 
+  //获取消息列表
+  [types.GET_INFO_DETAIL](context, params) {
+    return new Promise((resolve, reject) => {
+      api.getInfoDetail(params).then((data) => {
+        // state.productData = data.data.data
+        resolve(data);
+      }).catch((err) => {
+        resolve(data);
+      });
+    });
+  },
+
+  //获取消息列表数字
+  [types.GET_INFO_NUM](context, params) {
+    return new Promise((resolve, reject) => {
+      api.getInfoNum(params).then((data) => {
+        // state.productData = data.data.data
+        resolve(data);
+      }).catch((err) => {
+        resolve(data);
+      });
+    });
+  },
+
   //创客登录
   [types.SALE_LOGIN](context, params) {
     return new Promise((resolve, reject) => {
