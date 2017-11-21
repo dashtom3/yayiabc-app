@@ -33,7 +33,7 @@
               <span>{{item.vedioCommentNumber }}</span>
             </span>
 
-            <span @click="collect(item.viId)" class="collectionBox">
+            <span @click="collect(item.viId, item.isStar, index)" class="collectionBox">
               <img class="collectionImg" src="../../../../images/video/collection.png" alt="">
               <span>{{item.starNumber == null? 0:item.starNumber }}</span>
             </span>
@@ -108,19 +108,30 @@
 
     },
     methods:{
-      collect (vid){
+      collect (vid, isStar, index){
+        console.log(isStar);
         if(this.pointLogin())
         {
           this.$store.dispatch('SAVE_COLLECT', {viId: vid}).then((res)=>{
               console.log(res);
               if(res.callStatus === "SUCCEED")
               {
-                Toast({message: '收藏成功', duration: 1500})
+
+                if(isStar === 0)  //未收藏
+                {
+                  this.videoArgs[index].isStar = 1;
+                  this.videoArgs[index].starNumber = Number(this.videoArgs[index].starNumber) + 1;
+                  Toast({message: '收藏成功', duration: 1500})
+                }else {
+                  this.videoArgs[index].isStar = 0;
+                  this.videoArgs[index].starNumber = Number(this.videoArgs[index].starNumber) - 1;
+                  Toast({message: '已取消收藏', duration: 1500})
+                }
+
+
               }else {
                 Toast({message: '收藏失败', duration: 1500})
               }
-
-
           })
         }else {
           this.isLogin();
