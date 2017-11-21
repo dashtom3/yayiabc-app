@@ -32,7 +32,7 @@
       </div>
       <!--头部结束-->
       <div class="dressingBox">
-        <span v-for="(item, index) in caseDate.dressing" @click="dressing(item)"  :class="{'DressingColor': caseListArgs.classify === item}">{{item == null ? '不限':item}}</span>
+        <span v-for="(item, index) in caseDate.dressing" @click="dressing(index)"  :class="{'DressingColor': (caseListArgs.classify==''?0:caseListArgs.classify) === index}">{{item == '' ? '不限':item}}</span>
 
         <!--筛选按钮-->
         <span @click="caseDate.dressingSwitch = !caseDate.dressingSwitch" class="dressingBtn">
@@ -69,12 +69,12 @@
         caseDate: {
           caseClass: ['病例', '视频', '培训'],
           caseClassNum: 0,
-          dressing: [null, '外科', '内科', '修复', '种植', '正畸'],
+          dressing: ['', '外科', '内科', '修复', '种植', '正畸'],
           dressingSwitch: false,
           updataTime: ['最新发布', '最多评论', '最多赞'],
         },
         caseListArgs: {
-          classify: null,
+          classify: '',
           currentPage: 1,
           numberPerPage: 10,
           order: 0,
@@ -108,21 +108,28 @@
     },
     methods: {
       dressingFunction (index){
-        if( this.caseDate.caseClassNum === 0)
-        {
-          this.$store.dispatch('SAVE_CASE_ORDER',  index);
-        }
+//        if( this.caseDate.caseClassNum === 0)
+//        {
+//          this.$store.dispatch('SAVE_CASE_ORDER',  index);
+//        }
+
+        this.$store.dispatch('SAVE_CASE_ORDER',  index);
+
 
         this.caseListArgs.order = index;
         this.caseDate.dressingSwitch = false;
+
       },
+
       //上部筛选功能栏
       dressing (item){
-        if( this.caseDate.caseClassNum === 0)
-        {
-          this.$store.dispatch('SAVE_CASE_DRESSING',  item);
-        }
+//        if( this.caseDate.caseClassNum === 0)
+//        {
+//          this.$store.dispatch('SAVE_CASE_DRESSING',  item);
+//        }
+        this.$store.dispatch('SAVE_CASE_DRESSING',  item);
         this.caseListArgs.classify = item;
+
       },
       gotoPage(page){
         this.$router.push(page)

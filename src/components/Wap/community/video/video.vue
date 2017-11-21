@@ -1,15 +1,16 @@
 <template>
     <div>
-
+      <mt-loadmore  :top-method="loadMore" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState">
+        <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
 
       <!-- v-for -->
+        <div v-infinite-scroll="getCaseListMore" infinite-scroll-immediate-check="true">
       <div v-for="(item, index) in videoArgs" class="videoWrap">
         <div class="boxBox">
 
           <!--这里放视频-->
           <div class="videoBox">
-            <video-play>
-
+            <video-play v-if="videoSwitch">
               <!--<video  src=""  controls="" x5-playsinline="" playsinline="" webkit-playsinline="" poster="" preload="auto"></video>-->
               <!--posterSrc:视频封面地址  slot必须带class="video"-->
               <video :poster="item.vedioPic" :posterSrc="item.vedioPic" slot="video" webkit-playsinline="true" playsinline="true" class="video">
@@ -27,7 +28,7 @@
               <span>{{item.vidName}}</span>
             </span>
 
-            <span class="commentBox">
+            <span @click="toVideo(item.viId)" class="commentBox">
               <img class="commentImg" src="../../../../images/video/comment.png" alt="">
               <span>{{item.vedioCommentNumber }}</span>
             </span>
@@ -40,7 +41,8 @@
           <!--底部结束-->
         </div>
       </div>
-
+        </div>
+      </mt-loadmore>
       <!--结束-->
     </div>
 </template>
@@ -48,36 +50,64 @@
 <script>
   import videoPlay from './videoPlay.vue'
   import {mapGetters} from 'vuex';
+  import { InfiniteScroll, LoadMore } from 'mint-ui';
+  import topLoadMore from '../../../salesWap/index/topLoadMore.vue';
   export default {
     data(){
       return{
+        videoSwitch: true,
+        isLoading:false,
         videoListArgs:{
           rule: '',         //1,最多播放2.最多评论3.时间倒叙  (非必须)
           videoCategory: '', //视频分类:1.外科2.内科3.修复4.种植5.正畸6全部 (非必须)
           currentPage: 1,  //当前第几页
-          numberPerPage: 10 //每页显示多少条视频
+          numberPerPage:10 //每页显示多少条视频
         },
         caseSearchArgs:{
           keyWord:'',
           type:2,
           classify:'',
           currentPage:1,
-          totalPage: -1,
+          totalPage: 1,
           numberPerPage:10
         },
         videoArgs:[]
       }
     },
+    computed: {
+      ...mapGetters([
+        'saveCaseDressing', //分类筛选的值  不限 外科 内科等一栏
+        'saveCaseOrder',   //order 筛选按钮的值
+        'saveCaseSearching', //
+      ]),
+    },
+    watch:{
+      saveCaseDressing: function (newVal,oldVal) {
+        this.videoListArgs.videoCategory = this.saveCaseDressing;
+        this.videoListArgs.currentPage = 1;
+
+        this.getChangeList();
+      },
+      saveCaseOrder: function (newVal,oldVal) {
+        this.videoListArgs.rule = this.saveCaseOrder;
+        this.videoListArgs.currentPage = 1;
+        this.getChangeList();
+      },
+    },
     created(){
+
       if(this.$router.history.current.name === 'videoSearch'){
         this.caseSearchArgs.keyWord = this.saveCaseSearching;
       }
       console.log(this.$router.history.current.name)
       this.getVideoList()
     },
-    mounted(){},
+    mounted(){
+
+    },
     methods:{
       getVideoList(){
+        this.isLoading = true
         if(this.$router.history.current.name === 'videoSearch'){
           this.$store.dispatch('SEARCH_CASE_LIST', this.caseSearchArgs).then( (res) => {
             this.videoArgs = this.videoArgs.concat(res.data);
@@ -87,23 +117,72 @@
           })
         }else {
           this.$store.dispatch('GET_VIDEO_LIST', this.videoListArgs).then((res) => {
+            this.videoSwitch = false;
+            this.$nextTick( ()=>{
+              this.videoSwitch = true;
+            });
+
             this.videoArgs = res.data;
-            console.log(this.videoArgs, '时间');
+            this.videoArgs['totalPage'] = res.totalPage;
+            this.isLoading = false;
+
+
+            console.log(res, '时间');
           });
         }
+      },
+      getChangeList(){
+        this.$store.dispatch('GET_VIDEO_LIST', this.videoListArgs).then((res) => {
+          this.videoArgs = res.data;
+          this.videoArgs['totalPage'] = res.totalPage;
+          this.videoArgs['currentPage'] = res.currentPage;
+          console.log(res, '时间');
+          this.isLoaded();
+        });
+      },
+
+      //无限滚动
+      getCaseListMore (){
+        this.videoArgs['currentPage']++;
+        if(this.videoArgs.totalPage < this.videoListArgs.currentPage)
+        {
+          return
+        }else if(this.caseSearchArgs.totalPage < this.caseSearchArgs.currentPage){
+          return
+        }
+        else {
+          console.log(1);
+
+          this.$store.dispatch('GET_VIDEO_LIST', this.videoListArgs).then((res) => {
+            this.videoArgs = this.videoArgs.concat(res.data);
+            this.videoArgs['totalPage'] = res.totalPage;
+            this.videoArgs['currentPage'] = res.currentPage;
+          });
+        }
+      },
+
+      //下拉刷新
+      loadMore (id){
+        this.videoListArgs.currentPage = 1;
+        this.getChangeList();
+      },
+      //把下拉刷新完成之后回调的mt的方法传入我的组件里
+      isLoaded(){
+        this.$refs.loadmore.onTopLoaded();
+      },
+      //mt中接受的val值作为参数传入我的组件里
+      isState(val){
+        console.log(val);
+        this.$refs.topLoadMore.states(val)
+      },
+      toVideo(id){
+        this.$router.push({path:'/videoDetailed',query:{vid: id}});
       }
     },
-    computed: {
-      ...mapGetters([
-        'saveCaseDressing', //分类筛选的值  不限 外科 内科等一栏
-        'saveCaseOrder',   //order 筛选按钮的值
-        'saveCaseSearching', //
-      ]),
 
-    },
-    components:{
-      videoPlay
-    }
+
+
+    components:{videoPlay,topLoadMore}
   }
 </script>
 

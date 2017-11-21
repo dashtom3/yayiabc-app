@@ -265,7 +265,7 @@
       }
     },
     created(){
-//      [this.detailedCommentParameter.beCommentedId, this.deleteArgs.beCommentedId] = [this.$route.query.caseId, this.$route.query.caseId];
+      [this.detailedCommentParameter.beCommentedId, this.deleteArgs.beCommentedId] = [this.$route.query.caseId, this.$route.query.caseId];
 
       this.getCaseComment();
     },
@@ -342,8 +342,6 @@
           }else {
 
           }
-
-
         }else {
           this.isLogin();
         }
@@ -381,6 +379,7 @@
       //评论子组件品论完回调
       //发布按钮
       isCommentRes(res){
+        this.writeSwitch =true;
         console.log(res,'结果');
         this.isComment = false;
         window.scroll(0,this.containerScrollTop);

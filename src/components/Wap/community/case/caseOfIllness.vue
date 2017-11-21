@@ -100,7 +100,6 @@
         'saveCaseOrder',   //order 筛选按钮的值
         'saveCaseSearching', //
       ]),
-
     },
     watch: {
       saveCaseDressing: function (newVal, oldVal) {
@@ -189,6 +188,7 @@
       },
       //mt中接受的val值作为参数传入我的组件里
       isState(val){
+        console.log(val)
         this.$refs.topLoadMore.states(val)
       },
       //把下拉刷新完成之后回调的mt的方法传入我的组件里

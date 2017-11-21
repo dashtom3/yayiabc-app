@@ -42,7 +42,6 @@
       </div>
 
 
-
       <comment :types="'病例'"></comment>
     </div>
 
@@ -62,6 +61,8 @@
     },
     created (){
       this.getCaseData();
+      console.log(this.$route.query.caseId);
+
     },
     mounted (){
 
@@ -69,9 +70,8 @@
     methods:{
       //获取病例数据
       getCaseData(){
-        this.$store.dispatch('GET_CASE_DETAIL', {postId: 100}).then((res) => {
+        this.$store.dispatch('GET_CASE_DETAIL', {postId: this.$route.query.caseId}).then((res) => {
           this.caseDetailArgs = res.data;
-
         })
       },
       back (){
@@ -82,7 +82,6 @@
         let reg = new RegExp("(\\s|^)" + "changeFixed" + "(\\s|$)");
         let _html = document.getElementsByTagName("html")[0];
         _html.className = _html.className.replace(reg, " ");
-
         this.commentChild.switchShow = false;
       },
     },
@@ -171,15 +170,10 @@
   }
 
 
-
-
   #write{
     border: none;
     vertical-align: middle;
   }
-
-
-
 
 
   .backgroundImg{

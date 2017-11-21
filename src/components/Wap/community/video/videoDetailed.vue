@@ -3,15 +3,18 @@
       <div class="backgroundImg"></div>
       <div class="wrapTop">
         <span class="title">视频详情</span>
-        <span class="backImgBox">
-        <img src="../../../../images/case/backer.png" alt="">
-      </span>
+        <span @click="goBack()" class="backImgBox">
+          <img src="../../../../images/case/backer.png" alt="">
+        </span>
       </div>
-
 
       <div class="container">
 
-        <video-play></video-play>
+        <video-play class="boxBox" v-if="videoSwitch">
+          <video  slot="video" webkit-playsinline="true" playsinline="true" class="video">
+            <source slot="sourceSrc" :src="videoArgs.vidRoute" type="video/mp4"></source>
+          </video>
+        </video-play>
 
         <!--标题内容开始-->
         <div class="titleBox">
@@ -58,14 +61,26 @@
   export default {
     data(){
       return{
-
+        videoSwitch: false,
+        src: 'http://orl5769dk.bkt.clouddn.com/lsnqQYcJMcnTQzYmtKiVy16WRMs1',
+        videoArgs:{}
       }
     },
     created(){
-
+      this.getVideosDetail();
     },
     methods:{
-
+      getVideosDetail(){
+        this.$store.dispatch('GET_VIDEOS_DETAIL', {viId: this.$route.query.vid}).then( (res)=>{
+          this.videoArgs = res.data;
+          this.videoSwitch = true
+          console.log( this.videoArgs.vidRoute);
+        });
+      },
+      goBack(){
+        console.log(11);
+        this.$router.go(-1);
+      },
     },
     components:{videoPlay}
   }
@@ -76,6 +91,9 @@
     @import "../../../../common/sass/factory";
 
 
+    .boxBox{
+      min-height: px2vw(422);
+    }
     .productBox{
       margin-top: px2vw(20);
       padding: px2vw(40) px2vw(20) px2vw(26) px2vw(18);
@@ -93,7 +111,7 @@
       width: 100vw;
     }
     .wrapTop{
-      z-index: 999;
+      z-index: 2000;
       position: fixed;
       height: px2vw(88);
       top:0;

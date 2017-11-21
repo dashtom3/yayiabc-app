@@ -574,3 +574,7 @@ export function getPlayComment(params) {
 export function getVideoList(params) {
   return posts('/vid/showVid', params)
 }
+//视频播放
+export function getVideosDetail(params) {
+  return geters('/vid/detail', params)
+}

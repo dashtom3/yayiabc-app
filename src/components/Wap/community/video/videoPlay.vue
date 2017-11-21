@@ -19,7 +19,6 @@
 
         <img v-show="videos.centerPlayImg" class="vplay" src="../../../../images/video/play.png"/>
 
-
         <transition name="fade">
           <!--视频控制条开始-->
           <div v-show="videos.controlShow" class="controls">
@@ -74,7 +73,7 @@
       }
     },
     created(){
-      this.getVideos();
+
     },
     mounted(){
       let timer ;
@@ -97,9 +96,6 @@
       let poster = video.getAttribute("posterSrc");
 //      backgroundEl.style.backgroundImage="url("+ poster + ")"; //设置封面
 //      backgroundEl.style.backgroundSize="100% 100%"; //设置封面
-
-
-
 
       video.controls=false; //隐藏原有控件
 
@@ -253,12 +249,8 @@
 
     },
     methods:{
-      //获取视频
-      getVideos (){
-        this.$store.dispatch('GET_PLAY_VIDEOS', {viId: this.videoId}).then( (res)=>{
 
-        });
-      }
+
     },
 
   }
@@ -267,6 +259,11 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss" rel="stylesheet/scss">
     @import "../../../../common/sass/factory";
+
+    video{
+      border: none;
+    }
+
     .video{
       width: 100%;
 
