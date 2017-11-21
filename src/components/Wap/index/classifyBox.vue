@@ -36,7 +36,6 @@
     </div>
     <div class="Box_list2">
       <div class="Box_list2_img1" @click="gotoProductList(classify.cl4)">
-
         <div>
           <span class="upText">{{classify.cl4}}</span>
         </div>
@@ -55,7 +54,6 @@
         <img class="Box_img" src="../../../images/index/Box_list2_img2.jpg" alt="img">
       </div>
     </div>
-
   </div>
 </template>
 

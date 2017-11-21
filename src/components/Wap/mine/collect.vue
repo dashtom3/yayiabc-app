@@ -10,8 +10,8 @@
     </div>
 
     <!--收藏列表开始-->
-    <mt-loadmore :top-method="loadTop" :auto-fill="true" ref="loadmore" class="c-content" v-on:top-status-change="isState">
-      <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
+    <!-- <mt-loadmore :top-method="loadTop" :auto-fill="true" ref="loadmore" class="c-content" v-on:top-status-change="isState"> -->
+      <!-- <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore> -->
     <!--<div >-->
     <div class="box_position" v-show="collectData != 0">
 
@@ -26,7 +26,7 @@
   ]">
         <!--左边图片-->
         <div class="collect_img">
-          <img :src="item.item_pica" alt="" @click="goProductDetail(item)">
+          <img :src="item.item_pica" width="97%" height="97%" alt="" @click="goProductDetail(item)">
         </div>
         <!--右边收藏商品信息-->
         <div class="collect_right" @click="goProductDetail(item)">
@@ -45,7 +45,7 @@
       <img  src="../../../images/mine/collect_pic.png" alt="" v-if="!isLoading">
     </div>
     <!--</div>-->
-    </mt-loadmore>
+    <!-- </mt-loadmore> -->
     <!--末尾-->
   </div >
 </template>
@@ -262,8 +262,8 @@
     height: px2vw(200);
   }
   .collect_img img{
-    width: px2vw(150);
-    height: px2vw(150);
+    // width: px2vw(150);
+    // height: px2vw(150);
     vertical-align: middle;
     display: block;
     position: absolute;

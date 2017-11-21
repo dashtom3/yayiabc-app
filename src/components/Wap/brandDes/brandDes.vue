@@ -140,6 +140,7 @@ export default {
         Indicator.close()
         if (res.callStatus === 'SUCCEED') {
           that.num = res.data.length
+          Indicator.close();
         }
       })
     },
@@ -201,7 +202,7 @@ export default {
         }
       } else {
         MessageBox.confirm('请先登录!').then(action => {
-          that.$router.push({path: '/logIn'})
+          that.$router.push({path: '/logIn', query: {backName: that.$route.fullPath}})
         });
       }
     },
@@ -312,7 +313,7 @@ export default {
         // }
       } else {
         MessageBox.confirm('请先登录!').then(action => {
-          that.$router.push({path: '/logIn'})
+          that.$router.push({path: '/logIn', query: {backName: that.$route.fullPath}})
         })
       }
     },
@@ -346,7 +347,7 @@ export default {
         }
       } else {
         MessageBox.confirm('请先登录!').then(action => {
-          that.$router.push({path: '/logIn'})
+          that.$router.push({path: '/logIn', query: {backName: that.$route.fullPath}})
         })
       }
     },
@@ -362,7 +363,7 @@ export default {
       sessionStorage.setItem('backJudgeSKL', 'passSecond');
       sessionStorage.setItem('backParamsDetailsID', backParams.itemId);
       sessionStorage.setItem('backParamsDetailsName', backParams.brandName);
-      this.$router.push({path: '/shoppingCarEntry'});
+      this.$router.push({path: '/shoppingCarEntry', query: {backName: this.$route.fullPath}});
     },
 
     back: function() {
@@ -435,7 +436,7 @@ export default {
   top:0;
   left: 0;
   background: #fff;
-  z-index: 9999;
+  z-index: 2014;
 }
 .header_box {
   width: px2vw(70);

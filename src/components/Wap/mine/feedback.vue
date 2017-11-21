@@ -62,6 +62,7 @@ export default {
           Toast({message: '提交成功！', duration: 1500});
           this.comments = '';
           this.tel = '';
+          Indicator.close();
         })
         .catch(err=>{
           console.log(err);

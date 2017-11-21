@@ -8,11 +8,11 @@
         <span class="order-title">我的订单</span>
       </div>
       <ul class="order-list">
-        <router-link to="/order/orderSubpage/0" class="order-item" tag="li" replace>全部</router-link>
-        <router-link to="/order/orderSubpage/1" class="order-item" tag="li" replace>待付款</router-link>
-        <router-link to="/order/orderSubpage/2" class="order-item" tag="li" replace>待发货</router-link>
-        <router-link to="/order/orderSubpage/3" class="order-item" tag="li" replace>待收货</router-link>
-        <router-link to="/order/orderSubpage/4" class="order-item" tag="li" replace>待评价</router-link>
+        <router-link to="/order/orderSubpage/0" @click.native="sub(0)" class="order-item" tag="li" replace>全部</router-link>
+        <router-link to="/order/orderSubpage/1" @click.native="sub(1)" class="order-item" tag="li" replace>待付款</router-link>
+        <router-link to="/order/orderSubpage/2" @click.native="sub(2)" class="order-item" tag="li" replace>待发货</router-link>
+        <router-link to="/order/orderSubpage/3" @click.native="sub(3)" class="order-item" tag="li" replace>待收货</router-link>
+        <router-link to="/order/orderSubpage/4" @click.native="sub(4)" class="order-item" tag="li" replace>待评价</router-link>
       </ul>
     </div>
     <keep-alive>
@@ -33,6 +33,9 @@
     methods: {
       goBack() {
         this.$router.push({path: '/yayi/mine'})
+      },
+      sub(index) {
+        sessionStorage.setItem('ORDER_STATE', index)
       }
     }
   }

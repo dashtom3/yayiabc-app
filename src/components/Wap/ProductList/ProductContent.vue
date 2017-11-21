@@ -25,13 +25,15 @@
       </ul>
     </div>
     <!--产品列表-->
-    <mt-loadmore class="Content_main gridlist-demo-container" :top-method="loadTop" :auto-fill=false ref="loadmore" v-on:top-status-change="isState">
+    <!-- <mt-loadmore class="Content_main gridlist-demo-container" :top-method="loadTop" :auto-fill=false ref="loadmore" v-on:top-status-change="isState"> -->
       <!--<mu-grid-list class="gridlist-demo">-->
-      <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
+      <!-- <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore> -->
+      <div class="Content_main gridlist-demo-container">
       <div ref="scrollBox" class="Content_list" v-infinite-scroll="loadMore" infinite-scroll-immediate-check="true" >
         <div class="Content_list_div" v-for="(item,index) in productData" @click="goProductDetail(item)">
           <div>
-            <img class="product_pic" :src=item.itemDetail.itemPica alt="">
+            <img class="product_pic" :src="item.itemDetail.itemPica +'?imageView2/1/w/400/h/400'" width="100%" height="100%" alt="">
+            <!-- <img class="product_pic" v-lazy="item.itemDetail.itemPica +'?imageView2/1/w/400/h/400'" width="97%" height="97%" alt=""> -->
           </div>
           <div>
             <h3>{{item.itemName}}</h3>
@@ -57,8 +59,9 @@
         </div>
         <div v-if="noMoreGood" class="noMoreGood">- End -</div>
       </div>
+      </div>
       <!--</mu-grid-list>-->
-    </mt-loadmore>
+    <!-- </mt-loadmore> -->
 
     <!--模态框-->
     <div :class="['cover',{cover_hidden:moduleHidden}]">
@@ -811,6 +814,7 @@
   .Content_list_div {
     height: px2vw(210);
     width: 100%;
+    margin-left: px2vw(2);
     margin-bottom: px2vw(25);
     overflow: hidden;
     position: relative;
@@ -821,14 +825,14 @@
     height: px2vw(180);
     /*background: red;*/
     float: left;
-    border: px2vw(1) solid #f4f4f4;
+    border: 1px solid #f4f4f4;
     overflow: hidden;
     position: relative;
   }
 
   .product_pic {
-    width: px2vw(150);
-    height: px2vw(150);
+    // width: px2vw(150);
+    // height: px2vw(150);
     vertical-align: middle;
     display: block;
     position: absolute;

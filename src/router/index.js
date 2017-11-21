@@ -1,38 +1,37 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Tab from '@/components/Wap/tab'
-import Index from '@/components/Wap/index/index'
-import classifyIndex from '@/components/Wap/classify/classifyIndex'
-import shoppingCar from '@/components/Wap/shoppingCar/shoppingCar'
-import shoppingCarEntry from '@/components/Wap/shoppingCar/shoppingCarEntry'
-import suborder from '@/components/Wap/shoppingCar/suborder'
-import pay from '@/components/Wap/shoppingCar/pay'
-import mine from '@/components/Wap/mine/mine'
-import details from '@/components/Wap/brandDes/brandDes'
-import logIn from '@/components/Wap/logIn/logIn'
-import wxlogIn from '@/components/Wap/index/wxlogIn'
-import wxBind from '@/components/Wap/index/wxBind'
-import register from '@/components/Wap/register/register'
-import logInMsg from '@/components/Wap/logIn/logInMsg'
-import forgetPwd from '@/components/Wap/logIn/forgetPwd'
-import personalData from '@/components/Wap/mine/personalData'
-import collect from '@/components/Wap/mine/collect'
-import searchWord from '@/components/Wap/index/searchWord'
-import confirmAddress from '@/components/Wap/shoppingCar/confirmAddress'
-import myCoin from '@/components/Wap/mine/myCoin'
-import invoice from '@/components/Wap/shoppingCar/invoice'
-import customerService from '@/components/Wap/mine/customerService'
-import paySucced from '@/components/Wap/shoppingCar/paySucced'
 
-import exchange from '@/components/Wap/mine/exchange'
-import exchangeDetail from '@/components/Wap/mine/exchangeDetail'
-import appSetting from '@/components/Wap/mine/appSetting'
-import aboutApp from '@/components/Wap/mine/aboutApp'
-import comIntro from '@/components/Wap/mine/comIntro'
-import feedback from '@/components/Wap/mine/feedback'
-import caseOfIllness from '@/components/Wap/community/case/caseOfIllness'
-import video from '@/components/Wap/community/video/video'
-import caseIllness from '@/components/Wap/community/case/caseIllness'
+const Tab = resolve => require(['@/components/Wap/tab'], resolve)
+const Index = resolve => require(['@/components/Wap/index/index'], resolve)
+const classifyIndex = resolve => require(['@/components/Wap/classify/classifyIndex'], resolve)
+const shoppingCar = resolve => require(['@/components/Wap/shoppingCar/shoppingCar'], resolve)
+const shoppingCarEntry = resolve => require(['@/components/Wap/shoppingCar/shoppingCarEntry'], resolve)
+const suborder = resolve => require(['@/components/Wap/shoppingCar/suborder'], resolve)
+const pay = resolve => require(['@/components/Wap/shoppingCar/pay'], resolve)
+const mine = resolve => require(['@/components/Wap/mine/mine'], resolve)
+const details = resolve => require(['@/components/Wap/brandDes/brandDes'], resolve)
+const logIn = resolve => require(['@/components/Wap/logIn/logIn'], resolve)
+const wxlogIn = resolve => require(['@/components/Wap/index/wxlogIn'], resolve)
+const wxBind = resolve => require(['@/components/Wap/index/wxBind'], resolve)
+const register = resolve => require(['@/components/Wap/register/register'], resolve)
+const logInMsg = resolve => require(['@/components/Wap/logIn/logInMsg'], resolve)
+const forgetPwd = resolve => require(['@/components/Wap/logIn/forgetPwd'], resolve)
+const personalData = resolve => require(['@/components/Wap/mine/personalData'], resolve)
+const collect = resolve => require(['@/components/Wap/mine/collect'], resolve)
+const searchWord = resolve => require(['@/components/Wap/index/searchWord'], resolve)
+const confirmAddress = resolve => require(['@/components/Wap/shoppingCar/confirmAddress'], resolve)
+const myCoin = resolve => require(['@/components/Wap/mine/myCoin'], resolve)
+const invoice = resolve => require(['@/components/Wap/shoppingCar/invoice'], resolve)
+const customerService = resolve => require(['@/components/Wap/mine/customerService'], resolve)
+const paySucced = resolve => require(['@/components/Wap/shoppingCar/paySucced'], resolve)
+const exchange = resolve => require(['@/components/Wap/mine/exchange'], resolve)
+const exchangeDetail = resolve => require(['@/components/Wap/mine/exchangeDetail'], resolve)
+const appSetting = resolve => require(['@/components/Wap/mine/appSetting'], resolve)
+const aboutApp = resolve => require(['@/components/Wap/mine/aboutApp'], resolve)
+const comIntro = resolve => require(['@/components/Wap/mine/comIntro'], resolve)
+const caseOfIllness = resolve => require(['@/components/Wap/community/case/caseOfIllness'], resolve)
+const feedback = resolve => require(['@/components/Wap/mine/feedback'], resolve)
+const caseIllness = resolve => require(['@/components/Wap/community/case/caseIllness'], resolve)
 
 const coinDetail = resolve => require(['@/components/Wap/mine/coinDetail'], resolve)
 const payResult = resolve => require(['@/components/Wap/mine/payResult'], resolve)
@@ -92,6 +91,7 @@ const communitySearch = resolve => require(['@/components/Wap/community/communit
 const newTrend = resolve => require(['@/components/Wap/yayiCircle/newTrend'], resolve)
 const yayiCircle = resolve => require(['@/components/Wap/yayiCircle/yayiCircle'], resolve)
 const videoDetailed = resolve => require(['@/components/Wap/community/video/videoDetailed'], resolve)
+const video = resolve => require(['@/components/Wap/community/video/video'], resolve)
 const shareToYayiCircle = resolve => require(['@/components/Wap/yayiCircle/shareToYayiCircle'], resolve)
 
 //我的消息

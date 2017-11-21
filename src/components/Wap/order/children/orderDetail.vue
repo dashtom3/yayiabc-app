@@ -81,12 +81,13 @@
         <li class="invoice-item" v-if="invoice.invoiceStyle === '普通发票'">发票类型：{{invoice.invoiceStyle}}</li>
         <li class="invoice-item" v-if="invoice.invoiceStyle === '普通发票'">发票性质：{{invoice.invoiceState}}</li>
         <li class="invoice-item" v-if="invoice.companyName ">单位名称：{{invoice.companyName}}</li>
-        <li class="invoice-item" v-if="invoice.invoiceHead">发票抬头：{{invoice.invoiceHead}}</li>
+        <li class="invoice-item" v-if="invoice.invoiceHead && invoice.invoiceState === '个人'">发票抬头：{{invoice.invoiceHead}}</li>
+        <li class="invoice-item" v-if="invoice.invoiceHead && invoice.invoiceState === '公司'">公司抬头：{{invoice.invoiceHead}}</li>
         <li class="invoice-item" v-if="invoice.taxpayerNum">纳税人识别号：{{invoice.taxpayerNum}}</li>
-        <li class="invoice-item" v-if="invoice.opneBank">开户银行：{{invoice.opneBank}}</li>
-        <li class="invoice-item" v-if="invoice.opneBank">开户银行账号：{{invoice.bankNumber}}</li>
         <li class="invoice-item" v-if="invoice.registeredAddress">注册地址：{{invoice.registeredAddress}}</li>
         <li class="invoice-item" v-if="invoice.registeredPhone">注册电话：{{invoice.registeredPhone}}</li>
+        <li class="invoice-item" v-if="invoice.opneBank">开户银行：{{invoice.opneBank}}</li>
+        <li class="invoice-item" v-if="invoice.opneBank">银行账号：{{invoice.bankNumber}}</li>
         <li class="invoice-item" v-if="invoice.stickNanme">收票人姓名：{{invoice.stickNanme}}</li>
         <li class="invoice-item" v-if="invoice.stickPhone">收票人手机号：{{invoice.stickPhone}}</li>
         <li class="invoice-item" v-if="invoice.stickaddress">收票人地址：{{invoice.stickaddress}}</li>
@@ -118,6 +119,7 @@
       createDate() {
 //        return util.formatDate.format(new Date(this.order.created), 'yyyy-MM-dd hh:mm:ss')
         return this.order.created
+        console.log(this.payType)
       },
       receiverAddress() {
         let order = this.order
@@ -133,6 +135,8 @@
             payTypeText = '支付宝支付'
             break
           case 1:
+          case 4:
+          case 5:
             payTypeText = '微信支付'
             break
           case 2:
@@ -172,11 +176,11 @@
         } catch (e) {
           Toast(e)
         }
-        Indicator.close()
         if (res.data.callStatus === 'SUCCEED') {
+          Indicator.close();
           let invoice = res.data.data
           if (invoice) {
-            if (invoice.invoiceStyle === '1') {
+            if (invoice.invoiceStyle === '0') {
               //普通发票
               this.invoice = {
                 invoiceStyle: '普通发票',

@@ -1,74 +1,75 @@
 <template>
     <div>
       <div class="box_wrap">
-      <div class="header_top">
-        <span @click="toBack" class="header_img_box">
-        <img class="header_img" src="../../../images/logIn/back.png" alt="">
-          </span>
-        <div class="header">
-          我的乾币
+        <div class="header_top">
+          <span @click="toBack" class="header_img_box">
+          <img class="header_img" src="../../../images/logIn/back.png" alt="">
+            </span>
+          <div class="header">
+            我的乾币
+          </div>
         </div>
-      </div>
-      <!--乾币余额开始-->
-      <div class="header_coin">
-        <ul class="coin_balanceBox">
-          <li>
-            <div>乾币余额</div>
-            <div class="qbBox">
-              <span class="qbBalance">{{qbNum.sum}}</span>
-              <span class="tiXianButton" @click="toCoinCash">提现</span>
-            </div>
-          </li>
-          <li></li>
-          <li>
-            <div>
-              <img src="../../../images/mine/coinMoneyZ.png" alt="">
-            </div>
-            <div>
-              {{qbNum.qbBalance}}
-            </div>
-          </li>
-          <li>
-            <div>
-              <img src="../../../images/mine/coinMoney95.png" alt="">
-            </div>
-            <div>
-              {{qbNum.aqb}}
-            </div>
-          </li>
-          <li>
-            <div>
-              <img src="../../../images/mine/coinMoney9.png" alt="">
-            </div>
-            <div>
-              {{qbNum.bqb}}
-            </div>
-          </li>
-          <li>
-            <div>
-              <img src="../../../images/mine/coinMoney8.png" alt="">
-            </div>
-            <div>
-              {{qbNum.cqb}}
-            </div>
-          </li>
-        </ul>
-      </div>
-      <!--乾币余额结束-->
-      <!--钱币充值开始-->
-      <div class="coinPay">
-        <ul class="coinPay_box">
-          <li @click="changeColor0" :class="{'backBlue':coinColor == 0}">乾币充值</li>
-          <li @click="changeColor1" :class="{'backBlue':coinColor == 1}">乾币兑换</li>
-          <li @click="changeColor2" :class="{'backBlue':coinColor == 2}">乾币明细</li>
-        </ul>
-      </div>
-      <!--钱币充值结束-->
+        <!--乾币余额开始-->
+        <div class="header_coin">
+          <ul class="coin_balanceBox">
+            <li>
+              <div>乾币余额</div>
+              <div class="qbBox">
+                <span class="qbBalance">{{qbNum.sum}}</span>
+                <span class="tiXianButton" @click="toCoinCash">提现</span>
+              </div>
+            </li>
+            <li></li>
+            <li>
+              <div>
+                <img src="../../../images/mine/coinMoneyZ.png" alt="">
+              </div>
+              <div>
+                {{qbNum.qbBalance}}
+              </div>
+            </li>
+            <li>
+              <div>
+                <img src="../../../images/mine/coinMoney95.png" alt="">
+              </div>
+              <div>
+                {{qbNum.aqb}}
+              </div>
+            </li>
+            <li>
+              <div>
+                <img src="../../../images/mine/coinMoney9.png" alt="">
+              </div>
+              <div>
+                {{qbNum.bqb}}
+              </div>
+            </li>
+            <li>
+              <div>
+                <img src="../../../images/mine/coinMoney8.png" alt="">
+              </div>
+              <div>
+                {{qbNum.cqb}}
+              </div>
+            </li>
+          </ul>
+        </div>
+        <!--乾币余额结束-->
+        <!--钱币充值开始-->
+        <div class="coinPay">
+          <ul class="coinPay_box">
+            <li @click="changeColor0" :class="{'backBlue':coinColor == 0}">乾币充值</li>
+            <li @click="changeColor1" :class="{'backBlue':coinColor == 1}">乾币兑换</li>
+            <li @click="changeColor2" :class="{'backBlue':coinColor == 2}">乾币明细</li>
+          </ul>
+        </div>
+        <!--钱币充值结束-->
       </div>
       <div class="view_box">
       <router-view></router-view>
       </div>
       <!--末尾-->
+      <div class="moduleM" v-if="moduleShow"></div>
     </div>
 </template>
 
@@ -110,6 +111,7 @@
     computed:{
       ...mapGetters([
         'saveJumpIndex',
+        'moduleShow'
       ])
     },
     methods:{
@@ -171,11 +173,11 @@
 <style scoped lang="scss" rel="stylesheet/scss">
     @import "../../../common/sass/factory";
     .box_wrap{
-      position: fixed;
+      position: absolute;
       top:0;
       left: 0;
       width: 100vw;
-      z-index: 100;
+      z-index: 3000;
     }
     .header{
       position: absolute;
@@ -328,6 +330,17 @@
     .color_button {
       background-color: #b4b4b4 !important;
 
+    }
+    .moduleM{
+      background-color: rgba(0,0,0,0.5);
+      position: absolute;
+      top:0;
+      left:0;
+      bottom: 0;
+      right: 0;
+      width: 100vw;
+      height:100vh;
+      z-index: 110;
     }
 </style>
 

@@ -91,7 +91,6 @@
         this.setClassify();
         console.log(index, '2级分类')
       }
-
     }
   }
 </script>
@@ -109,6 +108,7 @@
     width: 100%;
     /*min-height: px2vw(920);*/
     background: #f4f4f4;
+    overflow: hidden;
   }
 
   .main_ul > li {

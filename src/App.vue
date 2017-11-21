@@ -163,7 +163,10 @@
   .mint-swipe-indicator.is-active {
     background-color: #3676B5 !important;
   }
-
+  .mint-indicator{
+    position: relative;
+    z-index: 9999;
+  }
   .mint-swipe-indicator {
     opacity: 1 !important;
     filter: alpha(opacity=100) !important;

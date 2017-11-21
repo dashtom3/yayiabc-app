@@ -1,6 +1,10 @@
 <template>
   <div class="mine">
     <div class="box_wrap"></div>
+    <div class="server_box">
+      <img src="../../../images/mine/shezhi.png" alt="">
+      <img src="../../../images/mine/xiaoxi.png" alt="">
+    </div>
     <div v-if="showLogin">
       <!--上部开始-->
       <div class="header">
@@ -14,28 +18,30 @@
           <div class="top_circle">
             <img class="top_circleImg" src="../../../images/mine/topCircle.png" alt="">
             <!--头像-->
-            <img @click="toGoPerson" class="headPortraitsImg" :src="userPic" alt="">
+            <img @click="toGoPerson" v-if="userPic" class="headPortraitsImg" :src="userPic" alt="">
+            <img @click="toGoPerson" v-else class="headPortraitsImg" src="static/images/defaultPic.png" alt="">
             <!--头像-->
             <div class="phoneUser">{{phone}}</div>
           </div>
         </div>
+        <div class="person_info">账户信息<img src="../../../images/mine/goto.png" alt=""></div>
       </div>
       <!--上部结束-->
       <!--用户名开始-->
-      <div class="userName">
+      <!-- <div class="userName">
         <span class="userName_money">乾币余额 </span>
         <span class="a">:</span>
         <span class="qbBalance">{{qbBalance}}</span>
         <span @click="toPayment" class="payment payFirst">充值</span>
         <span @click="toCoinCash" class="payment paySecond">提现</span>
-      </div>
+      </div> -->
       <!--用户名结束-->
       <!--我的订单开始-->
       <div class="myOrder" @click="goOrders(0)">
         <span>我的订单</span>
         <span class="myOrder_back">
-        <img src="../../../images/mine/back.png" alt="">
-      </span>
+          <img src="../../../images/mine/back.png" alt="">
+        </span>
       </div>
       <!--我的订单结束-->
       <!--上部功能区开始-->
@@ -66,41 +72,75 @@
       </ul>
       <!--上部功能区结束-->
       <!--下部功能区开始-->
-      <ul class="mine_function_bottom">
-        <li @click="toMyCoin">
-          <img src="../../../images/mine/money.png" alt="">
-          <div>我的乾币</div>
+       <div class="myCoin">
+        <span>我的乾币</span>
+        <span class="myCoin_back">
+          <img src="../../../images/mine/back.png" alt="">
+        </span>
+      </div>
+      <ul class="coin">
+        <li class="coin_item">
+          <span class="coin_money">0</span>
+          <span>乾币</span>
         </li>
-        <li @click="goToCollect">
-          <img src="../../../images/mine/collect.png" alt="">
-          <div>我的收藏</div>
+        <li class="coin_item">
+          <img src="../../../images/mine/chong.png" alt="">
+          <span>充值</span> 
         </li>
-        <li @click="goToAddress">
-          <img src="../../../images/mine/adress.png" alt="">
-          <div>我的地址</div>
+        <li class="coin_item">
+          <img src="../../../images/mine/tixian.png" alt="">
+          <span>提现</span>
+
         </li>
-        <li @click="goToMine">
-          <img src="../../../images/mine/personal.png" alt="">
-          <div>个人资料</div>
-        </li>
-        <li @click="goToCustomer">
-          <img src="../../../images/mine/bind.png" alt="">
-          <div>指定客服代表</div>
-        </li>
-        <li class="settingLi" @click="goToAppSetting">
-          <img src="../../../images/mine/setting.png" alt="">
-          <div>设置</div>
+        <li class="coin_item">
+          <img src="../../../images/mine/dui.png" alt="">
+          <span>兑换</span> 
         </li>
       </ul>
+      <div class="split"></div>
+      <ul class="mine_function_bottom">
+        <li class="mine_function_bottom_item" @click="toMyCoin">
+          <img src="../../../images/mine/bingli.png" alt="">
+          <div>我的病例</div>
+        </li>
+        <li class="mine_function_bottom_item" @click="goToCollect">
+          <img src="../../../images/mine/wenda.png" alt="">
+          <div>我的培训</div>
+        </li>
+        <li class="mine_function_bottom_item" @click="goToAddress">
+          <img src="../../../images/mine/dongtai.png" alt="">
+          <div>我的动态</div>
+        </li>
+        <li class="mine_function_bottom_item" @click="goToMine">
+          <img src="../../../images/mine/car.png" alt="">
+          <div>购物车</div>
+        </li>
+        <li class="mine_function_bottom_item" @click="goToCustomer">
+          <img src="../../../images/mine/shoucang.png" alt="">
+          <div>我的收藏</div>
+        </li>
+        <li class="mine_function_bottom_item" @click="goToAppSetting">
+          <img src="../../../images/mine/dizhi.png" alt="">
+          <div>我的地址</div>
+        </li>
+        <li class="mine_function_bottom_item">
+          <img src="../../../images/mine/qq.png" alt="">
+          <div>QQ咨询</div>
+        </li>
+        <li class="mine_function_bottom_item">
+          <img src="../../../images/mine/kefu.png" alt="">
+          <div>客服代表</div>
+        </li>
+      </ul>
+      <div class="split"></div>
       <!--下部功能区结束-->
       <!--退出按钮开始-->
-      <div class="esc_background">
+      <!-- <div class="esc_background">
         <mu-raised-button class="esc" label="退出" v-on:click="logOut"/>
-      </div>
+      </div> -->
       <!--退出按钮结束-->
     </div>
-
-
+    <!-- 未登录样式 -->
     <div v-if="!showLogin">
       <!--上部开始-->
       <div class="header">
@@ -113,9 +153,6 @@
         <div class="top_backGround_shade">
           <div class="top_circle">
             <img @click="toLogin" class="top_circleImg" src="../../../images/mine/topCircle.png" alt="">
-            <!--头像-->
-            <img @click="toLogin" class="headPortraitsImg headPortraitsImg2" :src="userPic" alt="">
-            <!--头像-->
             <div class="loginContent">
               <span @click="toLogin" class="loginTo">登录</span>
               <span>/</span>
@@ -126,8 +163,8 @@
       </div>
       <!--上部结束-->
       <!--用户名开始-->
-      <div @click="toLogin" class="userName">
-      </div>
+      <!-- <div @click="toLogin" class="userName">
+      </div> -->
       <!--用户名结束-->
       <!--我的订单开始-->
       <div @click="toLogin">
@@ -162,32 +199,67 @@
         </ul>
         <!--上部功能区结束-->
         <!--下部功能区开始-->
-        <ul class="mine_function_bottom">
-          <li>
-            <img src="../../../images/mine/money.png" alt="">
-            <div>我的乾币</div>
+        <div class="myCoin">
+          <span>我的乾币</span>
+          <span class="myCoin_back">
+            <img src="../../../images/mine/back.png" alt="">
+          </span>
+        </div>
+        <ul class="coin">
+          <li class="coin_item">
+            <span class="coin_money">0</span>
+            <span>乾币</span>
           </li>
-          <li>
-            <img src="../../../images/mine/collect.png" alt="">
-            <div>我的收藏</div>
+          <li class="coin_item">
+            <img src="../../../images/mine/chong.png" alt="">
+            <span>充值</span> 
           </li>
-          <li>
-            <img src="../../../images/mine/adress.png" alt="">
-            <div>我的地址</div>
+          <li class="coin_item">
+            <img src="../../../images/mine/tixian.png" alt="">
+            <span>提现</span>
+
           </li>
-          <li>
-            <img src="../../../images/mine/personal.png" alt="">
-            <div>个人资料</div>
-          </li>
-          <li>
-            <img src="../../../images/mine/bind.png" alt="">
-            <div>指定客服代表</div>
-          </li>
-          <li @click.stop="goToAppSetting" class="settingLi">
-            <img src="../../../images/mine/setting.png" alt="">
-            <div>设置</div>
+          <li class="coin_item">
+            <img src="../../../images/mine/dui.png" alt="">
+            <span>兑换</span> 
           </li>
         </ul>
+        <div class="split"></div>
+        <ul class="mine_function_bottom">
+          <li class="mine_function_bottom_item">
+            <img src="../../../images/mine/bingli.png" alt="">
+            <div>我的病例</div>
+          </li>
+          <li class="mine_function_bottom_item">
+            <img src="../../../images/mine/wenda.png" alt="">
+            <div>我的培训</div>
+          </li>
+          <li class="mine_function_bottom_item">
+            <img src="../../../images/mine/dongtai.png" alt="">
+            <div>我的动态</div>
+          </li>
+          <li class="mine_function_bottom_item">
+            <img src="../../../images/mine/car.png" alt="">
+            <div>购物车</div>
+          </li>
+          <li class="mine_function_bottom_item">
+            <img src="../../../images/mine/shoucang.png" alt="">
+            <div>我的收藏</div>
+          </li>
+          <li class="mine_function_bottom_item" @click.stop="goToAppSetting">
+            <img src="../../../images/mine/dizhi.png" alt="">
+            <div>我的地址</div>
+          </li>
+          <li class="mine_function_bottom_item">
+            <img src="../../../images/mine/qq.png" alt="">
+            <div>QQ咨询</div>
+          </li>
+          <li class="mine_function_bottom_item">
+            <img src="../../../images/mine/kefu.png" alt="">
+            <div>客服代表</div>
+          </li>
+        </ul>
+        <div class="split"></div>
         <!--下部功能区结束-->
         <!--退出按钮开始-->
         <!--退出按钮结束-->
@@ -235,6 +307,7 @@
         this.$router.push({path: '/appSetting'})
       },
       toGoPerson() {
+        this.$router.push({path: '/logIn', query: {backName: '/yayi/mine'}})
         this.$router.push({path: '/personalData'})
       },
       toPayment() {
@@ -287,8 +360,12 @@
               }
               return obj
             }, {})
+            Indicator.close();
           })
-          .catch(e => Toast(e))
+          .catch(e => {
+            Indicator.close();
+            Toast(e)}
+          )
         //查询个人信息
         that.$store.dispatch('GET_PERSON_LIST', obj).then((res) => {
           // console.log(res);
@@ -388,7 +465,7 @@
     height: px2vw(43) !important;
   }
   .header img {
-    width: 100%;
+    width: 110%;
     height: 120%;
   }
 
@@ -412,28 +489,46 @@
   }
 
   .top_backGround {
+    position: relative;
     width: 100vw;
     background-size: 100vw px2vw(460);
     height: px2vw(369);
   }
-
+  .person_info{
+    position: absolute;
+    top: px2vw(162);
+    right: 0;
+    width: px2vw(232);
+    height: px2vw(60);
+    padding-left: px2vw(29);
+    line-height: px2vw(60);
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    background: rgba(255, 255, 255, .3);
+    font-size: px2vw(36);
+    color: #fff;
+  }
+  .person_info img{
+    width: px2vw(15);
+    height: px2vw(25);
+    vertical-align: middle;
+    margin-left: px2vw(21);
+  }
   .top_circle {
     position: absolute;
-    bottom: px2vw(0);
+    bottom: px2vw(-2);
     left: px2vw(-5);
     width: 100vw;
-    height: px2vw(109);
+    font-size: 0;
   }
 
   .top_circleImg {
-    width: 101vw;
-    height: px2vw(109);
+    width: 100%;
   }
-
   .headPortraitsImg {
     border-radius: 50%;
     position: absolute;
-    top: px2vw(-87);
+    top: px2vw(-230);
     left: 41.6vw;
     width: px2vw(132);
     height: px2vw(132);
@@ -496,23 +591,53 @@
     vertical-align: middle;
   }
 
-  .myOrder {
+  .myOrder, .myCoin {
     background-color: white;
-    border-top: px2vw(1) solid $borderColor;
     border-bottom: px2vw(1) solid $borderColour;
     padding: px2vw(30) 3.7vw px2vw(30) 6.8vw;
     font-size: 3.73333vw;
   }
 
-  .myOrder_back {
+  .myOrder_back, .myCoin_back {
     margin-left: 69.5vw;
   }
 
-  .myOrder_back img {
+  .myOrder_back img, .myCoin_back img {
     width: 2vw;
     height: px2vw(25);
   }
-
+  .coin{
+    display: flex;
+    justify-content: center;
+    background: #fff;
+  }
+  .coin_item{
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: px2vw(187.5);
+    height: px2vw(140);
+  }
+  .coin_item *{
+    align-items: center;
+  }
+  .coin_item img{
+    width: px2vw(36);
+    height: px2vw(36);
+  }
+  .coin_item .coin_money{
+    color: #3676b6;
+  }
+  .coin_item img, .coin_item .coin_money{
+    margin-bottom: px2vw(8)
+  }
+  .split{
+    width: 100%;
+    height: px2vw(20);
+    background: #f4f4f4;
+  }
   .mine_function {
     background-color: white;
     font-size: 3.73333vw;
@@ -560,61 +685,80 @@
     border-left: px2vw(1) solid $borderColor;
     margin-left: 6.6vw;
     margin-right: 6.6vw;
-    height: px2vw(45);
     margin-top: px2vw(21);
   }
-
   .mine_function_bottom {
-    background-color: white;
-    /*margin-bottom: px2vw(130);*/
-    margin-bottom: px2vw(70);
-    font-size: 3.73333vw;
-    padding: px2vw(28) 4.6666667vw;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: px2vw(20) 0 px2vw(20) 0;
+    flex-wrap: wrap;
+    height: px2vw(310);
+    background: #fff;
   }
+  .mine_function_bottom .mine_function_bottom_item{
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: px2vw(187.5);
+    height: px2vw(140);
+    min-width: px2vw(187.5);
+    max-width: px2vw(187.5);
+  }
+  // .mine_function_bottom {
+  //   background-color: white;
+  //   /*margin-bottom: px2vw(130);*/
+  //   margin-bottom: px2vw(70);
+  //   font-size: 3.73333vw;
+  //   padding: px2vw(28) 4.6666667vw;
+  // }
 
-  .mine_function_bottom:after {
-    content: "";
-    display: block;
-    clear: both;
-  }
+  // .mine_function_bottom:after {
+  //   content: "";
+  //   display: block;
+  //   clear: both;
+  // }
 
-  .mine_function_bottom li {
-    text-align: center;
-    float: left;
-    width: 28.6vw;
-  }
+  // .mine_function_bottom li {
+  //   text-align: center;
+  //   float: left;
+  //   width: 28.6vw;
+  // }
 
   .mine_function_bottom li img {
-    width: px2vw(45);
-    height: px2vw(42);
+    width: px2vw(44);
+    height: px2vw(44);
+    margin-bottom: px2vw(8)
   }
 
-  .mine_function_bottom li:nth-child(-n+3) {
-    border-bottom: px2vw(1) solid $borderColor;
-    padding-top: px2vw(14);
-    padding-bottom: px2vw(41);
-  }
+  // .mine_function_bottom li:nth-child(-n+3) {
+  //   border-bottom: px2vw(1) solid $borderColor;
+  //   padding-top: px2vw(14);
+  //   padding-bottom: px2vw(41);
+  // }
 
-  .mine_function_bottom li:nth-child(2) {
-    border-right: px2vw(1) solid $borderColor;
-    border-left: px2vw(1) solid $borderColor;
-    box-sizing: content-box;
-    padding-left: px2vw(15);
-    padding-right: px2vw(15);
-  }
+  // .mine_function_bottom li:nth-child(2) {
+  //   border-right: px2vw(1) solid $borderColor;
+  //   border-left: px2vw(1) solid $borderColor;
+  //   box-sizing: content-box;
+  //   padding-left: px2vw(15);
+  //   padding-right: px2vw(15);
+  // }
 
-  .mine_function_bottom li:nth-child(n+4) {
-    padding-top: px2vw(41);
-    padding-bottom: px2vw(14);
-  }
+  // .mine_function_bottom li:nth-child(n+4) {
+  //   padding-top: px2vw(41);
+  //   padding-bottom: px2vw(14);
+  // }
 
-  .mine_function_bottom li:nth-child(5) {
-    border-right: px2vw(1) solid $borderColor;
-    border-left: px2vw(1) solid $borderColor;
-    box-sizing: content-box;
-    padding-left: px2vw(15);
-    padding-right: px2vw(15);
-  }
+  // .mine_function_bottom li:nth-child(5) {
+  //   border-right: px2vw(1) solid $borderColor;
+  //   border-left: px2vw(1) solid $borderColor;
+  //   box-sizing: content-box;
+  //   padding-left: px2vw(15);
+  //   padding-right: px2vw(15);
+  // }
 
   .esc {
     margin-left: px2vw(124);
@@ -657,7 +801,26 @@
     right: 0;
     background-color: #f4f4f4;
   }
-
+  .server_box{
+    position: absolute;
+    top: px2vw(40);
+    width: 100%;
+    height: px2vw(88);
+  }
+  .server_box img:nth-child(1){
+    position: absolute;
+    top: px2vw(25);
+    left: px2vw(21);
+    width: px2vw(40);
+    height: px2vw(38);
+  }
+  .server_box img:nth-child(2){
+    position: absolute;
+    top: px2vw(24);
+    right: px2vw(23);
+    width: px2vw(32);
+    height: px2vw(40);
+  }
   .payment {
     display: inline-block;
 
@@ -690,33 +853,40 @@
   }
 
   .phoneUser {
-    display: block;
     letter-spacing: px2vw(3);
     position: absolute;
-    left: px2vw(288);
+    left: 50%;
+    top: px2vw(-77);
     bottom: 0;
+    transform: translateX(-50%);
     font-weight: 300;
-    font-size: px2vw(26);
+    font-size: px2vw(36);
+    color: #fff;
   }
 
   .loginContent {
     position: absolute;
-    left: px2vw(261);
-    bottom: px2vw(-60);
-    font-size: px2vw(28);
+    bottom: px2vw(150);
+    left: 50%;
+    transform: translateX(-50%);
+    width: px2vw(240);
+    height: px3vw(60);
+    font-size: px2vw(34);
     font-weight: 300;
+    text-align: center;
+    color: #fff;
+    border: 1px solid #fff;
+    border-radius: 4px;
   }
 
   .loginTo {
     display: inline-block;
-    line-height: px2vw(80);
-    padding-left: px2vw(50);
+    line-height: px2vw(60);
   }
 
   .loginTo2 {
     display: inline-block;
-    line-height: px2vw(80);
-    padding-right: px2vw(50);
+    line-height: px2vw(60);
   }
 
   .a {

@@ -8,8 +8,8 @@
     	<p class="t_info">请绑定您在牙医abc的登录手机号</p>
     </div>
     <div class="wx_form">
-    	<mt-field label="手机号*" class="first-field" placeholder="请输入手机号" v-model="w_data.phone"></mt-field>
-      <mt-field label="验证码*" v-model="w_data.rg_code" placeholder="请输入验证码" class="code-box">
+    	<mt-field @click.native="focus" label="手机号*" class="first-field" placeholder="请输入手机号" v-model="w_data.phone"></mt-field>
+      <mt-field @click.native="focus" label="验证码*" v-model="w_data.rg_code" placeholder="请输入验证码" class="code-box">
         <span class="code_btn" v-text="rg_Yzm" v-if="rg_hYzm" @click="rg_hasYzm(w_data.phone)"></span>
         <span class="code_btn" v-text="rg_Yzm1" v-else></span>
 			</mt-field>
@@ -51,6 +51,23 @@
       this.openid = this.$route.query.openid
 		},
 		methods: {
+      focus(event) {
+        let target = ''
+        if (event.target.className === 'mint-cell-wrapper') {
+          target = event.target
+          // console.log(event.target)
+        }
+        else if (event.target.className === 'mint-cell-title') {
+          target = event.target.parentNode
+          // console.log(event.target.parentNode)
+        } else if (event.target.className === 'mint-cell-text') {
+          target = event.target.parentNode.parentNode
+          // console.log(event.target.parentNode.parentNode)
+        } else {
+          return false
+        }
+        target.children[1].children[0].focus()
+      },
 			nextHandler() {
 				this.$store.dispatch(WX_BIND_USER, {
           phone: this.w_data.phone,

@@ -244,6 +244,7 @@
             //   weChar: '',
             //   email: ''
             // }
+            Indicator.close();
             this.$router.push('/salesIndex')
           } else {
             Toast(res.data.msg)

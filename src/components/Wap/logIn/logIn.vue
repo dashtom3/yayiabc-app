@@ -59,7 +59,6 @@
     created: function () {
       var that = this;
       that.mBack("back");
-      console.log(this.$route.query.backName);
     },
     components: {
       logMsg,
@@ -267,14 +266,12 @@
             Toast({message: '登录成功', duration: 1500})
             that.mobilePhone = ''
             that.password = ''
-            console.log(res,'登录成功')
             if(this.$route.query.backName)
             {
               that.$router.push({path: this.$route.query.backName})
             }else {
               that.$router.push({path: '/'})
             }
-
           } else {
             Toast({message: res.data.msg, duration: 1500})
           }
