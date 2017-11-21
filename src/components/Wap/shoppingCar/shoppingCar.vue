@@ -19,8 +19,8 @@
       </el-checkbox>
     </div>
     <div class="scroll-wrapper">
-      <mt-loadmore :top-method="loadTop" :auto-fill=false ref="loadmore" class="c-content" v-on:top-status-change="isState">
-        <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
+      <!-- <mt-loadmore :top-method="loadTop" :auto-fill=false ref="loadmore" class="c-content" v-on:top-status-change="isState"> -->
+        <!-- <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore> -->
         <ul class="shoppingList">
           <li v-for="(good, index) in gwcGoods" :key="good.itemPropertyInfo">
             <mt-cell-swipe
@@ -41,7 +41,7 @@
                 <span class="invalid" v-else>失效</span>
               </div>
               <div class="img-wrap fl" @click="goProductDetail(good)">
-                <img :src="good.pic" alt="已购买商品">
+                <img :src="good.pic" width="100%" height="100%" alt="已购买商品">
               </div>
               <!-- +'?imageView2/1/w/80/h/80' -->
             </div>
@@ -71,7 +71,7 @@
           </mt-cell-swipe>
           </li>
         </ul>
-      </mt-loadmore>
+      <!-- </mt-loadmore> -->
     </div>
     <div class="shopping-footer" v-if="gwcGoods.length">
       <div class="border needclick fl">
@@ -134,7 +134,7 @@
           let arr = this.gwcGoods.filter((item) => {
             return item.state === 1
           })
-          if(arr.length === this.sendDataList.length){
+          if(arr.length === this.sendDataList.length && this.sendDataList.length > 0){
             flag = true;
           }
           if (flag) {
@@ -192,6 +192,7 @@
           that.$store.dispatch('DEL_CAR_GOODS', obj).then((res) => {
             if (res.data.callStatus === 'SUCCEED') {
               Toast('已移出购物车！')
+              that.$store.state.index.goodNum = 1
               that.gwcGoods.splice(index, 1);
             }
           })
@@ -380,6 +381,7 @@
   @import "../../../common/sass/factory";
   .scroll-wrapper {
     position: fixed;
+    // position: absolute;
     left: 0;
     width: 100%;
     top: px2vw(188);
@@ -532,8 +534,8 @@
             over-flow: hidden;
             text-align: center;
             img {
-              width: px2vw(170);
-              height: px2vw(170);
+              // width: px2vw(170);
+              // height: px2vw(170);
               vertical-align: middle;
               display: block;
               position: absolute;

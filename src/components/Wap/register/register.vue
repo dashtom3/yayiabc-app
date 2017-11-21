@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="">
     <div class="logIn_header">
       <div class="header_box" @click="back">
         <img class="header_back" src="../../../images/logIn/back.png" alt="img">
@@ -325,7 +325,6 @@
           params['certification.part'] = this.registerData.part;
           params['certification.workAddress'] = this.registerData.workAddress;
           params['certification.doctorPic'] = this.registerData.imageUrl_doctorPic;
-
         } else {
           //机构
           params = {
@@ -383,11 +382,13 @@
             try{
               tokenMethods.setWapToken(res.data.token)
               tokenMethods.setWapUser(res.data.data)
+              this.$router.push({name: 'index', params: {redPacket: true}})
+              // sessionStorage.setItem("redPacket", true);
             }catch(e){
               console.log(e)
             }
             this.$destroy(true)
-            this.$router.push('/')
+            // this.$router.push('/')
           } else {
             Toast(res.data.msg)
           }
@@ -509,6 +510,7 @@
   }
   .formWrap {
     position: fixed;
+    // position: absolute;
     top: px2vw(88);
     bottom: 0;
     overflow: scroll;

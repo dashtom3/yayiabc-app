@@ -66,6 +66,7 @@
 
   import {tokenMethods} from '../../../vuex/util'
   import {Toast,Indicator} from 'mint-ui'
+  // import {mapActions} from 'vuex'
   export default {
     name: 'coinDetail',
     data(){
@@ -353,7 +354,7 @@
   @import "../../../common/sass/factory";
   .wrap{
     overflow: scroll;
-    height: 67vh;
+    height: 65vh;
   }
   .coinDetail_box {
     font-size: 3.73333vw;

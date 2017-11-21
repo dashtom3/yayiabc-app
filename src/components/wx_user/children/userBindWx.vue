@@ -9,10 +9,10 @@
       </mt-button>
     </div>
     <div class="phone-container input-box">
-      <mt-field class="phone" label="手机号：" type="tel" placeholder="请输入手机号" :state="phoneTest" v-model="phone" :attr="{ maxlength: 11 }"></mt-field>
+      <mt-field @click.native="focus" class="phone" label="手机号：" type="tel" placeholder="请输入手机号" :state="phoneTest" v-model="phone" :attr="{ maxlength: 11 }"></mt-field>
     </div>
     <div class="code-container">
-      <mt-field class="mt-components" label="验证码：" v-model="captcha" placeholder="请输入验证码" :attr="{ maxlength: 4 }">
+      <mt-field @click.native="focus" class="mt-components" label="验证码：" v-model="captcha" placeholder="请输入验证码" :attr="{ maxlength: 4 }">
         <mt-button class="code-btn mt-components" size="small" :disabled="captchaInfo !== '获取验证码'?true:false" :type="captchaInfo !== '获取验证码'?'default':'primary'" @click="getCaptcha">{{captchaInfo}}
         </mt-button>
       </mt-field>
@@ -43,6 +43,23 @@
       }
     },
     methods: {
+      focus(event) {
+        let target = ''
+        if (event.target.className === 'mint-cell-wrapper') {
+          target = event.target
+          // console.log(event.target)
+        }
+        else if (event.target.className === 'mint-cell-title') {
+          target = event.target.parentNode
+          // console.log(event.target.parentNode)
+        } else if (event.target.className === 'mint-cell-text') {
+          target = event.target.parentNode.parentNode
+          // console.log(event.target.parentNode.parentNode)
+        } else {
+          return false
+        }
+        target.children[1].children[0].focus()
+      },
       //获取验证码方法
       getCaptcha() {
         if (this.phoneTest !== 'success') {

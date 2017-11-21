@@ -119,6 +119,7 @@
       createDate() {
 //        return util.formatDate.format(new Date(this.order.created), 'yyyy-MM-dd hh:mm:ss')
         return this.order.created
+        console.log(this.payType)
       },
       receiverAddress() {
         let order = this.order
@@ -134,6 +135,8 @@
             payTypeText = '支付宝支付'
             break
           case 1:
+          case 4:
+          case 5:
             payTypeText = '微信支付'
             break
           case 2:

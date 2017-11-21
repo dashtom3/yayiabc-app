@@ -17,6 +17,11 @@
     <classifyBox></classifyBox>
 <!--     <Brand></Brand>
     <Classify></Classify> -->
+    <div class="redPacketWrapper" v-show="isShow2">
+      <img class="redPacket" src="../../../images/index/redPacket.png">
+      <div class="btn-use" @click.stop="useRedPacket"></div>
+      <img class="close" src="../../../images/index/close.png" @click.stop="hideRedPacket">
+    </div>
     <div class="dialog_wrapper" v-show="isShow">
       <div class="dialog">
         <div class="dialog_body">
@@ -47,6 +52,7 @@ export default {
       popupVisible: false,
       searchCargo: '',
       isShow: false,
+      isShow2: false,
       device: '',
       wgtVer: null,
       newVer: null,
@@ -69,6 +75,12 @@ export default {
         document.addEventListener('plusready',that.plusReady,false);
   //      document.addEventListener('plusready',that.checkUpdate,false);
       }
+    } 
+    // console.log(sessionStorage.getItem("redPacket"));
+    if (this.$route.params.redPacket === true) {
+      this.isShow2 = true;
+    } else {
+      this.isShow2 = false;
     }
     mui.back = function () {
       mui.confirm('确定要退出应用吗？', '牙医abc', ["确定", "取消"], function (e) {
@@ -134,8 +146,8 @@ export default {
     downWgt: function(){
       this.isShow = false;
       var that = this;
-      var wgtUrl = "http://www.yayiabc.com:7758/H53C638B9.wgt";
-      plus.nativeUI.showWaiting();
+      var wgtUrl = "http://www.yayiabc.com:6949/H53C638B9.wgt";
+      plus.nativeUI.showWaiting("正在更新...");
       plus.downloader.createDownload(wgtUrl, {filename:"_doc/update/"}, function(d,status){
         if (status == 200){
           console.log(JSON.stringify(d));
@@ -147,7 +159,7 @@ export default {
       }).start();
     },
     installWgt: function(path){
-      plus.nativeUI.showWaiting("安装wgt文件...");
+      plus.nativeUI.showWaiting("正在更新...");
       // force:false进行版本号校验，如果将要安装应用的版本号不高于现有应用的版本号则终止安装，并返回安装失败
       plus.runtime.install(path,{force:false},function(){
         plus.nativeUI.closeWaiting();
@@ -160,6 +172,13 @@ export default {
         console.log("安装wgt文件失败[" + e.code + "]：" + e.message);
         plus.nativeUI.alert("安装wgt文件失败[" + e.code + "]：" + e.message);
       });
+    },
+    useRedPacket() {
+      this.isShow2 = false;
+      this.$router.push({path: '/productList'})
+    },
+    hideRedPacket() {
+      this.isShow2 = false;
     }
   }
 }
@@ -219,6 +238,39 @@ export default {
   position: absolute;
   top: 3.5vw;
   left: 6vw;
+}
+.redPacketWrapper{
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, .2);
+  z-index: 9999;
+  .redPacket{
+    position: absolute;
+    top: px2vw(328);
+    left: 50%;
+    transform: translateX(-50%);
+    width: px2vw(450);
+    height: px2vw(576);
+  }
+  .btn-use{
+    position: absolute;
+    top: px2vw(789);
+    left: 50%;
+    transform: translateX(-50%);
+    width: px2vw(236);
+    height: px2vw(70);
+  }
+  .close{
+    position: absolute;
+    top: px2vw(947);
+    left: 50%;
+    transform: translateX(-50%);
+    width: px2vw(60);
+    height: px2vw(60);
+  }
 }
 .dialog_wrapper{
   position: fixed;

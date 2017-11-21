@@ -3,20 +3,20 @@
     <order-header>物流信息</order-header>
     <div class="order-info">
       <div class="image">
-        <img :src="order.orderitemList[0].picPath" alt="" width="100%" height="100%">
+        <img :src="order.orderitemList[0].picPath +'?imageView2/1/w/400/h/400'" alt="" width="100%" height="100%">
       </div>
       <div class="logistics-info">
         <p class="logistics-company"><span class="title">物流公司：</span>{{EBusinessCompany}}</p>
         <p class="logistics-id"><span class="title">快递单号：</span>{{LogisticCode}}</p>
       </div>
     </div>
+    <div class="split"></div>
     <div class="logistics-timeline" v-if="isInfo">
       <time-line v-for="(item,index) in logistics.Traces" :key="index">
         <span slot="time">{{item.AcceptTime}}</span>
         <span slot="dec">{{item.AcceptStation}}</span>
       </time-line>
     </div>
-    <div class="split"></div>
     <div class="noMail" v-if="!isInfo">
       <img src="../../../../images/order/noMail.png" alt="">
       <p>暂无物流信息，请耐心等候~</p>
@@ -56,6 +56,8 @@
           case 'SF':
             eBusinessCompany = '顺丰'
             break
+          case 'DBL':
+            eBusinessCompany = '德邦'
           default:
             break
         }
@@ -73,6 +75,7 @@
       let res = await this[QUERY_ORDER_LOG]({orderId: this.order.orderId}).catch(err => console.log(err))
       if (res.data.callStatus === 'SUCCEED') {
         this.logistics = JSON.parse(res.data.data)
+        console.log(this.logistics);
         if (this.logistics.Reason === '暂无轨迹信息') return that.isInfo = false
       }
     }
@@ -125,7 +128,7 @@
     }
     .order-info {
       display: flex;
-      padding: px2vw(103) px2vw(20) px2vw(30);
+      padding: px2vw(120) px2vw(20) px2vw(30);
       background-color: #fff;
       // margin-bottom: px2vw(20);
       .image {
@@ -137,6 +140,7 @@
       }
       .logistics-info {
         flex: 1;
+        padding-top: px2vw(6);
         .logistics-company {
           margin-bottom: px2vw(26);
         }
@@ -152,14 +156,16 @@
   }
   .noMail{
     img{
-      position: fixed;
+      // position: fixed;
+      position: absolute;
       top:px2vw(530);
       left: px2vw(307);
       width: px2vw(136);
       height: px2vw(128);
     }
     p{
-      position: fixed;
+      // position: fixed;
+      position: absolute;
       width: 100%;
       text-align: center;
       top:px2vw(694);

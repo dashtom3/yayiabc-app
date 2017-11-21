@@ -65,6 +65,7 @@
       seeDetail: function() {
         var that = this
         that.$router.push({name: 'orderSubpage', params: {order_state: 0}})
+        sessionStorage.setItem('ORDER_STATE', 0)
       }
     }
   }

@@ -1,9 +1,9 @@
 <template>
   <div class="cargoComment">
     <div class="commentList" v-if="hasComment">
-      <div v-for="comment in commentList" :key="comment.commentId">
+      <div v-for="comment in commentList" :key="comment.commentId" class="commentItem border-1px" v-if="comment.userPhone">
         <div class="firstLine">
-          <p class="commentUser">{{comment.userPhone}}</p>
+          <p class="commentUser">{{comment.userPhone | filterUserName}}</p>
           <el-rate class="commentRate" v-model="comment.commentGrade" disabled text-color="#ff9900" text-template="{value}"></el-rate>
           <p class="commentDate" >{{comment.created}}</p>
         </div>
@@ -58,7 +58,11 @@ export default {
       that.$store.dispatch('GET_ITEM_DETAIL', obj).then((res) => {
         if (res.data.callStatus === 'SUCCEED') {
           Indicator.close()
-          that.commentList = res.data.data.commentList;
+          // 过滤出用户名不为空的数据
+          that.commentList = res.data.data.commentList.filter((item) => {
+            return item.userPhone != null
+          });
+          // that.commentList = res.data.data.commentList;
           for (var i = 0; i < that.commentList.length; i++) {
             that.commentList[i].created = Util.formatDate.format(new Date(that.commentList[i].created),'yyyy-MM-dd hh:mm:ss' )
           }
@@ -70,6 +74,19 @@ export default {
         }
       })
     },
+  },
+  filters: {
+    filterUserName (value) {
+      if (value == null) {
+        return value
+      }
+      let regtext = ''
+      let Reg = null
+      regtext = '(\\w{' + 3 + '})\\w{' + 5 + '}(\\w{' + 3 + '})';
+      Reg = new RegExp(regtext);
+      let replaceCount = "*****"
+      return value.replace(Reg, "$1" + replaceCount + "$2");
+    }
   }
 }
 </script>
@@ -89,12 +106,29 @@ export default {
 }
 .commentList {
   width: 100vw;
+  // margin-top: px2vw(164)
+}
+.commentItem{
+  padding: px2vw(10) 0;
+  margin-left: 5vw
+}
+.border-1px {
+	position: relative;
+	&:after{
+		display: block;
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		width: 100%;
+		border-top: 1px solid #e5e5e5;
+		content: '';
+	}
 }
 .commentUser {
   float: left;
   font-size: 2.93vw;
   color: #999;
-  margin-left: 5vw;
+  // margin-left: 5vw;
   margin-right: 3vw;
 }
 .commentRate {
@@ -108,17 +142,18 @@ export default {
   margin-right: 5vw;
 }
 .commentDes {
-  margin-left: 5vw;
+  // margin-left: 5vw;
   margin-top: 4vw;
-  margin-bottom: 4.5vw;
+  // margin-bottom: 4.5vw;
   font-size: 3.73vw;
   color: #333;
 }
 .commentReply {
   width: 90vw;
-  padding: 3vw;
+  padding: 1vw 3vw;
   background-color: #F3F3F3;
-  margin: 0 auto;
+  // margin: 0 auto;
+  margin-top: px2vw(20);
   font-size: 3.73vw;
   color: #999;
 }

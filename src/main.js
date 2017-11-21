@@ -15,7 +15,6 @@ import 'muse-ui/dist/muse-ui.css'
 import VueLazyload from 'vue-lazyload'
 import VueQuillEditor from 'vue-quill-editor'
 import 'material-design-icons/iconfont/material-icons.css'
-
 // const FastClick = require('fastclick')
 
 Vue.use(Vuex)

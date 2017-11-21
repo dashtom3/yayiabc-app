@@ -8,7 +8,7 @@
       <p class="t_info">请先完善您的个人资料</p>
     </div>
     <div class="form-wrap">
-      <mt-field label="真实姓名*" class="first-field" placeholder="请输入真实姓名" v-model="wx_personInfo.trueName"></mt-field>
+      <mt-field @click.native="focus" label="真实姓名*" class="first-field" placeholder="请输入真实姓名" v-model="wx_personInfo.trueName"></mt-field>
       <a class="mint-cell mint-field">  
         <div class="mint-cell-wrapper" @click="sexVisible = true">  
           <div class="mint-cell-text">  
@@ -29,7 +29,7 @@
           </div>
         </div>
       </a>
-      <mt-field label="单位名称*" placeholder="请输入单位名称" v-model="wx_personInfo.companyName" disableClear></mt-field>
+      <mt-field @click.native="focus" label="单位名称*" placeholder="请输入单位名称" v-model="wx_personInfo.companyName" disableClear></mt-field>
       <a class="mint-cell mint-field">  
         <div class="mint-cell-wrapper username" @click="openPicker('cityAddressPicker')">
           <div class="mint-cell-text">
@@ -40,7 +40,7 @@
           </div>
         </div>
       </a>
-      <mt-field label="详细地址*" placeholder="请输入详细地址" v-model="wx_personInfo.workAddress" disableClear></mt-field>
+      <mt-field @click.native="focus" label="详细地址*" placeholder="请输入详细地址" v-model="wx_personInfo.workAddress" disableClear></mt-field>
       <a class="mint-cell mint-field">    
         <div class="mint-cell-wrapper" @click="typeVisible = true">
           <div class="mint-cell-text">  
@@ -265,6 +265,23 @@
       }
     },
 		methods: {
+      focus(event) {
+        let target = ''
+        if (event.target.className === 'mint-cell-wrapper') {
+          target = event.target
+          // console.log(event.target)
+        }
+        else if (event.target.className === 'mint-cell-title') {
+          target = event.target.parentNode
+          // console.log(event.target.parentNode)
+        } else if (event.target.className === 'mint-cell-text') {
+          target = event.target.parentNode.parentNode
+          // console.log(event.target.parentNode.parentNode)
+        } else {
+          return false
+        }
+        target.children[1].children[0].focus()
+      },
       tabpwdHandler(){
         this.pwd_input = !this.pwd_input
       },
@@ -356,13 +373,17 @@
           default:
             break
         }
-        console.log(JSON.stringify(params))
         this.$store.dispatch('UPDATE_USER_INFO', params).then((res) => {
           if (res.data.callStatus === 'SUCCEED') {
             Toast('登录成功')
             tokenMethods.setWapToken(res.data.token)
             tokenMethods.setWapUser(res.data.data)
-            this.$router.replace({name: 'index'})
+            if (params.number === 2) { // 未注册用户
+              this.$router.push({name: 'index', params: {redPacket: true}})
+            } else if (params.number === 1) { // 已注册用户
+              this.$router.push({name: 'index', params: {redPacket: false}})
+            }
+            // this.$router.replace({name: 'index'})
           }else{
             Toast(res.data.msg)
           }

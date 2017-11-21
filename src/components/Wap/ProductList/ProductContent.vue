@@ -32,7 +32,8 @@
       <div ref="scrollBox" class="Content_list" v-infinite-scroll="loadMore" infinite-scroll-immediate-check="true" >
         <div class="Content_list_div" v-for="(item,index) in productData" @click="goProductDetail(item)">
           <div>
-            <img class="product_pic" :src=item.itemDetail.itemPica alt="">
+            <img class="product_pic" :src="item.itemDetail.itemPica +'?imageView2/1/w/400/h/400'" width="100%" height="100%" alt="">
+            <!-- <img class="product_pic" v-lazy="item.itemDetail.itemPica +'?imageView2/1/w/400/h/400'" width="97%" height="97%" alt=""> -->
           </div>
           <div>
             <h3>{{item.itemName}}</h3>
@@ -813,6 +814,7 @@
   .Content_list_div {
     height: px2vw(210);
     width: 100%;
+    margin-left: px2vw(2);
     margin-bottom: px2vw(25);
     overflow: hidden;
     position: relative;
@@ -823,14 +825,14 @@
     height: px2vw(180);
     /*background: red;*/
     float: left;
-    border: px2vw(1) solid #f4f4f4;
+    border: 1px solid #f4f4f4;
     overflow: hidden;
     position: relative;
   }
 
   .product_pic {
-    width: px2vw(150);
-    height: px2vw(150);
+    // width: px2vw(150);
+    // height: px2vw(150);
     vertical-align: middle;
     display: block;
     position: absolute;

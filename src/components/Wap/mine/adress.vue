@@ -128,6 +128,7 @@
     overflow: scroll;
     -webkit-overflow-scrolling: touch;
     left: 0;
+    top: px2vw(88);
     background-color: $borderColor;
     height: 85vh;
   }

@@ -6,7 +6,7 @@
       <div class="bindSuccess">微信已成功绑定客服代表系统的账号！</div>
       <div class="logg">请先完善您的个人资料</div>
       <div class="form-wrap">
-        <mt-field label="真实姓名*" class="first-field" placeholder="请输入您的姓名" v-model="saleInfo.trueName"></mt-field>
+        <mt-field @click.native="focus" label="真实姓名*" class="first-field" placeholder="请输入您的姓名" v-model="saleInfo.trueName"></mt-field>
         <a class="mint-cell mint-field">
           <div class="mint-cell-wrapper" @click="sexVisible = true">
             <div class="mint-cell-text">
@@ -17,9 +17,9 @@
             </div>
           </div>
         </a>
-        <mt-field label="身份证号*" placeholder="请输入您的身份证号" v-model="saleInfo.idCard"></mt-field>
-        <mt-field label="工作单位*" placeholder="请输入单位名称" v-model="saleInfo.workUnit" disableClear></mt-field>
-        <mt-field label="工作职位*" placeholder="请输入您的职位" v-model="saleInfo.workPosition" disableClear></mt-field>
+        <mt-field @click.native="focus" label="身份证号*" placeholder="请输入您的身份证号" v-model="saleInfo.idCard"></mt-field>
+        <mt-field @click.native="focus" label="工作单位*" placeholder="请输入单位名称" v-model="saleInfo.workUnit" disableClear></mt-field>
+        <mt-field @click.native="focus" label="工作职位*" placeholder="请输入您的职位" v-model="saleInfo.workPosition" disableClear></mt-field>
         <a class="mint-cell mint-field">
           <div class="mint-cell-wrapper username" @click="openPicker('cityAddressPicker')">
             <div class="mint-cell-text">
@@ -31,8 +31,8 @@
             </div>
           </div>
         </a>
-        <mt-field label="详细地址*" placeholder="请输入单位的详细地址" v-model="saleInfo.address" disableClear></mt-field>
-        <mt-field label="推荐人姓名" placeholder="请输入您的推荐人" v-model="saleInfo.referrals" disableClear></mt-field>
+        <mt-field @click.native="focus" label="详细地址*" placeholder="请输入单位的详细地址" v-model="saleInfo.address" disableClear></mt-field>
+        <mt-field @click.native="focus" label="推荐人姓名" placeholder="请输入您的推荐人" v-model="saleInfo.referrals" disableClear></mt-field>
         <a class="mint-cell mint-field">
           <div class="mint-cell-wrapper needclick" @click="openPicker('birthDatePicker')">
             <div class="mint-cell-text">
@@ -43,9 +43,9 @@
             </div>
           </div>
         </a>
-        <mt-field label="学历" placeholder="请输入您的学历" v-model="saleInfo.education" disableClear></mt-field>
-        <mt-field label="微信" placeholder="请输入您的微信号" v-model="saleInfo.weChar" disableClear></mt-field>
-        <mt-field label="邮箱" placeholder="请输入您的邮箱" v-model="saleInfo.email" disableClear></mt-field>
+        <mt-field @click.native="focus" label="学历" placeholder="请输入您的学历" v-model="saleInfo.education" disableClear></mt-field>
+        <mt-field @click.native="focus" label="微信" placeholder="请输入您的微信号" v-model="saleInfo.weChar" disableClear></mt-field>
+        <mt-field @click.native="focus" label="邮箱" placeholder="请输入您的邮箱" v-model="saleInfo.email" disableClear></mt-field>
         <div class="line"></div>
         <div class="submit-wrap" @click="registerHandler">
           <mu-raised-button label="确认" class="demo-raised-button" primary/>
@@ -140,6 +140,23 @@
       console.log(JSON.stringify(saleInfo),'ssz')
     },
     methods:{
+      focus(event) {
+        let target = ''
+        if (event.target.className === 'mint-cell-wrapper') {
+          target = event.target
+          // console.log(event.target)
+        }
+        else if (event.target.className === 'mint-cell-title') {
+          target = event.target.parentNode
+          // console.log(event.target.parentNode)
+        } else if (event.target.className === 'mint-cell-text') {
+          target = event.target.parentNode.parentNode
+          // console.log(event.target.parentNode.parentNode)
+        } else {
+          return false
+        }
+        target.children[1].children[0].focus()
+      },
       openPicker(name) {
         this.$refs[name].open()
       },

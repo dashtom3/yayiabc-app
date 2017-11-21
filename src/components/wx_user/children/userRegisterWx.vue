@@ -3,31 +3,31 @@
     <!--牙医身份表单区域-->
     <div class="user-container" v-if="!isSale">
       <p class="textPrompt">温馨提示 ：您的微信已成功牙医abc账号，可直接微信登录www.yayiabc.com购买商品。</p>
-      <mt-field class="must-fill" label="真实姓名：" v-model="trueName" placeholder="请输入您的姓名"></mt-field>
+      <mt-field @click.native="focus" class="must-fill" label="真实姓名：" v-model="trueName" placeholder="请输入您的姓名"></mt-field>
       <mt-radio title="性别：" align="right" v-model="sex" :options="['男', '女']"></mt-radio>
       <mt-radio title="类型：" align="right" v-model="type" :options="['个人', '机构']"></mt-radio>
       <!--个人区域-->
       <div class="personal-container" v-if="type === '个人'">
-        <mt-field label="出生日期：" v-model="birthday" placeholder="请选择出生日期">
+        <mt-field @click.native="focus" label="出生日期：" v-model="birthday" placeholder="请选择出生日期">
           <mt-button type="primary" size="small" @click="openPicker('birthDatePicker')">+</mt-button>
         </mt-field>
-        <mt-field class="must-fill" label="单位名称：" v-model="companyName" placeholder="请输入您的单位名称"></mt-field>
-        <mt-field class="must-fill" label="地区：" v-model="part" placeholder="请选择所在地区">
+        <mt-field @click.native="focus" class="must-fill" label="单位名称：" v-model="companyName" placeholder="请输入您的单位名称"></mt-field>
+        <mt-field @click.native="focus" class="must-fill" label="地区：" v-model="part" placeholder="请选择所在地区">
           <mt-button type="primary" size="small" @click="openPicker('cityAddressPicker')">+</mt-button>
         </mt-field>
-        <mt-field class="must-fill" label="详细地址：" v-model="workAddress" placeholder="请填写详细地址"></mt-field>
+        <mt-field @click.native="focus" class="must-fill" label="详细地址：" v-model="workAddress" placeholder="请填写详细地址"></mt-field>
         <pic-upload @picupload="savePicUrl('doctorPic',$event)" :picResources="doctorPic" title="口腔执业医师资格证：" :isMust="true"></pic-upload>
       </div>
       <!--机构区域-->
       <div class="organization-container" v-if="type === '机构'">
-        <mt-field label="出生日期：" v-model="birthday" placeholder="请选择出生日期">
+        <mt-field @click.native="focus" label="出生日期：" v-model="birthday" placeholder="请选择出生日期">
           <mt-button type="primary" size="small" @click="openPicker('birthDatePicker')">+</mt-button>
         </mt-field>
-        <mt-field class="must-fill" label="单位名称：" v-model="companyName" placeholder="请输入您的单位名称"></mt-field>
-        <mt-field class="must-fill" label="地区：" v-model="part" placeholder="请选择所在地区">
+        <mt-field @click.native="focus" class="must-fill" label="单位名称：" v-model="companyName" placeholder="请输入您的单位名称"></mt-field>
+        <mt-field @click.native="focus" class="must-fill" label="地区：" v-model="part" placeholder="请选择所在地区">
           <mt-button type="primary" size="small" @click="openPicker('cityAddressPicker')">+</mt-button>
         </mt-field>
-        <mt-field class="must-fill" label="详细地址：" v-model="workAddress" placeholder="请填写详细地址"></mt-field>
+        <mt-field @click.native="focus" class="must-fill" label="详细地址：" v-model="workAddress" placeholder="请填写详细地址"></mt-field>
         <pic-upload @picupload="savePicUrl('medicalLicense',$event)" :picResources="medicalLicense" title="医疗机构执业许可证：" :isMust="true"></pic-upload>
         <pic-upload @picupload="savePicUrl('businessLicense',$event)" :picResources="businessLicense" title="营业执照：" :isMust="true"></pic-upload>
         <pic-upload @picupload="savePicUrl('taxRegistration',$event)" :picResources="taxRegistration" title="税务登记：" :isMust="true"></pic-upload>
@@ -44,42 +44,42 @@
     <div class="sale-container" v-if="isSale">
       <p class="textPrompt">温馨提示 ：您的微信已成功绑定创客账号，可直接微信登录www.yayiabc.com/saleslog查看业绩等。</p>
       <div class="name">
-        <mt-field class="must-fill" label="真实姓名：" v-model="trueName" placeholder="请输入您的姓名"></mt-field>
+        <mt-field @click.native="focus" class="must-fill" label="真实姓名：" v-model="trueName" placeholder="请输入您的姓名"></mt-field>
       </div>
       <div class="sex">
         <mt-radio title="性别：" align="right" v-model="sex" :options="['男', '女']"></mt-radio>
       </div>
-      <mt-field class="must-fill" label="身份证号：" v-model="idCard" placeholder="请输入您的身份证号"></mt-field>
-      <mt-field class="must-fill" label="工作单位：" v-model="workUnit" placeholder="请输入您的工作单位"></mt-field>
-      <mt-field class="must-fill" label="工作职位：" v-model="workPosition" placeholder="请输入您的工作职位"></mt-field>
-      <mt-field class="must-fill" label="地区：" v-model="part" placeholder="请选择所在地区">
+      <mt-field @click.native="focus" class="must-fill" label="身份证号：" v-model="idCard" placeholder="请输入您的身份证号"></mt-field>
+      <mt-field @click.native="focus" class="must-fill" label="工作单位：" v-model="workUnit" placeholder="请输入您的工作单位"></mt-field>
+      <mt-field @click.native="focus" class="must-fill" label="工作职位：" v-model="workPosition" placeholder="请输入您的工作职位"></mt-field>
+      <mt-field @click.native="focus" class="must-fill" label="地区：" v-model="part" placeholder="请选择所在地区">
         <!--<mt-palette-button content="+"-->
         <!--:mainButtonStyle="mainBtnStyle"-->
         <!--ref="addressBtn" @expanded="openPicker('cityAddressPicker')"></mt-palette-button>-->
         <mt-button type="primary" size="small" @click="openPicker('cityAddressPicker')">+</mt-button>
       </mt-field>
-      <mt-field class="must-fill" label="详细地址：" v-model="address" placeholder="请填写详细地址"></mt-field>
-      <mt-field label="推荐人姓名：" v-model="referrals" placeholder="请填写您的推荐人姓名"></mt-field>
-      <mt-field label="出生日期：" v-model="birthday" placeholder="请选择出生日期">
+      <mt-field @click.native="focus" class="must-fill" label="详细地址：" v-model="address" placeholder="请填写详细地址"></mt-field>
+      <mt-field @click.native="focus" label="推荐人姓名：" v-model="referrals" placeholder="请填写您的推荐人姓名"></mt-field>
+      <mt-field @click.native="focus" label="出生日期：" v-model="birthday" placeholder="请选择出生日期">
         <!--<mt-palette-button content="+" :mainButtonStyle="mainBtnStyle" ref="birthBtn"-->
         <!--@expanded="openPicker('birthDatePicker')"></mt-palette-button>-->
         <mt-button type="primary" size="small" @click="openPicker('birthDatePicker')">+</mt-button>
       </mt-field>
-      <mt-field label="学历：" v-model="education" placeholder="请填写您的学历"></mt-field>
-      <mt-field label="微信号：" v-model="weChar" placeholder="请填写您的微信号"></mt-field>
-      <mt-field label="邮箱：" v-model="email" placeholder="请填写您的邮箱"></mt-field>
+      <mt-field @click.native="focus" label="学历：" v-model="education" placeholder="请填写您的学历"></mt-field>
+      <mt-field @click.native="focus" label="微信号：" v-model="weChar" placeholder="请填写您的微信号"></mt-field>
+      <mt-field @click.native="focus" label="邮箱：" v-model="email" placeholder="请填写您的邮箱"></mt-field>
 
       <div class="postalType-container ">
         <h3 class="title must-fill">提现设置</h3>
         <mt-radio title="类型：" align="right" v-model="postalType" :options="['支付宝', '银行卡']"></mt-radio>
         <div class="pay-container" v-if="postalType === '支付宝'">
-          <mt-field class="must-fill" label="开户者：" v-model="openName" placeholder="请填写您的开户者"></mt-field>
-          <mt-field class="must-fill" label="支付宝账号：" v-model="accountNumber" placeholder="请填写您的支付宝账号"></mt-field>
+          <mt-field @click.native="focus" class="must-fill" label="开户者：" v-model="openName" placeholder="请填写您的开户者"></mt-field>
+          <mt-field @click.native="focus" class="must-fill" label="支付宝账号：" v-model="accountNumber" placeholder="请填写您的支付宝账号"></mt-field>
         </div>
         <div class="bank-container" v-if="postalType === '银行卡'">
-          <mt-field class="must-fill" label="银行：" v-model="bankName" placeholder="请填写您的银行"></mt-field>
-          <mt-field class="must-fill" label="开户者：" v-model="openName" placeholder="请填写您的开户账号"></mt-field>
-          <mt-field class="must-fill" label="银行卡账号：" v-model="accountNumber" placeholder="请填写您的银行卡账号"></mt-field>
+          <mt-field @click.native="focus" class="must-fill" label="银行：" v-model="bankName" placeholder="请填写您的银行"></mt-field>
+          <mt-field @click.native="focus" class="must-fill" label="开户者：" v-model="openName" placeholder="请填写您的开户账号"></mt-field>
+          <mt-field @click.native="focus" class="must-fill" label="银行卡账号：" v-model="accountNumber" placeholder="请填写您的银行卡账号"></mt-field>
         </div>
       </div>
     </div>
@@ -147,6 +147,23 @@
     },
     components: { picUpload, addressPicker, birthDatePicker },
     methods: {
+      focus(event) {
+        let target = ''
+        if (event.target.className === 'mint-cell-wrapper') {
+          target = event.target
+          // console.log(event.target)
+        }
+        else if (event.target.className === 'mint-cell-title') {
+          target = event.target.parentNode
+          // console.log(event.target.parentNode)
+        } else if (event.target.className === 'mint-cell-text') {
+          target = event.target.parentNode.parentNode
+          // console.log(event.target.parentNode.parentNode)
+        } else {
+          return false
+        }
+        target.children[1].children[0].focus()
+      },
       openPicker(type) {
         this.$refs[type].open()
       },

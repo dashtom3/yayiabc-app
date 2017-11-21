@@ -14,7 +14,8 @@
           <div class="top_circle">
             <img class="top_circleImg" src="../../../images/mine/topCircle.png" alt="">
             <!--头像-->
-            <img @click="toGoPerson" class="headPortraitsImg" :src="userPic" alt="">
+            <img @click="toGoPerson" v-if="userPic" class="headPortraitsImg" :src="userPic" alt="">
+            <img @click="toGoPerson" v-else class="headPortraitsImg" src="static/images/defaultPic.png" alt="">
             <!--头像-->
             <div class="phoneUser">{{phone}}</div>
           </div>
@@ -114,7 +115,8 @@
           <div class="top_circle">
             <img @click="toLogin" class="top_circleImg" src="../../../images/mine/topCircle.png" alt="">
             <!--头像-->
-            <img @click="toLogin" class="headPortraitsImg headPortraitsImg2" :src="userPic" alt="">
+            <!-- <img @click="toLogin" class="headPortraitsImg headPortraitsImg2" :src="userPic" alt=""> -->
+            <img @click="toLogin" class="headPortraitsImg" src="static/images/defaultPic.png" alt="">
             <!--头像-->
             <div class="loginContent">
               <span @click="toLogin" class="loginTo">登录</span>
@@ -235,6 +237,7 @@
         this.$router.push({path: '/appSetting'})
       },
       toGoPerson() {
+        this.$router.push({path: '/logIn', query: {backName: '/yayi/mine'}})
         this.$router.push({path: '/personalData'})
       },
       toPayment() {

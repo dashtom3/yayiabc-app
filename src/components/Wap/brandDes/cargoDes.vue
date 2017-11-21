@@ -106,8 +106,9 @@
       var that = this
       Indicator.open()
       that.getNowGoodDetail()
+      that.$store.state.index.goodNum = 1
       that.$store.state.index.goodSku = that.jiSuanSku().sku
-      that.$store.state.index.goodNum = that.goodDefaultNum
+      // that.$store.state.index.goodNum = that.goodDefaultNum
     },
     methods:{
       swiperSliderShow(){
@@ -115,6 +116,7 @@
         this.$emit('swiperBox', true);
       },
       addBodyClass(){
+        let numVal = parseInt(this.goodDefaultNum) || 0
         document.body.classList.add('full-body');//原生的写法
         if( numVal > this.nowStock ){
           Toast({message: '数量超出范围！', duration: 1500})
@@ -245,6 +247,7 @@
         var that = this
         console.log(that.goodDefaultNum,'addGoodNum')
         that.goodDefaultNum = parseInt(that.goodDefaultNum)+1
+        that.$store.state.index.goodNum = that.goodDefaultNum
         that.jiSuanKuCun()
       },
       // 减数量
@@ -253,6 +256,7 @@
         console.log(that.goodDefaultNum,'reduceGoodNum')
         if(that.goodDefaultNum !== 1){
           that.goodDefaultNum = parseInt(that.goodDefaultNum)-1
+          that.$store.state.index.goodNum = that.goodDefaultNum
         }
         that.jiSuanKuCun()
       },

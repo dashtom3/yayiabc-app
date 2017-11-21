@@ -7,7 +7,7 @@ import {Toast, Indicator, MessageBox} from 'mint-ui';
 // const HOST = 'http://47.93.48.111:6181/api'; //测试端口
 
 const HOST = 'http://wap.yayiabc.com:6181/api';
-//    const HOST = 'http://wap.yayiabc.com:8080/api';
+  //  const HOST = 'http://wap.yayiabc.com:8080/api';
 // const HOST = 'http://123.56.220.72:8089/api'; //测试端口
 
 // const HOST = 'http://47.93.48.111:6181/api';  //正式数据端口
@@ -31,13 +31,23 @@ export function get(url, params = {}) {
     Indicator.open();
     axios.get(HOST + url, {params})
       .then((res) => {
+        if (res.status === 500 || res.status === 503 || res.status === 504) {
+          Indicator.close();
+          Indicator.open({
+            text: '服务器出小差了',
+            spinnerType: 'fading-circle'
+          });
+          setTimeout(() => {
+            Indicator.close();
+          }, 2000)
+          return
+        }
         if (res.data.callStatus === 'SUCCEED') {
           resolve(res.data.data);
-          Indicator.close();
         } else {
           if (res.data.data) resolve(res.data);
-          Indicator.close();
         }
+        Indicator.close();
       }).catch(err => reject(err));
   });
 }
@@ -159,13 +169,23 @@ export function post(url, params) {
     axios.post(HOST + url, temp)
       .then((res) => {
         // console.log(JSON.stringify(res), 'base>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..')
+        if (res.status === 500 || res.status === 503 || res.status === 504) {
+          Indicator.close();
+          Indicator.open({
+            text: '服务器出小差了',
+            spinnerType: 'fading-circle'
+          });
+          setTimeout(() => {
+            Indicator.close();
+          }, 2000)
+          return
+        }
         if (res.data.callStatus === 'SUCCEED') {
           resolve(res);
-          Indicator.close();
         } else {
           resolve(res);
-          Indicator.close();
         }
+        Indicator.close();
       }).catch((err) => {
       // console.log(JSON.stringify(err), 'base>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..')
       reject('网络请求错误');

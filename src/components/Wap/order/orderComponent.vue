@@ -8,7 +8,7 @@
       <ul class="product-container">
         <li class="product-content" :key="index" v-for="(item,index) in order.orderitemList">
            <div class="product-image"><!-- @click.stop.prevent="goDetails(item)" -->
-            <img :src="item.picPath" :alt="item.itemInfo.itemName" class="image" width="100%" height="100%">
+            <img :src="item.picPath +'?imageView2/1/w/400/h/400'" :alt="item.itemInfo.itemName" class="image" width="100%" height="100%">
           </div>
           <ul class="product-detail">
             <li class="product-detail-name">
@@ -205,6 +205,7 @@
     background-color: #fff;
     margin-bottom: px2vw(20);
     padding: 0 px2vw(20);
+    overflow: hidden;
     &:last-child {
       margin-bottom: 0;
     }
