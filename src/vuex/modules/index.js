@@ -51,6 +51,7 @@ const state = {
   checkedDate: {},//保存创客我的业绩选择的日期
   saveCaseDressing: null,
   saveCaseOrder: 0,
+  saveCaseSearching:'',
 }
 
 const getters = {
@@ -89,7 +90,10 @@ const getters = {
   },
   saveCaseOrder : state => {
     return state.saveCaseOrder
-  }
+  },
+  saveCaseSearching :state => {
+    return state.saveCaseSearching
+  },
 };
 
 const mutations = {
@@ -106,6 +110,9 @@ const mutations = {
   },
   [types.SAVE_CASE_DRESSING](state,params) {
     state.saveCaseDressing = params;
+  },
+  [types.SAVE_CASE_SEARCHING](state,all) {
+    state.saveCaseSearching = all;
   },
   [types.SAVE_CHANGE_VERIFY](state,all) {
     state.saveChangeVerify = all;
@@ -999,6 +1006,18 @@ const actions = {
     });
   },
 
+  //搜索病例列表
+  [types.SEARCH_CASE_LIST](context, params) {
+    return new Promise((resolve, reject) => {
+      api.searchCaseList(params).then((data) => {
+        // state.productData = data.data.data
+        resolve(data);
+      }).catch((err) => {
+        resolve(data);
+      });
+    });
+  },
+
   //点赞
   [types.LIKE](context, params) {
     return new Promise((resolve, reject) => {
@@ -1170,6 +1189,9 @@ const actions = {
   },
   [types.SAVE_CASE_ORDER]({commit}, params) {
     commit(types.SAVE_CASE_ORDER,params);
+  },
+  [types.SAVE_CASE_SEARCHING]({commit}, params) {
+    commit(types.SAVE_CASE_SEARCHING,params);
   },
 }
 

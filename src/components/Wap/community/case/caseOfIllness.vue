@@ -30,7 +30,7 @@
     </div>
     </mt-loadmore>
     <!--编辑按钮-->
-    <div slot="edit" class="edit" @click="gotoPage('/newCase')">
+    <div class="edit" @click="gotoPage('/newCase')" v-if="showNewCase">
       <img src="../../../../images/case/caseOfIllness/editer.png" alt="">
     </div>
     <!--编辑按钮-->
@@ -58,9 +58,18 @@
           totalPage: -1,
           postStater:1,
         },
+        caseSearchArgs:{
+          keyWord:'',
+          type:1,
+          classify:'',
+          currentPage:1,
+          totalPage: -1,
+          numberPerPage:10
+        },
         timeStamp: '', //时间戳
         isLoading:false,
-        listCaseData: [] //获取到列表的数据
+        listCaseData: [],//获取到列表的数据
+        showNewCase: true,
 //        listCaseData: {
 //          totalPage: null,
 //          totalNumber: null,
@@ -80,11 +89,16 @@
     created (){
       this.getCaseList();
       this.timeStamp = Date.parse(new Date());
+      if(this.$router.history.current.name === 'caseOfIllnessSearch'){
+        this.showNewCase = false;
+        this.caseSearchArgs.keyWord = this.saveCaseSearching;
+      }
     },
     computed: {
     ...mapGetters([
         'saveCaseDressing', //分类筛选的值  不限 外科 内科等一栏
         'saveCaseOrder',   //order 筛选按钮的值
+        'saveCaseSearching', //
       ]),
 
     },
@@ -97,6 +111,11 @@
       saveCaseOrder: function (newVal, oldVal) {
         this.dressingFunction(this.saveCaseOrder);
         console.log(this.saveCaseOrder);
+        this.$refs.scrollBox.scrollTop = 0;
+      },
+      saveCaseSearching:function () {
+        this.searching(this.saveCaseSearching);
+        console.log(this.saveCaseSearching);
         this.$refs.scrollBox.scrollTop = 0;
       }
     },
@@ -127,24 +146,37 @@
         if(this.caseDate.totalPage < this.caseListArgs.currentPage)
         {
           return
-        }else {
+        }else if(this.caseSearchArgs.totalPage < this.caseSearchArgs.currentPage){
+          return
+        }
+        else {
           this.getCaseList();
         }
       },
       getCaseList (){
         console.log(this.$router.history.current.name,'aa');
-        this.$store.dispatch('GET_CASE_LIST', this.caseListArgs).then( (res) => {
-          this.listCaseData = this.listCaseData.concat(res.data);
-          this.caseListArgs.totalPage = res.totalPage;
-          this.caseListArgs.currentPage = res.cuurentPage;
-          this.isLoading = false;
-        })
+        if(this.$router.history.current.name === 'caseOfIllnessSearch'){
+          this.$store.dispatch('SEARCH_CASE_LIST', this.caseSearchArgs).then( (res) => {
+            this.listCaseData = this.listCaseData.concat(res.data);
+            this.caseSearchArgs.totalPage = res.totalPage;
+            this.caseSearchArgs.currentPage = res.currentPage;
+            this.isLoading = false;
+          })
+        }else {
+          this.$store.dispatch('GET_CASE_LIST', this.caseListArgs).then( (res) => {
+            this.listCaseData = this.listCaseData.concat(res.data);
+            this.caseListArgs.totalPage = res.totalPage;
+            this.caseListArgs.currentPage = res.currentPage;
+            this.isLoading = false;
+          })
+        }
       },
       //下拉刷新
       loadMore (id){
         this.timeStamp = Date.parse(new Date());
         this.$refs.scrollBox.scrollTop = 0;
         this.caseListArgs.currentPage = 1;
+        this.caseSearchArgs.currentPage = 1;
         this.listCaseData = [];
         this.caseDate.dressingSwitch = false;
         this.isLoading = true;
@@ -164,18 +196,30 @@
         this.$refs.loadmore.onTopLoaded();
       },
       dressingFunction (index){
-        this.caseDate.totalPage = 1;
         this.caseListArgs.currentPage = 1;
         this.caseListArgs.order = index;
+        this.caseDate.totalPage = 1;
         this.caseDate.dressingSwitch = false;
         this.listCaseData = [];
         this.getCaseList();
       },
       //上部筛选功能栏
       dressing (item){
+        if(this.$router.history.current.name === 'caseOfIllnessSearch'){
+          this.caseSearchArgs.currentPage = 1;
+          this.caseSearchArgs.classify = item;
+        }else {
+          this.caseListArgs.currentPage = 1;
+          this.caseListArgs.classify = item;
+        }
         this.caseDate.totalPage = 1;
-        this.caseListArgs.currentPage = 1;
-        this.caseListArgs.classify = item;
+        this.listCaseData = [];
+        this.getCaseList();
+      },
+      searching(val){
+        this.caseSearchArgs.currentPage = 1;
+        this.caseSearchArgs.keyWord = val;
+        this.caseDate.totalPage = 1;
         this.listCaseData = [];
         this.getCaseList();
       },

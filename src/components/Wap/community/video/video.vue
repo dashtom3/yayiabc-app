@@ -47,6 +47,7 @@
 
 <script>
   import videoPlay from './videoPlay.vue'
+  import {mapGetters} from 'vuex';
   export default {
     data(){
       return{
@@ -56,20 +57,49 @@
           currentPage: 1,  //当前第几页
           numberPerPage: 10 //每页显示多少条视频
         },
-        videoArgs:{}
+        caseSearchArgs:{
+          keyWord:'',
+          type:2,
+          classify:'',
+          currentPage:1,
+          totalPage: -1,
+          numberPerPage:10
+        },
+        videoArgs:[]
       }
     },
     created(){
+      if(this.$router.history.current.name === 'videoSearch'){
+        this.caseSearchArgs.keyWord = this.saveCaseSearching;
+      }
+      console.log(this.$router.history.current.name)
       this.getVideoList()
     },
     mounted(){},
     methods:{
       getVideoList(){
-        this.$store.dispatch('GET_VIDEO_LIST', this.videoListArgs).then( (res)=>{
-          this.videoArgs = res.data;
-          console.log(this.videoArgs,'时间');
-        });
+        if(this.$router.history.current.name === 'videoSearch'){
+          this.$store.dispatch('SEARCH_CASE_LIST', this.caseSearchArgs).then( (res) => {
+            this.videoArgs = this.videoArgs.concat(res.data);
+            this.caseSearchArgs.totalPage = res.totalPage;
+            this.caseSearchArgs.currentPage = res.currentPage;
+            this.isLoading = false;
+          })
+        }else {
+          this.$store.dispatch('GET_VIDEO_LIST', this.videoListArgs).then((res) => {
+            this.videoArgs = res.data;
+            console.log(this.videoArgs, '时间');
+          });
+        }
       }
+    },
+    computed: {
+      ...mapGetters([
+        'saveCaseDressing', //分类筛选的值  不限 外科 内科等一栏
+        'saveCaseOrder',   //order 筛选按钮的值
+        'saveCaseSearching', //
+      ]),
+
     },
     components:{
       videoPlay

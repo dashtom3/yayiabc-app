@@ -32,7 +32,7 @@
             <div class="triOut"></div>
             <div class="triIn"></div>
             <ul>
-              <li v-for="(item,key) in secondClassifyArr" @click="chooseSecondClassify(item)" :class="{isCheckLi:item == secondClassify}">
+              <li v-for="(item,key) in secondClassifyArr" @click="chooseSecondClassify(item,key)" :class="{isCheckLi:item == secondClassify}">
                 {{item}}
                 <img src="../../../images/ProductList/brandChecked.png" alt="" v-if="item == secondClassify">
               </li>
@@ -113,38 +113,27 @@
           Toast({message: '请输入查询条件！', duration: 1500})
           return false
         }
-        var obj = {
-          keyWord: that.searchCargo,
+        if (JSON.parse(tokenMethods.getCommunityHistory()) == null) {
+          that.userHistory = []
+          that.userHistory.push(that.searchCargo)
+        } else {
+          that.userHistory = JSON.parse(tokenMethods.getCommunityHistory())
+          that.userHistory.push(that.searchCargo)
+          var userHistoryData = []
+          for (var i = 0; i < that.userHistory.length; i++) {
+            if (userHistoryData.indexOf(that.userHistory[i]) == -1) {
+              userHistoryData.push(that.userHistory[i])
+            }
+          }
+          that.userHistory = userHistoryData
+          that.$store.dispatch('SAVE_CASE_SEARCHING',  that.searchCargo);
+          console.log(that.userHistory,'9999')
         }
-//        that.$store.dispatch('', obj).then((res) => {
-//          if (res.data.callStatus === 'SUCCEED') {
-//            console.log(res.data,'searchWord')
-//            if (res.data.data.length !== 0) {
-              if (JSON.parse(tokenMethods.getCommunityHistory()) == null) {
-                that.userHistory = []
-                that.userHistory.push(that.searchCargo)
-              } else {
-                that.userHistory = JSON.parse(tokenMethods.getCommunityHistory())
-                that.userHistory.push(that.searchCargo)
-                var userHistoryData = []
-                for (var i = 0; i < that.userHistory.length; i++) {
-                  if (userHistoryData.indexOf(that.userHistory[i]) == -1) {
-                    userHistoryData.push(that.userHistory[i])
-                  }
-                }
-                that.userHistory = userHistoryData
-                console.log(that.userHistory,'9999')
-              }
-              tokenMethods.setCommunityHistory(that.userHistory)
-//            }
-//            that.$router.push({ name: 'productList'});
-            that.isSearching = false
+        tokenMethods.setCommunityHistory(that.userHistory);
+        that.caseClassNum = 0;
+        that.isSearching = false
         document.getElementsByClassName('search_word')[0].blur();
-//            window.scroll(0,0);
-//          } else {
-//            Toast({message: '网络出错，请稍后再试！', duration: 1500})
-//          }
-//        })
+        window.scroll(0,0);
       },
       changeClass(index){
         console.log(index)
@@ -156,16 +145,17 @@
         {
           this.$router.push({path:'/communitySearch/video'});
         }
+        this.$store.dispatch('SAVE_CASE_ORDER',  index);
       },
       isChooseSecondClassify(){
         this.secondClassifyShow = !this.secondClassifyShow
       },
-      chooseSecondClassify(val){
+      chooseSecondClassify(val,index){
         this.secondClassify = val;
         this.secondClassifyShow = false
         if( this.caseClassNum === 0)
         {
-          this.$store.dispatch('SAVE_CASE_DRESSING',  val);
+          this.$store.dispatch('SAVE_CASE_DRESSING',index);
         }
 //        this.caseListArgs.classify = val;
         //做点什么

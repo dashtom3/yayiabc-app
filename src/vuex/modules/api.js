@@ -362,6 +362,11 @@ export function like(params) {
   return getWithToken('/zan/upvote ', params);
 }
 
+
+//获取病例列表
+export function searchCaseList(params) {
+  return getWithToken('/search/findList', params);
+}
 /*
 wx_绑定用户&扫码绑定销售的接口
 */

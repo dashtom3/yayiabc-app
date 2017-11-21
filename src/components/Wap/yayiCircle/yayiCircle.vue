@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="header">
-      <div class="headerTitle">牙医圈</div>
+      <div class="headerTitle">{{headTitle}}</div>
       <div class="newTrend" @click="newTrend">
         <img src="../../../images/yayiCircle/newTrend.png" alt="">
         <div>发动态</div>
@@ -103,6 +103,7 @@
   export default {
     data(){
       return{
+        headTitle:'',         //标题
         isLoading:false,      //判断是否在加载中
         args:{                //请求牙医圈列表接口参数
           currentPage:1,
@@ -123,6 +124,8 @@
         },
         picUrl:'',            //查看大图的url
         showPic:false,        //查看大图的开关
+        thePage:0,            //1代表牙医圈，2代表我的动态
+        reqUrl:null,          //请求的url
       }
     },
     components:{
@@ -132,7 +135,12 @@
     },
     created(){
       this.timeStamp = Date.parse(new Date());
-      console.log(this.timeStamp)
+      console.log(this.$router.history.current.name)
+      if(this.$router.history.current.name === 'yayiCircle'){
+        this.thePage = 1;   //1代表牙医圈，2代表我的动态
+        this.reqUrl = YAYI_CIRCLE;
+        this.headTitle = '牙医圈'
+      }
       this.getYayiCircle();
     },
     methods:{
@@ -142,7 +150,7 @@
       },
       getYayiCircle(){
         this.isLoading = true;
-        this.$store.dispatch(YAYI_CIRCLE, this.args).then(res =>{
+        this.$store.dispatch(this.reqUrl, this.args).then(res =>{
           console.log(res.data);
           if(res.data) {
             res.data.forEach(item => {
