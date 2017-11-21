@@ -118,14 +118,15 @@ export const GET_UPLOAD_TOKEN = 'GET_UPLOAD_TOKEN'                              
 export const UPDATE_USER_INFO = 'UPDATE_USER_INFO'                                        // 更新用户信息
 export const UPDATE_SALE_INFO = 'UPDATE_SALE_INFO'                                        // 更新销售信息
 
-export const YAYI_CIRCLE = 'YAYI_CIRCLE'                                              //获取牙医圈数据
+export const YAYI_CIRCLE = 'YAYI_CIRCLE'                                            //获取牙医圈数据
+export const MY_YAYI_CIRCLE = 'MY_YAYI_CIRCLE'                                            //获取牙医圈数据
 export const NEW_TREND = 'NEW_TREND'                                                //牙医圈发布新内容
 export const ADD_COMMENT = 'ADD_COMMENT'                                            //添加评论
 export const DELETE_TREND = 'DELETE_TREND'                                          //牙医圈删除动态
 export const LIKE = 'LIKE'                                                          //点赞
 export const DELETE_COMMENT = 'DELETE_COMMENT'                                      //删除评论
 export const GET_INFO_DETAIL = 'GET_INFO_DETAIL'                                    //获取消息列表
-export const GET_INFO_NUM = 'GET_INFO_NUM'                                           //获取消息列表
+export const GET_INFO_NUM = 'GET_INFO_NUM'                                           //获取消息列表数
 
 /*
 * 创客系统管理模块

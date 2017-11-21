@@ -93,6 +93,7 @@
         //这个是需要传一个obj的。
         let obj = {
           myType : 1,//单条动态
+          momentId : item.typeId
         }
         this.$router.push({path:'/yayiCircle',query:obj})
         this.list.splice(key,1)

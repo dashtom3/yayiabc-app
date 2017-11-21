@@ -9,7 +9,7 @@
         <div class="detail">
           <span class="title">评论</span>
           <div class="floatRight">
-            <span class="infoNum">15</span>
+            <span class="infoNum">{{myInfo}}</span>
             <img src="../../../../images/mine/right.png" alt="">
           </div>
         </div>
@@ -22,7 +22,7 @@
         <div  class="detail">
           <span class="title">问答</span>
           <div  class="floatRight">
-            <span  class="infoNum">15</span>
+            <span  class="infoNum">{{myAnswer}}</span>
             <img src="../../../../images/mine/right.png" alt="">
           </div>
         </div>
@@ -34,15 +34,22 @@
 
 <script type="text/ecmascript-6">
 import commonHeader from '../../../salesWap/salesHeader.vue'
+import { GET_INFO_NUM } from '../../../../vuex/types'
 
 export default {
   data(){
     return{
-
+      myInfo:'',
+      myAnswer:'',
     }
   },
   components:{
     commonHeader,
+  },
+  created(){
+    this.$store.dispatch(GET_INFO_NUM, obj).then(res =>{
+      this.myInfo = res.data.commentNumber
+    })
   },
   methods:{
     gotoPage(num){

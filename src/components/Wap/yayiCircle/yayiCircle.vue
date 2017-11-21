@@ -93,7 +93,7 @@
 
 <script type="text/ecmascript-6">
   import topLoadMore from '../../salesWap/index/topLoadMore.vue'
-  import {YAYI_CIRCLE, DELETE_TREND, ADD_COMMENT, LIKE, DELETE_COMMENT} from '../../../vuex/types'
+  import {YAYI_CIRCLE, DELETE_TREND, ADD_COMMENT, LIKE, DELETE_COMMENT, MY_YAYI_CIRCLE} from '../../../vuex/types'
   import Util from '../../../vuex/util'
   import { tokenMethods } from '../../../vuex/util'
   import {Indicator, InfiniteScroll,Popup, LoadMore, Toast, MessageBox} from 'mint-ui'
@@ -136,9 +136,15 @@
     created(){
       this.timeStamp = Date.parse(new Date());
       console.log(this.$router.history.current.name)
-      if(this.$route.query){
+      if(this.$route.query.myType === 1){
         this.headTitle = '我的动态'
-      }else {
+        this.getOneTrend();
+      }
+      else if(this.$route.query.myType === 2){
+        this.headTitle = '我的动态';
+        this.getMyYayiCircle();
+      }
+      else {
         this.thePage = 1;   //1代表牙医圈，2代表我的动态
 //        this.reqUrl = YAYI_CIRCLE;
         this.headTitle = '牙医圈';
@@ -154,6 +160,21 @@
       getYayiCircle(){
         this.isLoading = true;
         this.$store.dispatch(YAYI_CIRCLE, this.args).then(res =>{
+          console.log(res.data);
+          this.dataCompute(res);
+          this.isLoading = false;
+        })
+      },
+      getOneTrend(){
+//        this.isLoading = true;
+//        this.$store.dispatch('', this.args).then(res =>{
+//          console.log(res.data);
+//          this.dataCompute(res);
+//          this.isLoading = false;
+//        })
+      },
+      getMyYayiCircle(){
+        this.$store.dispatch(MY_YAYI_CIRCLE, this.args).then(res =>{
           console.log(res.data);
           this.dataCompute(res);
           this.isLoading = false;

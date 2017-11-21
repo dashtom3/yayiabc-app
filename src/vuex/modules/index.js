@@ -970,6 +970,18 @@ const actions = {
     });
   },
 
+  //获取我的牙医圈列表
+  [types.MY_YAYI_CIRCLE](context, params) {
+    return new Promise((resolve, reject) => {
+      api.myYayiCircle(params).then((data) => {
+        // state.productData = data.data.data
+        resolve(data);
+      }).catch((err) => {
+        resolve(data);
+      });
+    });
+  },
+
   //删除牙医圈的动态
   [types.DELETE_TREND](context, params) {
     return new Promise((resolve, reject) => {
