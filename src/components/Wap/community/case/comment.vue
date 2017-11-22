@@ -21,7 +21,7 @@
                   <div class="rightTime">{{commentChild.comment.commentTime}}</div>
                 </div>
 
-                <div  class="likeBox">
+                <div @click="like('three','','')" class="likeBox">
                   <span class="commentImgBoxs">
                     <img src="../../../../images/case/caseOfIllness/like.png" alt="">
                   </span>
@@ -68,7 +68,7 @@
 
 
 
-                  <div class="likeBox">
+                  <div @click="like('two',index, item.commentId)" class="likeBox">
                   <span class="commentImgBoxs">
                     <img src="../../../../images/case/caseOfIllness/like.png" alt="">
                   </span>
@@ -144,7 +144,7 @@
               </div>
 
 
-              <div @click="like('one', index)" class="likeBox">
+              <div @click="like('one', index, item.commentId)" class="likeBox">
               <span class="commentImgBoxs">
                     <img src="../../../../images/case/caseOfIllness/like.png" alt="">
                   </span>
@@ -222,7 +222,7 @@
 <script>
   import doComment from '../../index/doComment.vue';
   import { tokenMethods } from '../../../../vuex/util';
-  import {MessageBox  } from 'mint-ui';
+  import { MessageBox,Toast } from 'mint-ui';
   import share from '../../index/share.vue'
 
 
@@ -283,9 +283,10 @@
               if(res.callStatus === "SUCCEED")
               {
                 this.detailedCommentArgs.data.splice(index,1);
+                Toast({message: '删除成功', duration: 1000});
               }
               else {
-                alert('删除失败');
+                Toast({message: '删除失败', duration: 1500});
               }
             });
           }else { //two 二级评论
@@ -297,9 +298,10 @@
               if(res.callStatus === "SUCCEED")
               {
                 this.detailedCommentArgs.data[this.commentIndex].subCommentList.splice(index,1);
+                Toast({message: '删除成功', duration: 1000});
               }
               else {
-                alert('删除失败');
+                Toast({message: '删除失败', duration: 1500});
               }
             });
 
@@ -324,7 +326,7 @@
         }
       },
       //赞  -----------------------
-      like(type,index){
+      like(type,index,commentId){
         if(this.pointLogin())
         {
           if(type === 'one')
@@ -332,14 +334,81 @@
             let obj = {
               type: this.types,
               typeId: this.deleteArgs.beCommentedId,
-              parentId: this.detailedCommentArgs.data[index].commentId,
+              parentId: commentId,
               presentId: '',
             };
-            console.log(obj);
             this.$store.dispatch('LIKE', obj).then( (res)=>{
-              console.log(res,'数据');
+               if(res.callStatus === 'SUCCEED')
+               {
+                 if(this.detailedCommentArgs.data[index].isZan)
+                 {
+                   this.detailedCommentArgs.data[index].zan = Number(this.detailedCommentArgs.data[index].zan) - 1;
+                   this.detailedCommentArgs.data[index].isZan = 0;
+                   Toast({message: '取消成功', duration: 1000});
+                 }else {
+                   this.detailedCommentArgs.data[index].zan = Number(this.detailedCommentArgs.data[index].zan) + 1;
+                   this.detailedCommentArgs.data[index].isZan = 1;
+                   Toast({message: '点赞成功', duration: 1000});
+                 }
+               }else {
+                 Toast({message: '请求失败', duration: 1500});
+               }
+            });
+          }else if(type === 'two')
+          {
+            let obj = {
+              type: this.types,
+              typeId: this.deleteArgs.beCommentedId,
+              parentId: this.commentIndex,
+              presentId: commentId,
+            };
+            this.$store.dispatch('LIKE', obj).then( (res)=>{
+              if(res.callStatus === 'SUCCEED')
+              {
+                if(this.detailedCommentArgs.data[this.commentIndex].subCommentList[index].isZan)
+                {
+                  let zan = Number(this.detailedCommentArgs.data[this.commentIndex].subCommentList[index].zan) - 1;
+                  this.detailedCommentArgs.data[this.commentIndex].subCommentList[index].zan = zan;
+                  this.detailedCommentArgs.data[this.commentIndex].subCommentList[index].isZan = 0;
+                  Toast({message: '取消成功', duration: 1000});
+                }else {
+                  let zan = Number(this.detailedCommentArgs.data[this.commentIndex].subCommentList[index].zan) + 1;
+                  this.detailedCommentArgs.data[this.commentIndex].subCommentList[index].zan = zan;
+                  this.detailedCommentArgs.data[this.commentIndex].subCommentList[index].isZan = 1;
+                  Toast({message: '点赞成功', duration: 1000});
+                }
+              }else {
+                Toast({message: '请求失败', duration: 1500});
+              }
             });
           }else {
+            //二级评论的最上部一级点赞
+            let obj = {
+              type: this.types,
+              typeId: this.deleteArgs.beCommentedId,
+              parentId: this.detailedCommentArgs.data[this.commentIndex].commentId,
+              presentId: '',
+            };
+            this.$store.dispatch('LIKE', obj).then( (res)=>{
+              if(res.callStatus === 'SUCCEED')
+              {
+                if(this.detailedCommentArgs.data[this.commentIndex].isZan)
+                {
+                  this.detailedCommentArgs.data[this.commentIndex].zan =
+                    Number(this.detailedCommentArgs.data[this.commentIndex].zan) - 1;
+                  this.detailedCommentArgs.data[this.commentIndex].isZan = 0;
+                  Toast({message: '取消成功', duration: 1000});
+                }else {
+                  this.detailedCommentArgs.data[this.commentIndex].zan =
+                    Number(this.detailedCommentArgs.data[this.commentIndex].zan) + 1;
+                  this.detailedCommentArgs.data[this.commentIndex].isZan = 1;
+                  Toast({message: '点赞成功', duration: 1000});
+                }
+              }else {
+                Toast({message: '请求失败', duration: 1500});
+              }
+            });
+
 
           }
         }else {

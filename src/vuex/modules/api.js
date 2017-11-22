@@ -592,3 +592,7 @@ export function getVideoList(params) {
 export function getVideosDetail(params) {
   return geters('/vid/detail', params)
 }
+//我的病例
+export function getMyCase(params) {
+  return getWithToken('/cottoms/queryPost', params)
+}

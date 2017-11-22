@@ -190,6 +190,9 @@ export const GET_VIDEOS_DETAIL = 'GET_VIDEOS_DETAIL';                           
 export const SAVE_COLLECT = 'SAVE_COLLECT';                           //获取视频收藏
 
 
+export const GET_MY_CASE = 'GET_MY_CASE';                           //我的病例
+
+
 
 
 

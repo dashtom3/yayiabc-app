@@ -127,8 +127,6 @@
                   this.videoArgs[index].starNumber = Number(this.videoArgs[index].starNumber) - 1;
                   Toast({message: '已取消收藏', duration: 1500})
                 }
-
-
               }else {
                 Toast({message: '收藏失败', duration: 1500})
               }
@@ -223,9 +221,6 @@
         });
       },
     },
-
-
-
     components:{videoPlay,topLoadMore}
   }
 </script>

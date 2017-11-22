@@ -99,6 +99,13 @@ const infoIndex = resolve => require(['@/components/Wap/mine/information/infoInd
 const infoList = resolve => require(['@/components/Wap/mine/information/infoList'], resolve)
 const infoDetail = resolve => require(['@/components/Wap/mine/information/infoDetail'], resolve)
 
+
+
+const myCase = resolve => require(['@/components/Wap/mine/case/myCase'], resolve);
+const casePublish = resolve => require(['@/components/Wap/mine/case/casePublish'], resolve);
+const casePurchase = resolve => require(['@/components/Wap/mine/case/casePurchase'], resolve);
+const caseDrafts = resolve => require(['@/components/Wap/mine/case/caseDrafts'], resolve);
+
 Vue.use(Router)
 
 let router = new Router({
@@ -502,6 +509,28 @@ let router = new Router({
           name: 'video',
           path: '/video',
           component: video
+        },
+      ]
+    },
+    {
+      name: 'myCase', redirect: {name: 'caseDrafts'},
+      path: '/myCase',
+      component: myCase,
+      children: [
+        {
+          name: 'caseDrafts',
+          path: '/caseDrafts',
+          component: caseDrafts
+        },
+        {
+          name: 'casePublish',
+          path: '/casePublish',
+          component: casePublish
+        },
+        {
+          name: 'casePurchase',
+          path: '/casePurchase',
+          component: casePurchase
         },
       ]
     },
