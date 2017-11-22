@@ -16,7 +16,7 @@
               <div>乾币余额</div>
               <div class="qbBox">
                 <span class="qbBalance">{{qbNum.sum}}</span>
-                <span class="tiXianButton" @click="toCoinCash">提现</span>
+                <!-- <span class="tiXianButton" @click="toCoinCash">提现</span> -->
               </div>
             </li>
             <li></li>
@@ -36,14 +36,14 @@
                 {{qbNum.aqb}}
               </div>
             </li>
-            <li>
+            <!-- <li>
               <div>
                 <img src="../../../images/mine/coinMoney9.png" alt="">
               </div>
               <div>
                 {{qbNum.bqb}}
               </div>
-            </li>
+            </li> -->
             <li>
               <div>
                 <img src="../../../images/mine/coinMoney8.png" alt="">
@@ -205,7 +205,7 @@
 
     .header_coin {
       font-size: 3.73333vw;
-      padding: px2vw(16) px2vw(20) px2vw(25) px2vw(20);
+      padding: px2vw(16) 0 px2vw(25) 0;
       background-color: $themeColor;
       width: 100vw;
       margin-top: px2vw(-2);
@@ -217,6 +217,7 @@
       clear: both;
     }
     .coin_balanceBox li{
+      margin-left: px2vw(55);
       text-align: center;
       color: white;
       float: left;
@@ -313,6 +314,7 @@
   }
     .qbBalance {
       display: inline-block;
+      text-align: center;
       min-width: px2vw(108);
     }
 

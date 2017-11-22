@@ -106,6 +106,9 @@ const casePublish = resolve => require(['@/components/Wap/mine/case/casePublish'
 const casePurchase = resolve => require(['@/components/Wap/mine/case/casePurchase'], resolve);
 const caseDrafts = resolve => require(['@/components/Wap/mine/case/caseDrafts'], resolve);
 
+// 账户信息
+const accountInfo = resolve => require(['@/components/Wap/mine/accountInfo'], resolve)
+const qualifications = resolve => require(['@/components/Wap/mine/qualifications'], resolve)
 Vue.use(Router)
 
 let router = new Router({
@@ -197,11 +200,11 @@ let router = new Router({
       path: '/qrcode',
       component: QrCode
     },
-    {
-      name: 'personalData',
-      path: '/personalData',
-      component: personalData
-    },
+    // {
+    //   name: 'personalData',
+    //   path: '/personalData',
+    //   component: personalData
+    // },
     {
       name: 'collect',
       path: '/collect',
@@ -533,6 +536,21 @@ let router = new Router({
           component: casePurchase
         },
       ]
+    },
+    {
+      name: 'accountInfo',
+      path: '/account',
+      component: accountInfo,
+    },
+    {
+      name: 'editor',
+      path: '/account/editor',
+      component: personalData
+    },
+    {
+      name: 'qualifications',
+      path: '/account/qualifications',
+      component: qualifications
     },
   ],
 })

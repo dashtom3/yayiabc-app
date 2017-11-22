@@ -4,12 +4,45 @@
       <div class="header_box" @click="back">
         <img class="header_back" src="../../../images/logIn/back.png" alt="img">
       </div>
-      <span class="logWithCode">个人资料</span>
-      <span class="submit-btn" @click="savePersonInfo">保存</span>
+      <span class="logWithCode">资质认证</span>
+      <span class="submit-btn" v-if="!isEdit" v-show="!ifPass" @click="editHandler">提交</span>
+      <span class="submit-btn" v-else @click="savePersonInfo">完成</span>
     </div>
-    <div class="edit-info">
+    <div class="tips" v-show="audited_validate || pending_validate">
+      <transition name="shake">
+        <p v-show="audited_validate" class="adopt">资质审核通过！</p>
+      </transition>
+      <transition name="shake">
+        <p v-show="pending_validate" class="adopt">您的认证信息我们会尽快审核，请耐心等待~</p>
+      </transition>
+    </div>
+    <div v-if="!isEdit" class="f_wrap" v-bind:class="{ f_wrap_abs: (audited_validate || pending_validate) }">
+      <div class="mint-cell-wrapper" style="background-image: none;">
+        <span class="mint-cell-text">头像</span>
+        <div>
+          <img v-if="personInfo.imageUrl_head" :src="personInfo.imageUrl_head" class="avatar head-img">
+          <img v-else src="../../../images/mine/loadUserImg3.png" alt="img" class="head-img">
+        </div>
+      </div>
+      <mt-field label="用户名" placeholder="未设置" v-model="personInfo.phone" readonly disableClear></mt-field>
+      <mt-field label="真实姓名" placeholder="未设置" v-model="personInfo.trueName" readonly disableClear></mt-field>
+      <mt-field label="性别" placeholder="未设置" v-model="personInfo.sexText" readonly disableClear></mt-field>
+      <mt-field label="出生日期" placeholder="未设置" v-model="personInfo.birthday" readonly disableClear></mt-field>
+      <mt-field label="类型" placeholder="未设置" v-model="personInfo.typeText" readonly disableClear></mt-field>
+      <mt-field label="单位名称" class="text-wrap" placeholder="未设置" v-model="personInfo.companyName" readonly disableClear></mt-field>
+      <mt-field label="单位所在地" placeholder="未设置" v-model="personInfo.part" readonly disableClear></mt-field>
+      <mt-field label="详细地址" class="text-wrap" placeholder="未设置" v-model="personInfo.workAddress" readonly disableClear></mt-field>
+      <div class="mint-cell-wrapper" v-for="item in imageUrl_list">
+        <span class="mint-cell-text">{{item.title}}</span>
+        <div class="mint-field-core show-info">
+          <img v-if="item.url" :src="item.url" class="avatar">
+          <div class="mint-cell-value" v-else><span class="unset">未设置</span></div>
+        </div>
+      </div>
+    </div>
+    <div v-else class="edit-info">
       <!--头像-->
-      <div class="mint-cell-wrapper ml" style="background-image: none;">
+      <div class="mint-cell-wrapper" style="background-image: none;">
         <el-upload
           class="avatar-uploader head-upload needclick"
           :disabled="ifPass"
@@ -20,19 +53,15 @@
           >
           <div class="mint-cell-text fl head-wrap">头像</div>
           <img v-if="personInfo.imageUrl_head" :src="personInfo.imageUrl_head" class="avatar head-img">
-          <!-- <img v-else src="../../../images/mine/loadUserImg3.png" alt="img" class="head-img"> -->
-          <img v-else src="static/images/defaultPic.png" alt="img" class="head-img">
+          <img v-else src="../../../images/mine/loadUserImg3.png" alt="img" class="head-img">
         </el-upload>
       </div>
       <!--用户名-->
-      <mt-field class="ml" label="用户名" placeholder="请输入用户名" v-model="personInfo.phone" readonly disableClear></mt-field>
+      <mt-field label="用户名" placeholder="请输入用户名" v-model="personInfo.phone" readonly disableClear></mt-field>
       <!--真实姓名-->
-      <div class="must-wrapper">
-        <span class="must">*</span>
-        <mt-field @click.native="focus" label="真实姓名" placeholder="请输入真实姓名" class="input_arrow pl" v-model="personInfo.trueName" disableClear></mt-field>
-      </div>
+      <mt-field @click.native="focus" label="真实姓名*" placeholder="请输入真实姓名" class="input_arrow" v-model="personInfo.trueName" disableClear></mt-field>
       <!--性别-->
-      <a class="mint-cell mint-field input_arrow pl bb select">
+      <a class="mint-cell mint-field input_arrow">
         <div class="mint-cell-wrapper" @click="sexVisible = true && !ifPass">
           <div class="mint-cell-text">
             <span>性别</span>
@@ -43,7 +72,7 @@
         </div>
       </a>
       <!--出生日期-->
-      <a class="mint-cell mint-field input_arrow pl select">
+      <a class="mint-cell mint-field input_arrow">
         <div class="mint-cell-wrapper needclick" @click="openPicker('birthDatePicker')">
           <div class="mint-cell-text">
             <span>出生日期</span>
@@ -53,24 +82,175 @@
           </div>
         </div>
       </a>
+      <!--类型-->
+      <a class="mint-cell mint-field input_arrow">
+        <div class="mint-cell-wrapper" @click="typeVisible = true && !ifPass">
+          <div class="mint-cell-text">
+            <span>类型*</span>
+          </div>
+          <div class="mint-cell-value">
+            <span v-text="personInfo.typeText" class="unset"></span>
+          </div>
+        </div>
+      </a>
       <!--单位名称-->
-      <div class="must-wrapper">
-        <span class="must">*</span>
-        <mt-field @click.native="focus" label="单位名称" class="input_arrow pl" placeholder="请输入单位名称" v-model="personInfo.companyName" disableClear></mt-field>
-      </div>
+      <mt-field @click.native="focus" label="单位名称*" class="input_arrow" placeholder="请输入单位名称" v-model="personInfo.companyName" disableClear></mt-field>
+      <!--单位所在地-->
+      <a class="mint-cell mint-field input_arrow">
+        <div class="mint-cell-wrapper username" @click="openPicker('cityAddressPicker')">
+          <div class="mint-cell-text">
+            <span>单位所在地*</span>
+          </div>
+          <div class="mint-cell-value">
+            <span v-text="personInfo.part" class="unset"></span>
+          </div>
+        </div>
+      </a>
       <!--详细地址-->
-      <div class="must-wrapper btm-border">
-        <span class="must">*</span>
-        <mt-field @click.native="focus" label="单位地址" class="input_arrow pl" placeholder="请输入详细地址" v-model="personInfo.workAddress" disableClear></mt-field>
+      <mt-field @click.native="focus" label="详细地址*" class="input_arrow" placeholder="请输入详细地址" v-model="personInfo.workAddress" disableClear></mt-field>
+      <!--口腔执业医生资格证-->
+      <div class="mint-cell-wrapper" v-show="personInfo.typeText === '个人'">
+        <el-upload
+          class="avatar-uploader needclick"
+          :disabled="ifPass"
+          :action="qiNiuConfig.url"
+          :show-file-list="false"
+          :on-success="uploadFile10"
+          :data="qiNiuToken"
+          >
+          <div class="mint-cell-text fl head-wrap">口腔执业医生资格证*</div>
+          <img v-if="personInfo.imageUrl_doctorPic" :src="personInfo.imageUrl_doctorPic" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon fl"></i>
+        </el-upload>
+      </div>
+      <!--医疗机构执业许可证-->
+      <div class="mint-cell-wrapper" v-show="personInfo.typeText === '机构'">
+        <el-upload
+          class="avatar-uploader needclick"
+          :disabled="ifPass"
+          :action="qiNiuConfig.url"
+          :show-file-list="false"
+          :on-success="uploadFile1"
+          :data="qiNiuToken"
+          >
+          <div class="mint-cell-text fl head-wrap">医疗机构执业许可证*</div>
+          <img v-if="personInfo.imageUrl_medical" :src="personInfo.imageUrl_medical" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon fl"></i>
+        </el-upload>
+      </div>
+      <!--营业执照-->
+      <div class="mint-cell-wrapper" v-show="personInfo.typeText === '机构'">
+        <el-upload
+          class="avatar-uploader needclick"
+          :disabled="ifPass"
+          :action="qiNiuConfig.url"
+          :show-file-list="false"
+          :on-success="uploadFile2"
+          :data="qiNiuToken"
+          >
+          <div class="mint-cell-text fl head-wrap">营业执照*</div>
+          <img v-if="personInfo.imageUrl_business" :src="personInfo.imageUrl_business" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon fl"></i>
+        </el-upload>
+      </div>
+      <!--税务登记证-->
+      <div class="mint-cell-wrapper" v-show="personInfo.typeText === '机构'">
+        <el-upload
+          class="avatar-uploader needclick"
+          :disabled="ifPass"
+          :action="qiNiuConfig.url"
+          :show-file-list="false"
+          :on-success="uploadFile3"
+          :data="qiNiuToken"
+          >
+          <div class="mint-cell-text fl head-wrap">税务登记证*</div>
+          <img v-if="personInfo.imageUrl_tax" :src="personInfo.imageUrl_tax" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon fl"></i>
+        </el-upload>
+      </div>
+      <!--开户许可证-->
+      <div class="mint-cell-wrapper" v-show="personInfo.typeText === '机构'">
+        <el-upload
+          class="avatar-uploader needclick"
+          :disabled="ifPass"
+          :action="qiNiuConfig.url"
+          :show-file-list="false"
+          :on-success="uploadFile4"
+          :data="qiNiuToken"
+          >
+          <div class="mint-cell-text fl head-wrap">开户许可证</div>
+          <img v-if="personInfo.imageUrl_open_permit" :src="personInfo.imageUrl_open_permit" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon fl"></i>
+        </el-upload>
+      </div>
+      <!--医师职业资格证-->
+      <div class="mint-cell-wrapper" v-show="personInfo.typeText === '机构'">
+        <el-upload
+          class="avatar-uploader needclick"
+          :disabled="ifPass"
+          :action="qiNiuConfig.url"
+          :show-file-list="false"
+          :on-success="uploadFile5"
+          :data="qiNiuToken"
+          >
+          <div class="mint-cell-text fl head-wrap">医师职业资格证</div>
+          <img v-if="personInfo.imageUrl_doctor" :src="personInfo.imageUrl_doctor" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon fl"></i>
+        </el-upload>
+      </div>
+      <!--放射诊疗许可证-->
+      <div class="mint-cell-wrapper" v-show="personInfo.typeText === '机构'">
+        <el-upload
+          class="avatar-uploader needclick"
+          :disabled="ifPass"
+          :action="qiNiuConfig.url"
+          :show-file-list="false"
+          :on-success="uploadFile6"
+          :data="qiNiuToken"
+          >
+          <div class="mint-cell-text fl head-wrap">放射诊疗许可证</div>
+          <img v-if="personInfo.imageUrl_treatment" :src="personInfo.imageUrl_treatment" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon fl"></i>
+        </el-upload>
+      </div>
+      <!--法人身份证（正面）-->
+      <div class="mint-cell-wrapper" v-show="personInfo.typeText === '机构'">
+        <el-upload
+          class="avatar-uploader needclick"
+          :disabled="ifPass"
+          :action="qiNiuConfig.url"
+          :show-file-list="false"
+          :on-success="uploadFile7"
+          :data="qiNiuToken"
+          >
+          <div class="mint-cell-text fl head-wrap">法人身份证（正面）</div>
+          <img v-if="personInfo.imageUrl_id_front" :src="personInfo.imageUrl_id_front" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon fl"></i>
+        </el-upload>
+      </div>
+      <!--法人身份证（反面）-->
+      <div class="mint-cell-wrapper" v-show="personInfo.typeText === '机构'">
+        <el-upload
+          class="avatar-uploader needclick"
+          :disabled="ifPass"
+          :action="qiNiuConfig.url"
+          :show-file-list="false"
+          :on-success="uploadFile8"
+          :data="qiNiuToken"
+          >
+          <div class="mint-cell-text fl head-wrap">法人身份证（反面）</div>
+          <img v-if="personInfo.imageUrl_id_back" :src="personInfo.imageUrl_id_back" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon fl"></i>
+        </el-upload>
       </div>
       <!--性别-->
       <mt-actionsheet :actions="sexs" v-model="sexVisible" v-show="sexVisible  && isEdit" cancel-text="取消"></mt-actionsheet>
       <!--类型-->
-      <!-- <mt-actionsheet :actions="types" v-model="typeVisible" v-show="typeVisible && isEdit" cancel-text="取消"></mt-actionsheet> -->
+      <mt-actionsheet :actions="types" v-model="typeVisible" v-show="typeVisible && isEdit" cancel-text="取消"></mt-actionsheet>
       <!--出生日期选择框-->
       <birth-date-picker ref="birthDatePicker" @birthdatechange="saveBirthDate"></birth-date-picker>
       <!--城市选择框-->
-      <!-- <address-picker ref="cityAddressPicker" @addresschange="saveAddress"></address-picker> -->
+      <address-picker ref="cityAddressPicker" @addresschange="saveAddress"></address-picker>
     </div>
   </div>
 </template>
@@ -97,6 +277,34 @@
           url: 'http://upload-z2.qiniu.com/',
           ShUrl: 'http://orl5769dk.bkt.clouddn.com/'
         },
+        imageUrl_list: [{
+          title: '口腔执业医生资格证',
+          url: ''
+        },{
+          title: '医疗机构执业许可证',
+          url: ''
+        },{
+          title: '营业执照',
+          url: ''
+        },{
+          title: '税务登记证',
+          url: ''
+        },{
+          title: '开户许可证',
+          url: ''
+        },{
+          title: '医师职业资格证',
+          url: ''
+        },{
+          title: '放射诊疗许可证',
+          url: ''
+        },{
+          title: '法人身份证（正面）',
+          url: ''
+        },{
+          title: '法人身份证（反面）',
+          url: ''
+        }],
         personInfo: {
           phone: tokenMethods.getWapUser().phone,
           trueName: '',
@@ -502,6 +710,10 @@
       margin-top: px2vw(28);
     }
   }
+  .head-upload{
+    height: px2vw(100);
+    line-height: px2vw(100);
+  }
   .avatar-uploader{
     width: 100%;
     height: px2vw(200);
@@ -529,19 +741,12 @@
       }
     }
   }
-  .personal_data .ml .mint-cell-wrapper .mint-field-core{
-    padding: 0 px2vw(22) 0 0;
-  }
-  .must-wrapper .mint-cell-wrapper .mint-cell-text{
-    padding-left: px2vw(16)
-  }
   .personal_data .mint-cell-wrapper{
-    padding: 0;
-    position: relative;
+    padding: 0 px2vw(40);
     input[type="text"]{
       border: none;
+      padding: 0;
       margin: 0;
-      text-align: right;
       font-size: px2vw(26);
       color: #333;
     }
@@ -557,19 +762,16 @@
       color: #333;
     }
     .head-img{
-      width: px2vw(70);
-      height: px2vw(70);
-      vertical-align: middle;
-      margin-left: px2vw(260);
+      width: px2vw(100);
+      height: px2vw(100);
       border-radius: 50%;
     }
   }
   .head-upload{
-    height: px2vw(118);
-    padding: 0 px2vw(20) 0 0;
+    height: px2vw(104);
+    line-height: px2vw(108);
     .el-upload{
-      height: px2vw(118);
-      line-height: px2vw(118);
+      height: px2vw(90);
       padding-top: 0;
     }
   }
@@ -580,15 +782,10 @@
   .personal_data .mint-field .mint-cell-title{
     width: 170px;
   }
-  .avatar-uploader .el-upload .mint-cell-text.head-wrap{
-    height: px2vw(118);
-    line-height: px2vw(118);
+  .head-wrap{
+    height: px2vw(100);
+    line-height: px2vw(100);
     text-align: left;
-  }
-  .personal_data .select .mint-cell-wrapper .mint-cell-value .unset{
-    width: 100%;
-    text-align: right;
-    margin-right: px2vw(30);
   }
   .head-box .el-upload{
     display: block!important;
@@ -605,9 +802,6 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../common/sass/factory";
-  .personal_data{
-    height: 100vh;
-  }
   .logIn_header{
     padding-bottom: 0;
     position: fixed;
@@ -621,7 +815,6 @@
     bottom: 0;
     left: 0;
     right: 0;
-    padding: 0 px2vw(22) 0 0;
     overflow: scroll;
     -webkit-overflow-scrolling: touch;
   }
@@ -629,43 +822,6 @@
     color: #fff;
     float: right;
     margin-right: px2vw(28);
-  }
-  // margin-left
-  .ml{
-    width: 100%;
-    height: px2vw(118);
-    margin-left: px2vw(20);
-    border-bottom: 1px solid rgb(229,229,229);
-  }
-  // padding-left
-  .pl{
-    padding-right: px2vw(22);
-    width: px2vw(750);
-    height: px2vw(118);
-    line-height: px2vw(118);
-    padding-left: px2vw(20);
-  }
-  // border-bottom
-  .bb{
-    border-bottom: 1px solid rgb(229,229,229)
-  }
-  .must-wrapper{
-    position: relative;
-    height: px2vw(118);
-    line-height: px2vw(118);
-    .must{
-      position: absolute;
-      top: 0;
-      left: px2vw(20);
-      font-size: px2vw(30);
-      color: rgb(216,30,6);
-      z-index: 2000;
-    }
-  }
-  .personal_data .must-wrapper.btm-border{
-    border-bottom: 1px solid rgb(229,229,229);
-    margin-right: px2vw(-20);
-    height: px2vw(122);
   }
   .require{
     height: 100%;

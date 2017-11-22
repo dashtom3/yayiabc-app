@@ -24,7 +24,7 @@
             <div class="phoneUser">{{phone}}</div>
           </div>
         </div>
-        <div class="person_info">账户信息<img src="../../../images/mine/goto.png" alt=""></div>
+        <div class="person_info" @click="goAccount">账户信息<img src="../../../images/mine/goto.png" alt=""></div>
       </div>
       <!--上部结束-->
       <!--用户名开始-->
@@ -123,7 +123,7 @@
           <img src="../../../images/mine/dizhi.png" alt="">
           <div>我的地址</div>
         </li>
-        <li class="mine_function_bottom_item">
+        <li class="mine_function_bottom_item" @click.stop="qq_contact">
           <img src="../../../images/mine/qq.png" alt="">
           <div>QQ咨询</div>
         </li>
@@ -250,7 +250,7 @@
             <img src="../../../images/mine/dizhi.png" alt="">
             <div>我的地址</div>
           </li>
-          <li class="mine_function_bottom_item">
+          <li class="mine_function_bottom_item" @click.stop="qq_contact">
             <img src="../../../images/mine/qq.png" alt="">
             <div>QQ咨询</div>
           </li>
@@ -284,7 +284,8 @@
         alreadyLog: true,
         showLogin: true,
         ordersState: [],
-        token: ''
+        token: '',
+        state: ''
       }
     },
     components: {},
@@ -336,6 +337,9 @@
         let go = this.$router.push.bind(this.$router)
         sessionStorage.setItem('ORDER_STATE', state)
         go({name: 'orderSubpage', params: {order_state: state}})
+      },
+      goAccount() {
+        this.$router.push({path: '/account'})
       },
       //获取个人信息
       init: function () {
@@ -389,7 +393,8 @@
           }
           if (res.callStatus === 'SUCCEED') {
             that.qbBalance = res.data.qbBalance
-            that.phone = res.data.phone
+            that.phone = res.data.phone,
+            that.state = res.data.state
           }
         })
       },
@@ -445,6 +450,42 @@
           }
         })
       },
+      // QQ咨询
+      qq_contact() {
+        console.dir(this)
+        console.log(this)
+        if (plus.os.name == "iOS") {  
+          plus.runtime.launchApplication({  
+          action: "mqq://im/chat?chat_type=wpa&uin=2966679536&version=1&src_type=web"  
+        }, function(e) {  
+          plus.nativeUI.confirm("检查到您未安装QQ，请先到appstore搜索下载？", function(i) {  
+            if (i.index == 0) {  
+              iosAppstore("itunes.apple.com/cn/app/mqq/");  
+            }  
+            });  
+          });  
+        }  else if (plus.os.name == "Android") {
+            // plus.runtime.openURL("mqqwpa://im/chat?chat_type=wpa&uin=2966679536", 
+            // ,function (e) {
+            //   alert('请下载腾讯QQ')
+            // }, "com.tencent.mobileqq");
+            // ApplicationInfo info = context.getPackageManager().getApplicationInfo(packageName, PackageManager.GET_UNINSTALLED_PACKAGES); 
+            let main = plus.android.runtimeMainActivity();
+            // let packageManager = main.getPackageManager() ;
+            // let packageName = "com.tencent.mobileqq";
+            // var PackageManager = plus.android.importClass(packageManager)
+            // var packageInfo = packageManager.getPackageInfo(packageName,PackageManager.GET_ACTIVITIES);
+            let Intent = plus.android.importClass('android.content.Intent'); 
+            let Uri = plus.android.importClass('android.net.Uri');
+            try{
+              let intent = new Intent(Intent.ACTION_VIEW, Uri.parse("mqqwpa://im/chat?chat_type=wpa&uin=2966679536"));
+              main.startActivity(intent);
+            }catch (e){
+              plus.nativeUI.alert("检查到您未安装QQ，请先下载！");
+            }
+            
+        }
+      }, 
     }
   }
 </script>
@@ -582,7 +623,7 @@
   }
 
   .mine {
-
+    padding-bottom: px2vw(100);
     font-weight: 300;
   }
 
@@ -594,8 +635,11 @@
   .myOrder, .myCoin {
     background-color: white;
     border-bottom: px2vw(1) solid $borderColour;
-    padding: px2vw(30) 3.7vw px2vw(30) 6.8vw;
+    padding: px2vw(25) 3.7vw px2vw(25) 6.8vw;
     font-size: 3.73333vw;
+    font-weight: 400;
+    font-size: px2vw(30);
+    color: rgb(51, 51, 51)
   }
 
   .myOrder_back, .myCoin_back {
@@ -604,11 +648,12 @@
 
   .myOrder_back img, .myCoin_back img {
     width: 2vw;
-    height: px2vw(25);
+    height: px2vw(30);
   }
   .coin{
     display: flex;
     justify-content: center;
+    font-size: px2vw(28);
     background: #fff;
   }
   .coin_item{
@@ -640,7 +685,7 @@
   }
   .mine_function {
     background-color: white;
-    font-size: 3.73333vw;
+    font-size: px2vw(28);
     padding: px2vw(30) 6.8vw;
     border-bottom: px2vw(20) solid #f4f4f4;
   }
@@ -693,7 +738,8 @@
     width: 100%;
     padding: px2vw(20) 0 px2vw(20) 0;
     flex-wrap: wrap;
-    height: px2vw(310);
+    font-size: px2vw(28);
+    height: px2vw(318);
     background: #fff;
   }
   .mine_function_bottom .mine_function_bottom_item{
