@@ -229,8 +229,8 @@
       //病例选择的确定&取消时的方法，0取消，1确定
       onClassPicker(num){
         if(num){
-          if(!this.classify){
-            this.args.classify = '口腔外科'
+          if(this.classify < 0){
+            this.args.classify = 1
           }else {
             this.args.classify = this.classify;
           }
