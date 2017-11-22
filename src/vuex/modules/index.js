@@ -982,6 +982,18 @@ const actions = {
     });
   },
 
+  //获取单条牙医圈列表
+  [types.ONE_YAYI_CIRCLE](context, params) {
+    return new Promise((resolve, reject) => {
+      api.oneYayiCircle(params).then((data) => {
+        // state.productData = data.data.data
+        resolve(data);
+      }).catch((err) => {
+        resolve(data);
+      });
+    });
+  },
+
   //删除牙医圈的动态
   [types.DELETE_TREND](context, params) {
     return new Promise((resolve, reject) => {
@@ -1054,10 +1066,10 @@ const actions = {
     });
   },
 
-  //h
-  [types.GET_INFO_DETAIL](context, params) {
+  //获取消息数量
+  [types.GET_INFO_NUM](context, params) {
     return new Promise((resolve, reject) => {
-      api.getInfoDetail(params).then((data) => {
+      api.getInfoNum(params).then((data) => {
         // state.productData = data.data.data
         resolve(data);
       }).catch((err) => {

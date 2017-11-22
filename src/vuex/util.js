@@ -206,8 +206,14 @@ export const tokenMethods = {
   setInfoList(data) {
     localStorage.setItem('infoList', JSON.stringify(data))
   },
+  setInfoNum(data) {
+    localStorage.setItem('infoNum', JSON.stringify(data))
+  },
   getInfoList(){
     return localStorage.getItem('infoList')
+  },
+  getInfoNum(){
+    return localStorage.getItem('infoNum')
   },
   removeInfoList(data){
     localStorage.removeItem('infoList')
@@ -215,8 +221,14 @@ export const tokenMethods = {
   setAnswerList(data) {
     localStorage.setItem('answerList', JSON.stringify(data))
   },
+  setAnswerNum(data) {
+    localStorage.setItem('answerNum', JSON.stringify(data))
+  },
   getAnswerList(){
     return localStorage.getItem('answerList')
+  },
+  getAnswerNum(){
+    return localStorage.getItem('answerNum')
   },
   removeAnswerList(data){
     localStorage.removeItem('answerList')

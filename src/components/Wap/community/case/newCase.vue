@@ -127,7 +127,7 @@
         slots: [
           {
             flex: 1,
-            values: ['口腔种植', '口腔正畸', '口腔外科', '口腔内科', '口腔修复'],
+            values: [ '口腔外科', '口腔内科', '口腔修复','口腔种植', '口腔正畸'],
             className: 'slot1',
             textAlign: 'center'
           }
@@ -223,7 +223,8 @@
       },
       //监听选择病例类型变化
       onValuesChange(picker, values) {
-        this.classify = values[0];
+        console.log(this.slots[0].values.indexOf(values[0]));
+        this.classify = this.slots[0].values.indexOf(values[0]) + 1;
       },
       //病例选择的确定&取消时的方法，0取消，1确定
       onClassPicker(num){

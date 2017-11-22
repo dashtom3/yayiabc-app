@@ -9,7 +9,7 @@
         <div class="detail">
           <span class="title">评论</span>
           <div class="floatRight">
-            <span class="infoNum">{{myInfo}}</span>
+            <span class="infoNum" v-if="myInfo > 0">{{myInfo}}</span>
             <img src="../../../../images/mine/right.png" alt="">
           </div>
         </div>
@@ -22,7 +22,7 @@
         <div  class="detail">
           <span class="title">问答</span>
           <div  class="floatRight">
-            <span  class="infoNum">{{myAnswer}}</span>
+            <span  class="infoNum"  v-if="myAnswer > 0">{{myAnswer}}</span>
             <img src="../../../../images/mine/right.png" alt="">
           </div>
         </div>
@@ -35,6 +35,7 @@
 <script type="text/ecmascript-6">
 import commonHeader from '../../../salesWap/salesHeader.vue'
 import { GET_INFO_NUM } from '../../../../vuex/types'
+import { tokenMethods } from '../../../../vuex/util'
 
 export default {
   data(){
@@ -47,13 +48,15 @@ export default {
     commonHeader,
   },
   created(){
-    this.$store.dispatch(GET_INFO_NUM, obj).then(res =>{
-      this.myInfo = res.data.commentNumber
+    this.$store.dispatch(GET_INFO_NUM,{}).then(res =>{
+      this.myInfo = res.data.commentNumber + parseInt(tokenMethods.getInfoNum());
+      tokenMethods.setInfoNum(this.myInfo);
     })
   },
   methods:{
     gotoPage(num){
       this.$router.push({path:'/infoList',query:{type:num}});
+      this.$destroy()
     }
   }
 }

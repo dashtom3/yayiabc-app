@@ -347,6 +347,11 @@ export function myYayiCircle(params) {
   return getWithToken('/moment/myMoment', params);
 }
 
+//获取单条牙医圈列表
+export function oneYayiCircle(params) {
+  return getWithToken('/moment/detail', params);
+}
+
 //删除牙医圈的动态
 export function deleteTrend(params) {
   return getWithToken('/moment/delete', params);

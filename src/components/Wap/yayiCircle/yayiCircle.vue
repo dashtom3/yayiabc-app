@@ -38,7 +38,7 @@
                 <div class="shareContent">
                   {{item.momentContent}}
                 </div>
-                <div class="shareBox" @click="gotoPage">
+                <div class="shareBox" @click="gotoPage(item.momentType,item.momentContentId)">
                   <div class="shareBoxImg">
                     <img :src="item.momentPicture" alt="" v-if="item.momentPicture">
                     <img src="../../../images/yayiCircle/noImgDefault.png" alt="" v-else>
@@ -93,7 +93,7 @@
 
 <script type="text/ecmascript-6">
   import topLoadMore from '../../salesWap/index/topLoadMore.vue'
-  import {YAYI_CIRCLE, DELETE_TREND, ADD_COMMENT, LIKE, DELETE_COMMENT, MY_YAYI_CIRCLE} from '../../../vuex/types'
+  import {YAYI_CIRCLE, DELETE_TREND, ADD_COMMENT, LIKE, DELETE_COMMENT, MY_YAYI_CIRCLE, ONE_YAYI_CIRCLE} from '../../../vuex/types'
   import Util from '../../../vuex/util'
   import { tokenMethods } from '../../../vuex/util'
   import {Indicator, InfiniteScroll,Popup, LoadMore, Toast, MessageBox} from 'mint-ui'
@@ -124,8 +124,6 @@
         },
         picUrl:'',            //查看大图的url
         showPic:false,        //查看大图的开关
-        thePage:0,            //1代表牙医圈，2代表我的动态
-        reqUrl:null,          //请求的url
       }
     },
     components:{
@@ -136,17 +134,16 @@
     created(){
       this.timeStamp = Date.parse(new Date());
       console.log(this.$router.history.current.name)
-      if(this.$route.query.myType === 1){
-        this.headTitle = '我的动态'
-        this.getOneTrend();
-      }
-      else if(this.$route.query.myType === 2){
+//      if(this.$route.query.myType === 1){
+//        this.headTitle = '我的动态';
+//        this.getOneTrend();
+//      }
+//      else
+      if(this.$route.query.myType === 2){
         this.headTitle = '我的动态';
         this.getMyYayiCircle();
       }
       else {
-        this.thePage = 1;   //1代表牙医圈，2代表我的动态
-//        this.reqUrl = YAYI_CIRCLE;
         this.headTitle = '牙医圈';
         this.getYayiCircle();
       }
@@ -161,28 +158,29 @@
         this.isLoading = true;
         this.$store.dispatch(YAYI_CIRCLE, this.args).then(res =>{
           console.log(res.data);
-          this.dataCompute(res);
+          this.dataCompute(res.data);
           this.isLoading = false;
         })
       },
-      getOneTrend(){
+//      getOneTrend(){
 //        this.isLoading = true;
-//        this.$store.dispatch('', this.args).then(res =>{
+//        this.$store.dispatch(ONE_YAYI_CIRCLE, {momentId:this.$route.query.momentId}).then(res =>{
 //          console.log(res.data);
-//          this.dataCompute(res);
+//          let tmpArr = [res.data];
+//          this.dataCompute(tmpArr);
 //          this.isLoading = false;
 //        })
-      },
+//      },
       getMyYayiCircle(){
         this.$store.dispatch(MY_YAYI_CIRCLE, this.args).then(res =>{
           console.log(res.data);
-          this.dataCompute(res);
+          this.dataCompute(res.data);
           this.isLoading = false;
         })
       },
       dataCompute(res){
-        if(res.data) {
-          res.data.forEach(item => {
+        if(res) {
+          res.forEach(item => {
             //图片字符串转数组
             if (item.momentPicture) {
               item.momentPicture = item.momentPicture.split(';');
@@ -300,8 +298,23 @@
         this.showPic = true;
         this.picUrl = url
       },
-      gotoPage(){
+      gotoPage(type,postId){
         //页面跳转，携带参数？
+        if(type == 1){
+          return
+        }
+        switch (true){
+          case type == 2:
+            this.$router.push({path:'/caseOfIllness',query:{postId:postId}})
+            break
+          case type == 3:
+            this.$router.push({path:'/video',query:{viId:viId}})
+            break
+          case type == 4:
+            console.log(type);
+            //别忘了做点什么！！
+            break
+        }
       },
       loadMore(){
         if(this.args.currentPage >= this.totalPage){
@@ -309,7 +322,11 @@
         }else {
           this.args.currentPage = this.args.currentPage + 1;
           this.noMoreData = false;
-          this.getYayiCircle();
+          if (this.$route.query.myType === 2) {
+            this.getMyYayiCircle();
+          } else {
+            this.getYayiCircle();
+          }
           //  再加载下一页
         }
       },
@@ -317,7 +334,11 @@
         this.args.currentPage = 1;
         this.timeStamp = Date.parse(new Date());
         this.yayiCircleData = [];
-        this.getYayiCircle();
+        if (this.$route.query.myType === 2) {
+          this.getMyYayiCircle();
+        } else {
+          this.getYayiCircle();
+        }
         //把所有参数回归为初始值，并且重新获得时间戳
       },
       //mt中接受的val值作为参数传入我的组件里
@@ -375,7 +396,7 @@
     overflow: scroll;
     width: 100%;
     -webkit-overflow-scrolling: touch;
-    padding: px2vw(20) px2vw(20) 0 0;
+    padding-top: px2vw(20);
     background-color: #fff;
     .innerContainerWrap{
       min-height: px2vw(100);
@@ -383,7 +404,8 @@
         width: 100%;
         .eachContainer{
           width:100%;
-          margin-bottom: px2vw(30);
+          padding: 0 px2vw(20) px2vw(30) 0;
+          border-bottom: 1px solid #e5e5e5;
           .headerImgBox{
             float: left;
             width: px2vw(130);

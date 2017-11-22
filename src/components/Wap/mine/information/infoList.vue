@@ -5,8 +5,7 @@
       {{headerText}}
     </div>
     <div class="container">
-      <mt-loadmore :top-method="loadTop" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState" class="innerContainerWrap">
-        <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
+      <div class="innerContainerWrap">
         <!--有内容-->
         <div v-infinite-scroll="loadMore" infinite-scroll-immediate-check="true" class="innerContainer">
           <div class="line" @click="goPage(item,key)" v-for="(item,key) in list"><!--v-for开始-->
@@ -23,7 +22,7 @@
         <div>
 
         </div>
-      </mt-loadmore>
+      </div>
     </div>
   </div>
 </template>
@@ -58,11 +57,12 @@
     created(){
       switch (true){
         case this.$route.query.type === 1:
-          this.list = JSON.parse(tokenMethods.getInfoList());
+          this.list = JSON.parse(tokenMethods.getInfoList()) ? JSON.parse(tokenMethods.getInfoList()) : [];
           break;
         case this.$route.query.type === 2:
-          this.list = JSON.parse(tokenMethods.getAnswerList());
+          this.list = JSON.parse(tokenMethods.getAnswerList()) ? JSON.parse(tokenMethods.getAnswerList()) : [];
       }
+      console.log(this.list)
       this.getList();
     },
     methods:{
@@ -71,34 +71,60 @@
         this.$destroy()
       },
       getList(){
-        this.$store.dispatch(GET_INFO_DETAIL, obj).then(res =>{
+        this.$store.dispatch(GET_INFO_DETAIL, this.args).then(res =>{
           console.log(res)
-          this.list.concat(res.data);
-          this.setList(this.list);
-          this.currentPage = res.currentPage;
-          this.totalPage = res.totalPage;
+          if(res.data){
+            this.list = res.data.concat(this.list);
+            console.log(this.list);
+            this.setList(this.list);
+            this.currentPage = res.currentPage;
+            this.totalPage = res.totalPage;
+          }
         })
       },
       setList(val){
-        console.log(val);
-        switch (true){
+        switch (true) {
           case this.$route.query.type === 1:
             tokenMethods.setInfoList(val)
+            tokenMethods.setInfoNum(val.length);
             break;
           case this.$route.query.type === 2:
             tokenMethods.setAnswerList(val)
+            tokenMethods.setAnswerNum(val.length);
+            break;
         }
+
       },
       goPage(item,key){
         //这个是需要传一个obj的。
-        let obj = {
-          myType : 1,//单条动态
-          momentId : item.typeId
+        if(this.$route.query.type === 1) {
+          let obj = {
+            momentId: item.typeId
+          }
+          console.log(this.list,key)
+          this.list.splice(key, 1)
+          if(this.list) {
+            this.setList(this.list);
+          }else {
+            console.log('no')
+            switch (true) {
+              case this.$route.query.type === 1:
+                tokenMethods.removeInfoList(val)
+                tokenMethods.setInfoNum(0);
+                break;
+              case this.$route.query.type === 2:
+                tokenMethods.removeAnswerList(val)
+                tokenMethods.setAnswerNum(0);
+                break;
+            }
+          }
+          this.$router.push({path: '/infoDetail', query: obj})
+          console.log(JSON.parse(tokenMethods.getInfoList()),'whh')
+//        this.$destroy()
         }
-        this.$router.push({path:'/yayiCircle',query:obj})
-        this.list.splice(key,1)
-        this.setList(this.list);
-        this.$destroy()
+        else if(this.$route.query.type === 2){
+
+        }
       },
       loadMore(){
         if(this.args.currentPage >= this.totalPage){
@@ -106,24 +132,9 @@
         }else {
           this.args.currentPage = this.args.currentPage + 1;
           this.noMoreData = false;
-          this.getList();
+          this.created();
 //          //  再加载下一页
         }
-      },
-      loadTop(){
-        this.currentPage = 1;
-        this.totalPage = 0;
-        this.noMoreData = false;
-        this.list = [];
-        this.getList();
-      },
-      //mt中接受的val值作为参数传入我的组件里
-      isState(val){
-        this.$refs.topLoadMore.states(val)
-      },
-      //把下拉刷新完成之后回调的mt的方法传入我的组件里
-      isLoaded(){
-        this.$refs.loadmore.onTopLoaded();
       },
     }
   }
@@ -157,6 +168,8 @@
   .container{
     width: 100%;
     position: fixed;
+    height: 91vh;
+    min-height: 91vh;
     top: px2vw(88);
     bottom: 0;
     overflow: scroll;
@@ -165,6 +178,7 @@
       width: 100%;
       .innerContainer{
         width:100%;
+        height: 91vh;
         .line{
           width: px2vw(710);
           height: px2vw(120);
