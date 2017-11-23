@@ -596,12 +596,6 @@
     background-position: center right;
     background-size: px2vw(16) px2vw(30);
   }
-  .text-wrap input{
-    width: 100px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
   .f_wrap{
     position: fixed;
     top: px2vw(88);
@@ -613,19 +607,6 @@
     &.f_wrap_abs {
       top: px2vw(168);
     }
-  }
-  .show-info{
-    min-height: px2vw(96);
-    line-height: px2vw(96);
-    img{
-      width: px2vw(150);
-      height: px2vw(150);
-      margin-top: px2vw(28);
-    }
-  }
-  .head-upload{
-    height: px2vw(100);
-    line-height: px2vw(100);
   }
   .avatar-uploader{
     width: 100%;
@@ -655,7 +636,8 @@
     }
   }
   .personal_data .mint-cell-wrapper{
-    padding: 0 px2vw(40);
+    margin: 0 0 0 px2vw(20);
+    padding: 0;
     input[type="text"]{
       border: none;
       padding: 0;
@@ -674,19 +656,6 @@
       line-height: px2vw(96);
       color: #333;
     }
-    .head-img{
-      width: px2vw(100);
-      height: px2vw(100);
-      border-radius: 50%;
-    }
-  }
-  .head-upload{
-    height: px2vw(104);
-    line-height: px2vw(108);
-    .el-upload{
-      height: px2vw(90);
-      padding-top: 0;
-    }
   }
   .personal_data .mint-field-core{
     background-position: center right;
@@ -700,17 +669,6 @@
     line-height: px2vw(100);
     text-align: left;
   }
-  .head-box .el-upload{
-    display: block!important;
-    height: px2vw(135);
-    text-align: left;
-    line-height: px2vw(135);
-    position: relative;
-    img{
-      width: px2vw(150);
-      height: px2vw(150);
-    }
-  }
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss" rel="stylesheet/scss">
@@ -718,34 +676,13 @@
   .logIn_header{
     padding-bottom: 0;
     position: fixed;
-    z-index: 99;
+    z-index: 0;
     top: 0;
-  }
-  .edit-info{
-    // margin-top: px2vw(88);
-    position: fixed;
-    top: px2vw(88);
-    bottom: 0;
-    left: 0;
-    right: 0;
-    overflow: scroll;
-    -webkit-overflow-scrolling: touch;
   }
   .submit-btn{
     color: #fff;
     float: right;
     margin-right: px2vw(28);
-  }
-  .require{
-    height: 100%;
-    vertical-align: middle;
-    line-height: 100%;
-    text-align: center;
-    color: #c00;
-  }
-  .back-btn{
-    width: px2vw(88);
-    height: px2vw(73);
   }
   .mint-cell-value input{
     font-size: px2vw(28);

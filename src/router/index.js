@@ -102,7 +102,9 @@ const infoDetail = resolve => require(['@/components/Wap/mine/information/infoDe
 
 
 const myCase = resolve => require(['@/components/Wap/mine/case/myCase'], resolve);
-
+// const casePublish = resolve => require(['@/components/Wap/mine/case/casePublish'], resolve);
+// const casePurchase = resolve => require(['@/components/Wap/mine/case/casePurchase'], resolve);
+// const caseDrafts = resolve => require(['@/components/Wap/mine/case/caseDrafts'], resolve);
 
 // 账户信息
 const accountInfo = resolve => require(['@/components/Wap/mine/accountInfo'], resolve)
@@ -517,6 +519,23 @@ let router = new Router({
       name: 'myCase',
       path: '/myCase',
       component: myCase,
+      children: [
+        // {
+        //   name: 'caseDrafts',
+        //   path: '/caseDrafts',
+        //   component: caseDrafts
+        // },
+        // {
+        //   name: 'casePublish',
+        //   path: '/casePublish',
+        //   component: casePublish
+        // },
+        // {
+        //   name: 'casePurchase',
+        //   path: '/casePurchase',
+        //   component: casePurchase
+        // },
+      ]
     },
     {
       name: 'accountInfo',

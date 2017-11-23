@@ -542,12 +542,13 @@
       border: none;
       margin: 0;
       text-align: right;
-      font-size: px2vw(26);
+      font-size: px2vw(28);
       color: #333;
     }
     .mint-cell-text{
       width: 170px;
       display: inline-block;
+      font-size: px2vw(30);
     }
     .mint-cell-value .unset{
       font-size: px2vw(26);
@@ -611,7 +612,7 @@
   .logIn_header{
     padding-bottom: 0;
     position: fixed;
-    z-index: 99;
+    z-index: 0;
     top: 0;
   }
   .edit-info{
