@@ -1191,6 +1191,18 @@ const actions = {
       });
     });
   },
+
+  // 获取收藏病例列表信息
+  [types.COLLECT_CASE](context, params) {
+    return new Promise((resolve, reject) => {
+      api.collectCase(params).then((data) => {
+        resolve(data);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  },
+
   // 获取病例详情信息
   [types.GET_CASE_DETAIL](context, params) {
     return new Promise((resolve, reject) => {

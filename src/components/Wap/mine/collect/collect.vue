@@ -86,6 +86,7 @@
     padding: 0 px2vw(100);
     border-bottom: 1px solid #e5e5e5;
     span{
+      font-size: px2vw(30);
       width: px2vw(90);
       text-align: center;
       color: #999;

@@ -44,6 +44,8 @@
   import Util from '../../../../vuex/util'
   import topLoadMore from '../../../salesWap/index/topLoadMore.vue';
   import {mapGetters} from 'vuex';
+  import {COLLECT_CASE} from '../../../../vuex/types'
+
   export default {
     data (){
       return{
@@ -159,6 +161,13 @@
             this.listCaseData = this.listCaseData.concat(res.data);
             this.caseSearchArgs.totalPage = res.totalPage;
             this.caseSearchArgs.currentPage = res.currentPage;
+            this.isLoading = false;
+          })
+        }else if(this.$router.history.current.name === 'caseOfIllnessCollect') {
+          this.$store.dispatch('COLLECT_CASE', this.caseListArgs).then((res) => {
+            this.listCaseData = this.listCaseData.concat(res.data);
+            this.caseListArgs.totalPage = res.totalPage;
+            this.caseListArgs.currentPage = res.currentPage;
             this.isLoading = false;
           })
         }else {
