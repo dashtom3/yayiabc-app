@@ -17,7 +17,7 @@ const register = resolve => require(['@/components/Wap/register/register'], reso
 const logInMsg = resolve => require(['@/components/Wap/logIn/logInMsg'], resolve)
 const forgetPwd = resolve => require(['@/components/Wap/logIn/forgetPwd'], resolve)
 const personalData = resolve => require(['@/components/Wap/mine/personalData'], resolve)
-const collect = resolve => require(['@/components/Wap/mine/collect'], resolve)
+
 const searchWord = resolve => require(['@/components/Wap/index/searchWord'], resolve)
 const confirmAddress = resolve => require(['@/components/Wap/shoppingCar/confirmAddress'], resolve)
 const myCoin = resolve => require(['@/components/Wap/mine/myCoin'], resolve)
@@ -49,6 +49,9 @@ const Comment = resolve => require(['@/components/Wap/order/children/comment'], 
 
 const address = resolve => require(['@/components/Wap/mine/adress'], resolve)
 const addAddress = resolve => require(['@/components/Wap/mine/addAddress'], resolve)
+
+const collect = resolve => require(['@/components/Wap/mine/collect/collect'], resolve)
+const goodCollect = resolve => require(['@/components/Wap/mine/collect/goodCollect'], resolve)
 
 /*wx_user组件*/
 const User = resolve => require(['@/components/wx_user/user'], resolve)
@@ -205,7 +208,25 @@ let router = new Router({
     {
       name: 'collect',
       path: '/collect',
-      component: collect
+      component: collect,
+      redirect: {name: 'goodCollect'},
+      children:[
+        {
+          name: 'goodCollect',
+          path: '/collect/goodCollect',
+          component: goodCollect,
+        },
+        {
+          name: 'caseOfIllnessCollect',
+          path: '/collect/caseOfIllnessCollect',
+          component: caseOfIllness
+        },
+        {
+          name: 'videocollect',
+          path: '/collect/videocollect',
+          component: video
+        },
+      ]
     },
     {
       name: 'searchWord',

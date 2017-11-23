@@ -1,13 +1,6 @@
 <template>
   <div class="top_box">
-    <div class="top_nox">
-      <div class="hehe">我的收藏</div>
 
-      <div @click="back" class="img_bx">&nbsp;&nbsp;&nbsp;
-      <img class="header_back" src="../../../images/logIn/back.png" alt="">
-      </div>
-
-    </div>
 
     <!--收藏列表开始-->
     <!-- <mt-loadmore :top-method="loadTop" :auto-fill="true" ref="loadmore" class="c-content" v-on:top-status-change="isState"> -->
@@ -42,7 +35,7 @@
 
     <!--无数据显示图片-->
     <div v-show="collectData == 0" class="collect_pic">
-      <img  src="../../../images/mine/collect_pic.png" alt="" v-if="!isLoading">
+      <img src="../../../../images/mine/collect_pic.png" alt="" v-if="!isLoading">
     </div>
     <!--</div>-->
     <!-- </mt-loadmore> -->
@@ -54,8 +47,8 @@
   import { Toast } from 'mint-ui'
   import { CellSwipe } from 'mint-ui'
   import { MessageBox,Indicator,Loadmore } from 'mint-ui'
-  import { tokenMethods } from '../../../vuex/util'
-  import topLoadMore from '../../salesWap/index/topLoadMore.vue'
+  import { tokenMethods } from '../../../../vuex/util'
+  import topLoadMore from '../../../salesWap/index/topLoadMore.vue'
 
   export default {
     name: 'collect',
@@ -70,7 +63,6 @@
     },
     created: function () {
       this.inits();
-      this.mBack("back");
     },
     components: {
       topLoadMore
@@ -92,9 +84,6 @@
           })
         }).catch(err => {
         })
-      },
-      back(){
-        this.$router.push({path:'/yayi/mine'})
       },
       inits:function () {
         this.isLoading = true;
@@ -142,7 +131,7 @@
 </script>
 
 <style lang="scss" rel="stylesheet/scss">
-  @import "../../../common/sass/factory";
+  @import "../../../../common/sass/factory";
   .mint-msgbox-confirm{
     color: $themeColor !important;
   }
@@ -159,41 +148,10 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss" rel="stylesheet/scss">
-  @import "../../../common/sass/factory";
-  @import "../../../../node_modules/mint-ui/src/style/var.css";
+  @import "../../../../common/sass/factory";
+  @import "../../../../../node_modules/mint-ui/src/style/var.css";
 
-  .hehe {
-    position: absolute;
-    top:0;
-    width: px2vw(180);
-    left: px2vw(282);
-    text-align: center;
-  }
-  .img_bx{
-    position: absolute;
-    top:0;
-    left: 0;
-    z-index: 300;
-    width: px2vw(95);
-    height: px2vw(88);
-  }
-  .box_position{
-    width: 100%;
-    height: 94vh;
-    background-color: #f4f4f4;
-  }
-  .top_nox {
-    height: px2vw(88);
-    line-height: px2vw(88);
-    color: white;
-    font-size: px2vw(32);
-    background: $themeColor;
-    position: fixed;
-    top:0;
-    z-index: 200;
-    width: 100vw;
-    text-align: center;
-  }
+
   .c-content{
     position: fixed;
     top: px2vw(88);
@@ -209,7 +167,7 @@
     z-index: 999;
   }
   .top_box{
-    padding-top: px2vw(88);
+    /*padding-top: px2vw(88);*/
   }
   .max_warp {
     position: fixed;
@@ -227,13 +185,6 @@
     border-bottom: none;
   }
 
-  .header_back {
-    width: px2vw(18);
-    height: px2vw(29);
-    position: absolute;
-    top:px2vw(29);
-    left: px2vw(15);
-  }
   .logWithCode {
     background-color: $themeColor;
     position: absolute;
