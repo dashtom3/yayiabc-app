@@ -21,11 +21,11 @@
 
       <div class="container">
 
-        <div  v-if="myCaseList"  class="caseBox">
+        <div v-for="(item,index) in myCaseList"  v-if="myCaseList"  class="caseBox">
           <div class="userBox addChange1" >
             <div class="userPicture">
-              <img v-if="change == 2" src="../../../../images/mine/zhifubao.png" alt="">
-              <span class="userName" :class="{'userWrite': change != 2}">作者</span>
+              <img v-if="change == 2" :src=" item.printUrl == null? require('../../../../images/mine/zhifubao.png') : item.printUrl" alt="">
+              <span class="userName" :class="{'userWrite': change != 2}">{{item.writer}}</span>
               <span class="userName userTime">5分钟前</span>
             </div>
             <div class="caseContent">
@@ -37,14 +37,13 @@
           </div>
 
           <div v-if="change != 0" class="readeBox">
-            <span class="readeClass">分类</span>
-            <span class="readeNum">20 阅读</span>
-            <span class="readeNum2">· 20评论</span>
-            <span class="readeNum2">· 20赞</span>
-            <span class="coin"> 20乾币</span>
+            <span class="readeClass">{{item.classify}}</span>
+            <span class="readeNum">{{item.readNumber}} 阅读</span>
+            <span class="readeNum2">· {{item.commentNumber}}评论</span>
+            <span class="readeNum2">· {{item.postFavour}}赞</span>
+            <span class="coin"> {{item.chargeNumber}}乾币</span>
           </div>
         </div>
-
 
 
         <div v-if="change == 0 && myCaseList == null" class="spaceImgBox">
@@ -75,6 +74,7 @@
   export default {
     data(){
       return{
+        src: '../../../../images/mine/zhifubao.png',
         change: 0,
         classArgs: ['草稿箱', '已发布', '已购买'],
         myCase: {    //'草稿箱''已发布' 请求的数据
@@ -99,6 +99,18 @@
       },
       changeClass(index){
         this.change = index;
+        if(index === 0) //草稿
+        {
+          this.myCase.postStater = 2;
+          this.getCaseList();
+        }else if(index === 1) //发布
+        {
+          this.myCase.postStater = 1;
+          this.getCaseList();
+        }else { //已购买
+
+        }
+
       }
     }
   }

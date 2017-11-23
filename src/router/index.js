@@ -105,10 +105,13 @@ const infoDetail = resolve => require(['@/components/Wap/mine/information/infoDe
 
 
 const myCase = resolve => require(['@/components/Wap/mine/case/myCase'], resolve);
-const casePublish = resolve => require(['@/components/Wap/mine/case/casePublish'], resolve);
-const casePurchase = resolve => require(['@/components/Wap/mine/case/casePurchase'], resolve);
-const caseDrafts = resolve => require(['@/components/Wap/mine/case/caseDrafts'], resolve);
+// const casePublish = resolve => require(['@/components/Wap/mine/case/casePublish'], resolve);
+// const casePurchase = resolve => require(['@/components/Wap/mine/case/casePurchase'], resolve);
+// const caseDrafts = resolve => require(['@/components/Wap/mine/case/caseDrafts'], resolve);
 
+// 账户信息
+const accountInfo = resolve => require(['@/components/Wap/mine/accountInfo'], resolve)
+const qualifications = resolve => require(['@/components/Wap/mine/qualifications'], resolve)
 Vue.use(Router)
 
 let router = new Router({
@@ -200,11 +203,11 @@ let router = new Router({
       path: '/qrcode',
       component: QrCode
     },
-    {
-      name: 'personalData',
-      path: '/personalData',
-      component: personalData
-    },
+    // {
+    //   name: 'personalData',
+    //   path: '/personalData',
+    //   component: personalData
+    // },
     {
       name: 'collect',
       path: '/collect',
@@ -534,26 +537,41 @@ let router = new Router({
       ]
     },
     {
-      name: 'myCase', redirect: {name: 'caseDrafts'},
+      name: 'myCase',
       path: '/myCase',
       component: myCase,
       children: [
-        {
-          name: 'caseDrafts',
-          path: '/caseDrafts',
-          component: caseDrafts
-        },
-        {
-          name: 'casePublish',
-          path: '/casePublish',
-          component: casePublish
-        },
-        {
-          name: 'casePurchase',
-          path: '/casePurchase',
-          component: casePurchase
-        },
+        // {
+        //   name: 'caseDrafts',
+        //   path: '/caseDrafts',
+        //   component: caseDrafts
+        // },
+        // {
+        //   name: 'casePublish',
+        //   path: '/casePublish',
+        //   component: casePublish
+        // },
+        // {
+        //   name: 'casePurchase',
+        //   path: '/casePurchase',
+        //   component: casePurchase
+        // },
       ]
+    },
+    {
+      name: 'accountInfo',
+      path: '/account',
+      component: accountInfo,
+    },
+    {
+      name: 'editor',
+      path: '/account/editor',
+      component: personalData
+    },
+    {
+      name: 'qualifications',
+      path: '/account/qualifications',
+      component: qualifications
     },
   ],
 })

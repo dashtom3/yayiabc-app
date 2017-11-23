@@ -14,11 +14,11 @@
       <img v-show="selectCoinShow == 1" class="yes_img" src="../../../images/mine/yes.png" alt="">
       </li>
       <!--3000枚起购-->
-      <li @click="select_3000" :class="{'selectCoin': selectCoinShow == 3000}">
+      <!-- <li @click="select_3000" :class="{'selectCoin': selectCoinShow == 3000}">
         <img class="coinMoney2_img" src="../../../images/mine/coinMoney99.png" alt="img">
         <span>2000枚起购&nbsp;&nbsp;(&nbsp;1枚乾币售价:&nbsp;0.9元&nbsp;)</span>
         <img v-show="selectCoinShow == 3000" class="yes_img" src="../../../images/mine/yes.png" alt="">
-      </li>
+      </li> -->
       <!--12000枚起购-->
       <li  @click="select_12000" :class="{'selectCoin': selectCoinShow == 12000}">
         <img class="coinMoney2_img" src="../../../images/mine/coinMoney88.png" alt="img">
@@ -86,15 +86,16 @@
         {
           this.selectCoinShow = 1
           this.qbType = 'c_qb'
-        }else if(val >= 2000 && val < 5000)
-        {
-          this.selectCoinShow = 3000
-          this.qbType = 'b_qb'
         }else if(val >= 5000)
         {
           this.selectCoinShow = 12000
           this.qbType = 'a_qb'
         }
+        // else if(val >= 2000 && val < 5000)
+        // {
+        //   this.selectCoinShow = 3000
+        //   this.qbType = 'b_qb'
+        // }
         if( !new RegExp(/^[1-9]([0-9]*)$|^[0-9]$/).test(val))
         {
           this.moneyCoins = ''
