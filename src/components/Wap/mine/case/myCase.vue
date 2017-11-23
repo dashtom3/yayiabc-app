@@ -21,7 +21,7 @@
 
       <div class="container">
 
-        <div v-for="(item,index) in myCaseList"  v-if="myCaseList"  class="caseBox">
+        <div @click="toGoCase(item.postId)" v-for="(item,index) in myCaseList"  v-if="myCaseList"  class="caseBox">
           <div class="userBox addChange1" >
             <div class="userPicture">
               <img v-if="change == 2" :src=" item.printUrl == null? require('../../../../images/mine/zhifubao.png') : item.printUrl" alt="">
@@ -58,7 +58,7 @@
           <div class="spaceColor">去写病例~</div>
         </div>
 
-        <div v-if="change == 2" class="spaceImgBox">
+        <div v-if="change == 2 && myCaseList == null" class="spaceImgBox">
           <img class="spaceImg" src="../../../../images/case/myCase/goumai.png" alt="">
           <div class="spaceSize">还没有购买病例</div>
           <div class="spaceColor">发现更多病例</div>
@@ -91,12 +91,31 @@
       this.getCaseList();
     },
     methods:{
+      getPayedList(){
+        this.$store.dispatch('GET_PAY_CASE', {}).then( (res)=>{
+          console.log(res , 'haha');
+          this.myCaseList = res.data;
+        });
+      },
       getCaseList(){
         this.$store.dispatch('GET_MY_CASE', this.myCase).then( (res)=>{
           this.myCaseList = res.data;
           console.log(this.myCaseList);
         });
       },
+
+      toGoCase(postId){
+        if(this.change === 0) //草稿
+        {
+
+        }else if(this.change === 1) //发布
+        {
+          this.$router.push({path: '/caseDetailed', query:{id: postId, myCase: 1}})
+        }else {               //已购买
+          this.$router.push({path: '/caseDetailed', query:{id: postId}})
+        }
+      },
+
       changeClass(index){
         this.change = index;
         if(index === 0) //草稿
@@ -108,7 +127,7 @@
           this.myCase.postStater = 1;
           this.getCaseList();
         }else { //已购买
-
+          this.getPayedList();
         }
 
       }
@@ -267,6 +286,7 @@
       z-index: -1;
     }
   .classBox{
+    z-index: 100;
     font-size: px2vw(30);
     background-color: white;
     position: fixed;

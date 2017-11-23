@@ -192,6 +192,9 @@ export const SAVE_COLLECT = 'SAVE_COLLECT';                           //获取�
 
 
 export const GET_MY_CASE = 'GET_MY_CASE';                           //我的病例
+export const GET_PAY_CASE = 'GET_PAY_CASE';                           //我的病例
+export const GET_USER_PAY = 'GET_USER_PAY';                           //我的病例
+export const DELETE_MYCASE = 'DELETE_MYCASE';                           //删除病例
 
 
 

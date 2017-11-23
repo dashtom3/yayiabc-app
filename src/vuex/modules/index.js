@@ -1273,6 +1273,36 @@ const actions = {
       });
     });
   },
+  // 我的病例
+  [types.GET_PAY_CASE](context, params) {
+    return new Promise((resolve, reject) => {
+      api.getPayCase(params).then((data) => {
+        resolve(data);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  },
+  // 我的病例乾币
+  [types.GET_USER_PAY](context, params) {
+    return new Promise((resolve, reject) => {
+      api.getUserPay(params).then((data) => {
+        resolve(data);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  },
+  // 删除病例
+  [types.DELETE_MYCASE](context, params) {
+    return new Promise((resolve, reject) => {
+      api.deleteMyCase(params).then((data) => {
+        resolve(data);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  },
   // 保存发现病分类筛选的值
   [types.SAVE_CASE_DRESSING]({commit}, params) {
     commit(types.SAVE_CASE_DRESSING,params);

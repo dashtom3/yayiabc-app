@@ -600,3 +600,15 @@ export function getVideosDetail(params) {
 export function getMyCase(params) {
   return getWithToken('/cottoms/queryPost', params)
 }
+//我的病例
+export function getPayCase(params) {
+  return getWithToken('/cottoms/myCollect', params)
+}
+//我的病例
+export function getUserPay(params) {
+  return getWithToken('/po/Ded', params)
+}
+//删除病例
+export function deleteMyCase(params) {
+  return getWithToken('/cottoms/deletePost', params)
+}

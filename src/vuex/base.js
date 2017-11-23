@@ -247,7 +247,6 @@ export function getWithToken(url, params = {}) {
     axios.get(HOST + url, {params})
       .then((res) => {
         if (res.data.callStatus === 'SUCCEED') {
-          // console.log(res.data)
           Indicator.close();
           resolve(res.data);
           return false
