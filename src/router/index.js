@@ -128,7 +128,25 @@ let router = new Router({
       children: [
         {path: '/yayi/index', component: Index, name: 'index'},
         {path: '/yayi/classify', component: classifyIndex, name: 'classifyIndex'},
-        {path: '/yayi/shoppingCar', component: shoppingCar, name: 'shoppingCar'},
+        {
+          path: '/yayi/find',
+          component: caseIllness,
+          name: 'find',
+          redirect: {name: 'caseOfIllness'},
+          children: [
+            {
+              name: 'caseOfIllness',
+              path: '/caseOfIllness',
+              component: caseOfIllness
+            },
+            {
+              name: 'video',
+              path: '/video',
+              component: video
+            },
+          ],
+        },
+        {path: '/yayi/yayiCircle', component: yayiCircle, name: 'yayiCircle'},
         {path: '/yayi/mine', component: mine, name: 'mine'},
       ]
     },
@@ -515,23 +533,6 @@ let router = new Router({
         {
           name: 'videoSearch',
           path: '/communitySearch/video',
-          component: video
-        },
-      ]
-    },
-    {
-      name: 'caseIllness', redirect: {name: 'caseOfIllness'},
-      path: '/caseIllness',
-      component: caseIllness,
-      children: [
-        {
-          name: 'caseOfIllness',
-          path: '/caseOfIllness',
-          component: caseOfIllness
-        },
-        {
-          name: 'video',
-          path: '/video',
           component: video
         },
       ]

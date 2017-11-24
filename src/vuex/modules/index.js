@@ -1193,9 +1193,9 @@ const actions = {
   },
 
   // 获取收藏病例列表信息
-  [types.COLLECT_CASE](context, params) {
+  [types.COLLECT](context, params) {
     return new Promise((resolve, reject) => {
-      api.collectCase(params).then((data) => {
+      api.collect(params).then((data) => {
         resolve(data);
       }).catch((err) => {
         reject(err);

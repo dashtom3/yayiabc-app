@@ -585,8 +585,8 @@ export function saveCollect(params) {
   return getWithToken('/vid/star', params)
 }
 //病例收藏列表
-export function collectCase(params) {
-  return getWithToken('/cottoms/myCollect', params)
+export function collect(params) {
+  return getWithToken('/collect/queryList', params)
 }
 //视频播放
 export function getVideoList(params) {

@@ -179,7 +179,7 @@ export const SAVE_CASE_ORDER = 'SAVE_CASE_ORDER';                         //保�
 export const SAVE_CASE_SEARCHING = 'SAVE_CASE_SEARCHING';                //保存发现搜索的值
 export const GET_CASE_DETAIL = 'GET_CASE_DETAIL';                         //保存病例详情
 export const GET_CASE_COMMENT = 'GET_CASE_COMMENT';                         //保存病例评论
-export const COLLECT_CASE = 'COLLECT_CASE';                         //收藏的病例列表
+export const COLLECT = 'COLLECT';                         //收藏的病例列表
 
 
 

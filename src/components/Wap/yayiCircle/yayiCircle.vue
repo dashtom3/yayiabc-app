@@ -160,6 +160,7 @@
           console.log(res.data);
           this.dataCompute(res.data);
           this.isLoading = false;
+          this.totalPage = res.totalPage
         })
       },
 //      getOneTrend(){
@@ -176,6 +177,7 @@
           console.log(res.data);
           this.dataCompute(res.data);
           this.isLoading = false;
+          this.totalPage = res.totalPage
         })
       },
       dataCompute(res){
@@ -214,7 +216,6 @@
             this.yayiCircleData.push(item)
           });
           console.log(this.yayiCircleData, 'ww');
-          this.totalPage = res.totalPage
           //控制是否显示加载到底的一个判断值，虽然我觉得基本上用不到。
           if (this.args.currentPage === res.totalPage && this.args.currentPage > 1) {
             this.noMoreData = true
@@ -395,6 +396,7 @@
     bottom: 0;
     overflow: scroll;
     width: 100%;
+    height: 86vh;
     -webkit-overflow-scrolling: touch;
     padding-top: px2vw(20);
     background-color: #fff;
