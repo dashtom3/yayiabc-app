@@ -32,8 +32,9 @@
     <mu-paper class="big_box">
       <mu-bottom-nav :value="bottomNav" @change="handleChange">
         <mu-bottom-nav-item value="index" title="首页" icon="home"/>
-        <mu-bottom-nav-item value="classify" title="分类" icon="class"/>
-        <mu-bottom-nav-item value="shopping_cart" title="购物车" icon="shopping_cart"/>
+        <mu-bottom-nav-item value="classify" title="商城" icon="class"/>
+        <mu-bottom-nav-item value="find" title="发现" icon="shopping_cart"/>
+        <mu-bottom-nav-item value="yayiCircle" title="牙医圈" icon="shopping_cart"/>
         <mu-bottom-nav-item value="mine" title="我的" icon="person"/>
       </mu-bottom-nav>
     </mu-paper>
@@ -57,10 +58,12 @@
         isActive2: false,
         isActive3: false,
         isActive4: false,
+        isActive5: false,
         isTouch1: true,
         isTouch2: false,
         isTouch3: false,
         isTouch4: false,
+        isTouch5: false,
         bottomNav: 'index'
       }
     },
@@ -76,37 +79,56 @@
           that.isActive2 = false;
           that.isActive3 = false;
           that.isActive4 = false;
+          that.isActive5 = false;
           that.isTouch1 = true;
           that.isTouch2 = false;
           that.isTouch3 = false;
           that.isTouch4 = false;
+          that.isTouch5 = false;
         } else if(that.$router.history.current.name == 'classifyIndex'){
           that.isActive1 = false;
           that.isActive2 = true;
           that.isActive3 = false;
           that.isActive4 = false;
+          that.isActive5 = false;
           that.isTouch1 = false;
           that.isTouch2 = true;
           that.isTouch3 = false;
           that.isTouch4 = false;
-        } else if(that.$router.history.current.name == 'shoppingCar'){
+          that.isTouch5 = false;
+        } else if(that.$router.history.current.name == 'find'){
           that.isActive1 = false;
           that.isActive2 = false;
           that.isActive3 = true;
           that.isActive4 = false;
+          that.isActive5 = false;
           that.isTouch1 = false;
           that.isTouch2 = false;
           that.isTouch3 = true;
           that.isTouch4 = false;
-        } else if(that.$router.history.current.name == 'mine'){
+          that.isTouch5 = false;
+        } else if(that.$router.history.current.name == 'yayiCircle'){
           that.isActive1 = false;
           that.isActive2 = false;
           that.isActive3 = false;
           that.isActive4 = true;
+          that.isActive5 = false;
           that.isTouch1 = false;
           that.isTouch2 = false;
           that.isTouch3 = false;
           that.isTouch4 = true;
+          that.isTouch5 = false;
+        } else if(that.$router.history.current.name == 'mine'){
+          that.isActive1 = false;
+          that.isActive2 = false;
+          that.isActive3 = false;
+          that.isActive4 = false;
+          that.isActive5 = true;
+          that.isTouch1 = false;
+          that.isTouch2 = false;
+          that.isTouch3 = false;
+          that.isTouch4 = false;
+          that.isTouch5 = true;
         }
       })
     },
@@ -120,10 +142,13 @@
           that.changeActive1()
         } else if (val == 'classify') {
           that.changeActive2()
-        } else if (val == 'shopping_cart') {
+        } else if (val == 'find') {
           that.changeActive3()
-        } else if (val == 'mine') {
+        } else if (val == 'yayiCircle') {
           that.changeActive4()
+        }
+        else if (val == 'mine') {
+          that.changeActive5()
         }
         that.bottomNav = val
       },
@@ -133,10 +158,12 @@
           that.changeActive1()
         } else if (data == 'classify') {
           that.changeActive2()
-        }  else if (data == 'shopping_cart') {
+        }  else if (data == 'find') {
           that.changeActive3()
-        }  else if (data == 'mine') {
+        }  else if (data == 'yayiCircle') {
           that.changeActive4()
+        }else if (data == 'mine') {
+          that.changeActive5()
         }
       },
       changeActive1: function() {
@@ -146,10 +173,12 @@
         that.isActive2 = false;
         that.isActive3 = false;
         that.isActive4 = false;
+        that.isActive5 = false;
         that.isTouch1 = true;
         that.isTouch2 = false;
         that.isTouch3 = false;
         that.isTouch4 = false;
+        that.isTouch5 = false;
         that.bottomNav = 'index'
       },
       changeActive2: function() {
@@ -159,36 +188,57 @@
         that.isActive2 = true;
         that.isActive3 = false;
         that.isActive4 = false;
+        that.isActive5 = false;
         that.isTouch1 = false;
         that.isTouch2 = true;
         that.isTouch3 = false;
         that.isTouch4 = false;
+        that.isTouch5 = false;
         that.bottomNav = 'classify'
       },
       changeActive3: function() {
         var that = this
-        that.$router.push({path: '/yayi/shoppingCar'});
+        that.$router.push({path: '/yayi/find'});
         that.isActive1 = false;
         that.isActive2 = false;
         that.isActive3 = true;
         that.isActive4 = false;
+        that.isActive5 = false;
         that.isTouch1 = false;
         that.isTouch2 = false;
         that.isTouch3 = true;
         that.isTouch4 = false;
-        that.bottomNav = 'shopping_cart'
+        that.isTouch5 = false;
+        that.bottomNav = 'find'
       },
       changeActive4: function() {
+        var that = this
+        that.$router.push({path: '/yayi/yayiCircle'});
+        that.isActive1 = false;
+        that.isActive2 = false;
+        that.isActive3 = false;
+        that.isActive4 = true;
+        that.isActive5 = false;
+        that.isTouch1 = false;
+        that.isTouch2 = false;
+        that.isTouch3 = false;
+        that.isTouch4 = true;
+        that.isTouch5 = false;
+        that.bottomNav = 'yayiCircle'
+      },
+      changeActive5: function() {
         var that = this
         that.$router.push({path: '/yayi/mine'});
         that.isActive1 = false;
         that.isActive2 = false;
         that.isActive3 = false;
-        that.isActive4 = true;
+        that.isActive4 = false;
+        that.isActive5 = true;
         that.isTouch1 = false;
         that.isTouch2 = false;
         that.isTouch3 = false;
-        that.isTouch4 = true;
+        that.isTouch4 = false;
+        that.isTouch5 = true;
         that.bottomNav = 'mine'
       },
     }

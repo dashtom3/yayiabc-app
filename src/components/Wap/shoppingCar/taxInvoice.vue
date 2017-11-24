@@ -57,7 +57,7 @@
       return{
         invoiceHand : 1,
         invoiceStyle : 1,
-        InvoiceState : 1, //增值税 需要重置为空
+        invoiceState : 1, //增值税 需要重置为空
         companyName : '',
         taxpayerNum : '',
         registeredAddress : '',
@@ -76,13 +76,12 @@
     },
     methods:{
       judgeIsSaveed (){
-        // let saveData = this.COMPANY_INVOICE;
-        let saveData = JSON.parse(localStorage.getItem('INVOICE'))        
-        if(saveData.value === 3)
+        let saveData = this.COMPANY_INVOICE;
+        if(saveData.invoiceStyle == '1')
         {
           this.invoiceHand = saveData.invoiceHand;
           this.invoiceStyle = saveData.invoiceStyle;
-          this.InvoiceState = saveData.InvoiceState; //增值税
+          this.invoiceState = saveData.invoiceState; //增值税
           this.companyName = saveData.companyName;
           this.taxpayerNum = saveData.taxpayerNum;
           this.registeredAddress = saveData.registeredAddress;
@@ -98,9 +97,11 @@
         }
       },
       no_saves(){
-        let obj = {
-          value : 4
-        };
+        // let obj = {
+        //   value : 0,
+        //   updateInvoice: false
+        // };
+        let obj = this.COMPANY_INVOICE
         this.$store.dispatch('COMPANY_INVOICE' , obj);
         this.$router.push({path:'/suborder'})
       },
@@ -110,7 +111,7 @@
           invoiceHand : this.invoiceHand,
           invoiceStyle : this.invoiceStyle,
           // InvoiceState : this.InvoiceState, //增值税
-          InvoiceState : '1', //增值税
+          invoiceState : '1', //增值税
           companyName : this.companyName,
           taxpayerNum : this.taxpayerNum,
           registeredAddress : this.registeredAddress,
@@ -120,7 +121,8 @@
           stickNanme : this.stickNanme,
           stickPhone : this.stickPhone,
           stickaddress : this.stickaddress,
-          value : 3  //判断是哪类发票 1为普通公司发票 2为普通个人发票 3为增值税票
+          value : 1,  //判断是哪类发票 1为普通公司发票 2为普通个人发票 3为增值税票
+          updateInvoice: true
         };
         for(let item in obj)
         {
@@ -130,9 +132,8 @@
             return;
           }
         }
-        obj['InvoiceState'] = ''; //增值税为空
+        obj['invoiceState'] = ''; //增值税为空
         this.$store.dispatch('COMPANY_INVOICE' , obj);
-        localStorage.setItem('INVOICE', JSON.stringify(obj));
         Toast({message: '保存发票信息成功', duration: 1500})
         this.toSuborder();
       },

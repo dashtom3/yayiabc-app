@@ -12,7 +12,8 @@
       <div class="info clearfix">
         <div class="avatar-wrapper">
           <div class="avatar">
-            <img src="static/images/defaultPic.png" width="94%" height="94%" alt="头像">
+            <img v-if="userPic" class="headPortraitsImg" :src="userPic" alt="头像">
+            <img v-else src="static/images/defaultPic.png" alt="头像">
           </div>
         </div>
         <div class="text">
@@ -146,15 +147,15 @@ export default {
     background: rgb(54,118,182);
     .back{
       position: absolute;
-      top: px2vw(28);
-      left: px2vw(26);
+      top: px2vw(29);
+      left: px2vw(3);
       width: px2vw(40);
       height: px2vw(40);
       font-size: 0;
       img{
         vertical-align: top;
-        width: px2vw(17);
-        height: px2vw(32);
+        width: px2vw(18);
+        height: px2vw(29);
       }
     }
     span{
@@ -183,9 +184,11 @@ export default {
         border-radius: 50%;
         img{
           position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
+          top: px2vw(4);
+          left: px2vw(4.14);
+          width: px2vw(100);
+          height: px2vw(100);
+          border-radius: 50%;
         }
       }
       .text{
@@ -239,7 +242,7 @@ export default {
     font-size: 0;
     .handle{
       float: left;
-      margin: px2vw(46) 0 0 px2vw(29);
+      margin: px2vw(50) 0 0 px2vw(29);
       height: px2vw(28);
       line-height: px2vw(28);
       font-size: px2vw(30);
@@ -249,8 +252,9 @@ export default {
       height: px2vw(120);
     }
     .status{
-      display: inline-block;
-      margin: px2vw(46) px2vw(60) 0 0;
+      position: absolute;
+      top: px2vw(50);
+      right:  px2vw(60);
       height: px2vw(27);
       line-height: px2vw(27);
       font-size: px2vw(28);

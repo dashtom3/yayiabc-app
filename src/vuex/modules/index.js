@@ -1171,6 +1171,16 @@ const actions = {
       });
     });
   },
+  // 获取发票信息
+  [types.GET_ORDER_INVOICE](context, params) {
+    return new Promise((resolve, reject) => {
+      api.getOrderInvoice(params).then((data) => {
+        resolve(data);
+      }).catch((err) => {
+        reject(err);
+      });
+      })
+  },
   //上传病例
   [types.UPLOAD_CASE](context, params) {
     return new Promise((resolve, reject) => {
@@ -1193,9 +1203,9 @@ const actions = {
   },
 
   // 获取收藏病例列表信息
-  [types.COLLECT_CASE](context, params) {
+  [types.COLLECT](context, params) {
     return new Promise((resolve, reject) => {
-      api.collectCase(params).then((data) => {
+      api.collect(params).then((data) => {
         resolve(data);
       }).catch((err) => {
         reject(err);

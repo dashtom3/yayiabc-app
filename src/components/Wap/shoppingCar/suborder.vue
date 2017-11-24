@@ -264,6 +264,17 @@
           that.hasCount = false
         }
       },
+       //发票信息
+      taxRadio: function() {
+        var that = this
+        if (that.taxRadio == '1') {
+          that.taxActive1 = true
+          that.taxActive2 = false
+        } else {
+          that.taxActive1 = false
+          that.taxActive2 = true
+        }
+      },
       freight: function() {
         var that = this
         let total = that.gwcTotal + that.freight
@@ -279,7 +290,6 @@
       this.getDeparture();
       this.getSessionPaper();
       this.initInvoice();
-      console.log('23232')
       var that = this
       var arr = JSON.parse(window.sessionStorage.getItem('suborderData'))
       // console.log(arr,'array')
@@ -550,75 +560,114 @@
           }
         })
       },
-      initInvoice (){
+      initInvoice(){
         //调用之前传过来的值
-        console.log(this.COMPANY_INVOICE.value,'我的值12');
-        //value判断是哪类发票 1为普通公司发票 2为普通个人发票 3为增值税票
-        if(this.COMPANY_INVOICE.value == undefined)
-        {
-          this.invoice_style = '' ;// 发票类型 普通发票为1，增值税发票为2
-          this.invoice_state = ''; // 发票性质 普通发票个人为0 普通发票公司为1 增值税为''
-          this.invoiceHand = '';//是否开发票 开发票为1，不开发票为0
-          this.company_name = '';//单位名称
-          this.taxpayer_num = '' ;//纳税人识别号
-          this.registered_address = ''; //注册地址
-          this.registered_phone = '' ;//注册电话
-          this.open_bank = '';  // 开户银行
-          this.bank_number = ''; // 银行账号
-          this.stick_name = '';  // 收票人姓名
-          this.stick_phone = ''; // 收票人手机
-          this.stick_address = ''; // 收票人地址
-          this.invoiceText = '不开发票';
-        }
-        else if(this.COMPANY_INVOICE.value == 1)
-        {
-          this.invoice_state = this.COMPANY_INVOICE.InvoiceState;
-          this.company_name = this.COMPANY_INVOICE.companyName;
-          this.invoiceHand = this.COMPANY_INVOICE.invoiceHand;
-          this.invoice_style = this.COMPANY_INVOICE.invoiceStyle;
-          this.taxpayer_num = this.COMPANY_INVOICE.taxpayerNum;
-          this.invoiceText = this.company_name;
-        }
-        else if(this.COMPANY_INVOICE.value == 2)
-        {
-          this.invoice_state = this.COMPANY_INVOICE.InvoiceState;
-          this.company_name = this.COMPANY_INVOICE.companyName;
-          this.invoiceHand = this.COMPANY_INVOICE.invoiceHand;
-          this.invoice_style = this.COMPANY_INVOICE.invoiceStyle;
-          this.invoiceText = this.company_name;
-        }
-        else if(this.COMPANY_INVOICE.value == 3)
-        {
-          this.invoice_state = this.COMPANY_INVOICE.InvoiceState;
-          this.bank_number = this.COMPANY_INVOICE.bankNumber;
-          this.company_name = this.COMPANY_INVOICE.companyName;
-          this.invoiceHand = this.COMPANY_INVOICE.invoiceHand;
-          this.invoice_style = this.COMPANY_INVOICE.invoiceStyle;
-          this.open_bank = this.COMPANY_INVOICE.opneBank;
-          this.registered_address = this.COMPANY_INVOICE.registeredAddress;
-          this.registered_phone = this.COMPANY_INVOICE.registeredPhone;
-          this.stick_name = this.COMPANY_INVOICE.stickNanme;
-          this.stick_phone = this.COMPANY_INVOICE.stickPhone;
-          this.stick_address = this.COMPANY_INVOICE.stickaddress;
-          this.taxpayer_num = this.COMPANY_INVOICE.taxpayerNum;
-          this.invoiceText = this.company_name;
-          console.log(this.registeredAddress,'pp')
-        }
-        else if(this.COMPANY_INVOICE.value == 4)
-        {
-          this.invoice_style = '' ;// 发票类型 普通发票为1，增值税发票为2
-          this.invoice_state = ''; // 发票性质 普通发票个人为0 普通发票公司为1 增值税为''
-          this.invoiceHand = '';//是否开发票 开发票为1，不开发票为0
-          this.company_name = '';//单位名称
-          this.taxpayer_num = '' ;//纳税人识别号
-          this.registered_address = ''; //注册地址
-          this.registered_phone = '' ;//注册电话
-          this.open_bank = '';  // 开户银行
-          this.bank_number = ''; // 银行账号
-          this.stick_name = '';  // 收票人姓名
-          this.stick_phone = ''; // 收票人手机
-          this.stick_address = ''; // 收票人地址
-          this.invoiceText = '不开发票';
+        let invoice = '';
+        if (this.COMPANY_INVOICE.updateInvoice === true && this.COMPANY_INVOICE.value === 1) {
+          invoice = this.COMPANY_INVOICE;
+          if(invoice.invoiceStyle == '0' && invoice.invoiceState == '0')
+            {
+              this.invoice_state = invoice.invoiceState;
+              this.company_name = invoice.companyName;
+              this.invoiceHand = invoice.invoiceHand;
+              this.invoice_style = invoice.invoiceStyle;
+              this.invoiceText = this.company_name;
+            }
+            else if(invoice.invoiceStyle == '0' && invoice.invoiceState == '1')
+            {
+              this.invoice_state =invoice.invoiceState;
+              this.company_name = invoice.companyName;
+              this.invoiceHand = invoice.invoiceHand;
+              this.invoice_style = invoice.invoiceStyle;
+              this.taxpayer_num = invoice.taxpayerNum;
+              this.invoiceText = this.company_name;
+            }
+            else if(invoice.invoiceStyle == '1')
+            {
+              this.invoice_state = invoice.invoiceState;
+              this.bank_number = invoice.bankNumber;
+              this.company_name = invoice.companyName;
+              this.invoiceHand = invoice.invoiceHand;
+              this.invoice_style = invoice.invoiceStyle;
+              this.open_bank = invoice.opneBank;
+              this.registered_address = invoice.registeredAddress;
+              this.registered_phone = invoice.registeredPhone;
+              this.stick_name = invoice.stickNanme;
+              this.stick_phone = invoice.stickPhone;
+              this.stick_address = invoice.stickaddress;
+              this.taxpayer_num = invoice.taxpayerNum;
+              this.invoiceText = this.company_name;
+            } else {
+                this.invoice_style = '' ;// 发票类型 普通发票为1，增值税发票为2
+                this.invoice_state = ''; // 发票性质 普通发票个人为0 普通发票公司为1 增值税为''
+                this.invoiceHand = '';//是否开发票 开发票为1，不开发票为0
+                this.company_name = '';//单位名称
+                this.taxpayer_num = '' ;//纳税人识别号
+                this.registered_address = ''; //注册地址
+                this.registered_phone = '' ;//注册电话
+                this.open_bank = '';  // 开户银行
+                this.bank_number = ''; // 银行账号
+                this.stick_name = '';  // 收票人姓名
+                this.stick_phone = ''; // 收票人手机
+                this.stick_address = ''; // 收票人地址
+                this.invoiceText = '不开发票';
+            }
+        } else {
+          this.$store.dispatch('GET_ORDER_INVOICE').then((res) => {
+            if (res.callStatus === 'SUCCEED' && res.data !== null) {
+              let obj = Object.assign(res.data, {value: this.COMPANY_INVOICE.value})
+              invoice = res.data
+              this.$store.dispatch('COMPANY_INVOICE' , invoice);
+              if(invoice.invoiceStyle == '0' && invoice.invoiceState == '0')
+              {
+                this.invoice_state = invoice.invoiceState;
+                this.company_name = invoice.companyName;
+                this.invoiceHand = invoice.invoiceHand;
+                this.invoice_style = invoice.invoiceStyle;
+                this.invoiceText = this.company_name;
+              }
+              else if(invoice.invoiceStyle == '0' && invoice.invoiceState == '1')
+              {
+                this.invoice_state =invoice.invoiceState;
+                this.company_name = invoice.companyName;
+                this.invoiceHand = invoice.invoiceHand;
+                this.invoice_style = invoice.invoiceStyle;
+                this.taxpayer_num = invoice.taxpayerNum;
+                this.invoiceText = this.company_name;
+                console.log(this.invoiceText, '')
+              }
+              else if(invoice.invoiceStyle == '1')
+              {
+                this.invoice_state = invoice.invoiceState;
+                this.bank_number = invoice.bankNumber;
+                this.company_name = invoice.companyName;
+                this.invoiceHand = invoice.invoiceHand;
+                this.invoice_style = invoice.invoiceStyle;
+                this.open_bank = invoice.opneBank;
+                this.registered_address = invoice.registeredAddress;
+                this.registered_phone = invoice.registeredPhone;
+                this.stick_name = invoice.stickNanme;
+                this.stick_phone = invoice.stickPhone;
+                this.stick_address = invoice.stickaddress;
+                this.taxpayer_num = invoice.taxpayerNum;
+                this.invoiceText = this.company_name;
+              } else {
+                  this.invoice_style = '' ;// 发票类型 普通发票为1，增值税发票为2
+                  this.invoice_state = ''; // 发票性质 普通发票个人为0 普通发票公司为1 增值税为''
+                  this.invoiceHand = '';//是否开发票 开发票为1，不开发票为0
+                  this.company_name = '';//单位名称
+                  this.taxpayer_num = '' ;//纳税人识别号
+                  this.registered_address = ''; //注册地址
+                  this.registered_phone = '' ;//注册电话
+                  this.open_bank = '';  // 开户银行
+                  this.bank_number = ''; // 银行账号
+                  this.stick_name = '';  // 收票人姓名
+                  this.stick_phone = ''; // 收票人手机
+                  this.stick_address = ''; // 收票人地址
+                  this.invoiceText = '不开发票';
+              }
+            }
+          })
         }
       },
       selectAli: function () {

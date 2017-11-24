@@ -24,7 +24,7 @@
             <div class="phoneUser">{{phone}}</div>
           </div>
         </div>
-        <div class="person_info" @click="goAccount">账户信息<img src="../../../images/mine/goto.png" alt=""></div>
+        <div class="person_info" @click="goAccount"><span>账户信息</span><img src="../../../images/mine/goto.png" alt=""></div>
       </div>
       <!--上部结束-->
       <!--用户名开始-->
@@ -546,13 +546,19 @@
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;
     background: rgba(255, 255, 255, .3);
-    font-size: px2vw(36);
+    font-size: 0;
     color: #fff;
+    span{
+      display: inline-block;
+      font-size: px2vw(36);
+      margin-top: px2vw(3)
+    }
   }
   .person_info img{
     width: px2vw(15);
     height: px2vw(25);
-    vertical-align: middle;
+    vertical-align: top;
+    margin-top: px2vw(20);
     margin-left: px2vw(21);
   }
   .top_circle {
