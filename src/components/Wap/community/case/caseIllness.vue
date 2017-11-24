@@ -153,13 +153,7 @@
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../../common/sass/factory";
   .wrap{
-    position: fixed;
-    z-index: -1;
-    top: px2vw(208);
-    bottom: 0;
-    overflow: scroll;
-    width: 100%;
-    -webkit-overflow-scrolling: touch;
+
   }
   .DressingColor{
     color: #3676b6;
@@ -254,8 +248,8 @@
 
 
   .container{
+    height: 77vh;
     position: fixed;
-    z-index: -1;
     top: px2vw(208);
     bottom: 0;
     overflow: scroll;
@@ -342,6 +336,7 @@
     height: px2vw(90);
     font-size: px2vw(30);
     background-color: #ffffff;
+    z-index: 10;
     span{
       display: table-cell;
       width: px2vw(106);

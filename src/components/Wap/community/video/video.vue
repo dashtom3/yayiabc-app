@@ -64,7 +64,8 @@
           rule: '',         //1,最多播放2.最多评论3.时间倒叙  (非必须)
           videoCategory: '', //视频分类:1.外科2.内科3.修复4.种植5.正畸6全部 (非必须)
           currentPage: 1,  //当前第几页
-          numberPerPage:10 //每页显示多少条视频
+          numberPerPage:10, //每页显示多少条视频
+          type:2
         },
         caseSearchArgs:{
           keyWord:'',
@@ -144,7 +145,15 @@
             this.caseSearchArgs.currentPage = res.currentPage;
             this.isLoading = false;
           })
-        }else {
+        }else if(this.$router.history.current.name === 'videocollect'){
+          this.$store.dispatch('COLLECT', this.caseSearchArgs).then( (res) => {
+            this.videoArgs = this.videoArgs.concat(res.data);
+            this.caseSearchArgs.totalPage = res.totalPage;
+            this.caseSearchArgs.currentPage = res.currentPage;
+            this.isLoading = false;
+          })
+        }
+        else {
           this.$store.dispatch('GET_VIDEO_LIST', this.videoListArgs).then((res) => {
             this.videoSwitch = false;
             this.$nextTick( ()=>{

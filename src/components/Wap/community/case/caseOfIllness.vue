@@ -59,6 +59,7 @@
           order: 0,
           totalPage: -1,
           postStater:1,
+          type:1,
         },
         caseSearchArgs:{
           keyWord:'',
@@ -164,7 +165,7 @@
             this.isLoading = false;
           })
         }else if(this.$router.history.current.name === 'caseOfIllnessCollect') {
-          this.$store.dispatch('COLLECT_CASE', this.caseListArgs).then((res) => {
+          this.$store.dispatch('COLLECT', this.caseListArgs).then((res) => {
             this.listCaseData = this.listCaseData.concat(res.data);
             this.caseListArgs.totalPage = res.totalPage;
             this.caseListArgs.currentPage = res.currentPage;
