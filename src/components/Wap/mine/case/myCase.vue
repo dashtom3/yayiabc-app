@@ -7,7 +7,7 @@
         <span class="backImgBox">
           <img src="../../../../images/case/backer.png" alt="">
         </span>
-        <span class="writeCaseImgBox">
+        <span @click="toWriteCase()" class="writeCaseImgBox">
           <img src="../../../../images/case/myCase/writeCase.png" alt="">
           写病历
         </span>
@@ -21,7 +21,12 @@
 
       <div class="container">
 
-        <div @click="toGoCase(item.postId)" v-for="(item,index) in myCaseList"  v-if="myCaseList"  class="caseBox">
+        <mt-loadmore  :top-method="loadMore" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState">
+          <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
+
+
+        <div v-for="(item,index) in myCaseList" >
+        <div @click="toGoCase(item.postId)"  v-if="myCaseList"  class="caseBox">
           <div class="userBox addChange1" >
             <div class="userPicture">
               <img v-if="change == 2" :src=" item.printUrl == null? require('../../../../images/mine/zhifubao.png') : item.printUrl" alt="">
@@ -46,6 +51,11 @@
         </div>
 
 
+
+        </div>
+        </mt-loadmore>
+
+
         <div v-if="change == 0 && myCaseList == null" class="spaceImgBox">
           <img class="spaceImgFont" src="../../../../images/case/myCase/caogao.png" alt="">
           <div class="spaceSize">还没有草稿</div>
@@ -64,6 +74,7 @@
           <div class="spaceColor">发现更多病例</div>
         </div>
 
+
       </div>
 
       <!--末尾-->
@@ -71,11 +82,15 @@
 </template>
 
 <script>
+  import {InfiniteScroll, LoadMore } from 'mint-ui';
+  import topLoadMore from '../../../salesWap/index/topLoadMore.vue';
   export default {
     data(){
       return{
         src: '../../../../images/mine/zhifubao.png',
         change: 0,
+        allLoaded: false,
+        isLoading:false,
         classArgs: ['草稿箱', '已发布', '已购买'],
         myCase: {    //'草稿箱''已发布' 请求的数据
           currentPage: 1,
@@ -91,16 +106,27 @@
       this.getCaseList();
     },
     methods:{
+      //mt中接受的val值作为参数传入我的组件里
+      isState(val){
+        console.log(val)
+        this.$refs.topLoadMore.states(val)
+      },
+      //把下拉刷新完成之后回调的mt的方法传入我的组件里
+      isLoaded(){
+        this.$refs.loadmore.onTopLoaded();
+      },
       getPayedList(){
         this.$store.dispatch('GET_PAY_CASE', {}).then( (res)=>{
           console.log(res , 'haha');
           this.myCaseList = res.data;
+          this.isLoaded();
         });
       },
       getCaseList(){
         this.$store.dispatch('GET_MY_CASE', this.myCase).then( (res)=>{
           this.myCaseList = res.data;
-          console.log(this.myCaseList);
+          console.log(res);
+          this.isLoaded();
         });
       },
 
@@ -116,6 +142,28 @@
         }
       },
 
+      //下拉刷新
+      loadMore (){
+        if(this.change === 0) //草稿
+        {
+          this.myCase.currentPage = 1;
+          this.myCase.postStater = 2;
+          this.getCaseList();
+
+        }else if(this.change === 1) //发布
+        {
+          this.myCase.currentPage = 1;
+          this.myCase.postStater = 1;
+          this.getCaseList();
+        }else {               //已购买
+          this.getPayedList();
+        }
+      },
+
+
+      toWriteCase(){
+        this.$router.push({path: '/newCase'});
+      },
       changeClass(index){
         this.change = index;
         if(index === 0) //草稿
@@ -131,9 +179,17 @@
         }
 
       }
-    }
+    },
+    components:{topLoadMore}
   }
 </script>
+
+<style>
+  .mint-loadmore{
+
+  }
+</style>
+
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss" rel="stylesheet/scss">
@@ -147,7 +203,6 @@
       color: #666666;
       font-size: px2vw(24);
     }
-
     .spaceImgBox{
       position: fixed;
       top:44%;
@@ -166,6 +221,7 @@
       color: $themeColor;
     }
     .caseBox{
+
       background-color: #ffffff;
       border-bottom: 1px solid #f4f4f4;
       padding: px2vw(36) px2vw(17) px2vw(35) px2vw(17);
@@ -283,7 +339,7 @@
       bottom: 0;
       left: 0;
       background-color: #f4f4f4;
-      z-index: -1;
+      z-index: -2;
     }
   .classBox{
     z-index: 100;
@@ -318,10 +374,8 @@
     width: 69%;
   }
   .container{
-    position: absolute;
-    top:px2vw(176);
+    margin-top: px2vw(176);
     -webkit-overflow-scrolling: touch;
-    overflow: scroll;
     width: 100%;
   }
   .userWrite{
