@@ -41,7 +41,7 @@
         <div class="line">
           <span>分类</span>
           <span class="othersSelect" >
-            <span v-html="args.classify?args.classify:'请选择分类'" @click="selectClassify"></span>
+            <span v-html="classify?classify:'请选择分类'" @click="selectClassify"></span>
             <img src="../../../../images/mine/coin_img1.png" alt="">
           </span>
         </div>
@@ -72,7 +72,7 @@
 
 <script type="text/ecmascript-6">
   import { quillEditor } from 'vue-quill-editor'
-  import {GET_UPLOAD_TOKEN, UPLOAD_CASE, NEW_TREND} from '../../../../vuex/types'
+  import {GET_UPLOAD_TOKEN, UPLOAD_CASE, NEW_TREND , GET_CASE_DETAIL} from '../../../../vuex/types'
   import {mapState} from 'vuex'
   import {Indicator, Picker, Toast, MessageBox  } from 'mint-ui'
 
@@ -226,6 +226,21 @@
         console.log(this.slots[0].values.indexOf(values[0]));
         this.classify = this.slots[0].values.indexOf(values[0]) + 1;
       },
+      getCaseData(){
+        this.$store.dispatch(GET_CASE_DETAIL, {postId: this.$route.query.id}).then((res) => {
+          console.log(res.data);
+          this.args.headline = res.data.headline;
+          this.args.classify = res.data.classify;
+          this.args.freeContent = res.data.freeContent;
+          this.args.chargeContent = res.data.chargeContent;
+          this.args.chargeNumber = res.data.chargeNumber;
+          this.args.postStater = 1;
+          this.args.cover = '';
+          this.args.postId = this.$route.query.id;
+          let tmp = this.args.freeContent.split("src='");
+          console.log(tmp)
+        })
+      },
       //病例选择的确定&取消时的方法，0取消，1确定
       onClassPicker(num){
         if(num){
@@ -233,6 +248,7 @@
             this.args.classify = 1
           }else {
             this.args.classify = this.classify;
+            this.classify = this.slots[0].values[parseInt(this.classify) - 1]
           }
         }else {
 //          this.args.classify = ''
@@ -298,6 +314,10 @@
           console.log('分享成功')
         })
       },
+      //动态获取七牛token，需要就用
+//      qiNiuToken(){
+//
+//      },
       closePage(){
         MessageBox.confirm('是否保存为草稿方便下次继续编辑?').then(action => {
           this.postCase(2);
@@ -319,6 +339,9 @@
 //      this.qiNiuConfig = this.$store.state.index.qiNiuConfig
       //获取postId，请求数据
       //获取旧的文章接口数据，有数据就返到args里
+      if(this.$route.query.id){
+        this.getCaseData();
+      }
     },
     mounted() {
       this.initFee();
