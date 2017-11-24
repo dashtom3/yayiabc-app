@@ -90,6 +90,7 @@ export const CANCEL_USER_ORDER = 'CANCEL_USER_ORDER'                        // �
 export const GET_ORDER_LIST = 'GET_ORDER_LIST'                              // 获取用户的商品订单
 export const QUERY_ORDER_LOG = 'QUERY_ORDER_LOG'                            // 查看订单的物流
 export const CONFIRM_ORDER = 'CONFIRM_ORDER'                                // 支付订单
+export const GET_ORDER_INVOICE = 'GET_ORDER_INVOICE'                      // 获取发票信息
 export const QUERY_ORDER_INVOICE = 'QUERY_ORDER_INVOICE'                    // 查询发票
 
 

@@ -409,7 +409,7 @@
   }
   .shoppingCar .mint-cell-swipe {
     height: px2vw(228);
-    border-bottom: px2vw(1) dotted #dcdcdc;
+    // border-bottom: px2vw(1) dotted #dcdcdc;
   }
   .disable {
     background: #fafafa;

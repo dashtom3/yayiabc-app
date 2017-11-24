@@ -5,7 +5,8 @@
         <img class="header_back" src="../../../images/logIn/back.png" alt="img">
       </div>
       <span class="logWithCode">资质认证</span>
-      <span class="submit-btn" v-show="!ifPass" @click="editHandler">提交</span>
+      <span class="submit-btn" @click="savePersonInfo">提交</span>
+      <!-- <span class="submit-btn" v-show="!ifPass" @click="editHandler">提交</span> -->
     </div>
     <div class="tips" v-show="audited_validate || pending_validate">
       <transition name="shake">
@@ -17,10 +18,10 @@
     </div>
     <div class="f_wrap" v-bind:class="{ f_wrap_abs: (audited_validate || pending_validate) }">
       <!--类型-->
-      <a class="mint-cell mint-field input_arrow">
+      <a class="mint-cell mint-field bb input_arrow">
         <div class="mint-cell-wrapper" @click="typeVisible = true && !ifPass">
           <div class="mint-cell-text">
-            <span>类型*</span>
+            <span><span class="fred">*</span>类型</span>
           </div>
           <div class="mint-cell-value">
             <span v-text="personInfo.typeText" class="unset"></span>
@@ -37,13 +38,14 @@
           :on-success="uploadFile10"
           :data="qiNiuToken"
           >
-          <div class="mint-cell-text fl head-wrap">口腔执业医生资格证*</div>
+          <div class="mint-cell-text fl head-wrap"><span class="fred">*</span>口腔执业医生资格证</div>
           <img v-if="personInfo.imageUrl_doctorPic" :src="personInfo.imageUrl_doctorPic" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon fl"></i>
         </el-upload>
+        <img class="goto" src="../../../images/mine/back.png" alt="">
       </div>
       <!--医疗机构执业许可证-->
-      <div class="mint-cell-wrapper" v-show="personInfo.typeText === '机构'">
+      <div class="mint-cell-wrapper bb" v-show="personInfo.typeText === '机构'">
         <el-upload
           class="avatar-uploader needclick"
           :disabled="ifPass"
@@ -52,13 +54,14 @@
           :on-success="uploadFile1"
           :data="qiNiuToken"
           >
-          <div class="mint-cell-text fl head-wrap">医疗机构执业许可证*</div>
+          <div class="mint-cell-text fl head-wrap"><span class="fred">*</span>医疗机构执业许可证</div>
           <img v-if="personInfo.imageUrl_medical" :src="personInfo.imageUrl_medical" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon fl"></i>
         </el-upload>
+        <img class="goto" src="../../../images/mine/back.png" alt="">
       </div>
       <!--营业执照-->
-      <div class="mint-cell-wrapper" v-show="personInfo.typeText === '机构'">
+      <div class="mint-cell-wrapper bb" v-show="personInfo.typeText === '机构'">
         <el-upload
           class="avatar-uploader needclick"
           :disabled="ifPass"
@@ -67,13 +70,14 @@
           :on-success="uploadFile2"
           :data="qiNiuToken"
           >
-          <div class="mint-cell-text fl head-wrap">营业执照*</div>
+          <div class="mint-cell-text fl head-wrap"><span class="fred">*</span>营业执照</div>
           <img v-if="personInfo.imageUrl_business" :src="personInfo.imageUrl_business" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon fl"></i>
         </el-upload>
+        <img class="goto" src="../../../images/mine/back.png" alt="">
       </div>
       <!--税务登记证-->
-      <div class="mint-cell-wrapper" v-show="personInfo.typeText === '机构'">
+      <div class="mint-cell-wrapper bb" v-show="personInfo.typeText === '机构'">
         <el-upload
           class="avatar-uploader needclick"
           :disabled="ifPass"
@@ -82,13 +86,14 @@
           :on-success="uploadFile3"
           :data="qiNiuToken"
           >
-          <div class="mint-cell-text fl head-wrap">税务登记证*</div>
+          <div class="mint-cell-text fl head-wrap"><span class="fred">*</span>税务登记证</div>
           <img v-if="personInfo.imageUrl_tax" :src="personInfo.imageUrl_tax" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon fl"></i>
         </el-upload>
+        <img class="goto" src="../../../images/mine/back.png" alt="">
       </div>
       <!--开户许可证-->
-      <div class="mint-cell-wrapper" v-show="personInfo.typeText === '机构'">
+      <div class="mint-cell-wrapper bb" v-show="personInfo.typeText === '机构'">
         <el-upload
           class="avatar-uploader needclick"
           :disabled="ifPass"
@@ -101,9 +106,10 @@
           <img v-if="personInfo.imageUrl_open_permit" :src="personInfo.imageUrl_open_permit" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon fl"></i>
         </el-upload>
+        <img class="goto" src="../../../images/mine/back.png" alt="">
       </div>
       <!--医师职业资格证-->
-      <div class="mint-cell-wrapper" v-show="personInfo.typeText === '机构'">
+      <div class="mint-cell-wrapper bb" v-show="personInfo.typeText === '机构'">
         <el-upload
           class="avatar-uploader needclick"
           :disabled="ifPass"
@@ -116,9 +122,10 @@
           <img v-if="personInfo.imageUrl_doctor" :src="personInfo.imageUrl_doctor" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon fl"></i>
         </el-upload>
+        <img class="goto" src="../../../images/mine/back.png" alt="">
       </div>
       <!--放射诊疗许可证-->
-      <div class="mint-cell-wrapper" v-show="personInfo.typeText === '机构'">
+      <div class="mint-cell-wrapper bb" v-show="personInfo.typeText === '机构'">
         <el-upload
           class="avatar-uploader needclick"
           :disabled="ifPass"
@@ -131,9 +138,10 @@
           <img v-if="personInfo.imageUrl_treatment" :src="personInfo.imageUrl_treatment" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon fl"></i>
         </el-upload>
+        <img class="goto" src="../../../images/mine/back.png" alt="">
       </div>
       <!--法人身份证（正面）-->
-      <div class="mint-cell-wrapper" v-show="personInfo.typeText === '机构'">
+      <div class="mint-cell-wrapper bb" v-show="personInfo.typeText === '机构'">
         <el-upload
           class="avatar-uploader needclick"
           :disabled="ifPass"
@@ -146,6 +154,7 @@
           <img v-if="personInfo.imageUrl_id_front" :src="personInfo.imageUrl_id_front" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon fl"></i>
         </el-upload>
+        <img class="goto" src="../../../images/mine/back.png" alt="">
       </div>
       <!--法人身份证（反面）-->
       <div class="mint-cell-wrapper" v-show="personInfo.typeText === '机构'">
@@ -161,18 +170,17 @@
           <img v-if="personInfo.imageUrl_id_back" :src="personInfo.imageUrl_id_back" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon fl"></i>
         </el-upload>
+        <img class="goto" src="../../../images/mine/back.png" alt="">
       </div>
       <!--类型-->
-      <mt-actionsheet :actions="types" v-model="typeVisible" v-show="typeVisible && isEdit" cancel-text="取消"></mt-actionsheet>
     </div>
+    <mt-actionsheet :actions="types" v-model="typeVisible" v-show="typeVisible && isEdit" cancel-text="取消"></mt-actionsheet>
   </div>
 </template>
 <script>
   import { Picker, Toast, MessageBox, Field } from 'mint-ui'
   import util from '../../../vuex/util'
   import { tokenMethods } from '../../../vuex/util'
-  import birthDatePicker from '../../wx_user/birthDatePicker.vue'
-  import addressPicker from '../../wx_user/addressPicker.vue'
   import { GET_UPLOAD_TOKEN } from '../../../vuex/types'
   export default {
     name: 'personalData',
@@ -182,7 +190,6 @@
         qiNiuToken: {},
         audited_validate: false,
         pending_validate: false,
-        sexVisible: false,
         ifPass: false,
         typeVisible: false,
         imageUrl: '',
@@ -219,18 +226,10 @@
           url: ''
         }],
         personInfo: {
-          phone: tokenMethods.getWapUser().phone,
-          trueName: '',
-          sex: '1',
-          sexText: '男',
-          birthday: '请选择日期',
           type: '1',
           typeText: '个人',
-          companyName: '',
           judge: 0,
           state: 0,
-          part: '',
-          workAddress: '',
           imageUrl_doctorPic: '',
           imageUrl_head: '',
           imageUrl_doctor: '',
@@ -242,13 +241,6 @@
           imageUrl_id_front: '',
           imageUrl_id_back: '',
         },
-        sexs: [{
-          name: '男',
-          method: this.selectMan
-        }, {
-          name: '女',
-          method: this.selectWoman
-        }],
         types: [{
           name: '个人',
           method: this.selectPerson
@@ -257,10 +249,6 @@
           method: this.selectOutfit
         }]
       }
-    },
-    components: {
-      addressPicker,
-      birthDatePicker
     },
     created() {
       //获取七牛token,防止重复请求
@@ -299,17 +287,10 @@
         }
         that.$store.dispatch('GET_PERSON_LIST', obj).then((res) => {
           if (res.callStatus === 'SUCCEED') {
-            this.personInfo.trueName = res.data.trueName
-            this.personInfo.birthday = res.data.birthday && util.formatDate.format(new Date(res.data.birthday)) || util.formatDate.format(new Date('1970-01-01'))
-            this.personInfo.sex = res.data.sex && res.data.sex.toString() || '1'
-            this.personInfo.companyName = res.data.companyName
             this.personInfo.type = res.data.type && res.data.type.toString() || '1'
-            this.personInfo.part = res.data.part && res.data.part.split(',').join('/') || '北京/北京市/东城区'
-            this.personInfo.workAddress = res.data.workAddress
             this.personInfo.judge = res.data.judge
             this.personInfo.state = res.data.state
             this.personInfo.failReason = res.data.failReason || '无'
-            this.personInfo.trueName = res.data.trueName
             this.personInfo.state = res.data.state
             this.personInfo.imageUrl_doctorPic = res.data.doctorPic
             this.personInfo.imageUrl_head = res.data.userPic
@@ -351,13 +332,6 @@
               title: '法人身份证（反面）',
               url: this.personInfo.imageUrl_id_back
             }]
-
-            if(this.personInfo.sex === '1'){
-              this.personInfo.sexText ='男'
-            }else if(this.personInfo.sex === '2'){
-              this.personInfo.sexText ='女'
-            }
-
             if(this.personInfo.type === '1'){
               this.personInfo.typeText = '个人'
               this.imageUrl_list = this.imageUrl_list.slice(0, 1)
@@ -434,21 +408,6 @@
             judge: this.personInfo.judge
           }
         }
-        //验证姓名
-        if(this.personInfo.trueName === '' || this.personInfo.trueName === null){
-          Toast('请输入姓名')
-          return
-        }
-        //验证单位名称
-        if(this.personInfo.companyName === '' || this.personInfo.companyName === null){
-          Toast('请输入单位名称')
-          return
-        }
-        //验证详细地址
-        if(this.personInfo.workAddress === '' || this.personInfo.workAddress === null){
-          Toast('请输入详细地址')
-          return
-        }
         if(this.personInfo.type === '1'){
           //验证医师职业资格证
           if(this.personInfo.imageUrl_doctorPic === '' || this.personInfo.imageUrl_doctorPic === null){
@@ -472,7 +431,6 @@
             return
           }
         }
-
         //保存个人信息
         this.$store.dispatch('SAVE_PERSON_LIST', params).then((res) => {
           if (res.data.callStatus === 'SUCCEED') {
@@ -561,9 +519,6 @@
           });
         }
       },
-      saveBirthDate: function (value) {
-        this.personInfo.birthday = value
-      },
       fillZero: function(val){
         return val<10 ? '0'+ val : val
       },
@@ -596,48 +551,56 @@
     background-position: center right;
     background-size: px2vw(16) px2vw(30);
   }
-  .f_wrap{
+  .personal_data .mint-field-core{
+    background-position: center right;
+    background-size: px2vw(12) px2vw(26);
+  }
+  .personal_data .mint-field .mint-cell-title{
+    width: 170px;
+  }
+</style>
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped lang="scss" rel="stylesheet/scss">
+  @import "../../../common/sass/factory";
+  .personal_data {
+    position: relative;
+    height: 100vh;
+    background: #f4f4f4;
+  }
+  .logIn_header{
+    padding-bottom: 0;
     position: fixed;
-    top: px2vw(88);
-    bottom: 0;
+    z-index: 2;
+    top: 0;
+  }
+  .f_wrap{
+    position: absolute;
+    top: px2vw(86);
     left: 0;
-    right: 0;
+    // bottom: 0;
+    // right: 0;
+    background: #fff;
     overflow: scroll;
     -webkit-overflow-scrolling: touch;
     &.f_wrap_abs {
       top: px2vw(168);
     }
   }
-  .avatar-uploader{
-    width: 100%;
-    height: px2vw(200);
-    .el-upload{
-      width: 100%;
-      text-align: left;
-      padding-top: px2vw(28);
-      .mint-cell-text{
-        height: px2vw(88);
-        line-height: px2vw(88);
-      }
-      i{
-        width: px2vw(150);
-        height: px2vw(150);
-        line-height: px2vw(150);
-        font-size: px2vw(40);
-        color: #8c939d;
-        border: 1px dashed #d9d9d9;
-        text-align: center;
-      }
-      img{
-        width: px2vw(150);
-        height: px2vw(150);
-        line-height: px2vw(150);
-      }
-    }
+  .submit-btn{
+    color: #fff;
+    float: right;
+    margin-right: px2vw(28);
   }
-  .personal_data .mint-cell-wrapper{
+  .input_arrow{
+    margin-left: px2vw(20)
+  }
+  .personal_data .f_wrap .mint-cell-wrapper{
+    position: relative;
     margin: 0 0 0 px2vw(20);
     padding: 0;
+    width: px2vw(730);
+    height: px2vw(150);
+    background-size: 120% 0;
     input[type="text"]{
       border: none;
       padding: 0;
@@ -646,43 +609,101 @@
       color: #333;
     }
     .mint-cell-text{
+      font-size: px2vw(30);
       width: 170px;
       display: inline-block;
+      color: rgb(51,51,51);
     }
     .mint-cell-value .unset{
-      font-size: px2vw(26);
-      text-align: center;
+      width: 100%;
+      padding-right: px2vw(42);
+      font-size: px2vw(28);
+      text-align: right;
       height: px2vw(96);
       line-height: px2vw(96);
-      color: #333;
+      color: rgb(51,51,51);
     }
   }
-  .personal_data .mint-field-core{
-    background-position: center right;
-    background-size: px2vw(12) px2vw(26);
+  .personal_data .input_arrow .mint-cell-wrapper{
+    margin: 0;
+    padding-right: px2vw(21);
+    height: px2vw(90);
+    border: 0;
   }
-  .personal_data .mint-field .mint-cell-title{
-    width: 170px;
+  .bb{
+    border-bottom: 1px solid rgb(229,229,229);
   }
-  .head-wrap{
-    height: px2vw(100);
-    line-height: px2vw(100);
+  .mint-actionsheet{
+    z-index: 2003;
+  }
+  // .personal_data .f_wrap .bb{
+  //   position: relative;
+  //   &::after{
+  //     content:"";
+  //     position: absolute;
+  //     left: px2vw(30);
+  //     bottom: 0;
+  //     width: 100%;
+  //     height: 1px;
+  //     transform-origin: 0 0;
+  //     background: rgb(229,229,229);
+  //   }
+  // }
+  // @media (-webkit-min-device-pixel-ratio:1.5), (min-device-pixel-ratio: 1.5){
+  //   .bb::after{
+  //     transform: scaleY(0.7);
+  //   }
+  // }
+  // @media (-webkit-min-device-pixel-ratio:2), (min-device-pixel-ratio: 2){
+  //   .bb::after{
+  //     transform: scaleY(0.5);
+  //   }
+  // }
+  .mint-cell-wrapper .el-upload .head-wrap{
+    margin-top: px2vw(30);
+    height: px2vw(150);
+    line-height: px2vw(150);
     text-align: left;
   }
-</style>
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss" rel="stylesheet/scss">
-  @import "../../../common/sass/factory";
-  .logIn_header{
-    padding-bottom: 0;
-    position: fixed;
-    z-index: 0;
-    top: 0;
+  .avatar-uploader{
+    width: 100%;
+    height: px2vw(150);
+    line-height: px2vw(150);
+    .el-upload{
+      width: 100%;
+      text-align: left;
+      // padding-top: px2vw(28);
+      height: px2vw(150);
+      line-height: px2vw(150);
+      .mint-cell-text{
+        height: px2vw(88);
+        line-height: px2vw(88);
+      }
+      i{
+        width: px2vw(90);
+        height: px2vw(90);
+        line-height: px2vw(90);
+        margin: px2vw(30) 0 0 px2vw(230);
+        font-size: px2vw(40);
+        color: rgb(204,204,204);
+        border: 1px dashed #d9d9d9;
+        text-align: center;
+      }
+      img{
+        margin: px2vw(30) 0 0 px2vw(230);
+        width: px2vw(90);
+        height: px2vw(90);
+        line-height: px2vw(90);
+      }
+    }
   }
-  .submit-btn{
-    color: #fff;
-    float: right;
-    margin-right: px2vw(28);
+  .goto{
+    width: px2vw(15);
+    height: px2vw(28);
+    margin-right: px2vw(21);
+  }
+  .fred{
+    color: rgb(216,30,6);
   }
   .mint-cell-value input{
     font-size: px2vw(28);
@@ -705,7 +726,7 @@
     background: #669ccd;
     position: absolute;
     top: px2vw(88);
-    z-index: 10;
+    z-index: 1;
   }
 </style>
 

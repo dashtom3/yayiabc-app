@@ -269,7 +269,6 @@
         qiNiuToken: {},
         audited_validate: false,
         pending_validate: false,
-        sexVisible: false,
         ifPass: false,
         typeVisible: false,
         imageUrl: '',

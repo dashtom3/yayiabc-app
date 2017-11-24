@@ -554,6 +554,11 @@ export function getMyCustomer(params) {
   return getWithSaleToken('/saleMyClient/myClient', params)
 }
 
+//获取发票信息
+export function getOrderInvoice(params) {
+  return geters('/po/queryLastInvoice', params)
+}
+
 
 //获取客户的详情
 export function getCustomerDetail(params) {

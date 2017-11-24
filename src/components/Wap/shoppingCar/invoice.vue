@@ -132,12 +132,20 @@
     },
     created (){
       this.mBack('toSuborder');
-      // console.log(this.COMPANY_INVOICE);
-      console.log(JSON.parse(localStorage.getItem('INVOICE')))
-      this.judgeIsSaveed();
+      this.activeTab = this.COMPANY_INVOICE.invoiceStyle.toString();
+      if (this.COMPANY_INVOICE.invoiceStyle == '0') {
+        setTimeout(() => {
+          this.judgeIsSaveed();
+        }, 20)
+      } else {
+        setTimeout(() => {
+          this.$refs.childMethod.judgeIsSaveed();
+        }, 20)
+      }
+      // this.judgeIsSaveed();
     },
     mounted (){
-     this.$refs.childMethod.judgeIsSaveed();
+    //  this.$refs.childMethod.judgeIsSaveed();
     },
     computed:{
       ...mapGetters([
@@ -146,20 +154,20 @@
     },
     methods: {
       judgeIsSaveed (){
-        // let saveData = this.COMPANY_INVOICE;
-        let saveData = JSON.parse(localStorage.getItem('INVOICE'))
-        if(saveData.value === 1)
+        let saveData = this.COMPANY_INVOICE;
+        // this.activeTab = saveData.invoiceStyle;
+        if(saveData.invoiceStyle == '0' && saveData.invoiceState == '1')
         {
           this.activeTab = saveData.invoiceStyle;
-          this.tab = saveData.InvoiceState;
+          this.tab = saveData.invoiceState;
           this.companyName1 = saveData.companyName;
           this.taxpayerNum = saveData.taxpayerNum;
           this.invoiceHand = saveData.invoiceHand;
         }
-        if(saveData.value === 2)
+        if(saveData.invoiceStyle == '0' && saveData.invoiceState == '0')
         {
           this.activeTab = saveData.invoiceStyle;
-          this.tab = saveData.InvoiceState;
+          this.tab = saveData.invoiceState;
           this.companyName2 = saveData.companyName;
           this.invoiceHand = saveData.invoiceHand;
         }else {
@@ -200,11 +208,12 @@
         {
           let obj = {
             invoiceStyle: this.activeTab,
-            InvoiceState: this.tab,
+            invoiceState: this.tab,
             companyName : this.companyName1,
             taxpayerNum : this.taxpayerNum,
             invoiceHand : this.invoiceHand,
-            value : 1  //判断是哪类发票 1为普通公司发票 2为普通个人发票 3为增值税票
+            value : 1,  //判断是哪类发票 1为普通公司发票 2为普通个人发票 3为增值税票
+            updateInvoice: true
           }
           for(let item in obj)
           {
@@ -215,7 +224,6 @@
            }
           }
           this.$store.dispatch('COMPANY_INVOICE' , obj);
-          let saveData = JSON.parse(localStorage.getItem('INVOICE'))
           Toast({message: '保存发票信息成功', duration: 1500})
           this.$router.push({path:'/suborder'})
         }
@@ -223,10 +231,11 @@
         else {
           let obj = {
             invoiceStyle: this.activeTab,
-            InvoiceState: this.tab,
+            invoiceState: this.tab,
             companyName : this.companyName2,
             invoiceHand : this.invoiceHand,
-            value : 2  //判断是哪类发票 1为普通公司发票 2为普通个人发票 3为增值税票
+            value : 1,  //判断是哪类发票 1为普通公司发票 2为普通个人发票 3为增值税票
+            updateInvoice: true
           }
           for(let item in obj)
           {
@@ -237,15 +246,16 @@
             }
           }
           this.$store.dispatch('COMPANY_INVOICE' , obj);
-          let saveData = JSON.parse(localStorage.getItem('INVOICE'))
           Toast({message: '保存发票信息成功', duration: 1500})
           this.$router.push({path:'/suborder'})
         }
       },
       no_saves(){
-        let obj = {
-          value : 4
-        };
+        // let obj = {
+        //   value : 0,
+        //   updateInvoice: false
+        // };
+        let obj = this.COMPANY_INVOICE
         this.$store.dispatch('COMPANY_INVOICE' , obj);
         this.$router.push({path:'/suborder'})
       },
