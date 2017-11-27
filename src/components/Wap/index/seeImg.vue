@@ -1,7 +1,7 @@
 <template>
   <div class="module" @click="layOut">
-    <img :src="url" alt="" id="images">
-    <div style="width: 100%;height:1px;"></div>
+    <img :src="url" alt="" id="images"><span></span>
+    <!--<div style="width: 100%;height:1px;"></div>-->
   </div>
 </template>
 
@@ -39,10 +39,17 @@
     height: 100vh;
     overflow: scroll;
     z-index: 2000;
+    text-align:center;
+    vertical-align: middle;
   }
 
   #images{
-    /*
-    */
+    max-width: 100vw;
+    vertical-align: middle;
   }
+  span{
+    display:inline-block;
+    height: 50%;
+  }
+
 </style>

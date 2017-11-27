@@ -55,9 +55,12 @@
           if(res.callStatus === 'SUCCEED'){
 //            console.log(res)
             Toast({message: '发布成功！', duration: 1500});
-            this.$emit('commentRes',res.data);
-            this.commentContent = ''
-            document.body.classList.remove('full-body-commentArea')
+            let timer1=window.setTimeout(() => {
+              this.$emit('commentRes',res.data);
+              this.commentContent = ''
+              document.body.classList.remove('full-body-commentArea')
+              window.clearTimeout(timer1);
+            },350)
           }
           else {
             Toast({message: '发布失败！请重试', duration: 1500});
@@ -68,10 +71,14 @@
 
       },
       cancelComment(){
-        console.log(false)
-        document.body.classList.remove('full-body-commentArea')
-        this.$emit('cancelComment',false)
-        this.$destroy()
+        let timer1=window.setTimeout(() => {
+          console.log(false)
+          document.body.classList.remove('full-body-commentArea')
+          this.$emit('cancelComment',false)
+          this.$destroy()
+          window.clearTimeout(timer1);
+        },350)
+
       },
     },
     watch:{

@@ -7,7 +7,7 @@
     <div class="container">
       <div class="innerContainerWrap">
         <!--有内容-->
-        <div v-infinite-scroll="loadMore" infinite-scroll-immediate-check="true" class="innerContainer">
+        <div v-infinite-scroll="loadMore" infinite-scroll-immediate-check="true" class="innerContainer" v-if="list">
           <div class="line" @click="goPage(item,key)" v-for="(item,key) in list"><!--v-for开始-->
             <span class="thisTitle">
               {{item.message}}
@@ -19,8 +19,9 @@
           </div>
         </div>
         <!--无内容-->
-        <div>
-
+        <div class="noRes" v-if="!list && !isLoading">
+          <img src="../../../../images/mine/noRes.png" alt="">
+          <p>暂无内容</p>
         </div>
       </div>
     </div>
@@ -206,6 +207,19 @@
               vertical-align: middle;
             }
           }
+        }
+      }
+      .noRes{
+        width: 100%;
+        text-align: center;
+        img{
+          width: px2vw(108);
+          margin-top: px2vw(430);
+        }
+        p{
+          line-height: px2vw(60);
+          font-size: px2vw(30);
+          color: #666;
         }
       }
     }
