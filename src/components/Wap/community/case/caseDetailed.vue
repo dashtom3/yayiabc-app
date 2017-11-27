@@ -84,6 +84,7 @@
 <script>
   import comment from './comment.vue';
   import { MessageBox,Toast } from 'mint-ui';
+  import Util from '../../../../vuex/util'
   export default {
     data(){
       return{
@@ -91,12 +92,14 @@
         caseDetailArgs: [], //病例详情的内容数据
         payNow: false,
         userCoins: 0,
+        timeStamp: '', //时间戳
       }
     },
     created (){
       this.getCaseData();
       console.log(this.$route.query.caseId);
       this.getUserCoin();
+      this.timeStamp = Date.parse(new Date());
     },
     mounted (){
 
@@ -163,8 +166,48 @@
       getCaseData(){
         this.$store.dispatch('GET_CASE_DETAIL', {postId: this.$route.query.id}).then((res) => {
           this.caseDetailArgs = res.data;
-          console.log(res,'数据');
+
+          console.log(this.caseDetailArgs, '呵呵呵');
+              if (this.caseDetailArgs.classify === 1) {
+                this.caseDetailArgs.classify = '口腔外科'
+              } else if (this.caseDetailArgs.classify === 2) {
+                this.caseDetailArgs.classify = '口腔内科'
+              } else if (this.caseDetailArgs.classify === 3) {
+                this.caseDetailArgs.classify = '口腔修复'
+              } else if (this.caseDetailArgs.classify === 4) {
+                this.caseDetailArgs.classify = '口腔种植'
+              } else if (this.caseDetailArgs.classify === 5) {
+                this.caseDetailArgs.classify = '口腔正畸'
+              }
+
+              this.time(this.caseDetailArgs);
+
+
         })
+      },
+      time(item){
+        if(item)
+        {
+            switch (true){
+              //几分钟前
+              case this.timeStamp - item.postTime < 3600000:
+//                console.log(this.timeStamp - item.postTime)
+                item.postTime = Math.ceil((this.timeStamp - item.postTime) / 1000 / 60) + '分钟前';
+                console.log(2222);
+                break;
+              //几小时前
+              case this.timeStamp - item.postTime >= 3600000 && this.timeStamp - item.postTime < 86400000:
+//                console.log(this.timeStamp - item.postTime)
+                item.postTime = Math.floor((this.timeStamp - item.postTime) / 1000 / 60 / 60) + '小时前';
+                break;
+              //日期
+              case this.timeStamp - item.postTime >= 86400000:
+                item.postTime = Util.formatDate.format(new Date(item.postTime),'yy.MM.dd hh:mm').substring(2);
+                break;
+            }
+        }else {
+
+        }
       },
       back (){
         this.$router.go(-1);
