@@ -67,7 +67,7 @@
     data (){
       return{
         caseDate: {
-          caseClass: ['病例', '视频', '培训'],
+          caseClass: ['病例', '视频', '问答'],
           caseClassNum: 0,
           dressing: ['', '外科', '内科', '修复', '种植', '正畸'],
           dressingSwitch: false,
@@ -90,7 +90,7 @@
           vm.caseDate.caseClassNum = 0
         } else if(vm.$router.history.current.name === 'video') {
           vm.caseDate.caseClassNum = 1
-        } else if(vm.$router.history.current.name === '') {
+        } else if(vm.$router.history.current.name === 'QandAList') {
           vm.caseDate.caseClassNum = 2
         }
       })
@@ -147,6 +147,11 @@
           this.$store.dispatch('SAVE_CASE_DRESSING',  '');
           this.caseListArgs.classify = '';
           this.$router.push({path:'/video'});
+        }else if(index === 2)
+        {
+          this.$store.dispatch('SAVE_CASE_DRESSING',  '');
+          this.caseListArgs.classify = '';
+          this.$router.push({path:'/QandAList'});
         }
       }
     }

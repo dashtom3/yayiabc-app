@@ -1,13 +1,13 @@
 <template>
   <div>
-    <div class="header" @click="blurClass">
+    <div class="header" @click.stop="blurFocus">
       <div class="backIco" @click="closePage"></div>
       <div class="release" @click="postQuest">
           提交
       </div>
     </div>
-    <div class="container">
-      <div class="line">
+    <div class="container" @click.stop="blurFocus">
+      <div class="line"  @click.stop="blurFocus">
         <span>分类</span>
         <span class="othersSelect" >
             <span v-html="classifyName?classifyName:'请选择分类'" @click="selectClassify"></span>
@@ -15,7 +15,11 @@
           </span>
       </div>
       <div class="title">
-        <textarea maxlength="50"></textarea>
+        <textarea maxlength="50" rows="3" v-model="args.headline" placeholder="你的问题（必填，5到50字以内）" @click.stop="focusDetail(0)"></textarea>
+        <span>{{args.headline.length}}/50</span>
+      </div>
+      <div class="detail">
+        <textarea  v-model="args.Content" placeholder="补充说明（选填）" @click.stop="focusDetail(1)" ></textarea>
       </div>
     </div>
     <mt-picker :slots="slots" @change="onValuesChange" :showToolbar="true" class="pickers" v-show="isClassPicker">
@@ -25,11 +29,28 @@
         <span class="classPickerConfirm" @click="onClassPicker(1)">完成</span>
       </div>
     </mt-picker>
+    <div class="newQuestionUpLoadIcon" v-if="showUploadIco">
+      <div class="newQuestionImgIco" @click="chooseImg"></div>
+    </div>
+    <el-upload
+      class="avatar-uploader needclick"
+      style="display: none;"
+      :limit='limitNum'
+      :action="qiNiuConfig.url"
+      :show-file-list="false"
+      :on-success="uploadFile"
+      :before-upload="beforeUploading"
+      :data="qiNiuToken"
+      :on-progress="upLoading"
+    ></el-upload>
+    <!--<div class="blur" @click.stop="blurFocus"></div>-->
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import {Indicator, Picker, Toast, MessageBox  } from 'mint-ui'
+  import {GET_UPLOAD_TOKEN} from '../../../../vuex/types'
+  import {mapState} from 'vuex'
 
   export default {
     data(){
@@ -48,13 +69,18 @@
         args:{
           headline:'',
           classify:'',
-          freeContent:'',
+          Content:'',
           chargeContent:'',
           chargeNumber:null,
           postStater:1,
           cover:'',
           postId:null,
         },
+        qiNiuConfig:this.$store.state.index.qiNiuConfig,
+        qiNiuToken:{},
+        showUploadIco:false,
+        contImgList:[],
+        limitNum:9
       }
     },
     methods:{
@@ -62,13 +88,28 @@
 
       },
       closePage(){
-
+        MessageBox.confirm('是否退出本次编辑?').then(action => {
+          this.$router.go(-1)
+          console.log('save')
+        }).catch(reject =>{});
       },
       postQuest(){
 
       },
       selectClassify(){
         this.isClassPicker =true;
+      },
+      focusDetail(num){
+        document.body.classList.add('newQuestBody')
+        if(num){
+          this.showUploadIco = true
+        }else {
+          this.showUploadIco = false;
+        }
+      },
+      blurFocus(num){
+        document.body.classList.remove('newQuestBody');
+        this.showUploadIco = false;
       },
       onValuesChange(picker, values) {
         console.log(this.slots[0].values.indexOf(values[0]));
@@ -87,6 +128,28 @@
         }
 //        console.log(this.args.classify);
         this.isClassPicker = false
+      },
+      chooseImg(){
+        var s1 = document.getElementsByClassName("el-upload__input")
+        this.$store.dispatch(GET_UPLOAD_TOKEN).then(res => {
+          this.qiNiuToken = {
+            token: res.msg
+          }
+          console.log(this.qiNiuToken)
+        })
+        s1[0].click();
+      },
+      upLoading(){
+        Indicator.open('图片上传中...');
+      },
+      beforeUploading(){
+
+      },
+      uploadFile(res,file){
+        let that = this
+        this.contImgList.push(that.qiNiuConfig.ShUrl + file.response.key);
+        Indicator.close();
+//        console.log(this.contImgList)
       },
     }
   }
@@ -157,6 +220,43 @@
         width: px2vw(14);
       }
     }
+    .title{
+      width: 100%;
+      height: px2vw(265);
+      border-bottom: 1px solid #e5e5e5;
+      textarea{
+        border: none;
+        resize: none;
+        width: 100%;
+        height: 100%;
+        padding: px2vw(20) px2vw(20) 0;
+        line-height: px2vw(60);
+        font-size: px2vw(30);
+        color: #333;
+      }
+      span{
+        position: absolute;
+        right: px2vw(20);
+        top: px2vw(300);
+        font-size: px2vw(28);
+        color: #999;
+      }
+    }
+    .detail{
+      width: 100%;
+      height: px2vw(360);
+      border-bottom: 1px solid #e5e5e5;
+      textarea{
+        border: none;
+        resize: none;
+        width: 100%;
+        height: 100%;
+        padding: px2vw(20) px2vw(20) 0;
+        line-height: px2vw(60);
+        font-size: px2vw(30);
+        color: #333;
+      }
+    }
   }
   .pickers{
     position: fixed;
@@ -178,6 +278,43 @@
         color: $themeColor;
         float: right;
         width: px2vw(150);
+      }
+    }
+  }
+</style>
+
+<style lang="scss" rel="stylesheet/scss">
+  @import "../../../../common/sass/factory";
+
+  body {
+    &.newQuestBody{
+      position: fixed !important;
+      top: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      overflow: hidden !important;
+      .newQuestionUpLoadIcon{
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        z-index: 1000;
+        width: 100%;
+        height: px2vw(80);
+        border-top: 1px solid #e5e5e5;
+        border-bottom: 1px solid #e5e5e5;
+        .newQuestionImgIco{
+          width: px2vw(80);
+          height: px2vw(80);
+          margin-left: px2vw(30);
+          background: url("../../../../images/question/imgIco.png") px2vw(20) center no-repeat;
+          background-size: px2vw(39) px2vw(34);
+          z-index: 1001;
+        }
       }
     }
   }

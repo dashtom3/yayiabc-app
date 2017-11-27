@@ -66,6 +66,7 @@
     width: 100%;
     height: 100%;
     min-height: 30vh;
+    background-color: #fff;
     .eachContainer{
       padding: px2vw(20) px2vw(20) 0;
       width: 100%;

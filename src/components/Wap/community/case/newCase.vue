@@ -22,7 +22,7 @@
                       :content="args.freeContent"
                       :options = "editorOptionFee"
                       @change="onEditorChangeFee($event)"
-                      @focus="onEditorFocusFee($event)">
+                      @click="onEditorFocusFee($event)">
         </quill-editor>
       </div>
       <div id="quillCharge">
@@ -30,7 +30,7 @@
                       :content="args.chargeContent"
                       :options = "editorOptionCharge"
                       @change="onEditorChangeCharge($event)"
-                      @focus="onEditorFocusCharge($event)">
+                      @click="onEditorFocusCharge($event)">
         </quill-editor>
       </div>
       <div class="others" @click="blurClass">
@@ -49,6 +49,7 @@
           <el-checkbox @change="isShare"></el-checkbox><span @click.stop="labelFor"> 分享到牙医圈</span>
         </div>
       </div>
+      <!--<div class="blur" @click="blurClass"></div>-->
     </div>
     <mt-picker :slots="slots" @change="onValuesChange" :showToolbar="true" class="pickers" v-show="isClassPicker">
       <div class="classPicker">
@@ -64,6 +65,7 @@
       :action="qiNiuConfig.url"
       :show-file-list="false"
       :on-success="uploadFile"
+      :before-upload="beforeUploading"
       :data="qiNiuToken"
       :on-progress="upLoading"
     ></el-upload>
@@ -183,6 +185,11 @@
         toolbar1.addHandler('image',()=>{
           that.isFee = true
           var s1 = document.getElementsByClassName("el-upload__input")
+          this.$store.dispatch(GET_UPLOAD_TOKEN).then(res => {
+            this.qiNiuToken = {
+              token: res.msg
+            }
+          })
           s1[0].click();
         })
       },
@@ -197,6 +204,11 @@
         toolbar2.addHandler('image',()=>{
           that.isFee = false
           var s2 = document.getElementsByClassName("el-upload__input")
+          this.$store.dispatch(GET_UPLOAD_TOKEN).then(res => {
+            this.qiNiuToken = {
+              token: res.msg
+            }
+          })
           s2[0].click();
         })
       },
@@ -207,6 +219,9 @@
       //上传图片
       upLoading(){
         Indicator.open('图片上传中...');
+      },
+      beforeUploading(){
+
       },
       uploadFile(res,file){
         let that = this
@@ -400,6 +415,7 @@
     bottom: 0;
     overflow: scroll;
     width: 100%;
+    z-index: 100;
     -webkit-overflow-scrolling: touch;
     .inputTitle{
       width: 100%;
@@ -469,6 +485,14 @@
         width: px2vw(150);
       }
     }
+  }
+  .blur{
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
   }
 </style>
 

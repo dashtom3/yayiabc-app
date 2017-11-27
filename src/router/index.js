@@ -151,6 +151,11 @@ let router = new Router({
               path: '/video',
               component: video
             },
+            {
+              name: 'QandAList',
+              path: '/QandAList',
+              component: QandAList
+            }
           ],
         },
         {path: '/yayi/yayiCircle', component: yayiCircle, name: 'yayiCircle'},
