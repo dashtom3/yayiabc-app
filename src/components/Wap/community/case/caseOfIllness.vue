@@ -147,23 +147,22 @@
         }else {
 
         }
-
-
-
       },
       goCaseDetailed(id){
         this.$router.push({path: '/caseDetailed', query:{'id': id}})
       },
       getCaseListMore (){
-        console.log(111);
-        if(this.caseDate.totalPage < this.caseListArgs.currentPage)
+
+        if(this.caseDate.totalPage <= this.caseListArgs.currentPage)
         {
+
           return
         }
         else if(this.$router.history.current.name === 'caseOfIllnessSearch' && this.caseSearchArgs.totalPage < this.caseSearchArgs.currentPage){
           return
         }
         else {
+          console.log(this.caseListArgs.currentPage);
           this.caseListArgs.currentPage = Number(this.caseListArgs.currentPage) + 1;
           this.getCaseList();
         }
@@ -190,8 +189,30 @@
             this.time(data);
             this.listCaseData = this.listCaseData.concat(data);
             this.caseListArgs.totalPage = res.totalPage;
+            this.caseDate.totalPage =  res.totalPage;
             this.caseListArgs.currentPage = res.currentPage;
             this.isLoading = false;
+
+            this.listCaseData.forEach(function (item, index, array) {
+              if(item.classify === 1)
+              {
+                item.classify = '口腔外科'
+              }else if(item.classify === 2)
+              {
+                item.classify = '口腔内科'
+              }else if(item.classify === 3)
+              {
+                item.classify = '口腔修复'
+              }else if(item.classify === 4)
+              {
+                item.classify = '口腔种植'
+              }else if(item.classify === 5)
+              {
+                item.classify = '口腔正畸'
+              }
+            });
+
+
             console.log(res,'哦哦哦');
           })
         }
@@ -331,7 +352,7 @@
      text-align: center;
      color: #3676b6;
      line-height: 0;
-     padding-bottom: px2vw(2);
+     padding: 0 px2vw(4);
      border-radius: px2vw(8);
    }
    .caseContent{

@@ -67,7 +67,6 @@
                   </div>
 
 
-
                   <div @click="like('two',index, item.commentId)" class="likeBox">
                   <span class="commentImgBoxs">
                     <img src="../../../../images/case/caseOfIllness/like.png" alt="">
@@ -223,7 +222,8 @@
   import doComment from '../../index/doComment.vue';
   import { tokenMethods } from '../../../../vuex/util';
   import { MessageBox,Toast } from 'mint-ui';
-  import share from '../../index/share.vue'
+  import share from '../../index/share.vue';
+  import Util from '../../../../vuex/util';
 
 
   export default {
@@ -258,6 +258,7 @@
           parentId: '',  //一级评论的Id
           presentId: ''  //二级评论的id
         },
+        timeStamp: '', //时间计算
         isComment: false,
         commentInfo:{}, //评论子组件传值
         isShareShow:false, //是否显示分享按钮
@@ -522,9 +523,11 @@
       },
       //获取病例评论数据
       getCaseComment(){
+        this.timeStamp = Date.parse(new Date());
         this.$store.dispatch('GET_CASE_COMMENT', this.detailedCommentParameter).then((res) => {
           this.detailedCommentArgs = res;
-          console.log(this.detailedCommentArgs, '是是是');
+          this.time(this.detailedCommentArgs.data);
+          console.log(this.detailedCommentArgs.data, '是是是');
         })
       },
       //子组件 跳转二级评论
@@ -533,6 +536,38 @@
         this.commentChild.comment = this.detailedCommentArgs.data[index];
         this.commentChild.switchShow = true;
       },
+
+      time(res){
+
+        if(res)
+        {
+          res.forEach(item => {
+            switch (true){
+              //几分钟前
+              case this.timeStamp - item.commentTime < 3600000:
+//                console.log(this.timeStamp - item.commentTime)
+                item.commentTime = Math.ceil((this.timeStamp - item.commentTime) / 1000 / 60) + '分钟前';
+                break;
+              //几小时前
+              case this.timeStamp - item.commentTime >= 3600000 && this.timeStamp - item.postTime < 86400000:
+//                console.log(this.timeStamp - item.commentTime)
+                item.commentTime = Math.floor((this.timeStamp - item.commentTime) / 1000 / 60 / 60) + '小时前';
+                break;
+              //日期
+              case this.timeStamp - item.commentTime >= 86400000:
+                item.commentTime = Util.formatDate.format(new Date(item.commentTime),'yy.MM.dd hh:mm').substring(2);
+                break;
+            }
+          });
+        }else {
+
+        }
+
+
+
+      },
+
+
       //判断是否登录
       pointLogin(){
         let userToken = tokenMethods.getWapToken();
