@@ -179,16 +179,16 @@
 
       //无限滚动
       getCaseListMore (){
-        this.videoArgs['currentPage']++;
+        this.videoListArgs.currentPage++;
         if(this.videoArgs.totalPage < this.videoListArgs.currentPage)
         {
           return
-        }else if(this.caseSearchArgs.totalPage < this.caseSearchArgs.currentPage){
+        }
+        else if(this.caseSearchArgs.totalPage < this.caseSearchArgs.currentPage){
           return
         }
         else {
-          console.log(1);
-
+          console.log(this.videoListArgs, this.videoListArgs.currentPage,'canshu');
           this.$store.dispatch('GET_VIDEO_LIST', this.videoListArgs).then((res) => {
             this.videoArgs = this.videoArgs.concat(res.data);
             this.videoArgs['totalPage'] = res.totalPage;
