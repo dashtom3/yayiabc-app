@@ -1,6 +1,5 @@
 <template>
     <div>
-
       <div class="backgroundImg"></div>
       <div class="wrapTop">
         <span class="title">我的病例</span>
@@ -51,7 +50,6 @@
         </div>
 
 
-
         </div>
         </mt-loadmore>
 
@@ -73,7 +71,6 @@
           <div class="spaceSize">还没有购买病例</div>
           <div class="spaceColor">发现更多病例</div>
         </div>
-
 
       </div>
 
@@ -133,7 +130,6 @@
       toGoCase(postId){
         if(this.change === 0) //草稿
         {
-
         }else if(this.change === 1) //发布
         {
           this.$router.push({path: '/caseDetailed', query:{id: postId, myCase: 1}})
