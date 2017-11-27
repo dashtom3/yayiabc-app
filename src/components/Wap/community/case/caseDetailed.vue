@@ -521,13 +521,11 @@
     width: px2vw(24);
     height: px2vw(42);
   }
-
   .changeIndex{
     position: fixed;
     top: 0;
     left: 0;
     z-index: -10;
-
   }
 </style>
 

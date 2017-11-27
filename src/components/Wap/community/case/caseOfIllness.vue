@@ -360,6 +360,9 @@
      border-bottom: 1px solid #f4f4f4;
      padding: px2vw(36) px2vw(17) px2vw(35) px2vw(17);
    }
+    .caseBox:last-child{
+      margin-bottom: px2vw(98);
+    }
 
    .fade-enter-active, .fade-leave-active {
      transition: opacity .5s
@@ -367,6 +370,6 @@
    .fade-enter, .fade-leave-to /* .fade-leave-active in below version 2.1.8 */ {
       opacity: 0
     }
- 
+
 </style>
 

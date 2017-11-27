@@ -248,7 +248,6 @@
 
 
   .container{
-    height: 77vh;
     position: fixed;
     top: px2vw(208);
     bottom: 0;
