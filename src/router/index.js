@@ -51,6 +51,7 @@ const address = resolve => require(['@/components/Wap/mine/adress'], resolve)
 const addAddress = resolve => require(['@/components/Wap/mine/addAddress'], resolve)
 
 const collect = resolve => require(['@/components/Wap/mine/collect/collect'], resolve)
+const datumDetail = resolve => require(['@/components/Wap/mine/collect/datumDetail'], resolve)
 const goodCollect = resolve => require(['@/components/Wap/mine/collect/goodCollect'], resolve)
 const datum = resolve => require(['@/components/Wap/mine/collect/datum'], resolve)
 
@@ -262,6 +263,11 @@ let router = new Router({
 
 
       ]
+    },
+    {
+      name: 'datumDetail',
+      path: '/datumDetail',
+      component: datumDetail
     },
     {
       name: 'searchWord',

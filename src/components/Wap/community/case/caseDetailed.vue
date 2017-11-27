@@ -73,8 +73,8 @@
         <span v-if="userCoins < caseDetailArgs.chargeNumber" class="noCoin">余额不足, 立即充值</span>
 
         </div>
-        <div class="payRel2" v-if="userCoins < caseDetailArgs.chargeNumber">确认支付</div>
-        <div class="payRel" v-else>确认支付</div>
+        <div  class="payRel2" v-if="userCoins < caseDetailArgs.chargeNumber">确认支付</div>
+        <div @click="payRel(caseDetailArgs.chargeNumber)" class="payRel" v-else>确认支付</div>
       </div>
     </div>
 
@@ -102,6 +102,25 @@
 
     },
     methods:{
+      //确认支付
+      payRel(payCoins){
+        console.log(payCoins);
+        this.$store.dispatch('PAY_CASE_DETAIL', {
+          postId: this.$route.query.id,
+          chargeNumber: payCoins,
+        }).then((res) => {
+          console.log(res,'111');
+
+          if(res.msg === "支付成功")
+          {
+            Toast({message: '支付成功', duration: 1000});
+            this.payNow = false;
+          }else {
+            this.payNow = false;
+            Toast({message: '支付失败', duration: 1000});
+          }
+        });
+      },
       closePay(){
         this.payNow = false;
       },

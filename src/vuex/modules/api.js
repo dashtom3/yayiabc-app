@@ -617,3 +617,7 @@ export function getUserPay(params) {
 export function deleteMyCase(params) {
   return getWithToken('/cottoms/deletePost', params)
 }
+//病例支付
+export function payCaseDetail(params) {
+  return getWithToken('/cottoms/playChargePost', params)
+}
