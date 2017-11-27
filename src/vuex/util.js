@@ -103,77 +103,84 @@ export default {
   // 工具设备类
   // 该商品1件，赠送钱币数量=档次购买金额*5%
   // 该商品>=2件，赠送钱币数量=档次购买金额*10%
+  // goodToMoney: function (goodList) {
+  //   console.log(goodList, '钱币赠送')
+  //   var daoBangArr = [], haoCaiArr = [], gongJuSheBeiArr = [];
+  //   var daoBangMoney = 0, haoCaiMoney = 0, gongJuSheBeiMoney = 0;
+  //   var daoBangRata, haoCaiRata, gongJuSheBeiRata;
+  //   var daoBangMoneyToMoney = 0, haoCaiMoneyToMoney = 0, gongJuSheBeiMoneyToMoney = 0;
+  //   for (let i in goodList) {
+  //     if (goodList[i].goodBrandName == "上海道邦") {
+  //       daoBangArr.push(goodList[i]);
+  //     } else if (goodList[i].goodSort == "耗材类") {
+  //       haoCaiArr.push(goodList[i]);
+  //     } else if (goodList[i].goodSort == "工具设备类") {
+  //       gongJuSheBeiArr.push(goodList[i]);
+  //     }
+  //   }
+  //   // 道邦
+  //   for (let a in daoBangArr) {
+  //     daoBangMoney += daoBangArr[a].price * 100 * daoBangArr[a].num / 100
+  //   }
+  //   if (daoBangMoney < 300) {
+  //     daoBangRata = 3;
+  //   } else if (300 <= daoBangMoney && daoBangMoney < 600) {
+  //     daoBangRata = 5;
+  //   } else if (600 <= daoBangMoney && daoBangMoney < 1200) {
+  //     daoBangRata = 8;
+  //   } else if (1200 <= daoBangMoney && daoBangMoney < 2500) {
+  //     daoBangRata = 12;
+  //   } else if (2500 <= daoBangMoney) {
+  //     daoBangRata = 15;
+  //   } else {
+  //     daoBangRata = 0;
+  //   }
+  //   daoBangMoneyToMoney = daoBangMoney * daoBangRata / 100;
+  //   // console.log(daoBangMoneyToMoney,daoBangMoney,daoBangRata,"111111")
+  //   // 耗材
+  //   for (let b in haoCaiArr) {
+  //     haoCaiMoney += haoCaiArr[b].price * 100 * haoCaiArr[b].num / 100
+  //   }
+  //   if (haoCaiMoney < 500) {
+  //     haoCaiRata = 3;
+  //   } else if (500 <= haoCaiMoney && haoCaiMoney < 1000) {
+  //     haoCaiRata = 5;
+  //   } else if (1000 <= haoCaiMoney && haoCaiMoney < 3000) {
+  //     haoCaiRata = 8;
+  //   } else if (3000 <= haoCaiMoney) {
+  //     haoCaiRata = 12;
+  //   } else {
+  //     haoCaiRata = 0;
+  //   }
+  //   haoCaiMoneyToMoney = haoCaiMoney * haoCaiRata / 100;
+  //   // console.log(haoCaiMoneyToMoney,haoCaiMoney,haoCaiRata,"22222222222222")
+  //   var gongJuSheBeiAllNum = 0;
+  //   for (let c in gongJuSheBeiArr) {
+  //     gongJuSheBeiMoney += gongJuSheBeiArr[c].price * 100 * gongJuSheBeiArr[c].num / 100;
+  //     gongJuSheBeiAllNum += gongJuSheBeiArr[c].num;
+  //   }
+  //   if (gongJuSheBeiAllNum == 1) {
+  //     gongJuSheBeiRata = 5;
+  //   } else if (gongJuSheBeiAllNum >= 2) {
+  //     gongJuSheBeiRata = 10;
+  //   } else {
+  //     gongJuSheBeiRata = 0;
+  //   }
+  //   gongJuSheBeiMoneyToMoney = gongJuSheBeiMoney * gongJuSheBeiRata / 100;
+  //   // console.log(gongJuSheBeiMoneyToMoney,gongJuSheBeiMoney,gongJuSheBeiRata,"333")
+  //   var finalyMoney = 0;
+  //   finalyMoney = gongJuSheBeiMoneyToMoney + haoCaiMoneyToMoney + daoBangMoneyToMoney;
+  //   console.log(finalyMoney, "finalyMoney");
+  //   return Math.round(finalyMoney);
+  // },
   goodToMoney: function (goodList) {
-    var daoBangArr = [], haoCaiArr = [], gongJuSheBeiArr = [];
-    var daoBangMoney = 0, haoCaiMoney = 0, gongJuSheBeiMoney = 0;
-    var daoBangRata, haoCaiRata, gongJuSheBeiRata;
-    var daoBangMoneyToMoney = 0, haoCaiMoneyToMoney = 0, gongJuSheBeiMoneyToMoney = 0;
+    let qb = 0
     for (let i in goodList) {
-      if (goodList[i].goodBrandName == "上海道邦") {
-        daoBangArr.push(goodList[i]);
-      } else if (goodList[i].goodSort == "耗材类") {
-        haoCaiArr.push(goodList[i]);
-      } else if (goodList[i].goodSort == "工具设备类") {
-        gongJuSheBeiArr.push(goodList[i]);
-      }
+      qb += goodList[i].goodQb * goodList[i].num
     }
-    // 道邦
-    for (let a in daoBangArr) {
-      daoBangMoney += daoBangArr[a].price * 100 * daoBangArr[a].num / 100
-    }
-    if (daoBangMoney < 300) {
-      daoBangRata = 3;
-    } else if (300 <= daoBangMoney && daoBangMoney < 600) {
-      daoBangRata = 5;
-    } else if (600 <= daoBangMoney && daoBangMoney < 1200) {
-      daoBangRata = 8;
-    } else if (1200 <= daoBangMoney && daoBangMoney < 2500) {
-      daoBangRata = 12;
-    } else if (2500 <= daoBangMoney) {
-      daoBangRata = 15;
-    } else {
-      daoBangRata = 0;
-    }
-    daoBangMoneyToMoney = daoBangMoney * daoBangRata / 100;
-    // console.log(daoBangMoneyToMoney,daoBangMoney,daoBangRata,"111111")
-    // 耗材
-    for (let b in haoCaiArr) {
-      haoCaiMoney += haoCaiArr[b].price * 100 * haoCaiArr[b].num / 100
-    }
-    if (haoCaiMoney < 500) {
-      haoCaiRata = 3;
-    } else if (500 <= haoCaiMoney && haoCaiMoney < 1000) {
-      haoCaiRata = 5;
-    } else if (1000 <= haoCaiMoney && haoCaiMoney < 3000) {
-      haoCaiRata = 8;
-    } else if (3000 <= haoCaiMoney) {
-      haoCaiRata = 12;
-    } else {
-      haoCaiRata = 0;
-    }
-    haoCaiMoneyToMoney = haoCaiMoney * haoCaiRata / 100;
-    // console.log(haoCaiMoneyToMoney,haoCaiMoney,haoCaiRata,"22222222222222")
-    var gongJuSheBeiAllNum = 0;
-    for (let c in gongJuSheBeiArr) {
-      gongJuSheBeiMoney += gongJuSheBeiArr[c].price * 100 * gongJuSheBeiArr[c].num / 100;
-      gongJuSheBeiAllNum += gongJuSheBeiArr[c].num;
-    }
-    if (gongJuSheBeiAllNum == 1) {
-      gongJuSheBeiRata = 5;
-    } else if (gongJuSheBeiAllNum >= 2) {
-      gongJuSheBeiRata = 10;
-    } else {
-      gongJuSheBeiRata = 0;
-    }
-    gongJuSheBeiMoneyToMoney = gongJuSheBeiMoney * gongJuSheBeiRata / 100;
-    // console.log(gongJuSheBeiMoneyToMoney,gongJuSheBeiMoney,gongJuSheBeiRata,"333")
-    var finalyMoney = 0;
-    finalyMoney = gongJuSheBeiMoneyToMoney + haoCaiMoneyToMoney + daoBangMoneyToMoney;
-    console.log(finalyMoney, "finalyMoney");
-    return Math.round(finalyMoney);
-  },
+    return qb;
+  }
 }
-
 export const tokenMethods = {
   // 移动端登陆token
   setWapToken(token) {

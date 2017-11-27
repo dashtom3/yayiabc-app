@@ -215,6 +215,7 @@
           that.sendDataList[i].picPath = that.sendDataList[i].pic;
           that.sendDataList[i].goodBrandName = that.sendDataList[i].itemBrandName;
           that.sendDataList[i].goodSort = that.sendDataList[i].itemSort;
+          that.sendDataList[i].goodQb = 2
         }
         sendData.details = that.sendDataList;
         sendData.haveSelectedGoodNum = that.haveSelectedGoodNum;

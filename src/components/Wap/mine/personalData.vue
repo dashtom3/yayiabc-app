@@ -112,7 +112,7 @@
           sexText: '男',
           birthday: '请选择日期',
           companyName: '',
-          judge: 0,
+          // judge: 0,
           state: 0,
           part: '',
           workAddress: '',
@@ -175,11 +175,11 @@
             this.personInfo.type = res.data.type && res.data.type.toString() || '1'
             this.personInfo.part = res.data.part && res.data.part.split(',').join('/') || '北京/北京市/东城区'
             this.personInfo.workAddress = res.data.workAddress
-            this.personInfo.judge = res.data.judge
-            this.personInfo.state = res.data.state
+            // this.personInfo.judge = res.data.judge
+            // this.personInfo.state = res.data.state
             this.personInfo.failReason = res.data.failReason || '无'
             this.personInfo.trueName = res.data.trueName
-            this.personInfo.state = res.data.state
+            // this.personInfo.state = res.data.state
             this.personInfo.imageUrl_head = res.data.userPic
             if(this.personInfo.sex === '1'){
               this.personInfo.sexText ='男'
@@ -200,9 +200,10 @@
           birthday: this.personInfo.birthday && util.formatDate.format(new Date(this.personInfo.birthday)) || '1970-01-01',
           userPic: this.personInfo.imageUrl_head,
           type: this.personInfo.type,
+          part: this.personInfo.part,
           companyName: this.personInfo.companyName,
           workAddress: this.personInfo.workAddress,
-          judge: this.personInfo.judge
+          // judge: this.personInfo.judge
         }
         //验证姓名
         if(this.personInfo.trueName === '' || this.personInfo.trueName === null){
@@ -220,6 +221,7 @@
           return
         }
         //保存个人信息
+        console.log(params, 'hahaha');
         this.$store.dispatch('SAVE_PERSON_LIST', params).then((res) => {
           if (res.data.callStatus === 'SUCCEED') {
             this.$store.dispatch('SAVE_CERTIFICATION', params).then((res) => {
@@ -334,6 +336,7 @@
   @import "../../../common/sass/factory";
   .personal_data{
     height: 100vh;
+    background: #f4f4f4;
   }
   .logIn_header{
     padding-bottom: 0;
@@ -345,11 +348,12 @@
     // margin-top: px2vw(88);
     position: fixed;
     top: px2vw(88);
-    bottom: 0;
+    // bottom: 0;
     left: 0;
     right: 0;
     padding: 0 px2vw(22) 0 0;
     // overflow: scroll;
+    background: #fff;
     -webkit-overflow-scrolling: touch;
   }
   .submit-btn{

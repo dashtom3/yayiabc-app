@@ -778,13 +778,41 @@
   //   float: left;
   //   width: 28.6vw;
   // }
-
-  .mine_function_bottom li img {
-    width: px2vw(44);
-    height: px2vw(44);
+  .mine_function_bottom li img{
     margin-bottom: px2vw(8)
   }
-
+  .mine_function_bottom li:nth-child(1) img {
+    width: px2vw(38);
+    height: px2vw(38);
+  }
+  .mine_function_bottom li:nth-child(2) img {
+    width: px2vw(44);
+    height: px2vw(39);
+  }
+  .mine_function_bottom li:nth-child(3) img {
+    width: px2vw(39);
+    height: px2vw(40);
+  }
+  .mine_function_bottom li:nth-child(4) img {
+    width: px2vw(44);
+    height: px2vw(40);
+  }
+  .mine_function_bottom li:nth-child(5) img {
+    width: px2vw(42);
+    height: px2vw(41);
+  }
+  .mine_function_bottom li:nth-child(6) img {
+    width: px2vw(36);
+    height: px2vw(44);
+  }
+  .mine_function_bottom li:nth-child(7) img {
+    width: px2vw(40);
+    height: px2vw(42);
+  }
+  .mine_function_bottom li:nth-child(8) img {
+    width: px2vw(38);
+    height: px2vw(44);
+  }
   // .mine_function_bottom li:nth-child(-n+3) {
   //   border-bottom: px2vw(1) solid $borderColor;
   //   padding-top: px2vw(14);

@@ -17,8 +17,8 @@
       <div class="searchBox">
       <div class="searchImgBox">
         <img class="searchImg" src="../../../images/salesWap/customer/search.png" alt="">
-        <form class="fromInput">
-          <input v-model="searchText" @change="space" @keyup.enter="searchClick" placeholder="请输入联系人、手机号或单位名称查询" type="search" class="searchInput">
+        <form @submit.prevent class="fromInput">
+          <input v-model="searchText" @change="space" @keyup.enter.stop.prevent="searchClick" placeholder="请输入联系人、手机号或单位名称查询" type="search" class="searchInput">
         </form>
       </div>
     </div>

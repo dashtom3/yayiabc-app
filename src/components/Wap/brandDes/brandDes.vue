@@ -221,7 +221,8 @@ export default {
         itemSKU: nowSku,
         price: that.nowGoodDetails.itemPrice,
         goodBrandName: that.nowGoodDetails.itemBrand.itemBrandName,
-        goodSort: that.nowGoodDetails.itemSort
+        goodSort: that.nowGoodDetails.itemSort,
+        goodQb: that.nowGoodDetails.itemValueList[0].itemQb
       }
       sendData.allMoney = that.nowGoodDetails.itemPrice * 100 * that.$store.state.index.goodNum / 100;
       var list = that.nowGoodDetails.itemValueList;

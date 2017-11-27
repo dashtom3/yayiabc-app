@@ -118,6 +118,9 @@ export default {
       } else if (this.status === 2) {
         obj.color = ''
         obj.text = '已认证'
+      } else if (this.status === 3) {
+        obj.color = 'status-red'
+        obj.text = '审核不通过'
       } else {
         obj.color = 'status-blue'
         obj.text = '立即认证'
