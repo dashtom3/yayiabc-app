@@ -306,10 +306,10 @@
         }
         switch (true){
           case type == 2:
-            this.$router.push({path:'/caseOfIllness',query:{postId:postId}})
+            this.$router.push({path:'/caseDetailed',query:{id:postId}})
             break
           case type == 3:
-            this.$router.push({path:'/video',query:{viId:viId}})
+            this.$router.push({path:'/videoDetailed',query:{id:postId}})
             break
           case type == 4:
             console.log(type);

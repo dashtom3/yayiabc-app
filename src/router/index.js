@@ -93,6 +93,7 @@ const caseDetailed = resolve => require(['@/components/Wap/community/case/caseDe
 const communitySearch = resolve => require(['@/components/Wap/community/communitySearch'], resolve)
 const QandAList = resolve => require(['@/components/Wap/community/QandA/QandAList'], resolve)
 const QandADetail = resolve => require(['@/components/Wap/community/QandA/QandADetail'], resolve)
+const newQuest = resolve => require(['@/components/Wap/community/QandA/newQuest'], resolve)
 
 //牙医圈
 const newTrend = resolve => require(['@/components/Wap/yayiCircle/newTrend'], resolve)
@@ -579,6 +580,11 @@ let router = new Router({
       name: 'QandADetail',
       path: '/QandADetail',
       component: QandADetail,
+    },
+    {
+      name: 'newQuest',
+      path: '/newQuest',
+      component: newQuest,
     },
     {
       name: 'myCase',

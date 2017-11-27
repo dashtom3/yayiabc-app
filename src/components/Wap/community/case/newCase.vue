@@ -134,6 +134,7 @@
         ],
         isClassPicker:false,
         classify:'',
+        classifyName:'',
         share:false
       }
     },
@@ -248,7 +249,7 @@
             this.args.classify = 1
           }else {
             this.args.classify = this.classify;
-            this.classify = this.slots[0].values[parseInt(this.classify) - 1]
+            this.classifyName = this.slots[0].values[parseInt(this.classify) - 1]
           }
         }else {
 //          this.args.classify = ''
