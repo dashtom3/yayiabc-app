@@ -1313,6 +1313,16 @@ const actions = {
       });
     });
   },
+  // 删除病例
+  [types.PAY_CASE_DETAIL](context, params) {
+    return new Promise((resolve, reject) => {
+      api.payCaseDetail(params).then((data) => {
+        resolve(data);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  },
   // 保存发现病分类筛选的值
   [types.SAVE_CASE_DRESSING]({commit}, params) {
     commit(types.SAVE_CASE_DRESSING,params);

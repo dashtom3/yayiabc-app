@@ -3,13 +3,13 @@
     <mt-loadmore :top-method="loadMore" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState">
       <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
 
-    <div  v-infinite-scroll="getCaseListMore" infinite-scroll-immediate-check="true">
+    <div class="scrollBox" v-infinite-scroll="getCaseListMore" infinite-scroll-immediate-check="true">
       <div @click="goCaseDetailed(item.postId)" v-for="(item, index) in listCaseData" class="caseBox">
         <div class="userBox " :class="{'addChange1': item.cover !== ''}">
           <div class="userPicture">
             <img src="../../../../images/mine/zhifubao.png" alt="">
             <span class="userName">{{item.writer}}</span>
-            <span class="userName userTime">5分钟前</span>
+            <span class="userName userTime">{{item.postTime}}分钟前</span>
           </div>
           <div class="caseContent">
             {{item.headline}}
@@ -40,12 +40,11 @@
 </template>
 
 <script>
-  import { InfiniteScroll, LoadMore } from 'mint-ui';
+  import { InfiniteScroll, LoadMore,Toast } from 'mint-ui';
   import Util from '../../../../vuex/util'
   import topLoadMore from '../../../salesWap/index/topLoadMore.vue';
   import {mapGetters} from 'vuex';
   import {COLLECT_CASE} from '../../../../vuex/types'
-
   export default {
     data (){
       return{
@@ -123,39 +122,53 @@
     },
     methods: {
       //时间计算
-      time(item){
-        switch (true){
-          //几分钟前
-          case this.timeStamp - item.momentTime < 3600000:
-//                console.log(this.timeStamp - item.momentTime)
-            item.momentTime = Math.ceil((this.timeStamp - item.momentTime) / 1000 / 60) + '分钟前';
-            break;
-          //几小时前
-          case this.timeStamp - item.momentTime >= 3600000 && this.timeStamp - item.momentTime < 86400000:
-//                console.log(this.timeStamp - item.momentTime)
-            item.momentTime = Math.floor((this.timeStamp - item.momentTime) / 1000 / 60 / 60) + '小时前';
-            break;
-          //日期
-          case this.timeStamp - item.momentTime >= 86400000:
-            item.momentTime = Util.formatDate.format(new Date(item.momentTime),'yy.MM.dd hh:mm').substring(2);
-            break;
+      time(res){
+
+        if(res)
+        {
+          res.forEach(item => {
+            switch (true){
+              //几分钟前
+              case this.timeStamp - item.postTime < 3600000:
+//                console.log(this.timeStamp - item.postTime)
+                item.postTime = Math.ceil((this.timeStamp - item.postTime) / 1000 / 60) + '分钟前';
+                break;
+              //几小时前
+              case this.timeStamp - item.postTime >= 3600000 && this.timeStamp - item.postTime < 86400000:
+//                console.log(this.timeStamp - item.postTime)
+                item.postTime = Math.floor((this.timeStamp - item.postTime) / 1000 / 60 / 60) + '小时前';
+                break;
+              //日期
+              case this.timeStamp - item.postTime >= 86400000:
+                item.postTime = Util.formatDate.format(new Date(item.postTime),'yy.MM.dd hh:mm').substring(2);
+                break;
+            }
+          });
+        }else {
+
         }
+
+
+
       },
       goCaseDetailed(id){
         this.$router.push({path: '/caseDetailed', query:{'id': id}})
       },
       getCaseListMore (){
+        console.log(111);
         if(this.caseDate.totalPage < this.caseListArgs.currentPage)
         {
           return
-        }else if(this.caseSearchArgs.totalPage < this.caseSearchArgs.currentPage){
+        }
+        else if(this.$router.history.current.name === 'caseOfIllnessSearch' && this.caseSearchArgs.totalPage < this.caseSearchArgs.currentPage){
           return
         }
         else {
+          this.caseListArgs.currentPage = Number(this.caseListArgs.currentPage) + 1;
           this.getCaseList();
         }
       },
-      getCaseList (){
+      getCaseList (more){
         console.log(this.$router.history.current.name,'aa');
         if(this.$router.history.current.name === 'caseOfIllnessSearch'){
           this.$store.dispatch('SEARCH_CASE_LIST', this.caseSearchArgs).then( (res) => {
@@ -173,10 +186,13 @@
           })
         }else {
           this.$store.dispatch('GET_CASE_LIST', this.caseListArgs).then( (res) => {
-            this.listCaseData = this.listCaseData.concat(res.data);
+            let data = res.data;
+            this.time(data);
+            this.listCaseData = this.listCaseData.concat(data);
             this.caseListArgs.totalPage = res.totalPage;
             this.caseListArgs.currentPage = res.currentPage;
             this.isLoading = false;
+            console.log(res,'哦哦哦');
           })
         }
       },
@@ -351,5 +367,8 @@
    .fade-enter, .fade-leave-to /* .fade-leave-active in below version 2.1.8 */ {
       opacity: 0
     }
+  .scrollBox{
+    margin-bottom: px2vw(20);
+  }
 </style>
 
