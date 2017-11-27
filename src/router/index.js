@@ -89,6 +89,8 @@ const ProductList = resolve => require(['@/components/Wap/ProductList/ProductLis
 const newCase = resolve => require(['@/components/Wap/community/case/newCase'], resolve)
 const caseDetailed = resolve => require(['@/components/Wap/community/case/caseDetailed'], resolve)
 const communitySearch = resolve => require(['@/components/Wap/community/communitySearch'], resolve)
+const QandAList = resolve => require(['@/components/Wap/community/QandA/QandAList'], resolve)
+const QandADetail = resolve => require(['@/components/Wap/community/QandA/QandADetail'], resolve)
 
 //牙医圈
 const newTrend = resolve => require(['@/components/Wap/yayiCircle/newTrend'], resolve)
@@ -101,6 +103,8 @@ const shareToYayiCircle = resolve => require(['@/components/Wap/yayiCircle/share
 const infoIndex = resolve => require(['@/components/Wap/mine/information/infoIndex'], resolve)
 const infoList = resolve => require(['@/components/Wap/mine/information/infoList'], resolve)
 const infoDetail = resolve => require(['@/components/Wap/mine/information/infoDetail'], resolve)
+const myQandA = resolve => require(['@/components/Wap/mine/myQandA/myQandA'], resolve)
+const myAnswerList = resolve => require(['@/components/Wap/mine/myQandA/myAnswerList'], resolve)
 
 
 
@@ -536,6 +540,29 @@ let router = new Router({
           component: video
         },
       ]
+    },
+    {
+      name:'myQandA',
+      path:'myQandA',
+      component:myQandA,
+      redirect: {name: '/myQandA/myQuestion'},
+      children: [
+        {
+          name: 'myQuestion',
+          path: '/myQandA/myQuestion',
+          component: QandAList
+        },
+        {
+          name: 'myAnswer',
+          path: '/myQandA/myAnswer',
+          component: myAnswerList
+        },
+      ]
+    },
+    {
+      name: 'QandADetail',
+      path: '/QandADetail',
+      component: QandADetail,
     },
     {
       name: 'myCase',
