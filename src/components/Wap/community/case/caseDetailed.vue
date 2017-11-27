@@ -114,6 +114,7 @@
           if(res.msg === "支付成功")
           {
             Toast({message: '支付成功', duration: 1000});
+            this.getCaseData();
             this.payNow = false;
           }else {
             this.payNow = false;

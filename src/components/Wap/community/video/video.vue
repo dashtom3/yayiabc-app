@@ -163,8 +163,6 @@
             this.videoArgs = res.data;
             this.videoArgs['totalPage'] = res.totalPage;
             this.isLoading = false;
-
-
             console.log(res, '时间');
           });
         }

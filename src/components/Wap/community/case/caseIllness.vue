@@ -140,8 +140,12 @@
         if(index === 0)
         {
           this.$router.push({path:'/caseOfIllness'});
+          this.caseListArgs.classify = '';
+          this.$store.dispatch('SAVE_CASE_DRESSING',  '');
         }else if(index === 1)
         {
+          this.$store.dispatch('SAVE_CASE_DRESSING',  '');
+          this.caseListArgs.classify = '';
           this.$router.push({path:'/video'});
         }
       }
