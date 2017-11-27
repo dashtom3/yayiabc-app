@@ -33,6 +33,11 @@
           <span class="nowVer2" v-else @click="updateApp">点击更新</span>
         </div>
       </div> -->
+      <!--退出按钮开始-->
+      <div class="esc_background">
+        <mu-raised-button class="esc" label="退出" v-on:click="logOut"/>
+      </div>
+      <!--退出按钮结束-->
     </div>
   </div>
 </template>
@@ -40,7 +45,7 @@
 <script type="text/ecmascript-6">
   import salesHeader from '../../salesWap/salesHeader.vue'
   import {Toast, Indicator, MessageBox} from 'mint-ui'
-
+  import {tokenMethods} from '../../../vuex/util'
   export default {
     data(){
       return {
@@ -71,6 +76,39 @@
 //      },
       goto(){
         this.$router.push('/feedback')
+      },
+      // 登出
+      logOut: function () {
+        var that = this;
+        var obj = {
+          token: tokenMethods.getWapToken()
+        }
+        that.$store.dispatch('GET_LOGIN_OUT', obj).then((res) => {
+          // console.log("1111"+res);
+          if (res.callStatus === 'FAILED') {
+            tokenMethods.removeMsg()
+            this.$router.push({path: '/logIn'})
+          }
+          if (res.callStatus === 'SUCCEED') {
+            tokenMethods.removeMsg()
+            Toast({message: '退出成功！', duration: 1500});
+            this.$router.push({path: '/logIn', query: {backName: '/yayi/mine'}});
+            try {
+              that.authLogout()
+            } catch (e) {
+              console.log(e)
+            }
+          } else {
+            this.$router.push({path: '/logIn'})
+            tokenMethods.removeMsg()
+            try {
+              that.authLogout()
+            } catch (e) {
+              console.log(e)
+            }
+            // Toast({message: '退出失败！', duration: 3000})
+          }
+        })
       },
     }
   }
@@ -129,5 +167,20 @@
   .line a{
     float: right;
     color: #999;
+  }
+  .esc_background {
+    height: 120px;
+  }
+  .esc {
+    margin-left: px2vw(124);
+    margin-top: px2vw(102);
+    text-align: center;
+    height: px2vw(100);
+    font-size: 3.733333vw;
+    line-height: normal;
+    background-color: $themeColor;
+    color: white;
+    width: 66.8vw;
+    box-shadow: 0 0 px2vw(25) $themeColor;
   }
 </style>

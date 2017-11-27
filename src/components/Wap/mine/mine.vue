@@ -2,8 +2,8 @@
   <div class="mine">
     <div class="box_wrap"></div>
     <div class="server_box">
-      <img src="../../../images/mine/shezhi.png" alt="">
-      <img src="../../../images/mine/xiaoxi.png" alt="">
+      <img @click="goToAppSetting" src="../../../images/mine/shezhi.png" alt="">
+      <img @click="goToNews" src="../../../images/mine/xiaoxi.png" alt="">
     </div>
     <div v-if="showLogin">
       <!--上部开始-->
@@ -72,7 +72,7 @@
       </ul>
       <!--上部功能区结束-->
       <!--下部功能区开始-->
-       <div class="myCoin">
+       <div class="myCoin" @click="toMyCoin">
         <span>我的乾币</span>
         <span class="myCoin_back">
           <img src="../../../images/mine/back.png" alt="">
@@ -83,23 +83,22 @@
           <span class="coin_money">0</span>
           <span>乾币</span>
         </li>
-        <li class="coin_item">
+        <li class="coin_item" @click="toCoin('/coinDetail')">
           <img src="../../../images/mine/chong.png" alt="">
           <span>充值</span> 
         </li>
-        <li class="coin_item">
+        <li class="coin_item" @click="toCoin('/exchange')">
           <img src="../../../images/mine/tixian.png" alt="">
           <span>提现</span>
-
         </li>
-        <li class="coin_item">
+        <li class="coin_item" @click="toCoin('/exchangeDetail')">
           <img src="../../../images/mine/dui.png" alt="">
           <span>兑换</span> 
         </li>
       </ul>
       <div class="split"></div>
       <ul class="mine_function_bottom">
-        <li class="mine_function_bottom_item" @click="toMyCoin">
+        <li class="mine_function_bottom_item" @click="toMyCase">
           <img src="../../../images/mine/bingli.png" alt="">
           <div>我的病例</div>
         </li>
@@ -111,15 +110,15 @@
           <img src="../../../images/mine/dongtai.png" alt="">
           <div>我的动态</div>
         </li>
-        <li class="mine_function_bottom_item" @click="goToMine">
+        <li class="mine_function_bottom_item" @click="goToShopingCar">
           <img src="../../../images/mine/car.png" alt="">
           <div>购物车</div>
         </li>
-        <li class="mine_function_bottom_item" @click="goToCustomer">
+        <li class="mine_function_bottom_item" @click="goToCollect">
           <img src="../../../images/mine/shoucang.png" alt="">
           <div>我的收藏</div>
         </li>
-        <li class="mine_function_bottom_item" @click="goToAppSetting">
+        <li class="mine_function_bottom_item" @click="goToAddress">
           <img src="../../../images/mine/dizhi.png" alt="">
           <div>我的地址</div>
         </li>
@@ -127,7 +126,7 @@
           <img src="../../../images/mine/qq.png" alt="">
           <div>QQ咨询</div>
         </li>
-        <li class="mine_function_bottom_item">
+        <li class="mine_function_bottom_item" @click="goToCustomer">
           <img src="../../../images/mine/kefu.png" alt="">
           <div>客服代表</div>
         </li>
@@ -307,6 +306,9 @@
       goToAppSetting(){
         this.$router.push({path: '/appSetting'})
       },
+      goToNews() {
+        this.$router.push({path: '/infoIndex'})
+      },
       toGoPerson() {
         this.$router.push({path: '/logIn', query: {backName: '/yayi/mine'}})
         this.$router.push({path: '/personalData'})
@@ -316,6 +318,9 @@
       },
       toLogin() {
         this.$router.push({path: '/logIn', query: {backName: '/yayi/mine'}})
+      },
+      toCoin(url) {
+        this.$router.push({path: url})
       },
       toCoinCash() {
         this.$router.push({path: '/coinCash', query: {backJudge: 'mine'}});
@@ -327,8 +332,8 @@
       goToCollect: function () {
         this.$router.push({path: '/collect'});
       },
-      goToMine: function () {
-        this.$router.push({path: '/personalData'})
+      goToShopingCar: function () {
+        this.$router.push({path: '/shoppingCarEntry', query: {backName: '/yayi/mine'}})
       },
       goToCustomer: function () {
         this.$router.push({path: '/customerService'})
@@ -397,6 +402,9 @@
             that.state = res.data.state
           }
         })
+      },
+      toMyCase() {
+         this.$router.push({path: '/myCase'})
       },
       toMyCoin() {
         this.$store.dispatch('SAVE_JUMP_INDEX', 2)
@@ -840,18 +848,18 @@
   //   padding-right: px2vw(15);
   // }
 
-  .esc {
-    margin-left: px2vw(124);
-    text-align: center;
-    height: px2vw(100);
-    font-size: 3.733333vw;
-    line-height: normal;
-    background-color: $themeColor;
-    color: white;
-    width: 66.8vw;
-    box-shadow: 0 0 px2vw(25) $themeColor;
-    margin-bottom: px2vw(150);
-  }
+  // .esc {
+  //   margin-left: px2vw(124);
+  //   text-align: center;
+  //   height: px2vw(100);
+  //   font-size: 3.733333vw;
+  //   line-height: normal;
+  //   background-color: $themeColor;
+  //   color: white;
+  //   width: 66.8vw;
+  //   box-shadow: 0 0 px2vw(25) $themeColor;
+  //   margin-bottom: px2vw(150);
+  // }
 
   .noLog {
     z-index: 999;
@@ -868,9 +876,9 @@
     margin: auto;
   }
 
-  .esc_background {
-    height: 120px;
-  }
+  // .esc_background {
+  //   height: 120px;
+  // }
 
   .box_wrap {
     z-index: -100;
@@ -886,6 +894,7 @@
     top: px2vw(40);
     width: 100%;
     height: px2vw(88);
+    z-index: 1;
   }
   .server_box img:nth-child(1){
     position: absolute;
