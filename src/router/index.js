@@ -52,6 +52,7 @@ const addAddress = resolve => require(['@/components/Wap/mine/addAddress'], reso
 
 const collect = resolve => require(['@/components/Wap/mine/collect/collect'], resolve)
 const goodCollect = resolve => require(['@/components/Wap/mine/collect/goodCollect'], resolve)
+const datum = resolve => require(['@/components/Wap/mine/collect/datum'], resolve)
 
 /*wx_user组件*/
 const User = resolve => require(['@/components/wx_user/user'], resolve)
@@ -251,6 +252,15 @@ let router = new Router({
           path: '/collect/videocollect',
           component: video
         },
+        {
+          name: 'datumcollect',
+          path: '/collect/datumcollect',
+          component: datum
+        },
+
+
+
+
       ]
     },
     {

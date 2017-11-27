@@ -42,7 +42,7 @@
 //            this.$router.push({path:'/collect/goodCollect',query:{collectType:index}});
             break;
           case index === 4:
-//            this.$router.push({path:'/collect/goodCollect',query:{collectType:index}});
+            this.$router.push({path:'/collect/datumcollect',query:{collectType:index}});
             break;
         }
       }
