@@ -342,6 +342,21 @@ export function yayiCircle(params) {
   return getWithToken('/moment/queryList', params);
 }
 
+//获取问答列表
+export function FAQList(params) {
+  return getWithToken('/faq/list', params);
+}
+
+//获取我的问答列表
+export function myQuestion(params) {
+  return getWithToken('/faq/myQuestion', params);
+}
+
+//获取我的回答列表
+export function myAnswer(params) {
+  return getWithToken('/faq/myAnswer', params);
+}
+
 //获取我的牙医圈列表
 export function myYayiCircle(params) {
   return getWithToken('/moment/myMoment', params);

@@ -1293,6 +1293,36 @@ const actions = {
       });
     });
   },
+  // 问答列表
+  [types.FAQ_LIST](context, params) {
+    return new Promise((resolve, reject) => {
+      api.FAQList(params).then((data) => {
+        resolve(data);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  },
+  // 我的问答
+  [types.MY_QUESTION](context, params) {
+    return new Promise((resolve, reject) => {
+      api.myQuestion(params).then((data) => {
+        resolve(data);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  },
+  // 我的回答
+  [types.MY_ANSWER](context, params) {
+    return new Promise((resolve, reject) => {
+      api.myAnswer(params).then((data) => {
+        resolve(data);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  },
   // 我的病例乾币
   [types.GET_USER_PAY](context, params) {
     return new Promise((resolve, reject) => {

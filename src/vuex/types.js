@@ -183,7 +183,9 @@ export const GET_CASE_COMMENT = 'GET_CASE_COMMENT';                         //�
 export const COLLECT = 'COLLECT';                         //收藏的病例列表
 
 
-
+export const FAQ_LIST = 'FAQ_LIST';                           //问答列表
+export const MY_QUESTION = 'MY_QUESTION';                     //我的问答列表
+export const MY_ANSWER = 'MY_ANSWER';                         //我的回答
 
 
 export const GET_PLAY_VIDEOS = 'GET_PLAY_VIDEOS';                         //视频播放

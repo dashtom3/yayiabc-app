@@ -31,7 +31,7 @@
   import { InfiniteScroll, LoadMore } from 'mint-ui';
   import {mapGetters} from 'vuex';
   import topLoadMore from '../../../salesWap/index/topLoadMore.vue';
-  import {COLLECT,} from '../../../../vuex/types'
+  import {COLLECT, FAQ_LIST, MY_QUESTION, } from '../../../../vuex/types'
 
   export default {
     data(){
@@ -98,20 +98,34 @@
         switch (true){
           case this.$router.history.current.name === 'QandAList':
             //发现
+            this.$store.dispatch(FAQ_LIST, this.args).then(res=>{
+
+            });
             break;
           case this.$router.history.current.name === 'myQuestion':
+            this.$store.dispatch(MY_QUESTION, this.args).then(res=>{
+
+            });
             //我的
             break;
           case this.$router.history.current.name === 'questCollect':
+            this.$store.dispatch(COLLECT, this.args).then(res=>{
+
+            });
             //收藏
             break;
         }
       },
       getQuestListMore(){
-
+        if(this.totalPage <= this.args.currentPage){
+          return
+        }else {
+          this.args.currentPage += 1;
+          this.getQuestList();
+        }
       },
       gotoDetail(id){
-        this.$router.push({path:'/QandADetail',params:{}})
+        this.$router.push({path:'/QandADetail',params:{faqQuestionId:id}})
       },
       //mt中接受的val值作为参数传入我的组件里
       isState(val){
