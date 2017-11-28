@@ -103,6 +103,9 @@
         }else if(newVal === 1)
         {
           this.caseDate.updataTime = ['最多播放', '最多评论'];
+        }else if(newVal === 2)
+        {
+          this.caseDate.updataTime = ['最新发布', '最多回答'];
         }
       }
     },
@@ -122,13 +125,13 @@
       },
 
       //上部筛选功能栏
-      dressing (item){
+      dressing (index){
 //        if( this.caseDate.caseClassNum === 0)
 //        {
 //          this.$store.dispatch('SAVE_CASE_DRESSING',  item);
 //        }
-        this.$store.dispatch('SAVE_CASE_DRESSING',  item);
-        this.caseListArgs.classify = item;
+        this.$store.dispatch('SAVE_CASE_DRESSING',  index);
+        this.caseListArgs.classify = index;
 
       },
       gotoPage(page){

@@ -255,9 +255,14 @@ let router = new Router({
           component: caseOfIllness
         },
         {
-          name: 'videocollect',
+          name: 'videoCollect',
           path: '/collect/videocollect',
           component: video
+        },
+        {
+          name: 'questCollect',
+          path: '/collect/questCollect',
+          component: QandAList
         },
         {
           name: 'datumcollect',
@@ -555,6 +560,11 @@ let router = new Router({
           name: 'videoSearch',
           path: '/communitySearch/video',
           component: video
+        },
+        {
+          name: 'QASearch',
+          path: '/communitySearch/QAndASearch',
+          component: QandAList
         },
       ]
     },

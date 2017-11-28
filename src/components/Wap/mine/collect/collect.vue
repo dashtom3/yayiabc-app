@@ -36,10 +36,10 @@
             this.$router.push({path:'/collect/caseOfIllnessCollect',query:{collectType:index}});
             break;
           case index === 2:
-            this.$router.push({path:'/collect/videocollect',query:{collectType:index}});
+            this.$router.push({path:'/collect/videoCollect',query:{collectType:index}});
             break;
           case index === 3:
-//            this.$router.push({path:'/collect/goodCollect',query:{collectType:index}});
+            this.$router.push({path:'/collect/QandAList',query:{collectType:index}});
             break;
           case index === 4:
             this.$router.push({path:'/collect/datumcollect',query:{collectType:index}});

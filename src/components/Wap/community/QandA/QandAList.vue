@@ -1,24 +1,26 @@
 <template>
-  <div class="container">
+  <div class="container" ref="scrollBox">
     <mt-loadmore :top-method="loadMore" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState">
       <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
-      <div class="eachContainer" @click="gotoDetail()">
-        <div class="headLine">
-          <div class="headImg">
-            <img src="../../../../images/mine/defaultHead.png" alt="">
+      <div class="scrollBox" v-infinite-scroll="getQuestListMore" infinite-scroll-immediate-check="true">
+        <div class="eachContainer" @click="gotoDetail()">
+          <div class="headLine">
+            <div class="headImg">
+              <img src="../../../../images/mine/defaultHead.png" alt="">
+            </div>
+            <div class="name">
+              王林娟
+            </div>
+            <div class="time">5分钟前</div>
           </div>
-          <div class="name">
-            王林娟
+          <div class="title">
+            标题
           </div>
-          <div class="time">5分钟前</div>
-        </div>
-        <div class="title">
-          标题
-        </div>
-        <div class="other">
-          <span class="classify">口内</span>
-          <span class="num"><span>8</span>评论</span>
-          <span class="clr"></span>
+          <div class="other">
+            <span class="classify">口内</span>
+            <span class="num"><span>8</span>评论</span>
+            <span class="clr"></span>
+          </div>
         </div>
       </div>
     </mt-loadmore>
@@ -27,20 +29,85 @@
 
 <script type="text/ecmascript-6">
   import { InfiniteScroll, LoadMore } from 'mint-ui';
+  import {mapGetters} from 'vuex';
   import topLoadMore from '../../../salesWap/index/topLoadMore.vue';
+  import {COLLECT,} from '../../../../vuex/types'
 
   export default {
     data(){
       return{
         isLoading:false,
+        args:{
+          currentPage:1,
+          faqQuestionType:null,
+          keyWord:'',
+          order:1,
+          type:4
+        },
+        questList:[],
+        totalPage:0,
+        timeStamp:null,
       }
     },
     components:{
       topLoadMore
     },
+    computed: {
+      ...mapGetters([
+        'saveCaseDressing', //分类筛选的值  不限 外科 内科等一栏
+        'saveCaseOrder',   //order 筛选按钮的值
+        'saveCaseSearching', //
+      ]),
+    },
+    watch: {
+      saveCaseDressing: {
+        handler:function (val) {
+          this.args.faqQuestionType = val;
+          this.loadMore();
+        }
+      },
+      saveCaseOrder: {
+        handler:function (val) {
+          this.args.order = val;
+          this.loadMore();
+        }
+      },
+      saveCaseSearching: {
+        handler: function (val) {
+          this.args.keyWord = val;
+          this.type = this.args.keyWord ? 3 : 4;
+          this.loadMore();
+        }
+      }
+    },
+    created(){
+      this.timeStamp = Date.parse(new Date());
+    },
     methods:{
       //下拉刷新
       loadMore (id){
+        this.timeStamp = Date.parse(new Date());
+        this.args.currentPage = 1;
+        this.totalPage = 0;
+        this.questList = [];
+        this.$refs.scrollBox.scrollTop = 0;
+        this.getQuestList();
+      },
+      getQuestList(){
+        this.isLoading = true;
+        switch (true){
+          case this.$router.history.current.name === 'QandAList':
+            //发现
+            break;
+          case this.$router.history.current.name === 'myQuestion':
+            //我的
+            break;
+          case this.$router.history.current.name === 'questCollect':
+            //收藏
+            break;
+        }
+      },
+      getQuestListMore(){
 
       },
       gotoDetail(id){
@@ -65,72 +132,77 @@
   .container{
     width: 100%;
     height: 100%;
-    min-height: 30vh;
+    min-height: 60vh;
     background-color: #fff;
-    .eachContainer{
-      padding: px2vw(20) px2vw(20) 0;
+    .scrollBox{
       width: 100%;
-      .headLine{
+      height: 100%;
+      .eachContainer{
+        padding: px2vw(20) px2vw(20) 0;
         width: 100%;
-        height: px2vw(120);
-        float: left;
-        .headImg{
-          display: inline-block;
-          width: px2vw(60);
-          height: px2vw(60);
-          border-radius: 50%;
-          overflow: hidden;
-          vertical-align: middle;
-          img{
-            width: 100%;
-            line-height: px2vw(60);
-          }
-        }
-        .name{
-          line-height: px2vw(120);
-          display: inline-block;
-          font-size: px2vw(26);
-          color: #333;
-          margin-left: px2vw(10);
-        }
-        .time{
-          line-height: px2vw(120);
-          display: inline-block;
-          font-size: px2vw(24);
-          color: #999;
-          margin-left: px2vw(10);
-        }
-      }
-      .title{
-        width: 100%;
-        font-size: px2vw(30);
-        color: #333;
-        margin-bottom: px2vw(20);
-        font-weight: bold;
-      }
-      .other{
-        padding-bottom: px2vw(30);
-        border-bottom: 1px solid #e5e5e5;
-        height: px2vw(70);
-        .classify{
-          font-size: px2vw(22);
-          border: 1px solid $themeColor;
-          color: $themeColor;
-          border-radius: px2vw(5);
+        .headLine{
+          width: 100%;
+          height: px2vw(120);
           float: left;
-        }
-        .num{
-          float: right;
-          font-size: px2vw(24);
-          color: #999;
-          span{
-            color: $themeColor;
+          .headImg{
+            display: inline-block;
+            width: px2vw(60);
+            height: px2vw(60);
+            border-radius: 50%;
+            overflow: hidden;
+            vertical-align: middle;
+            img{
+              width: 100%;
+              line-height: px2vw(60);
+            }
+          }
+          .name{
+            line-height: px2vw(120);
+            display: inline-block;
+            font-size: px2vw(26);
+            color: #333;
+            margin-left: px2vw(10);
+          }
+          .time{
+            line-height: px2vw(120);
+            display: inline-block;
+            font-size: px2vw(24);
+            color: #999;
+            margin-left: px2vw(10);
           }
         }
-        .clr{
-          clear: both;
+        .title{
+          width: 100%;
+          font-size: px2vw(30);
+          color: #333;
+          margin-bottom: px2vw(20);
+          font-weight: bold;
+        }
+        .other{
+          padding-bottom: px2vw(30);
+          border-bottom: 1px solid #e5e5e5;
+          height: px2vw(70);
+          .classify{
+            font-size: px2vw(22);
+            border: 1px solid $themeColor;
+            color: $themeColor;
+            border-radius: px2vw(5);
+            float: left;
+          }
+          .num{
+            float: right;
+            font-size: px2vw(24);
+            color: #999;
+            span{
+              color: $themeColor;
+            }
+          }
+          .clr{
+            clear: both;
+          }
         }
       }
     }
+
   }
 </style>

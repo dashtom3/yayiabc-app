@@ -21,7 +21,7 @@
         <div class="firstClassifyName" >
           <div @click="changeClass(0)" :class="{isCheckDiv:caseClassNum === 0}">病例</div>
           <div @click="changeClass(1)"  :class="{isCheckDiv:caseClassNum === 1}">视频</div>
-          <div @click="changeClass(2)"  :class="{isCheckDiv:caseClassNum === 2}">培训</div>
+          <div @click="changeClass(2)"  :class="{isCheckDiv:caseClassNum === 2}">问答</div>
         </div>
         <div class="secondClassifyName">
           <div class="theSecondClassifyName" @click="isChooseSecondClassify">

@@ -7,7 +7,7 @@
           <img src="../../../../images/case/release.png" alt="">
           发布
         </div>
-        <div class="save" @click="postCase(2)">
+        <div class="save" @click="postCase(2)" v-if="this.args.postStater == 1">
           <img src="../../../../images/case/save.png" alt="">
           保存
         </div>
@@ -41,12 +41,12 @@
         <div class="line">
           <span>分类</span>
           <span class="othersSelect" >
-            <span v-html="classify?classify:'请选择分类'" @click="selectClassify"></span>
+            <span v-html="classifyName?classifyName:'请选择分类'" @click="selectClassify"></span>
             <img src="../../../../images/mine/coin_img1.png" alt="">
           </span>
         </div>
-        <div class="line" v-if="!this.args.postId">
-          <el-checkbox @change="isShare"></el-checkbox><span @click.stop="labelFor"> 分享到牙医圈</span>
+        <div class="line" v-if="this.args.postStater == 1">
+          <el-checkbox @change="isShare" fill="'#3676B5'"></el-checkbox><span @click.stop="labelFor"> 分享到牙医圈</span>
         </div>
       </div>
       <!--<div class="blur" @click="blurClass"></div>-->
@@ -122,7 +122,7 @@
           freeContent:'',
           chargeContent:'',
           chargeNumber:'',
-          postStater:1,
+          postStater:2,
           cover:'',
           postId:null,
         },
@@ -131,7 +131,8 @@
             flex: 1,
             values: [ '口腔外科', '口腔内科', '口腔修复','口腔种植', '口腔正畸'],
             className: 'slot1',
-            textAlign: 'center'
+            textAlign: 'center',
+            defaultIndex:2,
           }
         ],
         isClassPicker:false,
@@ -242,6 +243,7 @@
       onValuesChange(picker, values) {
         console.log(this.slots[0].values.indexOf(values[0]));
         this.classify = this.slots[0].values.indexOf(values[0]) + 1;
+        this.classifyName = this.slots[0].values[parseInt(this.classify) - 1]
       },
       getCaseData(){
         this.$store.dispatch(GET_CASE_DETAIL, {postId: this.$route.query.id}).then((res) => {
@@ -251,24 +253,32 @@
           this.args.freeContent = res.data.freeContent;
           this.args.chargeContent = res.data.chargeContent;
           this.args.chargeNumber = res.data.chargeNumber;
-          this.args.postStater = 1;
-          this.args.cover = '';
+          this.args.postStater = res.data.postStater;
+          this.args.cover = res.data.cover;
           this.args.postId = this.$route.query.id;
-          let tmp = this.args.freeContent.split("src='");
-          console.log(tmp)
+          let tmp = this.args.freeContent.split("src=\"");
+          tmp.forEach(item=>{
+            let reg = 'http'
+            if(item.substr(0,4) === reg){
+              this.contImgList.push(item.split("\"")[0])
+            }
+          })
+//          console.log(this.contImgList)
         })
       },
       //病例选择的确定&取消时的方法，0取消，1确定
       onClassPicker(num){
         if(num){
-          if(this.classify < 0){
-            this.args.classify = 1
+          if(this.classify < 1){
+            this.args.classify = 2
+            this.classifyName = this.slots[0].values[2]
           }else {
             this.args.classify = this.classify;
-            this.classifyName = this.slots[0].values[parseInt(this.classify) - 1]
           }
         }else {
-//          this.args.classify = ''
+          this.classify = -1;
+          this.args.classify = '';
+          this.classifyName = ''
         }
 //        console.log(this.args.classify);
         this.isClassPicker = false
@@ -468,8 +478,8 @@
       text-align: center;
       color: #000;
       font-size: px2vw(32);
-      height: 40px;
-      line-height: 40px;
+      height: px2vw(90);
+      line-height: px2vw(90);
       .classPickerCancel{
         color: $themeColor;
         float: left;
@@ -495,6 +505,14 @@
 <style lang="scss" rel="stylesheet/scss">
   @import "../../../../common/sass/factory";
 
+  .picker-item{
+    height: px2vw(90);
+    line-height: px2vw(90);
+    font-size: px2vw(30);
+  }
+  .picker-selected{
+    color: $themeColor!important;
+  }
   .ql-toolbar.ql-snow .ql-formats{
     margin-right: 0;
   }
