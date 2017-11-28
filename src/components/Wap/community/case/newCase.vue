@@ -424,12 +424,12 @@
     -webkit-overflow-scrolling: touch;
     .inputTitle{
       width: 100%;
-      min-height: px2vw(90);
+      height: px2vw(90);
       .textArea{
         padding: 0 3%;
         width: 100%;
         font-size:px2vw(36);
-        min-height: px2vw(90);
+        height: px2vw(90);
         line-height: px2vw(90);
         border: none;
         border-bottom: 1px solid #ddd;
