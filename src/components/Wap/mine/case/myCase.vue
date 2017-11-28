@@ -149,7 +149,6 @@
           this.myCase.currentPage = 1;
           this.myCase.postStater = 2;
           this.getCaseList();
-
         }else if(this.change === 1) //发布
         {
           this.myCase.currentPage = 1;

@@ -8,6 +8,11 @@
         <img src="../../../../images/case/backer.png" alt="">
       </span>
 
+
+      <span  v-if="$route.query.draft == 1" class="del">
+        <img src="../../../../images/case/myCase/dele.png" alt="">
+      </span>
+
       <span v-if="$route.query.myCase" @click.stop="editClose()" class="backRightImgBox">
         <img src="../../../../images/case/caseOfIllness/point.png" alt="">
 
@@ -56,7 +61,21 @@
 
       <comment v-if="$route.query.draft != 1" :types="'病例'"></comment>
       <div class="bottomWrite" v-else="$route.query.draft == 1">
-        ss
+        <div class="bottomLeft">
+          <span>
+            <img src="../../../../images/case/myCase/send.png" alt="">
+          </span>
+          <span>发布</span>
+        </div>
+
+
+
+        <div class="bottomRight">
+          <span>
+            <img src="../../../../images/case/myCase/write.png" alt="">
+          </span>
+          <span>编辑</span>
+        </div>
       </div>
 
     </div>
@@ -245,14 +264,19 @@
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../../common/sass/factory";
 
-  .bottomWrite{
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100vw;
-    height: px2vw(80);
-    padding-top: px2vw(5);
-    padding-bottom: px2vw(5);
+  .del{
+    display: inline-block;
+    position: absolute;
+    top:0;
+    right: 0;
+    height: px2vw(88);
+    padding-top: px2vw(25);
+    padding-right: px2vw(20);
+    padding-left: px2vw(35);
+  }
+  .del img{
+    width: px2vw(40);
+    height: px2vw(40);
   }
   .payRel2{
     font-size: px2vw(32);
@@ -584,5 +608,47 @@
     left: 0;
     z-index: -10;
   }
+
+  .bottomWrite{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: px2vw(90);
+    padding-top: px2vw(10);
+    padding-bottom: px2vw(10);
+    font-size: px2vw(30);
+    border-top:px2vw(1) solid #cccccc ;
+  }
+  .bottomWrite span img{
+    vertical-align: text-bottom;
+    margin-right: px2vw(34);
+  }
+  .bottomLeft{
+     display: inline-block;
+     color: #999999;
+    height: px2vw(70);
+    line-height: px2vw(70);
+    width: 49%;
+    text-align: center;
+   }
+  .bottomLeft img{
+    width: px2vw(34);
+    height: px2vw(40);
+  }
+  .bottomRight{
+    display: inline-block;
+    height: px2vw(70);
+    color: $themeColor;
+    line-height: px2vw(70);
+    width: 49%;
+    border-left: px2vw(1) solid #999999;
+    text-align: center;
+  }
+  .bottomRight img{
+    width: px2vw(40);
+    height: px2vw(40);
+  }
+
 </style>
 
