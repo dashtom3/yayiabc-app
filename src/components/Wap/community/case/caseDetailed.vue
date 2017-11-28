@@ -2,7 +2,6 @@
   <div  class="titleWrap">
 
 
-
     <!--删除成功样式-->
     <div v-if="delSwitch" class="delSuccess">
       <div class="delImg">
@@ -10,7 +9,6 @@
       </div>
       <div>删除成功</div>
     </div>
-
 
     <div class="backgroundImg"></div>
     <div class="wrapTop">
