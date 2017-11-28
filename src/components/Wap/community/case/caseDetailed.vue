@@ -1,6 +1,17 @@
 <template>
   <div  class="titleWrap">
 
+
+
+    <!--删除成功样式-->
+    <div v-if="delSwitch" class="delSuccess">
+      <div class="delImg">
+        <img src="../../../../images/case/myCase/yyyyy.png" alt="img">
+      </div>
+      <div>删除成功</div>
+    </div>
+
+
     <div class="backgroundImg"></div>
     <div class="wrapTop">
       <span class="title">病例详情</span>
@@ -8,8 +19,7 @@
         <img src="../../../../images/case/backer.png" alt="">
       </span>
 
-
-      <span  v-if="$route.query.draft == 1" class="del">
+      <span @click="deleter()" v-if="$route.query.draft == 1" class="del">
         <img src="../../../../images/case/myCase/dele.png" alt="">
       </span>
 
@@ -21,8 +31,6 @@
           <span @click.stop="deleter()">删除</span>
         </span>
       </span>
-
-
     </div>
 
     <div class="container">
@@ -116,6 +124,7 @@
         payNow: false,
         userCoins: 0,
         timeStamp: '', //时间戳
+        delSwitch: false
       }
     },
     created (){
@@ -165,8 +174,13 @@
             console.log(res, '删除病例');
             if(res.msg === "删除成功")
             {
-              Toast({message: '删除成功', duration: 1000});
-              this.$router.go(-1);
+              this.delSwitch = true;
+              let _this = this;
+              setTimeout(function () {
+                _this.delSwitch = false;
+                _this.$router.go(-1);
+              },1000)
+
             }
           })
         }).catch(function (error) {
@@ -264,6 +278,28 @@
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../../common/sass/factory";
 
+  .delImg img{
+    width: px2vw(62);
+    height: px2vw(44);
+  }
+  .delImg{
+    margin-top: px2vw(40);
+    margin-bottom: px2vw(35);
+  }
+  .delSuccess{
+    position: fixed;
+    background-color: rgba(0,0,0,0.8);
+    top:40%;
+    left: 50%;
+    transform:translate(-50%, 0);
+    width: px2vw(300);
+    height: px2vw(200);
+    border-radius: px2vw(10);
+    z-index: 999;
+    text-align: center;
+    font-size: px2vw(36);
+    color: white;
+  }
   .del{
     display: inline-block;
     position: absolute;
