@@ -5,7 +5,6 @@
 
     <div  class="scrollBox" v-infinite-scroll="getCaseListMore" infinite-scroll-immediate-check="true">
 
-
       <div v-if="listCaseData != null" @click="goCaseDetailed(item.postId)" v-for="(item, index) in listCaseData" class="caseBox">
         <div class="userBox " :class="{'addChange1': item.cover !== ''}">
           <div class="userPicture">

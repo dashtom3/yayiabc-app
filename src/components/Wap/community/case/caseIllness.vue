@@ -22,9 +22,9 @@
         <!--分类功能结束-->
 
         <!--提示铃开始-->
-        <span class="tsImgBox">
+        <span @click="msg()" class="tsImgBox">
           <span class="numBox">
-            <span class="tsNum">5</span>
+            <span class="tsNum">{{msgNum}}</span>
           </span>
           <img src="../../../../images/case/caseOfIllness/tishi.png" alt="">
         </span>
@@ -63,6 +63,7 @@
 </template>
 
 <script>
+  import { tokenMethods } from '../../../../vuex/util'
   export default {
     data (){
       return{
@@ -73,6 +74,7 @@
           dressingSwitch: false,
           updataTime: ['最新发布', '最多评论', '最多赞'],
         },
+        msgNum: 0,
         caseListArgs: {
           classify: '',
           currentPage: 1,
@@ -80,6 +82,9 @@
           order: 0,
         },
       }
+    },
+    created(){
+      this.getMsg();
     },
     //*******导航钩子*********//
     beforeRouteEnter (to, from, next) {
@@ -110,6 +115,21 @@
       }
     },
     methods: {
+      getMsg(){
+        this.$store.dispatch('GET_INFO_NUM', {}).then( (res)=>{
+          if(parseInt(tokenMethods.getInfoNum()))
+          {
+            this.msgNum = Number(res.data.commentNumber) + parseInt(tokenMethods.getInfoNum());
+          }else {
+            this.msgNum = Number(res.data.commentNumber);
+          }
+          tokenMethods.setInfoNum(this.msgNum);
+        });
+      },
+      //消息按钮
+      msg(){
+
+      },
       togoVideo(){
         this.$router.push({path: '/videoDetailed', query: {id: 23}});
       },
@@ -167,9 +187,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../../common/sass/factory";
-  .wrap{
 
-  }
   .DressingColor{
     color: #3676b6;
   }

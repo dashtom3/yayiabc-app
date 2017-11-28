@@ -116,6 +116,27 @@
         this.$store.dispatch('GET_PAY_CASE', this.myCase).then( (res)=>{
           console.log(res , 'haha');
           this.myCaseList = res.data;
+          if(this.myCaseList)
+          {
+            this.myCaseList.forEach(function (item, index, array) {
+              if(item.classify === 1)
+              {
+                item.classify = '口腔外科'
+              }else if(item.classify === 2)
+              {
+                item.classify = '口腔内科'
+              }else if(item.classify === 3)
+              {
+                item.classify = '口腔修复'
+              }else if(item.classify === 4)
+              {
+                item.classify = '口腔种植'
+              }else if(item.classify === 5)
+              {
+                item.classify = '口腔正畸'
+              }
+            });
+          }
           this.isLoaded();
         });
       },
@@ -126,6 +147,27 @@
         }).then( (res)=>{
           this.myCaseList = res.data;
           console.log(res);
+          if(this.myCaseList)
+          {
+            this.myCaseList.forEach(function (item, index, array) {
+              if(item.classify === 1)
+              {
+                item.classify = '口腔外科'
+              }else if(item.classify === 2)
+              {
+                item.classify = '口腔内科'
+              }else if(item.classify === 3)
+              {
+                item.classify = '口腔修复'
+              }else if(item.classify === 4)
+              {
+                item.classify = '口腔种植'
+              }else if(item.classify === 5)
+              {
+                item.classify = '口腔正畸'
+              }
+            });
+          }
           this.isLoaded();
         });
       },
@@ -275,8 +317,8 @@
       text-align: center;
       color: #3676b6;
       line-height: 0;
-      padding-bottom: px2vw(2);
       border-radius: px2vw(8);
+      padding: 0 px2vw(4);
     }
     .readeNum{
       margin-left: px2vw(18);

@@ -114,6 +114,17 @@
         全部评论&nbsp;({{detailedCommentArgs.totalNumber}})
       </div>
 
+        <div v-if="detailedCommentArgs.data.length == 0" class="noneComment">
+          <div class="sofaImg">
+            <img src="../../../../images/case/myCase/sarfa.png" alt="">
+          </div>
+          <div class="sofaText">
+            <span>暂无评论,&nbsp;&nbsp;快来<span class="knock">抢沙发</span>吧~</span>
+          </div>
+        </div>
+
+
+
       <div v-for="(item, index) in detailedCommentArgs.data" class="comments">
         <div class="headReadPicBox">
           <img src="../../../../images/case/caseOfIllness/4.jpg" alt="">
@@ -161,7 +172,7 @@
         </div>
         <div style="clear: both"></div>
       </div>
-        <div class="endFonts">-End-</div>
+        <div v-if="detailedCommentArgs.data.length != 0" class="endFonts">-End-</div>
 
 
       </div>
@@ -212,8 +223,6 @@
       </div>
 
 
-
-
       <share v-if="isShareShow" v-on:cancelShare="isShareShow = false" :shareData="shareData"></share>
     </div>
 </template>
@@ -239,7 +248,9 @@
         commentSwitch: false,
         writeSwitch: true,
         containerScrollTop: 0,
-        detailedCommentArgs: [], //获取详情评论的数据
+        detailedCommentArgs: {
+          data: []
+        }, //获取详情评论的数据
         detailedCommentParameter: {  //获取详情评论的参数
           beCommentedId:100, //病例id
           currentPage: 1,//当前页数
@@ -590,6 +601,21 @@
 <style scoped lang="scss" rel="stylesheet/scss">
     @import "../../../../common/sass/factory";
 
+    .sofaText .knock{
+      color: $themeColor;
+    }
+    .sofaText{
+      font-size: px2vw(28);
+      margin-top: px2vw(35);
+    }
+    .noneComment{
+      text-align: center;
+      margin-top: px2vw(45);
+    }
+    .sofaImg img{
+      width: px2vw(140);
+      height: px2vw(140);
+    }
     .changeHeight{
       height: 0 !important;
       overflow: hidden !important;
@@ -962,7 +988,7 @@
     }
     .commentBoxOnce{
       padding: px2vw(36) px2vw(25) px2vw(45) px2vw(17);
-      margin-top: px2vw(20);
+      border-top: px2vw(20) solid #f4f4f4;
       background-color: white;
       margin-bottom: px2vw(88);
     }

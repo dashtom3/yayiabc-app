@@ -10,7 +10,7 @@
       <div>删除成功</div>
     </div>
 
-    <div class="backgroundImg"></div>
+    <!--<div class="backgroundImg"></div>-->
     <div class="wrapTop">
       <span class="title">病例详情</span>
       <span @click="back()" class="backImgBox">
