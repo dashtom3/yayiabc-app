@@ -3,8 +3,10 @@
     <mt-loadmore :top-method="loadMore" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState">
       <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
 
-    <div class="scrollBox" v-infinite-scroll="getCaseListMore" infinite-scroll-immediate-check="true">
-      <div @click="goCaseDetailed(item.postId)" v-for="(item, index) in listCaseData" class="caseBox">
+    <div  class="scrollBox" v-infinite-scroll="getCaseListMore" infinite-scroll-immediate-check="true">
+
+
+      <div v-if="listCaseData == null" @click="goCaseDetailed(item.postId)" v-for="(item, index) in listCaseData" class="caseBox">
         <div class="userBox " :class="{'addChange1': item.cover !== ''}">
           <div class="userPicture">
             <img src="../../../../images/mine/zhifubao.png" alt="">
@@ -193,25 +195,27 @@
             this.caseListArgs.currentPage = res.currentPage;
             this.isLoading = false;
 
-            this.listCaseData.forEach(function (item, index, array) {
-              if(item.classify === 1)
-              {
-                item.classify = '口腔外科'
-              }else if(item.classify === 2)
-              {
-                item.classify = '口腔内科'
-              }else if(item.classify === 3)
-              {
-                item.classify = '口腔修复'
-              }else if(item.classify === 4)
-              {
-                item.classify = '口腔种植'
-              }else if(item.classify === 5)
-              {
-                item.classify = '口腔正畸'
-              }
-            });
-
+            if(this.listCaseData)
+            {
+              this.listCaseData.forEach(function (item, index, array) {
+                if(item.classify === 1)
+                {
+                  item.classify = '口腔外科'
+                }else if(item.classify === 2)
+                {
+                  item.classify = '口腔内科'
+                }else if(item.classify === 3)
+                {
+                  item.classify = '口腔修复'
+                }else if(item.classify === 4)
+                {
+                  item.classify = '口腔种植'
+                }else if(item.classify === 5)
+                {
+                  item.classify = '口腔正畸'
+                }
+              });
+            }
 
             console.log(res,'哦哦哦');
           })

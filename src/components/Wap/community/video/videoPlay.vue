@@ -1,8 +1,8 @@
 <template>
-    <div>
+    <div >
 
       <!--视频区域开始-->
-      <div class="videoBox videoEl" >
+      <div  class="fullScreen videoBox videoEl" >
         <!--<video poster="https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1510884409&di=1217e09e096bb11a78d1b585ff9b7b70&src=http://pic.baike.soso.com/p/20140619/20140619113120-670398887.jpg" webkit-playsinline="true" playsinline="true" class="video">-->
 
           <!--<slot name="sourceSrc"></slot>-->
@@ -10,14 +10,10 @@
           <!--<p>设备不支持</p>-->
         <!--</video>-->
 
-
-
-      <div class="backgroundEl">
         <slot name="video">
           <slot name="sourceSrc"></slot>
           <p>设备不支持</p>
         </slot>
-      </div>
 
 
         <img v-show="videos.centerPlayImg" class="vplay" src="../../../../images/video/play.png"/>
@@ -46,7 +42,7 @@
             <span class="playCount">
               2.6万播放
             </span>
-            <span  class="allVideo">
+            <span @click="allScreen" class="allVideo">
               全屏
             </span>
           </div>
@@ -72,6 +68,7 @@
           allTime: '00:00:00', //总时长
           currPlayTime: '00:00:00', //当前播放时间
           controlShow: false,  //显示视频下部控件开关
+          fullScreen: false,  //全屏
         },
       }
     },
@@ -207,6 +204,12 @@
       });
 
 
+      expand.addEventListener('click',function () {
+
+      },false);
+
+
+
 
 //      progressBox.addEventListener('touchmove',function (event) {
 //        if(event.targetTouches.length > 1 || event.scale && event.scale !== 1) return;
@@ -240,9 +243,7 @@
         timerFuc();
       };
 
-      expand.onclick = function(){
-        video.webkitRequestFullScreen();
-      };
+
 
       //计算播放时间
       function getFormatTime(time) {
@@ -259,7 +260,16 @@
 
     },
     methods:{
+      allScreen(){
 
+        if(this.fullScreen)  //全屏
+        {
+          this.$emit('full', this.fullScreen);
+        }else {//半屏
+          this.$emit('full', this.fullScreen);
+        }
+
+      }
 
     },
 
@@ -270,8 +280,9 @@
 <style scoped lang="scss" rel="stylesheet/scss">
     @import "../../../../common/sass/factory";
 
+
     video{
-      object-fit: scale-down;
+      /*object-fit: contain;*/
     }
     .video{
       width: 100%;
@@ -342,7 +353,6 @@
       width: 100%;
       height: auto;
       border: 1px solid gray;
-      overflow: hidden;
     }
     .videoBox .vplay{
       position: absolute;
@@ -368,6 +378,23 @@
       align-items: center;
       z-index: 10;
     }
+
+    /*.fullScreen{
+      position: fixed;
+      -ms-transform-origin:28% 49.8%;
+      -o-transform-origin:28% 49.8%;
+      -moz-transform-origin:28% 49.8%;
+      -webkit-transform-origin:28% 49.8%;
+      transform-origin:50% 50%;
+      transform: rotate(90deg);
+      width: 102vh ;
+      height: 102vw ;
+      z-index: 20000;
+      transition: all 0.4s;
+      top:22%;
+      left:-38%;
+    }  */
+
 
 </style>
 

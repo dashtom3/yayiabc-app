@@ -113,14 +113,17 @@
         this.$refs.loadmore.onTopLoaded();
       },
       getPayedList(){
-        this.$store.dispatch('GET_PAY_CASE', {}).then( (res)=>{
+        this.$store.dispatch('GET_PAY_CASE', this.myCase).then( (res)=>{
           console.log(res , 'haha');
           this.myCaseList = res.data;
           this.isLoaded();
         });
       },
       getCaseList(){
-        this.$store.dispatch('GET_MY_CASE', this.myCase).then( (res)=>{
+        this.$store.dispatch('GET_MY_CASE', {
+          currentPage: this.myCase.currentPage,
+          numberPerPage: this.myCase.numberPerPage
+        }).then( (res)=>{
           this.myCaseList = res.data;
           console.log(res);
           this.isLoaded();
@@ -130,7 +133,7 @@
       toGoCase(postId){
         if(this.change === 0) //草稿
         {
-          this.$router.push({path:'newCase',query:{id:postId}})
+          this.$router.push({path: '/caseDetailed', query:{id: postId, draft: 1}})
         }else if(this.change === 1) //发布
         {
           this.$router.push({path: '/caseDetailed', query:{id: postId, myCase: 1}})
@@ -156,7 +159,6 @@
           this.getPayedList();
         }
       },
-
 
       toWriteCase(){
         this.$router.push({path: '/newCase'});

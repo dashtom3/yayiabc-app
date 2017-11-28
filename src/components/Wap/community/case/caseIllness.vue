@@ -10,7 +10,7 @@
       <div class="wrapBCG"></div>
       <div class="headerBox">
         <!--搜索按钮开始-->
-        <span class="searchImgBox">
+        <span @click="togoVideo"  class="searchImgBox">
           <img src="../../../../images/case/caseOfIllness/search.png" alt="img">
         </span>
         <!--搜索按钮结束-->
@@ -31,7 +31,7 @@
         <!--提示铃结束-->
       </div>
       <!--头部结束-->
-      <div class="dressingBox">
+      <div   class="dressingBox">
         <span v-for="(item, index) in caseDate.dressing" @click="dressing(index)"  :class="{'DressingColor': (caseListArgs.classify==''?0:caseListArgs.classify) === index}">{{item == '' ? '不限':item}}</span>
 
         <!--筛选按钮-->
@@ -110,6 +110,9 @@
       }
     },
     methods: {
+      togoVideo(){
+        this.$router.push({path: '/videoDetailed', query: {id: 23}});
+      },
       dressingFunction (index){
 //        if( this.caseDate.caseClassNum === 0)
 //        {

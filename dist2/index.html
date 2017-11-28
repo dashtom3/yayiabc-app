@@ -1,0 +1,46 @@
+<!DOCTYPE html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"><meta name=apple-mobile-web-app-capable content=yes><meta name=apple-touch-fullscreen content=yes><meta content="telephone=no,email=no" name=format-detection><script src=http://res.wx.qq.com/open/js/jweixin-1.2.0.js></script><script src=static/js/qrcode.js></script><link rel=stylesheet type=text/css href=./static/muse_icon/muse.css><title>牙医abc</title><link href=./static/css/app.1efe1e6da92b55e1757f5e7b49e7816c.css rel=stylesheet></head><body><div id=app></div><script src=./static/js/fastclick.js>if ('addEventListener' in document) {
+    document.addEventListener('DOMContentLoaded', function() {
+      FastClick.attach(document.body);
+    }, false);
+  }</script><script src=./static/js/mui.js></script><script>mui.init({
+    swipeBack: false,//停用右滑关闭功能
+  });
+  var wxChannel = null; // 微信支付
+  var aliChannel = null; // 支付宝支付
+  mui.plusReady(function () {
+    // 判断有无网络
+    // if (!navigator.onLine) {
+    //   plus.nativeUI.alert("网络请求失败，请检查网络！")
+    // }
+    // 禁用右滑关闭功能
+    var wv = plus.webview.currentWebview();
+    wv.setStyle({
+      popGesture: 'none'
+    })
+//    //安卓返回键
+//    mui.back = function () {
+//      mui.confirm('确定要退出应用吗？', '牙医abc', ["确定", "取消"], function (e) {
+//        if (e.index === 0) {
+//          plus.runtime.quit();
+//        }
+//      });
+//      return false;
+//    }
+    // 设置应用非全屏显示！
+    plus.navigator.setFullscreen(false);
+    plus.navigator.setStatusBarBackground("#3676B5");
+    plus.navigator.setStatusBarStyle('light');
+    // 微信登录授权
+    plus.oauth.getServices(function (services) {
+      auths = services;
+    }, function (e) {
+      alert("获取登录服务列表失败：" + e.message + " - " + e.code);
+    });
+    // 获取支付方式通道
+    plus.payment.getChannels(function (channels) {
+      aliChannel = channels[0];
+      wxChannel = channels[1];
+    }, function (e) {
+      alert("获取支付通道失败：" + e.message);
+    });
+  });</script><script type=text/javascript src=./static/js/manifest.93b369e275b93c781daa.js></script><script type=text/javascript src=./static/js/vendor.da95048043e9feaea6f5.js></script><script type=text/javascript src=./static/js/app.039c6fb330c18132ca0b.js></script></body></html>

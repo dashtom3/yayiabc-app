@@ -9,15 +9,16 @@
       </div>
 
       <div class="container">
-
-        <video-play class="boxBox" v-if="videoSwitch">
-          <video  slot="video" webkit-playsinline="true" playsinline="true" class="video">
+        <video-play @full="fullScreen()" ref="videoPlay"  v-if="videoSwitch">
+          <video slot="video" webkit-playsinline="true" playsinline="true" class="video">
             <source slot="sourceSrc" :src="videoArgs.vidRoute" type="video/mp4"></source>
           </video>
         </video-play>
 
+
+
         <!--标题内容开始-->
-        <div class="titleBox">
+        <div  class="titleBox">
           这是标题这是标题这是标题这是标题这是标题
           这是标题这是标题这是标题这是标题这是标题
         </div>
@@ -49,19 +50,12 @@
         <!--相关产品结束-->
 
 
-
-
         <div>
           <comment :types="'视频'"></comment>
         </div>
 
 
       </div>
-
-
-
-
-
 
       <!--结尾-->
     </div>
@@ -73,6 +67,7 @@
   export default {
     data(){
       return{
+        all: false,
         videoSwitch: false,
         src: 'http://orl5769dk.bkt.clouddn.com/lsnqQYcJMcnTQzYmtKiVy16WRMs1',
         videoArgs:{}
@@ -82,6 +77,10 @@
       this.getVideosDetail();
     },
     methods:{
+      fullScreen(){
+        this.all = !this.all;
+        plus.navigator.setFullscreen(this.all);
+      },
       getVideosDetail(){
         this.$store.dispatch('GET_VIDEOS_DETAIL', {viId: this.$route.query.id}).then( (res)=>{
           this.videoArgs = res.data;
@@ -105,6 +104,7 @@
 
     .boxBox{
       min-height: px2vw(422);
+      transition: all 0.5s;
     }
     .productBox{
       margin-top: px2vw(20);
@@ -217,5 +217,10 @@
     .fade-enter, .fade-leave-to  {
       opacity: 0
     }
+
+
+
+
+
 </style>
 

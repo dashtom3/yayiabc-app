@@ -1,0 +1,25 @@
+{
+	"index.html": {
+		"resources": [
+			"static/js/fastclick.js",
+			"static/js/qrcode.js",
+			"static/js/vendor.da95048043e9feaea6f5.js",
+			"static/js/manifest.19e252f50fbf04e1b2ec.js",
+			"static/css/app.1efe1e6da92b55e1757f5e7b49e7816c.css",
+			"static/muse_icon/muse.css",
+			"static/js/mui.js",
+			"static/js/app.039c6fb330c18132ca0b.js",
+			"static/js/manifest.c3e1b8053645ab306288.js",
+			"static/js/manifest.e68d9550d1a1f9270fa0.js",
+			"static/js/manifest.672d7b2ca0844fec9743.js",
+			"static/js/manifest.bd0396cbc17c4e5b097f.js",
+			"static/js/manifest.7662ab75190c93d9ff40.js",
+			"static/js/manifest.771ef1d230980b91c17c.js",
+			"static/js/manifest.27fc6414c8eb3c1f18d1.js",
+			"static/js/manifest.8b20a94117f55155ba2a.js",
+			"static/js/manifest.c948a31681e39e5933b7.js",
+			"static/js/manifest.93b369e275b93c781daa.js"
+		],
+		"refer": []
+	}
+}

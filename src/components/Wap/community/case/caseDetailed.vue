@@ -54,7 +54,11 @@
       </div>
 
 
-      <comment :types="'病例'"></comment>
+      <comment v-if="$route.query.draft != 1" :types="'病例'"></comment>
+      <div class="bottomWrite" v-else="$route.query.draft == 1">
+        ss
+      </div>
+
     </div>
 
     <div v-if="payNow" @touchmove.prevent class="bgBg">
@@ -241,6 +245,15 @@
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../../common/sass/factory";
 
+  .bottomWrite{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: px2vw(80);
+    padding-top: px2vw(5);
+    padding-bottom: px2vw(5);
+  }
   .payRel2{
     font-size: px2vw(32);
     color: white;

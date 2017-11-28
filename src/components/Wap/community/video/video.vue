@@ -284,6 +284,7 @@
     height: 100%;
   }
   .nameBox{
+    color: $themeColor;
     margin-left: px2vw(28);
   }
   .collectionBox{
