@@ -167,12 +167,15 @@
         if(index === 0) //草稿
         {
           this.myCase.postStater = 2;
+          this.myCaseList = [];
           this.getCaseList();
         }else if(index === 1) //发布
         {
+          this.myCaseList = [];
           this.myCase.postStater = 1;
           this.getCaseList();
         }else { //已购买
+          this.myCaseList = [];
           this.getPayedList();
         }
 
