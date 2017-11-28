@@ -130,6 +130,7 @@
       toGoCase(postId){
         if(this.change === 0) //草稿
         {
+          this.$router.push({path:'newCase',query:{id:postId}})
         }else if(this.change === 1) //发布
         {
           this.$router.push({path: '/caseDetailed', query:{id: postId, myCase: 1}})

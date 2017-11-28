@@ -516,11 +516,6 @@ let router = new Router({
       component: caseDetailed
     },
     {
-      name: 'yayiCircle',
-      path: '/yayiCircle',
-      component: yayiCircle
-    },
-    {
       name: 'infoIndex',
       path: '/infoIndex',
       component: infoIndex

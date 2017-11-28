@@ -85,7 +85,7 @@
         </li>
         <li class="coin_item" @click="toCoin('/coinDetail')">
           <img src="../../../images/mine/chong.png" alt="">
-          <span>充值</span> 
+          <span>充值</span>
         </li>
         <li class="coin_item" @click="toCoin('/exchange')">
           <img src="../../../images/mine/tixian.png" alt="">
@@ -93,7 +93,7 @@
         </li>
         <li class="coin_item" @click="toCoin('/exchangeDetail')">
           <img src="../../../images/mine/dui.png" alt="">
-          <span>兑换</span> 
+          <span>兑换</span>
         </li>
       </ul>
       <div class="split"></div>
@@ -102,9 +102,9 @@
           <img src="../../../images/mine/bingli.png" alt="">
           <div>我的病例</div>
         </li>
-        <li class="mine_function_bottom_item" @click="goToCollect">
+        <li class="mine_function_bottom_item" @click="goToQAndA">
           <img src="../../../images/mine/wenda.png" alt="">
-          <div>我的培训</div>
+          <div>我的问答</div>
         </li>
         <li class="mine_function_bottom_item" @click="goToAddress">
           <img src="../../../images/mine/dongtai.png" alt="">
@@ -211,7 +211,7 @@
           </li>
           <li class="coin_item">
             <img src="../../../images/mine/chong.png" alt="">
-            <span>充值</span> 
+            <span>充值</span>
           </li>
           <li class="coin_item">
             <img src="../../../images/mine/tixian.png" alt="">
@@ -220,7 +220,7 @@
           </li>
           <li class="coin_item">
             <img src="../../../images/mine/dui.png" alt="">
-            <span>兑换</span> 
+            <span>兑换</span>
           </li>
         </ul>
         <div class="split"></div>
@@ -328,6 +328,9 @@
       goToAddress: function () {
         sessionStorage.setItem('backJudgeAddress', 'fromAddressMine');
         this.$router.push({path: '/address'});
+      },
+      goToQAndA(){
+        this.$router.push({path: '/myQandA/myQuestion'});
       },
       goToCollect: function () {
         this.$router.push({path: '/collect'});
@@ -473,11 +476,11 @@
             });  
           });  
         }  else if (plus.os.name == "Android") {
-            // plus.runtime.openURL("mqqwpa://im/chat?chat_type=wpa&uin=2966679536", 
+            // plus.runtime.openURL("mqqwpa://im/chat?chat_type=wpa&uin=2966679536",
             // ,function (e) {
             //   alert('请下载腾讯QQ')
             // }, "com.tencent.mobileqq");
-            // ApplicationInfo info = context.getPackageManager().getApplicationInfo(packageName, PackageManager.GET_UNINSTALLED_PACKAGES); 
+            // ApplicationInfo info = context.getPackageManager().getApplicationInfo(packageName, PackageManager.GET_UNINSTALLED_PACKAGES);
             let main = plus.android.runtimeMainActivity();
             // let packageManager = main.getPackageManager() ;
             // let packageName = "com.tencent.mobileqq";

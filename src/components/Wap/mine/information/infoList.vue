@@ -64,14 +64,14 @@
           this.list = JSON.parse(tokenMethods.getAnswerList()) ? JSON.parse(tokenMethods.getAnswerList()) : [];
       }
       console.log(this.list)
-      this.getList();
+      this.getTheList();
     },
     methods:{
       goBack(){
         this.$router.go(-1);
         this.$destroy()
       },
-      getList(){
+      getTheList(){
         this.$store.dispatch(GET_INFO_DETAIL, this.args).then(res =>{
           console.log(res)
           if(res.data){

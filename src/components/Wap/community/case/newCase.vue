@@ -22,7 +22,7 @@
                       :content="args.freeContent"
                       :options = "editorOptionFee"
                       @change="onEditorChangeFee($event)"
-                      @click="onEditorFocusFee($event)">
+                      @focus="onEditorFocusFee($event)">
         </quill-editor>
       </div>
       <div id="quillCharge">
@@ -30,7 +30,7 @@
                       :content="args.chargeContent"
                       :options = "editorOptionCharge"
                       @change="onEditorChangeCharge($event)"
-                      @click="onEditorFocusCharge($event)">
+                      @focus="onEditorFocusCharge($event)">
         </quill-editor>
       </div>
       <div class="others" @click="blurClass">
@@ -121,7 +121,7 @@
           classify:'',
           freeContent:'',
           chargeContent:'',
-          chargeNumber:null,
+          chargeNumber:'',
           postStater:1,
           cover:'',
           postId:null,
@@ -213,8 +213,9 @@
         })
       },
       labelFor(){
-        var labels = document.getElementsByClassName("el-checkbox__original")
-        labels[0].click();
+        this.isShare();
+//        var labels = document.getElementsByClassName("el-checkbox__original")
+//        labels[0].click();
       },
       //上传图片
       upLoading(){
@@ -275,7 +276,7 @@
       //保存和发布的方法。
       postCase(num){
         this.args.postStater = num;
-        this.args.postId = this.args.postId ? this.args.postId : 0;
+        this.args.postId = this.args.postId ? this.args.postId : null;
         for(let i = 0;i < this.contImgList.length;i++){
           if(this.args.freeContent.indexOf(this.contImgList[i]) !== -1){
             this.args.cover = this.contImgList[i];
@@ -346,12 +347,6 @@
     },
     created() {
 //      this.mBack("back");
-      //获取七牛token,防止重复请求
-      this.$store.dispatch(GET_UPLOAD_TOKEN).then(res => {
-        this.qiNiuToken = {
-          token: res.msg
-        }
-      })
 //      this.qiNiuConfig = this.$store.state.index.qiNiuConfig
       //获取postId，请求数据
       //获取旧的文章接口数据，有数据就返到args里
@@ -468,6 +463,7 @@
     bottom: 0;
     left: 0;
     width: 100%;
+    z-index: 101;
     .classPicker{
       text-align: center;
       color: #000;

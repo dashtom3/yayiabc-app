@@ -12,7 +12,7 @@
         <img src="../../../../images/case/caseOfIllness/point.png" alt="">
 
         <span v-if="editSwitch" class="editBox">
-          <span @click.stop="edit">编辑</span>
+          <span @click.stop="edit()">编辑</span>
           <span @click.stop="deleter()">删除</span>
         </span>
       </span>
@@ -133,7 +133,7 @@
       },
       //编辑病例
       edit() {
-
+        this.$router.push({path:'/newCase',query:{id:this.$route.query.caseId}})
       },
       //删除病例
       deleter(){
