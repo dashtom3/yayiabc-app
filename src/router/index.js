@@ -546,6 +546,11 @@ let router = new Router({
       component: shareToYayiCircle
     },
     {
+      name: 'myYayiCircle',
+      path: '/myYayiCircle',
+      component: yayiCircle
+    },
+    {
       name: 'communitySearch',
       path: '/communitySearch',
       component: communitySearch,

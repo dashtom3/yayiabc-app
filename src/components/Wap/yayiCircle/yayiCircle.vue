@@ -1,13 +1,14 @@
 <template>
   <div>
     <div class="header">
+      <span class="back-click-area" @click="goBack" v-if="headTitle === '我的动态'"></span>
       <div class="headerTitle">{{headTitle}}</div>
       <div class="newTrend" @click="newTrend">
         <img src="../../../images/yayiCircle/newTrend.png" alt="">
         <div>发动态</div>
       </div>
     </div>
-    <div class="container">
+    <div class="container"  :class="{myYayiCircle:headTitle === '我的动态'}">
       <mt-loadmore :top-method="loadTop" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState" class="innerContainerWrap">
         <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
         <!--有数据的状态-->
@@ -80,7 +81,7 @@
           - End -
         </div>
         <!--请求完毕后，无数据显示状态-->
-        <div class="noTrend" v-if="yayiCircleData.length == 0 && !isLoading">
+        <div class="noTrend" v-else-if="!isLoading">
           <img src="../../../images/yayiCircle/new.png" alt="">
           <p><span @click="newTrend">立即发布新动态~</span></p>
         </div>
@@ -133,52 +134,50 @@
     },
     created(){
       this.timeStamp = Date.parse(new Date());
-      console.log(this.$router.history.current.name)
-//      if(this.$route.query.myType === 1){
-//        this.headTitle = '我的动态';
-//        this.getOneTrend();
-//      }
-//      else
-      if(this.$route.query.myType === 2){
-        this.headTitle = '我的动态';
-        this.getMyYayiCircle();
-      }
-      else {
-        this.headTitle = '牙医圈';
-        this.getYayiCircle();
-      }
-
+      console.log(this.$router.history.current.name);
+      this.getYayiCircle();
     },
     methods:{
       newTrend(){
+        if(!tokenMethods.getWapToken()){
+          MessageBox.confirm('请先登录!').then(action => {
+            this.$router.push({path: '/logIn', query: {backName: '/yayiCircle'}});
+          })
+          return
+        }
         this.$router.push('/newTrend')
+        this.$destroy()
+      },
+      goBack(){
+        this.$router.go(-1);
         this.$destroy()
       },
       getYayiCircle(){
         this.isLoading = true;
-        this.$store.dispatch(YAYI_CIRCLE, this.args).then(res =>{
-          console.log(res.data);
-          this.dataCompute(res.data);
-          this.isLoading = false;
-          this.totalPage = res.totalPage
-        })
-      },
-//      getOneTrend(){
-//        this.isLoading = true;
+        if(this.$router.history.current.name === 'myYayiCircle'){
+          this.headTitle = '我的动态';
+          this.$store.dispatch(MY_YAYI_CIRCLE, this.args).then(res =>{
+            console.log(res.data);
+            this.dataCompute(res.data);
+            this.isLoading = false;
+            this.totalPage = res.totalPage
+          })
+        }
+        else if(this.$router.history.current.name === 'yayiCircle'){
+          this.headTitle = '牙医圈';
+          this.$store.dispatch(YAYI_CIRCLE, this.args).then(res =>{
+            console.log(res.data);
+            this.dataCompute(res.data);
+            this.isLoading = false;
+            this.totalPage = res.totalPage
+          })
+        }
 //        this.$store.dispatch(ONE_YAYI_CIRCLE, {momentId:this.$route.query.momentId}).then(res =>{
 //          console.log(res.data);
 //          let tmpArr = [res.data];
 //          this.dataCompute(tmpArr);
 //          this.isLoading = false;
 //        })
-//      },
-      getMyYayiCircle(){
-        this.$store.dispatch(MY_YAYI_CIRCLE, this.args).then(res =>{
-          console.log(res.data);
-          this.dataCompute(res.data);
-          this.isLoading = false;
-          this.totalPage = res.totalPage
-        })
       },
       dataCompute(res){
         if(res) {
@@ -253,10 +252,6 @@
       },
       isCommentRes(res){
         let index = this.commentInfo.index;
-//        console.log(index)
-//        console.log(this.yayiCircleData[index],'当前')
-//        console.log(this.yayiCircleData[index].subCommentList.push(res),'结果')
-//        this.$set(this.yayiCircleData[index],'subCommentList',this.yayiCircleData[index].subCommentList.push(res))
         this.yayiCircleData[index].subCommentList.push(res)
         this.isComment = false;
       },
@@ -270,7 +265,6 @@
         this.$store.dispatch(DELETE_COMMENT, obj).then(res=>{
           if(res.callStatus === 'SUCCEED'){
             Toast({message: '删除成功！', duration: 1500});
-//            this.$set(this.yayiCircleData[index],'subCommentList',this.yayiCircleData[index].subCommentList.splice(num,1))
             this.yayiCircleData[index].subCommentList.splice(num,1)
           }
         })
@@ -289,8 +283,6 @@
         this.$store.dispatch(LIKE, obj).then(res=>{
           //改变是否点赞的图标
           this.yayiCircleData[index].isZan = this.yayiCircleData[index].isZan ? 0 : 1;
-          //数字变化
-//          let likeNum = this.yayiCircleData[index].zanNumber;
           //点完之后真，+1，假，-1
           this.yayiCircleData[index].zanNumber = this.yayiCircleData[index].isZan ? this.yayiCircleData[index].zanNumber + 1 : this.yayiCircleData[index].zanNumber - 1;
         })
@@ -323,11 +315,7 @@
         }else {
           this.args.currentPage = this.args.currentPage + 1;
           this.noMoreData = false;
-          if (this.$route.query.myType === 2) {
-            this.getMyYayiCircle();
-          } else {
-            this.getYayiCircle();
-          }
+          this.getYayiCircle();
           //  再加载下一页
         }
       },
@@ -335,11 +323,7 @@
         this.args.currentPage = 1;
         this.timeStamp = Date.parse(new Date());
         this.yayiCircleData = [];
-        if (this.$route.query.myType === 2) {
-          this.getMyYayiCircle();
-        } else {
-          this.getYayiCircle();
-        }
+        this.getYayiCircle();
         //把所有参数回归为初始值，并且重新获得时间戳
       },
       //mt中接受的val值作为参数传入我的组件里
@@ -372,6 +356,15 @@
     background-color: $themeColor;
     color: #fff;
     font-size: px2vw(36);
+    .back-click-area {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      left: 0;
+      width: px2vw(150);
+      background: url("../../../images/logIn/back.png") px2vw(20) center no-repeat;
+      background-size: px2vw(18) px2vw(29);
+    }
     .newTrend{
       position: absolute;
       right: 0;
@@ -577,7 +570,9 @@
         }
       }
     }
-
+  }
+  .myYayiCircle{
+    height: 94vh;
   }
   .clr{
     clear: both;

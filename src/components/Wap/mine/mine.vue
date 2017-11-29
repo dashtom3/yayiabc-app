@@ -106,7 +106,7 @@
           <img src="../../../images/mine/wenda.png" alt="">
           <div>我的问答</div>
         </li>
-        <li class="mine_function_bottom_item" @click="goToAddress">
+        <li class="mine_function_bottom_item" @click="goToMyCircle">
           <img src="../../../images/mine/dongtai.png" alt="">
           <div>我的动态</div>
         </li>
@@ -328,6 +328,9 @@
       goToAddress: function () {
         sessionStorage.setItem('backJudgeAddress', 'fromAddressMine');
         this.$router.push({path: '/address'});
+      },
+      goToMyCircle(){
+        this.$router.push({path: '/myYayiCircle',query:{myType:2}});
       },
       goToQAndA(){
         this.$router.push({path: '/myQandA/myQuestion'});
