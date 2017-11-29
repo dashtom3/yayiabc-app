@@ -274,6 +274,7 @@
             this.classifyName = this.slots[0].values[2]
           }else {
             this.args.classify = this.classify;
+            this.classifyName = this.slots[0].values[this.args.classify - 1]
           }
         }else {
           this.classify = -1;
@@ -302,7 +303,7 @@
           case !this.args.freeContent:
             Toast({message: '一定要有免费内容喔', duration: 1500});
             return
-          case !this.args.classify:
+          case this.args.classify < 0:
             Toast({message: '请选择一个分类', duration: 1500});
             return
           case this.args.chargeContent && !this.args.chargeNumber:

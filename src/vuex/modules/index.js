@@ -1323,6 +1323,26 @@ const actions = {
       });
     });
   },
+  // 发布问题
+  [types.ADD_QUESTION](context, params) {
+    return new Promise((resolve, reject) => {
+      api.addQuestion(params).then((data) => {
+        resolve(data);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  },
+  // 问答列表
+  [types.FAQ_DETAIL](context, params) {
+    return new Promise((resolve, reject) => {
+      api.faqDetail(params).then((data) => {
+        resolve(data);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  },
   // 我的病例乾币
   [types.GET_USER_PAY](context, params) {
     return new Promise((resolve, reject) => {

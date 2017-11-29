@@ -357,6 +357,16 @@ export function myAnswer(params) {
   return getWithToken('/faq/myAnswer', params);
 }
 
+//发布问题
+export function addQuestion(params) {
+  return getWithToken('/faq/addQuestion', params);
+}
+
+//获取问答详情
+export function faqDetail(params) {
+  return getWithToken('/faq/detail', params);
+}
+
 //获取我的牙医圈列表
 export function myYayiCircle(params) {
   return getWithToken('/moment/myMoment', params);

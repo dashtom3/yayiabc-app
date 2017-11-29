@@ -15,11 +15,11 @@
           </span>
       </div>
       <div class="title">
-        <textarea maxlength="50" rows="3" v-model="args.headline" placeholder="你的问题（必填，5到50字以内）" @click.stop="focusDetail(0)"></textarea>
-        <span>{{args.headline.length}}/50</span>
+        <textarea maxlength="50" rows="3" v-model="args.faqQuestionTitle" placeholder="你的问题（必填，5到50字以内）" @click.stop="focusDetail(0)"></textarea>
+        <span>{{args.faqQuestionTitle.length}}/50</span>
       </div>
       <div class="detail">
-        <textarea  v-model="args.Content" placeholder="补充说明（选填）" @click.stop="focusDetail(1)" ></textarea>
+        <textarea  v-model="args.faqQuestionContent" placeholder="补充说明（选填）" @click.stop="focusDetail(1)" ></textarea>
       </div>
     </div>
     <mt-picker :slots="slots" @change="onValuesChange" :showToolbar="true" class="pickers" v-show="isClassPicker">
@@ -35,7 +35,7 @@
     <el-upload
       class="avatar-uploader needclick"
       style="display: none;"
-      :limit='limitNum'
+      :limit='9'
       :action="qiNiuConfig.url"
       :show-file-list="false"
       :on-success="uploadFile"
@@ -49,7 +49,7 @@
 
 <script type="text/ecmascript-6">
   import {Indicator, Picker, Toast, MessageBox  } from 'mint-ui'
-  import {GET_UPLOAD_TOKEN} from '../../../../vuex/types'
+  import {GET_UPLOAD_TOKEN, ADD_QUESTION} from '../../../../vuex/types'
   import {mapState} from 'vuex'
 
   export default {
@@ -63,30 +63,23 @@
             flex: 1,
             values: [ '口腔外科', '口腔内科', '口腔修复','口腔种植', '口腔正畸'],
             className: 'slot1',
-            textAlign: 'center'
+            textAlign: 'center',
+            defaultIndex:2,
           }
         ],
         args:{
-          headline:'',
-          classify:'',
-          Content:'',
-          chargeContent:'',
-          chargeNumber:null,
-          postStater:1,
-          cover:'',
-          postId:null,
+          faqQuestionTitle:'',
+          faqQuestionType:'',
+          faqQuestionContent:'',
+
         },
         qiNiuConfig:this.$store.state.index.qiNiuConfig,
         qiNiuToken:{},
         showUploadIco:false,
         contImgList:[],
-        limitNum:9
       }
     },
     methods:{
-      blurClass(){
-
-      },
       closePage(){
         MessageBox.confirm('是否退出本次编辑?').then(action => {
           this.$router.go(-1)
@@ -94,7 +87,20 @@
         }).catch(reject =>{});
       },
       postQuest(){
-
+        switch (true){
+          case this.args.classify < 0:
+            Toast({message: '请选择一个分类', duration: 1500});
+            return
+          case !this.args.faqQuestionTitle:
+            Toast({message: '请输入你的问题', duration: 1500});
+            return
+        }
+        this.$store.dispatch(ADD_QUESTION, this.args).then(res=>{
+          if(res.callStatus === 'SUCCEED'){
+            Toast('发布成功！');
+            this.$router.push('/QandAList');
+          }
+        })
       },
       selectClassify(){
         this.isClassPicker =true;
@@ -117,14 +123,17 @@
       },
       onClassPicker(num){
         if(num){
-          if(this.classify < 0){
-            this.args.classify = 1
+          if(this.classify < 1){
+            this.args.classify = 2
+            this.classifyName = this.slots[0].values[2]
           }else {
             this.args.classify = this.classify;
-            this.classifyName = this.slots[0].values[parseInt(this.classify) - 1]
+            this.classifyName = this.slots[0].values[this.args.classify - 1]
           }
         }else {
-//          this.args.classify = ''
+          this.classify = -1;
+          this.args.classify = '';
+          this.classifyName = ''
         }
 //        console.log(this.args.classify);
         this.isClassPicker = false
@@ -316,6 +325,15 @@
           z-index: 1001;
         }
       }
+    }
+
+    .picker-item{
+      height: px2vw(90);
+      line-height: px2vw(90);
+      font-size: px2vw(30);
+    }
+    .picker-selected{
+      color: $themeColor!important;
     }
   }
 </style>

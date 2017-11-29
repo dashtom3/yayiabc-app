@@ -2,8 +2,8 @@
   <div class="container" ref="scrollBox">
     <mt-loadmore :top-method="loadMore" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState">
       <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
-      <div class="scrollBox" v-infinite-scroll="getQuestListMore" infinite-scroll-immediate-check="true">
-        <div class="eachContainer" @click="gotoDetail(value.faqQuestionId)" v-for="(value,index) in questList">
+      <div class="scrollBox" v-infinite-scroll="getQuestListMore" infinite-scroll-immediate-check="true" v-if="questList.length > 0">
+        <div class="eachContainer" @click="gotoDetail(value.faqQuestionId)" v-for="(value,index) in questList" v-if="questList.length > 0">
           <div class="headLine">
             <div class="headImg">
               <img :src="questList.userPic" alt="" v-if="value.userPic">
@@ -24,7 +24,13 @@
           </div>
         </div>
       </div>
+      <div class="noData" v-else-if="!isLoading">
+
+      </div>
     </mt-loadmore>
+    <div class="edit" @click="gotoPage('/newQuest')" v-if="showNewQuest">
+      <img src="../../../../images/question/newQuestion.png" alt="">
+    </div>
   </div>
 </template>
 
@@ -33,6 +39,7 @@
   import {mapGetters} from 'vuex';
   import topLoadMore from '../../../salesWap/index/topLoadMore.vue';
   import {COLLECT, FAQ_LIST, MY_QUESTION, } from '../../../../vuex/types'
+  import Util from '../../../../vuex/util'
 
   export default {
     data(){
@@ -48,6 +55,7 @@
         questList:[],
         totalPage:0,
         timeStamp:null,
+        showNewQuest:false,
       }
     },
     components:{
@@ -83,7 +91,7 @@
     },
     created(){
       this.timeStamp = Date.parse(new Date());
-      this.getQuestList();
+      this.getQuestList();//这里可能会有问题
     },
     methods:{
       //下拉刷新
@@ -99,22 +107,32 @@
         this.isLoading = true;
         switch (true){
           case this.$router.history.current.name === 'QandAList':
+            this.showNewQuest =true;
             //发现
             this.$store.dispatch(FAQ_LIST, this.args).then(res=>{
               this.dataCompute(res.data)
               this.questList = res.data.concat(this.questList);
               this.totalPage = res.totalPage;
+              this.isLoading = false;
               console.log(res,1)
             });
             break;
           case this.$router.history.current.name === 'myQuestion':
             this.$store.dispatch(MY_QUESTION, this.args).then(res=>{
+              this.dataCompute(res.data)
+              this.questList = res.data.concat(this.questList);
+              this.totalPage = res.totalPage;
+              this.isLoading = false;
               console.log(res,2)
             });
             //我的
             break;
           case this.$router.history.current.name === 'questCollect':
             this.$store.dispatch(COLLECT, this.args).then(res=>{
+              this.dataCompute(res.data)
+              this.questList = res.data.concat(this.questList);
+              this.totalPage = res.totalPage;
+              this.isLoading = false;
               console.log(res,3)
             });
             //收藏
@@ -164,8 +182,11 @@
           }
         });
       },
+      gotoPage(router){
+        this.$router.push(router)
+      },
       gotoDetail(id){
-        this.$router.push({path:'/QandADetail',params:{faqQuestionId:id}})
+        this.$router.push({path:'/QandADetail',query:{faqQuestionId:id}})
       },
       //mt中接受的val值作为参数传入我的组件里
       isState(val){
@@ -257,6 +278,15 @@
         }
       }
     }
-
+    .edit{
+      width: px2vw(100);
+      height: px2vw(100);
+      position: fixed;
+      bottom: px2vw(148);
+      right: px2vw(50);
+      img{
+        width: 100%;
+      }
+    }
   }
 </style>
