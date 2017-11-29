@@ -23,7 +23,7 @@
 
         <!--提示铃开始-->
         <span @click="msg()" class="tsImgBox">
-          <span class="numBox">
+          <span class="numBox" v-if="msgNum > 0">
             <span class="tsNum">{{msgNum}}</span>
           </span>
           <img src="../../../../images/case/caseOfIllness/tishi.png" alt="">
@@ -128,7 +128,7 @@
       },
       //消息按钮
       msg(){
-
+        this.$router.push({path:'/infoList',query:{type:1}})
       },
       togoVideo(){
         this.$router.push({path: '/videoDetailed', query: {id: 23}});

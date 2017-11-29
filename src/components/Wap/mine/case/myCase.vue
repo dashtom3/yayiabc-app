@@ -3,7 +3,7 @@
       <div class="backgroundImg"></div>
       <div class="wrapTop">
         <span class="title">我的病例</span>
-        <span class="backImgBox">
+        <span class="backImgBox" @click="goBack">
           <img src="../../../../images/case/backer.png" alt="">
         </span>
         <span @click="toWriteCase()" class="writeCaseImgBox">
@@ -111,6 +111,9 @@
       //把下拉刷新完成之后回调的mt的方法传入我的组件里
       isLoaded(){
         this.$refs.loadmore.onTopLoaded();
+      },
+      goBack(){
+        this.$router.push('/yayi/mine')
       },
       getPayedList(){
         this.$store.dispatch('GET_PAY_CASE', this.myCase).then( (res)=>{

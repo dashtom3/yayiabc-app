@@ -67,7 +67,7 @@
 
       <comment v-if="$route.query.draft != 1" :types="'病例'"></comment>
       <div class="bottomWrite" v-else="$route.query.draft == 1">
-        <div class="bottomLeft">
+        <div class="bottomLeft" @click="releaseCase(1)">
           <span>
             <img src="../../../../images/case/myCase/send.png" alt="">
           </span>
@@ -76,7 +76,7 @@
 
 
 
-        <div class="bottomRight">
+        <div class="bottomRight" @click="releaseCase(0)">
           <span>
             <img src="../../../../images/case/myCase/write.png" alt="">
           </span>
@@ -122,7 +122,17 @@
         payNow: false,
         userCoins: 0,
         timeStamp: '', //时间戳
-        delSwitch: false
+        delSwitch: false,
+        args:{
+          headline:'',
+          classify:'',
+          freeContent:'',
+          chargeContent:'',
+          chargeNumber:'',
+          postStater:1,
+          cover:'',
+          postId:this.$route.query.caseId,
+        }
       }
     },
     created (){
@@ -201,7 +211,12 @@
       getCaseData(){
         this.$store.dispatch('GET_CASE_DETAIL', {postId: this.$route.query.id}).then((res) => {
           this.caseDetailArgs = res.data;
-
+          this.args.headline = res.data.headline
+          this.args.classify = res.data.classify
+          this.args.freeContent = res.data.freeContent
+          this.args.chargeContent = res.data.chargeContent
+          this.args.chargeNumber = res.data.chargeNumber
+          this.args.cover = res.data.cover
           console.log(this.caseDetailArgs, '呵呵呵');
               if (this.caseDetailArgs.classify === 1) {
                 this.caseDetailArgs.classify = '口腔外科'
@@ -242,6 +257,20 @@
             }
         }else {
 
+        }
+      },
+      releaseCase(type){
+        if(type){
+          MessageBox.confirm('以当前状态直接发布？').then(action => {
+            this.$store.dispatch('UPLOAD_CASE',this.args).then(res => {
+              this.$router.push('/caseOfIllness');
+              this.$destroy();
+            })
+          }).catch(reject =>{
+
+          });
+        }else {
+          this.$router.push({path:'newCase',query:{id:this.$route.query.id}})
         }
       },
       back (){
