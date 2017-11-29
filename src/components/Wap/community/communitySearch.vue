@@ -202,13 +202,13 @@
     height: px2vw(88);
     position: relative;
     background-color: $themeColor;
-    border-bottom: 1px solid #E5E5E5;
+    border-bottom: px2vw(1) solid #E5E5E5;
   }
   .search_word {
     width: px2vw(606);
     height: px2vw(64);
     border: none;
-    // border: 1px solid #e9e9e9;
+    // border: px2vw(1) solid #e9e9e9;
     border-radius: px2vw(28);
     background-color: #fff;
     outline: medium;
@@ -270,7 +270,7 @@
       height: px2vw(90);
       text-align: center;
       background-color: #fff;
-      border-bottom: 1px solid #e5e5e5;
+      border-bottom: px2vw(1) solid #e5e5e5;
       .firstClassifyName{
         margin: 0 auto;
         height: px2vw(90);
@@ -324,14 +324,14 @@
             position: absolute;
             right: 0;
             top: px2vw(80);
-            border: 1px solid #9ac8f6;
+            border: px2vw(1) solid #9ac8f6;
             width: px2vw(200);
             padding: 0 px2vw(10);
             border-radius: px2vw(10);
             background-color: #fff;
             z-index: 201;
             li{
-              border-bottom: 1px solid #e5e5e5;
+              border-bottom: px2vw(1) solid #e5e5e5;
               width: 100%;
               height: px2vw(90);
               line-height: px2vw(90);

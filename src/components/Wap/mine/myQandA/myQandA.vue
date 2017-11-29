@@ -73,7 +73,7 @@
     padding: 0 px2vw(215);
     justify-content: space-between;
     line-height: px2vw(90);
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: px2vw(1) solid #e5e5e5;
     width: 100%;
     div{
       width: px2vw(90);

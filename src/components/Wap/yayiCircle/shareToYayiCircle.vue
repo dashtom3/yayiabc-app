@@ -112,7 +112,7 @@
     .casePreview{
       width: 100%;
       height: px2vw(180);
-      border: 1px solid #eee;
+      border: px2vw(1) solid #eee;
       .coverImg{
         width:px2vw(180);
         height: px2vw(180);

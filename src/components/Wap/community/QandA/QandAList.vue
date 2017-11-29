@@ -255,11 +255,11 @@
         }
         .other{
           padding-bottom: px2vw(30);
-          border-bottom: 1px solid #e5e5e5;
+          border-bottom: px2vw(1) solid #e5e5e5;
           height: px2vw(70);
           .classify{
             font-size: px2vw(22);
-            border: 1px solid $themeColor;
+            border: px2vw(1) solid $themeColor;
             color: $themeColor;
             border-radius: px2vw(5);
             float: left;

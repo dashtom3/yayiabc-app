@@ -83,7 +83,7 @@ export default {
       .detail{
         float: right;
         width: px2vw(590);
-        border-bottom: 1px solid #e5e5e5;
+        border-bottom: px2vw(1) solid #e5e5e5;
         .title{
           font-size: px2vw(30);
           line-height: px2vw(130);

@@ -407,7 +407,7 @@
         .eachContainer{
           width:100%;
           padding: 0 px2vw(20) px2vw(30) 0;
-          border-bottom: 1px solid #e5e5e5;
+          border-bottom: px2vw(1) solid #e5e5e5;
           .headerImgBox{
             float: left;
             width: px2vw(130);
@@ -536,7 +536,7 @@
             .commentBox{
               color: #333;
               margin-top: px2vw(20);
-              border-top: 1px solid #ddd;
+              border-top: px2vw(1) solid #ddd;
               ul{
                 margin: px2vw(30) 0;
                 padding: 0 px2vw(10) px2vw(20);

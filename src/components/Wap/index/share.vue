@@ -138,7 +138,7 @@
       display: flex;
       justify-content:space-around;
       background-color: #f4f4f4;
-      border-bottom: 1px solid #eee;
+      border-bottom: px2vw(1) solid #eee;
       .eachBox{
         height: px2vw(140);
         text-align: center;

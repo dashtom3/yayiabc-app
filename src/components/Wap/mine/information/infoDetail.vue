@@ -431,7 +431,7 @@
             .commentBox{
               color: #333;
               margin-top: px2vw(20);
-              border-top: 1px solid #ddd;
+              border-top: px2vw(1) solid #ddd;
               ul{
                 margin: px2vw(30) 0;
                 padding: 0 px2vw(10) px2vw(20);

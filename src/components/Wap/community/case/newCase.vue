@@ -433,7 +433,7 @@
         height: px2vw(90);
         line-height: px2vw(90);
         border: none;
-        border-bottom: 1px solid #ddd;
+        border-bottom: px2vw(1) solid #ddd;
       }
     }
     .others{
@@ -446,7 +446,7 @@
         padding: 0 3%;
         height: px2vw(90);
         line-height: px2vw(90);
-        border-bottom: 1px solid #ddd;
+        border-bottom: px2vw(1) solid #ddd;
         .othersInput{
           float: right;
           min-height: px2vw(88);
@@ -526,22 +526,22 @@
     display: none;
     border: none;
     background-color: #fff;
-    border-top: 1px solid #ddd;
+    border-top: px2vw(1) solid #ddd;
   }
   .ql-container.ql-snow{
     border: none;
     min-height: px2vw(300);
-    border-bottom: 1px solid #ddd;
+    border-bottom: px2vw(1) solid #ddd;
   }
   .ql-container.ql-snow:first-child{
-    border-bottom: 1px solid #ddd;
+    border-bottom: px2vw(1) solid #ddd;
   }
   .ql-blank{
     color: red;
   }
   .picker{
     background-color: #fff;
-    border-top: 1px solid #ddd;
+    border-top: px2vw(1) solid #ddd;
   }
   .ql-picker-options{
     margin-top: -131px;

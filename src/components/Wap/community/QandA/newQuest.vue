@@ -208,7 +208,7 @@
       padding: 0 3%;
       height: px2vw(90);
       line-height: px2vw(90);
-      border-bottom: 1px solid #ddd;
+      border-bottom: px2vw(1) solid #ddd;
       .othersInput{
         float: right;
         min-height: px2vw(88);
@@ -232,7 +232,7 @@
     .title{
       width: 100%;
       height: px2vw(265);
-      border-bottom: 1px solid #e5e5e5;
+      border-bottom: px2vw(1) solid #e5e5e5;
       textarea{
         border: none;
         resize: none;
@@ -254,7 +254,7 @@
     .detail{
       width: 100%;
       height: px2vw(360);
-      border-bottom: 1px solid #e5e5e5;
+      border-bottom: px2vw(1) solid #e5e5e5;
       textarea{
         border: none;
         resize: none;
@@ -314,8 +314,8 @@
         z-index: 1000;
         width: 100%;
         height: px2vw(80);
-        border-top: 1px solid #e5e5e5;
-        border-bottom: 1px solid #e5e5e5;
+        border-top: px2vw(1) solid #e5e5e5;
+        border-bottom: px2vw(1) solid #e5e5e5;
         .newQuestionImgIco{
           width: px2vw(80);
           height: px2vw(80);

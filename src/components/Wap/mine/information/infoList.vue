@@ -184,7 +184,7 @@
           width: px2vw(710);
           height: px2vw(120);
           margin: 0 px2vw(20);
-          border-bottom: 1px solid #e5e5e5;
+          border-bottom: px2vw(1) solid #e5e5e5;
           .thisTitle{
             margin-left: px2vw(10);
             line-height: px2vw(120);
