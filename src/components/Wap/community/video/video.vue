@@ -1,5 +1,15 @@
 <template>
     <div>
+
+      <!--无视频样式-->
+      <div v-if="!videoArgs" class="noneVideo">
+        <div class="noneV">
+          <img src="../../../../images/video/noneVideo.png" alt="">
+        </div>
+        <div>暂无相关视频</div>
+      </div>
+
+
       <mt-loadmore  :top-method="loadMore" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState">
         <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
 
@@ -22,7 +32,6 @@
 
           <!--底部开始-->
           <div class="bottomBox">
-
             <span class="nameBox">
               <img class="prcImg" src="../../../../images/video/prc.png" alt="">
               <span>{{item.vidName}}</span>
@@ -89,7 +98,6 @@
       saveCaseDressing: function (newVal,oldVal) {
         this.videoListArgs.videoCategory = this.saveCaseDressing;
         this.videoListArgs.currentPage = 1;
-
         this.getChangeList();
       },
       saveCaseOrder: function (newVal,oldVal) {
@@ -160,10 +168,13 @@
               this.videoSwitch = true;
             });
 
-            this.videoArgs = res.data;
-            this.videoArgs['totalPage'] = res.totalPage;
-            this.isLoading = false;
-            console.log(res, '时间');
+            if(res.msg !== "服务器错误")
+            {
+              this.videoArgs = res.data;
+              this.videoArgs['totalPage'] = res.totalPage;
+              this.isLoading = false;
+            }
+
           });
         }
       },
@@ -236,6 +247,20 @@
 <style scoped lang="scss" rel="stylesheet/scss">
     @import "../../../../common/sass/factory";
 
+    .noneVideo{
+      z-index: 9999;
+      position: fixed;
+      top: 43%;
+      left: 50%;
+      transform: translate(-50%,0);
+      font-size: px2vw(30);
+      color: #666666;
+      text-align: center;
+    }
+    .noneV img{
+      width: px2vw(150);
+      height: px2vw(149);
+    }
   .videoWrap{
     width: 100%;
     padding-left: px2vw(20);
