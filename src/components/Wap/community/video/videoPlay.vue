@@ -2,7 +2,7 @@
     <div >
 
       <!--视频区域开始-->
-      <div :class="{'fullScreen': full}" class="videoBox videoEl" >
+      <div  class="fullScreen videoBox videoEl" >
         <!--<video poster="https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1510884409&di=1217e09e096bb11a78d1b585ff9b7b70&src=http://pic.baike.soso.com/p/20140619/20140619113120-670398887.jpg" webkit-playsinline="true" playsinline="true" class="video">-->
 
           <!--<slot name="sourceSrc"></slot>-->
@@ -42,7 +42,7 @@
             <span class="playCount">
               2.6万播放
             </span>
-            <span  class="allVideo">
+            <span @click="allScreen" class="allVideo">
               全屏
             </span>
           </div>
@@ -68,9 +68,8 @@
           allTime: '00:00:00', //总时长
           currPlayTime: '00:00:00', //当前播放时间
           controlShow: false,  //显示视频下部控件开关
-
+          fullScreen: false,  //全屏
         },
-        full: false,  //全屏
       }
     },
     created(){
@@ -93,12 +92,15 @@
 
 
 
-
 //      let backgroundEl = this.$el.querySelector('.backgroundEl'); //封面背景
 //      console.log(video.getAttribute("posterSrc"));
 //      let poster = video.getAttribute("posterSrc");
 //      backgroundEl.style.backgroundImage="url("+ poster + ")"; //设置封面
 //      backgroundEl.style.backgroundSize="100% 100%"; //设置封面
+
+
+
+
 
 
 
@@ -202,41 +204,8 @@
       });
 
 
-      let Screen = _this.$el.querySelector('.videoEl'); //最外边边框
-      let W = Screen.offsetWidth;  //视频的宽
-      let H = Screen.offsetHeight; //视频的高
       expand.addEventListener('click',function () {
 
-        let conW = window.screen.width ;  //屏幕的宽
-        let conH = window.screen.height  ; //屏幕的高
-
-//
-//        let conW = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-//        let conH = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-
-        _this.full = !_this.full;
-
-//          console.log(Screen);
-          if(_this.full)  //全屏的时候
-          {
-            Screen.style.width = conH + "px";
-            Screen.style.height = conW + "px";
-            Screen.style.transformOrigin = "center center";
-            Screen.style.transform = "rotate(90deg) translate("+((conH-conW)/2)+"px,"+((conH-conW)/2)+"px)";
-            Screen.style.top = 0;
-
-            plus.navigator.setFullscreen(true);
-          }else {  //非全屏
-            Screen.style.width = W + "px";
-            Screen.style.height = "auto";
-            video.style.width = "100% !import";
-            Screen.style.transform = "rotate(0deg) translate(0,0)";
-
-
-
-
-          plus.navigator.setFullscreen(false);
-          }
       },false);
 
 
@@ -290,7 +259,19 @@
     computed:{
 
     },
-    methods:{},
+    methods:{
+      allScreen(){
+
+        if(this.fullScreen)  //全屏
+        {
+          this.$emit('full', this.fullScreen);
+        }else {//半屏
+          this.$emit('full', this.fullScreen);
+        }
+
+      }
+
+    },
 
   }
 </script>
@@ -301,7 +282,7 @@
 
 
     video{
-      object-fit: contain;
+      /*object-fit: contain;*/
     }
     .video{
       width: 100%;
@@ -367,7 +348,6 @@
     }
 
     .videoBox{
-      transition: all 0.4s;
       line-height: 0;
       position: relative;
       width: 100%;
@@ -399,18 +379,22 @@
       z-index: 10;
     }
 
-    .fullScreen{
-      background-color: black;
+    /*.fullScreen{
       position: fixed;
-      /*-ms-transform-origin:28% 49.8%;*/
-      /*-o-transform-origin:28% 49.8%;*/
-      /*-moz-transform-origin:28% 49.8%;*/
-      /*-webkit-transform-origin:28% 49.8%;*/
-      /*transform-origin:50% 50%;*/
-      /*transform: rotate(90deg);*/
+      -ms-transform-origin:28% 49.8%;
+      -o-transform-origin:28% 49.8%;
+      -moz-transform-origin:28% 49.8%;
+      -webkit-transform-origin:28% 49.8%;
+      transform-origin:50% 50%;
+      transform: rotate(90deg);
+      width: 102vh ;
+      height: 102vw ;
       z-index: 20000;
-     /* top:21.88%;
-      left:-39%;*/
-    }
+      transition: all 0.4s;
+      top:22%;
+      left:-38%;
+    }  */
+
+
 </style>
 
