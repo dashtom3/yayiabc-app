@@ -45,7 +45,7 @@
             <span v-show="qb.tcQb !== '不提现'">个</span>
           </span>
         </li>
-        <li  @click="toCoinCashDetail('tbQb')" class="coin_ul1_li">
+        <!-- <li  @click="toCoinCashDetail('tbQb')" class="coin_ul1_li">
           <img class="alreadyImg"  src="../../../images/mine/coinMoney9.png" alt="">
           <span class="li_coinNum">共{{bQb}}个</span>
           <img src="../../../images/mine/coin_img1.png" class="" alt="">
@@ -53,7 +53,7 @@
             <span v-show="qb.tbQb !== '不提现'">提现</span>{{qb.tbQb}}
             <span v-show="qb.tbQb !== '不提现'">个</span>
           </span>
-        </li>
+        </li> -->
         <li  @click="toCoinCashDetail('taQb')" class="coin_ul1_li">
           <img class="alreadyImg"  src="../../../images/mine/coinMoney8.png" alt="">
           <span class="li_coinNum">共{{aQb}}个</span>
@@ -84,14 +84,14 @@
             <span v-show="qb.tcQb !== '不提现'">个</span>
           </span>
         </li>
-        <li class="coin_ul1_li">
+        <!-- <li class="coin_ul1_li">
           <img class="alreadyImg"  src="../../../images/mine/coinMoney9.png" alt="">
           <span class="li_coinNum">共{{bQb}}个</span>
           <span class="li_coinCash">
             <span v-show="qb.tbQb !== '不提现'">提现</span>{{qb3.tbQb}}
             <span v-show="qb.tbQb !== '不提现'">个</span>
           </span>
-        </li>
+        </li> -->
         <li  class="coin_ul1_li">
           <img class="alreadyImg"  src="../../../images/mine/coinMoney8.png" alt="">
           <span class="li_coinNum">共{{aQb}}个</span>
@@ -163,7 +163,6 @@
       data(){
         return {
           aQb: 0,
-          bQb: 0,
           cQb: 0,
           qbBalance: 0,
           verify: '',
@@ -177,19 +176,16 @@
           text2 : '个',
           qb: {
             taQb: 0,
-            tbQb: 0,
             tcQb: 0,
             tqbBalance: 0
           },
           qb2: {
             taQb: 0,
-            tbQb: 0,
             tcQb: 0,
             tqbBalance: 0
           },
           qb3:{
             taQb: 0,
-            tbQb: 0,
             tcQb: 0,
             tqbBalance: 0,
             allNum: 0,
@@ -202,7 +198,6 @@
       },
       created(){
         this.mBack('back');
-        console.log(this.pushBankMss,'我的');
         this.verify = this.saveChangeVerify;
         this.isGetCoined();
         this.getInitData();
@@ -225,7 +220,7 @@
           return sum
         },
         countPriceSum () {
-          let sum = Number(this.qb2.tqbBalance) + Number(this.qb2.tcQb) * 0.95 + Number(this.qb2.tbQb) * 0.9 + this.qb2.taQb * 0.8
+          let sum = Number(this.qb2.tqbBalance) + Number(this.qb2.tcQb) * 0.95 + this.qb2.taQb * 0.8
           return sum.toFixed(2)
         }
       },
@@ -245,24 +240,15 @@
                 console.log(res.data.data,'哈哈哈');
                 if(res.data.callStatus === "SUCCEED")
                 {
-                  console.log(111);
                   let aqb = Number(res.data.data.cType) / 0.95;
-                  let bqb = Number(res.data.data.bType) / 0.9;
                   let cqb = Number(res.data.data.aType) / 0.8;
                   let zqb = Number(res.data.data.giveType);
-
-                  let allPrice = Number(res.data.data.cType) + Number(res.data.data.bType) + Number(res.data.data.aType) + Number(res.data.data.giveType)
-
-                  console.log(aqb,bqb,cqb,zqb);
-
+                  let allPrice = Number(res.data.data.cType) + Number(res.data.data.aType) + Number(res.data.data.giveType)
                   this.qb3.tqbBalance = zqb;
                   this.qb3.taQb = cqb;
-                  this.qb3.tbQb = bqb;
                   this.qb3.tcQb = aqb;
-                  this.qb3.allNum = zqb + aqb + bqb + cqb;
+                  this.qb3.allNum = zqb + aqb + cqb;
                   this.qb3.allPrice = allPrice.toFixed(2);
-
-                  console.log(this.qb3);
                 }else {
                   return
                 }
@@ -276,7 +262,6 @@
         saveData(){
           let obj = {
             aType: this.qb.taQb,
-            bType: this.qb.tbQb,
             cType: this.qb.tcQb,
             giveType: this.qb.tqbBalance,
             vCode : this.verify,
@@ -304,7 +289,6 @@
             Toast({message: '请您选择提现方式', duration: 1500})
           }else{
             this.$store.dispatch('SAVE_CASH_BANK', obj).then(res => {
-              console.log(res.data);
               if(res.data.data === 1)
               {
                 if( this.saveToCoin === 2)
@@ -366,7 +350,6 @@
         setQB(){ //vuex传值
           let obj = {
             taQb: this.aQb,
-            tbQb: this.bQb,
             tcQb: this.cQb,
             qb : this.qb,
             tqbBalance: this.qbBalance,
@@ -410,14 +393,12 @@
               console.log(res.data.data,'啊啊啊啊啊啊啊');
               this.phone = res.data.data.phone;
               this.aQb = res.data.data.aQb;
-              this.bQb = res.data.data.bQb;
               this.cQb = res.data.data.cQb;
               this.qbBalance = res.data.data.qbBalance;
 
               if(this.pushTiXianQbNum.qb === undefined)
               {
                 this.qb.taQb = res.data.data.aQb;
-                this.qb.tbQb = res.data.data.bQb;
                 this.qb.tcQb = res.data.data.cQb;
                 this.qb.tqbBalance = res.data.data.qbBalance;
                 this.qb2 =  this.qb;

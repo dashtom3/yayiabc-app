@@ -183,7 +183,7 @@
       },
       changeActive2: function() {
         var that = this
-        that.$router.push({path: '/yayi/classify'});
+        that.$router.push({path: '/productList'});
         that.isActive1 = false;
         that.isActive2 = true;
         that.isActive3 = false;

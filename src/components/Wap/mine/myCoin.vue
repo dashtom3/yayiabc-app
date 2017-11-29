@@ -84,7 +84,6 @@
         qbNum: {
           qbBalance: 0,
           aqb: 0,
-          bqb: 0,
           cqb: 0,
           sum: 0
         }
@@ -124,20 +123,17 @@
           token: tokenMethods.getWapToken()
         }
         this.$store.dispatch('GET_USERS_DATA',obj).then((res) => {
-          // console.log(res.data.data,'哈哈');
           if (!res.data.data) {
             this.qbNum.qbBalance = 0;
             this.qbNum.aqb = 0;
-            this.qbNum.bqb = 0;
             this.qbNum.cqb = 0;
-            this.qbNum.sum = this.qbNum.cqb + this.qbNum.bqb + this.qbNum.aqb + this.qbNum.qbBalance;
+            this.qbNum.sum = this.qbNum.cqb + this.qbNum.aqb + this.qbNum.qbBalance;
             tokenMethods.removeMsg()
           } else {
             this.qbNum.qbBalance = res.data.data.qbBalance;
             this.qbNum.aqb = res.data.data.cQb;
-            this.qbNum.bqb = res.data.data.bQb;
             this.qbNum.cqb = res.data.data.aQb;
-            this.qbNum.sum = this.qbNum.cqb + this.qbNum.bqb + this.qbNum.aqb + this.qbNum.qbBalance;
+            this.qbNum.sum = this.qbNum.cqb + this.qbNum.aqb + this.qbNum.qbBalance;
           }
         })
       },
