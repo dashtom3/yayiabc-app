@@ -281,7 +281,7 @@
 
 
   .container{
-    position: fixed;
+    position: absolute;
     top: px2vw(208);
     bottom: 0;
     overflow: scroll;

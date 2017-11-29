@@ -9,7 +9,7 @@
       </div>
 
       <div class="container">
-        <video-play @full="fullScreen()" ref="videoPlay"  v-if="videoSwitch">
+        <video-play ref="videoPlay"  v-if="videoSwitch">
           <video slot="video" webkit-playsinline="true" playsinline="true" class="video">
             <source slot="sourceSrc" :src="videoArgs.vidRoute" type="video/mp4"></source>
           </video>
@@ -77,10 +77,7 @@
       this.getVideosDetail();
     },
     methods:{
-      fullScreen(){
-        this.all = !this.all;
-        plus.navigator.setFullscreen(this.all);
-      },
+
       getVideosDetail(){
         this.$store.dispatch('GET_VIDEOS_DETAIL', {viId: this.$route.query.id}).then( (res)=>{
           this.videoArgs = res.data;

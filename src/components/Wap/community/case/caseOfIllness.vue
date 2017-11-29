@@ -123,9 +123,10 @@
     },
     methods: {
       //时间计算
-      time(res){
+      time(res,rs){
 
-        if(res)
+        console.log(res);
+        if(res && (rs.msg !== "服务器错误"))
         {
           res.forEach(item => {
             switch (true){
@@ -187,13 +188,20 @@
         }else {
           this.$store.dispatch('GET_CASE_LIST', this.caseListArgs).then( (res) => {
             let data = res.data;
-            this.time(data);
+            this.time(data,res);
+
+
+
             this.listCaseData = this.listCaseData.concat(data);
             this.caseListArgs.totalPage = res.totalPage;
             this.caseDate.totalPage =  res.totalPage;
             this.caseListArgs.currentPage = res.currentPage;
             this.isLoading = false;
 
+            if(res.msg === "服务器错误")
+            {
+              this.listCaseData = [];
+            }
             if(this.listCaseData)
             {
               this.listCaseData.forEach(function (item, index, array) {
