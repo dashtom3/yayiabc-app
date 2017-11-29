@@ -105,7 +105,7 @@
           this.$router.push({path: '/yayi/classify'})
         } else if (index === 'index') {
           this.$router.push({path: '/yayi/index'})
-        } else {
+        }else {
           this.$router.push({path: '/yayi/index'})
         }
 //          if(this.routes){

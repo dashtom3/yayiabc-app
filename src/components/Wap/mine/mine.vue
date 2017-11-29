@@ -87,11 +87,11 @@
           <img src="../../../images/mine/chong.png" alt="">
           <span>充值</span>
         </li>
-        <li class="coin_item" @click="toCoin('/exchange')">
+        <li class="coin_item" @click="toCoin('/coinCash')">
           <img src="../../../images/mine/tixian.png" alt="">
           <span>提现</span>
         </li>
-        <li class="coin_item" @click="toCoin('/exchangeDetail')">
+        <li class="coin_item" @click="toCoin('/exchange')">
           <img src="../../../images/mine/dui.png" alt="">
           <span>兑换</span>
         </li>
@@ -322,9 +322,9 @@
       toCoin(url) {
         this.$router.push({path: url})
       },
-      toCoinCash() {
-        this.$router.push({path: '/coinCash', query: {backJudge: 'mine'}});
-      },
+      // toCoinCash() {
+      //   this.$router.push({path: '/coinCash', query: {backJudge: 'mine'}});
+      // },
       goToAddress: function () {
         sessionStorage.setItem('backJudgeAddress', 'fromAddressMine');
         this.$router.push({path: '/address'});
@@ -575,7 +575,7 @@
   .top_circle {
     position: absolute;
     bottom: px2vw(-2);
-    left: px2vw(-5);
+    left: 0;
     width: 100vw;
     font-size: 0;
   }
@@ -894,7 +894,7 @@
   }
   .server_box{
     position: absolute;
-    top: px2vw(40);
+    top: px2vw(24);
     width: 100%;
     height: px2vw(88);
     z-index: 1;
@@ -962,7 +962,7 @@
     left: 50%;
     transform: translateX(-50%);
     width: px2vw(240);
-    height: px3vw(60);
+    height: px2vw(60);
     font-size: px2vw(34);
     font-weight: 300;
     text-align: center;
