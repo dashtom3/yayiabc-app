@@ -9,14 +9,14 @@
     <div class="box_position" v-show="collectData != 0">
 
       <div class="collect" v-for="(item,index) in collectData" :key="index">
-        <mt-cell-swipe
-          :right="[
-    {
-      content: '取消收藏',
-      style: { background: '#3676B5',  padding: '0.8vw', color: '#fff', fontSize: '3.733333vw', lineHeight:'800%'},
-        handler: () => deleteHandler(item, index)
-    }
-  ]">
+        <!--<mt-cell-swipe-->
+          <!--:right="[-->
+    <!--{-->
+      <!--content: '取消收藏',-->
+      <!--style: { background: '#3676B5',  padding: '0.8vw', color: '#fff', fontSize: '3.733333vw', lineHeight:'800%'},-->
+        <!--handler: () => deleteHandler(item, index)-->
+    <!--}-->
+  <!--]">-->
         <!--左边图片-->
         <div class="collect_img">
           <img :src="item.item_pica" width="100%" height="100%" alt="" @click="goProductDetail(item)">
@@ -28,7 +28,7 @@
           <p class="goods_color1">{{item.itemBrandName}}</p>
           <p class="money">￥{{item.item_price}}</p>
         </div>
-      </mt-cell-swipe>
+      <!--</mt-cell-swipe>-->
       </div>
     </div>
     <!--收藏列表结束-->
@@ -61,7 +61,7 @@
         isLoading:false
       }
     },
-    created: function () {
+    mounted: function () {
       this.inits();
     },
     components: {
@@ -202,12 +202,13 @@
     color: #fff;
   }
   .collect {
-    margin-top: -1px;
-    /*border-bottom: 1px solid #e5e5e5;*/
+    border-bottom: px2vw(1) solid #e5e5e5;
+    padding: 0 px2vw(20);
   }
   .collect_img {
     border: 1px solid #dcdcdc;
     position: relative;
+    display: inline-block;
     margin: px2vw(20) 0 px2vw(20) 0;
     width: px2vw(200);
     height: px2vw(200);
@@ -236,10 +237,12 @@
     line-height:px2vw(76) ;
   }
   .collect_right {
+    vertical-align: top;
     padding: px2vw(20) 0 px2vw(20) 0;
     position: relative;
+    display: inline-block;
     margin-left:px2vw(20) ;
-    width: px2vw(470);
+    width: px2vw(460);
     height: px2vw(219);
   }
   .goods_color{

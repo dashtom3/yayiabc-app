@@ -3,22 +3,23 @@
     <mt-loadmore :top-method="loadMore" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState">
       <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
       <div class="scrollBox" v-infinite-scroll="getQuestListMore" infinite-scroll-immediate-check="true">
-        <div class="eachContainer" @click="gotoDetail()">
+        <div class="eachContainer" @click="gotoDetail(value.faqQuestionId)" v-for="(value,index) in questList">
           <div class="headLine">
             <div class="headImg">
-              <img src="../../../../images/mine/defaultHead.png" alt="">
+              <img :src="questList.userPic" alt="" v-if="value.userPic">
+              <img src="../../../../images/mine/defaultHead.png" alt="" v-else>
             </div>
             <div class="name">
-              王林娟
+              {{value.userName}}
             </div>
-            <div class="time">5分钟前</div>
+            <div class="time">{{value.faqQuestionTime}}</div>
           </div>
           <div class="title">
-            标题
+            {{value.faqQuestionTitle}}
           </div>
           <div class="other">
-            <span class="classify">口内</span>
-            <span class="num"><span>8</span>评论</span>
+            <span class="classify">{{value.faqQuestionType}}</span>
+            <span class="num"><span>{{value.faqAnswerNum}}</span>个回答</span>
             <span class="clr"></span>
           </div>
         </div>
@@ -82,6 +83,7 @@
     },
     created(){
       this.timeStamp = Date.parse(new Date());
+      this.getQuestList();
     },
     methods:{
       //下拉刷新
@@ -99,18 +101,21 @@
           case this.$router.history.current.name === 'QandAList':
             //发现
             this.$store.dispatch(FAQ_LIST, this.args).then(res=>{
-
+              this.dataCompute(res.data)
+              this.questList = res.data.concat(this.questList);
+              this.totalPage = res.totalPage;
+              console.log(res,1)
             });
             break;
           case this.$router.history.current.name === 'myQuestion':
             this.$store.dispatch(MY_QUESTION, this.args).then(res=>{
-
+              console.log(res,2)
             });
             //我的
             break;
           case this.$router.history.current.name === 'questCollect':
             this.$store.dispatch(COLLECT, this.args).then(res=>{
-
+              console.log(res,3)
             });
             //收藏
             break;
@@ -123,6 +128,41 @@
           this.args.currentPage += 1;
           this.getQuestList();
         }
+      },
+      dataCompute(res){
+        res.forEach(item => {
+          switch (true){
+            //几分钟前
+            case this.timeStamp - item.faqQuestionTime < 3600000:
+              item.faqQuestionTime = Math.ceil((this.timeStamp - item.faqQuestionTime) / 1000 / 60) + '分钟前';
+              break;
+            //几小时前
+            case this.timeStamp - item.faqQuestionTime >= 3600000 && this.timeStamp - item.faqQuestionTime < 86400000:
+              item.faqQuestionTime = Math.floor((this.timeStamp - item.faqQuestionTime) / 1000 / 60 / 60) + '小时前';
+              break;
+            //日期
+            case this.timeStamp - item.faqQuestionTime >= 86400000:
+              item.faqQuestionTime = Util.formatDate.format(new Date(item.faqQuestionTime),'yy.MM.dd hh:mm').substring(2);
+              break;
+          }
+          switch (true){
+            case item.faqQuestionType == 1:
+              item.faqQuestionType = '口腔外科'
+              break
+            case item.faqQuestionType == 2:
+              item.faqQuestionType = '口腔内科'
+              break
+            case item.faqQuestionType == 3:
+              item.faqQuestionType = '口腔修复'
+              break
+            case item.faqQuestionType == 4:
+              item.faqQuestionType = '口腔种植'
+              break
+            case item.faqQuestionType == 5:
+              item.faqQuestionType = '口腔正畸'
+              break
+          }
+        });
       },
       gotoDetail(id){
         this.$router.push({path:'/QandADetail',params:{faqQuestionId:id}})
