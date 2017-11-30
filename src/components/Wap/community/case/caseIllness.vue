@@ -102,6 +102,7 @@
         {
           this.caseDate.updataTime = ['最新发布', '最多回答'];
         }
+        this.caseDate.dressingSwitch = false;
       }
     },
     methods: {
@@ -151,7 +152,6 @@
 //        }
         this.$store.dispatch('SAVE_CASE_DRESSING',  index);
         this.caseListArgs.classify = index;
-
       },
       gotoPage(page){
         this.$router.push(page)

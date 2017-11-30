@@ -40,9 +40,9 @@
 //      }
     },
     computed: {
-      direction() {
-        return this.$store.state.index.direction
-      }
+//      direction() {
+//        return this.$store.state.index.direction
+//      }
     },
   }
 </script>

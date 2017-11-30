@@ -92,16 +92,11 @@
       let vplay = this.$el.querySelector('.vplay'); //中间的播放按钮
       let videoElWith = this.$el.querySelector('.videoEl').offsetLeft; //最外边边框宽度
 
-
-
-
-
 //      let backgroundEl = this.$el.querySelector('.backgroundEl'); //封面背景
 //      console.log(video.getAttribute("posterSrc"));
 //      let poster = video.getAttribute("posterSrc");
 //      backgroundEl.style.backgroundImage="url("+ poster + ")"; //设置封面
 //      backgroundEl.style.backgroundSize="100% 100%"; //设置封面
-
 
 
       video.controls=false; //隐藏原有控件
@@ -342,8 +337,6 @@
         timerFuc();
       };
 
-
-
       //计算播放时间
       function getFormatTime(time) {
         let h = parseInt(time/3600),
@@ -368,6 +361,9 @@
     @import "../../../../common/sass/factory";
 
 
+    .videoBox{
+      background-color: black;
+    }
     video{
       object-fit: contain;
     }
