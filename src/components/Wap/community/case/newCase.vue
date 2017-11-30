@@ -350,6 +350,7 @@
         MessageBox.confirm('是否保存为草稿方便下次继续编辑?').then(action => {
           this.postCase(2);
           console.log('save')
+          this.$destroy();
         }).catch(reject =>{
           console.log('cancel')
           this.$router.go(-1)
@@ -544,6 +545,6 @@
     border-top: px2vw(1) solid #ddd;
   }
   .ql-picker-options{
-    margin-top: -131px;
+    margin-top: -131px!important;
   }
 </style>

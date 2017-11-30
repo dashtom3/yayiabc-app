@@ -228,7 +228,7 @@
       }
       #quillFee .ql-toolbar.ql-snow {
         width: 100%;
-        position: absolute !important;
+        position: fixed !important;
         display: block !important;
         bottom: 0 !important;
         left: 0 !important;
@@ -252,7 +252,7 @@
         /*background-color: red;*/
         /*.ql-toolbar.ql-snow {*/
         width: 100%;
-        position: absolute !important;
+        position: fixed !important;
         display: block !important;
         bottom: 0 !important;
         left: 0 !important;
