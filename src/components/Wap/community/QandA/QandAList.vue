@@ -1,5 +1,5 @@
 <template>
-  <div class="container" ref="scrollBox">
+  <div class="FAQContainer" ref="scrollBox">
     <mt-loadmore :top-method="loadMore" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState">
       <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
       <div class="scrollBox" v-infinite-scroll="getQuestListMore" infinite-scroll-immediate-check="true" v-if="questList.length > 0">
@@ -204,7 +204,7 @@
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../../common/sass/factory";
 
-  .container{
+  .FAQContainer{
     width: 100%;
     height: 100%;
     min-height: 60vh;

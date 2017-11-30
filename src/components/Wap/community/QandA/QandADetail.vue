@@ -58,6 +58,7 @@
         </div>
       </div>
     </div>
+    <div class="answerBtn" v-if="showAnswerBtn">我要回答</div>
   </div>
 </template>
 
@@ -65,6 +66,7 @@
   import {FAQ_DETAIL, } from '../../../../vuex/types'
   import { InfiniteScroll} from 'mint-ui';
   import Util from '../../../../vuex/util'
+  import { tokenMethods } from '../../../../vuex/util'
 
   export default {
     data(){
@@ -80,6 +82,9 @@
         detailData:{},
         answerList:[],
         showFoldSwitch:false,
+        myUserId:tokenMethods.getWapUser() ? tokenMethods.getWapUser().userId:'',
+        userIdList:[],
+        showAnswerBtn:false,
       }
     },
     created(){
@@ -90,13 +95,16 @@
       getdetail(){
         this.isLoading = true;
         this.$store.dispatch(FAQ_DETAIL, this.args).then(res=>{
-          console.log(res.data);
-          this.detailData = res.data;
-          this.dataCompute(this.detailData);
-          if(this.detailData.faqQuestionContent){
-            if(this.detailData.faqQuestionContent.length > 50){
-              this.showFoldSwitch = true
+//          console.log(res.data);
+          if(this.args.currentPage === 1){
+            this.detailData = res.data;
+            this.dataCompute(this.detailData);
+            if(this.detailData.faqQuestionContent){
+              if(this.detailData.faqQuestionContent.length > 50){
+                this.showFoldSwitch = true
+              }
             }
+            this.userIdList.push(this.detailData.userId)
           }
           res.data.faqAnswerList.forEach(item =>{
             switch (true){
@@ -113,13 +121,23 @@
                 item.faqAnswerTime = Util.formatDate.format(new Date(item.faqAnswerTime),'yy.MM.dd hh:mm').substring(2);
                 break;
             }
+            this.userIdList.push(item.userId)
           });
+          if(this.myUserId.indexOf(this.userIdList) < 0){
+            this.showAnswerBtn = true
+          }
           this.answerList = res.data.faqAnswerList.concat(this.answerList);
+          this.totalPage = res.totalPage
           this.isLoading = false;
         })
       },
       getAnswerMore(){
-
+        if(this.totalPage <= this.args.currentPage){
+          return
+        }else {
+          this.args.currentPage++;
+          this.getdetail();
+        }
       },
       dataCompute(item){
         switch (true){
@@ -358,5 +376,16 @@
       }
     }
   }
-
+  .answerBtn{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: px2vw(120);
+    width: 100%;
+    background-color: $themeColor;
+    color: #fff;
+    line-height: px2vw(120);
+    text-align: center;
+    font-size: px2vw(32);
+  }
 </style>
