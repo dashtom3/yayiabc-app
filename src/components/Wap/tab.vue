@@ -255,6 +255,9 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" rel="stylesheet/scss">
 @import "../../common/sass/factory";
+.mu-buttom-item{
+  min-width: 0;
+}
 .mu-bottom-item-active .mu-bottom-item-icon {
   color: $themeColor !important;
 }

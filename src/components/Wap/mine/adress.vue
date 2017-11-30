@@ -180,8 +180,8 @@
     -webkit-overflow-scrolling: touch;
     left: 0;
     top: px2vw(88);
-    background-color: $borderColor;
-    height: 85vh;
+    background-color: #f4f4f4;
+    height: 86.5vh;
     width: 100%;
   }
   .header{
@@ -225,14 +225,14 @@
       border-bottom: 1px solid $borderColor;
     }
     .title{
-      margin: px2vw(41) 0 0 px2vw(25);
+      margin: px2vw(30) 0 0 px2vw(25);
       height: px2vw(30);
       line-height: px2vw(30);
       font-size: px2vw(32);
       color: rgb(51, 51, 51);
     }
     .toAddress{
-      margin: px2vw(20) 0 0 px2vw(24);
+      margin: px2vw(30) 0 0 px2vw(24);
       height: px2vw(25);
       line-height: px2vw(25);
       font-size: px2vw(26);
@@ -240,7 +240,7 @@
     }
     .info-right{
       position: absolute;
-      top: px2vw(45);
+      top: px2vw(32);
       right: px2vw(25);
       height: px2vw(23);
       line-height: px2vw(23);
@@ -296,7 +296,7 @@
     justify-content: space-between;
     align-items: center;
     height: px2vw(96);
-    padding: 0 px2vw(25);
+    padding: 0 px2vw(25) 0 px2vw(28);
   }
   .opt-right{
     font-size: 0;
@@ -325,17 +325,19 @@
     bottom: 0;
     width: 100%;
     height: px2vw(20);
-    background: $borderColor;
+    background: #f4f4f4;
   }
   .addAddress {
     position: fixed;
     bottom: 0;
-    padding: px2vw(35) 0 ;
+    // padding: px2vw(28) 0;
+    height: px2vw(90);
+    line-height: px2vw(90);
     text-align: center;
     width: 100vw;
     background-color: $themeColor;
     color: white;
-    font-size: 3.733333vw;
+    font-size: px2vw(30);
   }
   .address_pic{
     /*width: px2vw(196);*/
