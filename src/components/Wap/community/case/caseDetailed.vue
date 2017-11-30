@@ -39,7 +39,7 @@
       </div>
 
       <div class="header">
-        <img class="headPic" src="../../../../images/case/caseOfIllness/1.png" alt="">
+        <img class="headPic" :src="caseDetailArgs.cover? caseDetailArgs.cover : require('../../../../images/case/hPic.png')" alt="">
         <span class="headName">{{caseDetailArgs.writer}}</span>
         <span class="class">{{caseDetailArgs.classify}}</span>
         <span class="class">免费</span>
@@ -600,7 +600,6 @@
     padding-left: px2vw(20);
   }
   .headPic{
-    border: 1px solid red;
     width: px2vw(50);
     height: px2vw(50);
     border-radius: 50%;

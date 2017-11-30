@@ -300,9 +300,6 @@
   .videoWrap:nth-child(1){
     padding-top: 0 !important;
   }
-    .videoWrap:last-child{
-      margin-bottom: px2vw(110);
-    }
   .videoBox{
     width: 100%;
   }

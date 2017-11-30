@@ -15,7 +15,6 @@
           <p>设备不支持</p>
         </slot>
 
-
         <img v-show="videos.centerPlayImg" class="vplay" src="../../../../images/video/play.png"/>
 
         <transition name="fade">
@@ -79,7 +78,7 @@
 
     },
     mounted(){
-      let timer ;
+      let timer;
       let _this = this;
       //当视频可播放的时候
       let controls = this.$el.querySelector('.controls'); //控件的最高级父级节点

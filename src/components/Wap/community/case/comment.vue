@@ -22,8 +22,9 @@
                 </div>
 
                 <div @click="like('three','','')" class="likeBox">
+
                   <span class="commentImgBoxs">
-                    <img src="../../../../images/case/caseOfIllness/like.png" alt="">
+                    <img :src="commentChild.comment.isZan == 1? require('../../../../images/case/iszan.png'):require('../../../../images/case/caseOfIllness/like.png')" alt="">
                   </span>
                   <span>{{commentChild.comment.zan}}</span>
                 </div>
@@ -69,7 +70,7 @@
 
                   <div @click="like('two',index, item.commentId)" class="likeBox">
                   <span class="commentImgBoxs">
-                    <img src="../../../../images/case/caseOfIllness/like.png" alt="">
+                   <img :src="item.isZan == 1? require('../../../../images/case/iszan.png'):require('../../../../images/case/caseOfIllness/like.png')" alt="">
                   </span>
                   <span>{{item.zan}}</span>
                   </div>
@@ -111,7 +112,7 @@
       <!--<div :class="{'changeHeight':commentChild.switchShow == true}" class="commentBoxOnce">-->
       <div v-show="!commentChild.switchShow" class="commentBoxOnce">
       <div  id="allCount" class="allCount ">
-        全部评论&nbsp;({{detailedCommentArgs.totalNumber}})
+        全部评论&nbsp;({{detailedCommentArgs.data.length}})
       </div>
 
         <div v-if="detailedCommentArgs.data.length == 0" class="noneComment">
@@ -156,7 +157,7 @@
 
               <div @click="like('one', index, item.commentId)" class="likeBox">
               <span class="commentImgBoxs">
-                    <img src="../../../../images/case/caseOfIllness/like.png" alt="">
+                    <img :src="item.isZan == 1? require('../../../../images/case/iszan.png'):require('../../../../images/case/caseOfIllness/like.png')" alt="">
                   </span>
                 <!--1级-->
               <span>{{item.zan}}</span>

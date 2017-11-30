@@ -26,18 +26,18 @@
 
         <div v-for="(item,index) in myCaseList" >
         <div @click="toGoCase(item.postId)"  v-if="myCaseList"  class="caseBox">
-          <div class="userBox addChange1" >
+          <div class="userBox " :class="{'addChange1': item.cover}" >
             <div class="userPicture">
               <img v-if="change == 2" :src=" item.printUrl == null? require('../../../../images/mine/zhifubao.png') : item.printUrl" alt="">
               <span class="userName" :class="{'userWrite': change != 2}">{{item.writer}}</span>
-              <span class="userName userTime">5分钟前</span>
+              <span class="userName userTime">{{item.postTime}}</span>
             </div>
             <div class="caseContent">
-              标题
+              {{item.headline}}
             </div>
           </div>
-          <div  class="userImgBox addChange2">
-            <img src="../../../../images/mine/topBackGround.png" alt="">
+          <div v-if="item.cover" :class="{'addChange2': item.cover}" class="userImgBox ">
+            <img :src="item.cover" alt="">
           </div>
 
           <div v-if="change != 0" class="readeBox">
@@ -45,15 +45,11 @@
             <span class="readeNum">{{item.readNumber}} 阅读</span>
             <span class="readeNum2">· {{item.commentNumber}}评论</span>
             <span class="readeNum2">· {{item.postFavour}}赞</span>
-            <span class="coin"> {{item.chargeNumber}}乾币</span>
+            <span v-if="item.chargeNumber" class="coin"> {{item.chargeNumber}}乾币</span>
           </div>
         </div>
-
-
         </div>
         </mt-loadmore>
-
-
         <div v-if="change == 0 && myCaseList == null" class="spaceImgBox">
           <img class="spaceImgFont" src="../../../../images/case/myCase/caogao.png" alt="">
           <div class="spaceSize">还没有草稿</div>
@@ -79,6 +75,7 @@
 </template>
 
 <script>
+  import Util from '../../../../vuex/util'
   import {InfiniteScroll, LoadMore } from 'mint-ui';
   import topLoadMore from '../../../salesWap/index/topLoadMore.vue';
   export default {
@@ -96,7 +93,8 @@
           order: 0,
           postStater: 2
         },
-        myCaseList: []
+        myCaseList: [],
+        timeStamp: 0,
       }
     },
     created(){
@@ -119,8 +117,15 @@
         this.$store.dispatch('GET_PAY_CASE', this.myCase).then( (res)=>{
           console.log(res , 'haha');
           this.myCaseList = res.data;
+
+
+
           if(this.myCaseList)
           {
+
+            this.timeStamp = Date.parse(new Date());
+            this.time(this.myCaseList);
+
             this.myCaseList.forEach(function (item, index, array) {
               if(item.classify === 1)
               {
@@ -152,6 +157,9 @@
           console.log(res);
           if(this.myCaseList)
           {
+            this.timeStamp = Date.parse(new Date());
+            this.time(this.myCaseList);
+
             this.myCaseList.forEach(function (item, index, array) {
               if(item.classify === 1)
               {
@@ -175,6 +183,31 @@
         });
       },
 
+      time(res){
+        if(res)
+        {
+          res.forEach(item => {
+            switch (true){
+              //几分钟前
+              case this.timeStamp - item.postTime < 3600000:
+//                console.log(this.timeStamp - item.postTime)
+                item.postTime = Math.ceil((this.timeStamp - item.postTime) / 1000 / 60) + '分钟前';
+                break;
+              //几小时前
+              case this.timeStamp - item.postTime >= 3600000 && this.timeStamp - item.postTime < 86400000:
+//                console.log(this.timeStamp - item.postTime)
+                item.postTime = Math.floor((this.timeStamp - item.postTime) / 1000 / 60 / 60) + '小时前';
+                break;
+              //日期
+              case this.timeStamp - item.postTime >= 86400000:
+                item.postTime = Util.formatDate.format(new Date(item.postTime),'yy.MM.dd hh:mm').substring(2);
+                break;
+            }
+          });
+        }else {
+
+        }
+      },
       toGoCase(postId){
         if(this.change === 0) //草稿
         {

@@ -8,7 +8,7 @@
       <div v-if="listCaseData != null" @click="goCaseDetailed(item.postId)" v-for="(item, index) in listCaseData" class="caseBox">
         <div class="userBox " :class="{'addChange1': item.cover !== ''}">
           <div class="userPicture">
-            <img src="../../../../images/mine/zhifubao.png" alt="">
+            <img :src="item.printUrl ? item.printUrl : require('../../../../images/case/hPic.png')" alt="">
             <span class="userName">{{item.writer}}</span>
             <span class="userName userTime">{{item.postTime}}分钟前</span>
           </div>
@@ -25,7 +25,7 @@
           <span class="readeNum">{{item.readNumber==null?0: item.readNumber}} 阅读</span>
           <span class="readeNum2">· {{item.commentNumber}}评论</span>
           <span class="readeNum2">· {{item.postFavour}}赞</span>
-          <span class="coin"> {{item.chargeNumber==null?0: item.chargeNumber}}乾币</span>
+          <span v-if="item.chargeNumber" class="coin"> {{item.chargeNumber}}乾币</span>
         </div>
       </div>
     </div>
@@ -399,9 +399,7 @@
      border-bottom: 1px solid #f4f4f4;
      padding: px2vw(36) px2vw(17) px2vw(35) px2vw(17);
    }
-    .caseBox:last-child{
-      margin-bottom: px2vw(98);
-    }
+
 
    .fade-enter-active, .fade-leave-active {
      transition: opacity .5s
