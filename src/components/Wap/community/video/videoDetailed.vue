@@ -10,7 +10,7 @@
 
       <div class="container">
         <video-play :isVideo="typeVideo" ref="videoPlay"  v-if="videoSwitch">
-          <video slot="video" webkit-playsinline="true" playsinline="true" class="video">
+          <video :poster="videoArgs.vedioPic" slot="video" webkit-playsinline="true" playsinline="true" class="video">
             <source slot="sourceSrc" :src="videoArgs.vidRoute" type="video/mp4"></source>
           </video>
         </video-play>

@@ -13,28 +13,33 @@
 
     <div class="top_top" v-if="addressData.length > 0">
     <!--地址开始-->
-    <div class="address_box" v-for="(item,index) in addressData" :key="index">
-      <div class="address">
-        <div class="hovers">
-          <span class="fontColor">{{item.receiverName}}</span>
-          <span class="fontColor iphone">{{item.phone}}</span>
-          <span class="default" v-if="item.isDefault">默认地址</span>
-        </div>
-        <p class="personAddress">{{item.city}}{{item.county}}{{item.receiverDetail}}</p>
-        <div>
-          <div class="img_box">
-              <span class="size_img_left" @click="goToAddAddress(index)">
-              <img class="size_img" src="../../../images/mine/update.png" alt="">
-              <span class="edit">编辑</span>
-              </span>
-            <span class="size_img_left2"  @click="deleteAddress(item.receiverId,index)">
-              <img class="size_img" src="../../../images/mine/delete.png" alt="">
-              <span class="delete">删除</span>
-              </span>
+      <div class="address-box" v-for="(item,index) in addressData" @click="selectAddress(index)" :key="index">
+        <div class="address-info clearfix">
+          <div class="info-left fl">
+            <h2 class="title">{{item.receiverName}}</h2>
+            <p class="toAddress">{{item.city}}{{item.county}}{{item.receiverDetail}}</p>
+          </div>
+          <div class="info-right">
+            <span>{{item.phone}}</span>
           </div>
         </div>
+        <div class="address-opt">
+          <div class="opt-left" @click.stop="setDefault(item)">
+            <input v-model="item.isDefault" type="checkbox" :id="index"/>
+            <label class="check" :for="index"></label>
+            <label class="css-color" :for="index">默认地址</label>
+          </div>
+          <div class="opt-right">
+            <span class="text" @click.stop="goToAddAddress(index)">
+              <span class="edit">编辑</span>
+            </span>
+            <span class="text"  @click.stop="deleteAddress(item.receiverId,index)">
+              <span class="delete">删除</span>
+            </span>
+          </div>
+        </div>
+        <div class="split"></div>
       </div>
-    </div>
     <!--地址结束-->
     <!--末尾-->
     </div>
@@ -67,6 +72,7 @@
       if( sessionStorage.getItem('fromAddressMine') === true)
       {
         sessionStorage.setItem('backJudgeAddress','');
+        console.log(123445)
       }
       this.getMyAddress();
     },
@@ -80,6 +86,9 @@
             if (res.data.callStatus === 'SUCCEED') {
               Toast('成功删除地址!');
               this.addressData.splice(index,1);
+              if (index == sessionStorage.getItem('selectAddress')) {
+                sessionStorage.removeItem('selectAddress')
+              }
             }
           })
         }).catch(err => {
@@ -91,11 +100,9 @@
           token: tokenMethods.getWapToken(),
         };
         that.$store.dispatch('GET_ADDRESS', obj).then((res) => {
-          // console.log(res);
           if (res.callStatus === 'SUCCEED') {
             this.addressData = res.data;
             this.isLoaded = true
-            // console.log(this.addressData);
           } else {
           }
         })
@@ -107,13 +114,59 @@
       },
       toBack(){
         //sessionStorage.getItem('backJudgeAddress')
-        if(sessionStorage.getItem('backJudgeAddress') === "confirmAddress")
-        {
-          this.$router.push({path:'/confirmAddress'})
-        }else {
+        // if(sessionStorage.getItem('backJudgeAddress') === "confirmAddress")
+        // {
+        //   this.$router.push({path:'/confirmAddress'})
+        // }else 
+        if (sessionStorage.getItem('backJudgeAddress') === "fromAddressSuborder") {
+          this.$router.push({path: '/suborder', query: {backJudge: 'address'}})
+        } else {
           this.$router.push({path:'/yayi/mine'})
         }
-      }
+      },
+      setDefault(value) {
+        this.addressData = this.addressData.map((item) => {
+          if (value.receiverId == item.receiverId) {
+            item.isDefault = true
+          } else {
+            item.isDefault = false
+          }
+          return item
+        })
+        var that = this;
+        var obj = {
+            token: tokenMethods.getWapToken(),
+            receiverId: value.receiverId,
+            province: value.province,
+            city: value.city,
+            county: value.county,
+            receiverName: value.receiverName,
+            receiverDetail: value.receiverDetail,
+            phone: value.phone,
+            isDefault: value.isDefault,
+          }
+        // var obj = Object.assign(value, {token: tokenMethods.getWapToken()})
+        that.$store.dispatch('EDIT_ADDRESS', obj).then((res) => {
+          console.log(res);
+          if (res.data.callStatus === 'SUCCEED') {
+            // Toast('成功保存地址!');
+            // that.getMyAddress()
+            return
+          }
+          Toast('设置默认地址失败！!');
+        })
+      },
+      selectAddress(index) {
+         if (sessionStorage.getItem('backJudgeAddress') === "fromAddressSuborder") {
+          this.toGoAddressSelect(index);
+        }
+        return
+      },
+      toGoAddressSelect(index){
+        // this.$store.dispatch('ADDRESS_SELECT', index);
+        sessionStorage.setItem('selectAddress',index)
+        this.$router.push({path:'/suborder'});
+      },
     }
   }
 </script>
@@ -121,8 +174,6 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../common/sass/factory";
-  .address_wrap{
-  }
   .top_top{
     position: fixed;
     overflow: scroll;
@@ -131,6 +182,7 @@
     top: px2vw(88);
     background-color: $borderColor;
     height: 85vh;
+    width: 100%;
   }
   .header{
     position: absolute;
@@ -163,69 +215,118 @@
     height: px2vw(88);
     border-bottom: px2vw(1) solid $borderColor;
   }
-
-  .address {
-    background-color: white;
-    padding: px2vw(30) px2vw(20);
-  }
-
-  .fontColor {
-    padding: px2vw(8) 0;
-    color: #888888;
-    font-size: 3.73333vw;
-  }
-
-  .iphone {
-    margin-left: 10.2666666vw;
-  }
-
-  .default {
-    position: absolute;
-    right: 1vw;
-    font-size: 3.73333vw;
-    padding: px2vw(8);
-    background-color: $themeColor;
-    color: white;
-  }
-
-  .personAddress {
-    font-size: 3.73333vw;
-    padding: px2vw(26) 0;
-    border-bottom: 1px solid $borderColor;
-  }
-
-  .edit,.delete {
-    color: #888888;
-    font-size: 3.73333vw;
-  }
-
-  .size_img {
-    vertical-align: text-bottom;
-    width: px2vw(36);
-    height: px2vw(36);
-    margin-right: px2vw(30)
-  }
-  .size_img_left {
-    margin-left: px2vw(118);
-  }
-  .size_img_left2{
-   float: right;
-    margin-right: px2vw(118);
-  }
-
-  .img_box {
-    padding: px2vw(25) 0 0 0;
-  }
-
-  .address_box {
-    border-bottom: px2vw(20) solid $borderColor;
-    width: 100vw;
-  }
-
-  .hovers {
+  .address-box{
     position: relative;
+    height: px2vw(272);
+    background: #fff;
+    .address-info{
+      position: relative;
+      padding-bottom: px2vw(39);
+      border-bottom: 1px solid $borderColor;
+    }
+    .title{
+      margin: px2vw(41) 0 0 px2vw(25);
+      height: px2vw(30);
+      line-height: px2vw(30);
+      font-size: px2vw(32);
+      color: rgb(51, 51, 51);
+    }
+    .toAddress{
+      margin: px2vw(20) 0 0 px2vw(24);
+      height: px2vw(25);
+      line-height: px2vw(25);
+      font-size: px2vw(26);
+      color: rgb(102, 102, 102)
+    }
+    .info-right{
+      position: absolute;
+      top: px2vw(45);
+      right: px2vw(25);
+      height: px2vw(23);
+      line-height: px2vw(23);
+      font-size: px2vw(30);
+      color: rgb(102, 102, 102)
+    }
+    input{
+      display: none;
+    }
   }
-
+  .css-color {
+    margin-left: px2vw(10);
+    display: inline-block;
+    height: px2vw(24);
+    line-height: px2vw(24);
+    font-size: px2vw(26);
+    color: rgb(102, 102, 102);
+  }
+  .check{
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: px2vw(-8);
+    border-radius: 50%;
+    border: px2vw(1) solid $themeColor;
+    width: px2vw(31);
+    height: px2vw(31);
+    background-color: white;
+  }
+  input:checked+.check{
+    background-color: $themeColor !important;
+  }
+  .check:after{
+    content: '';
+    display: block;
+    position: absolute;
+    top:px2vw(8);
+    left: px2vw(2);
+    width: px2vw(25);
+    height: px2vw(8);
+    background: transparent;
+    border: px2vw(2) solid white;
+    border-top: none;
+    border-right: none;
+    -webkit-transform: rotate(-48deg);
+    -moz-transform: rotate(-48deg);
+    -o-transform: rotate(-48deg);
+    -ms-transform: rotate(-48deg);
+    transform: rotate(-48deg);
+  }
+  .address-opt{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: px2vw(96);
+    padding: 0 px2vw(25);
+  }
+  .opt-right{
+    font-size: 0;
+    .text{
+      display: inline-block;
+      height: px2vw(25);
+      line-height: px2vw(25);
+      font-size: px2vw(26);
+      color: rgb(102, 102, 102);
+      .edit{
+        margin-right: px2vw(14);
+        border-right: 1px solid $borderColor;
+        padding-right: px2vw(14);
+      }
+    }
+  }
+  .fl{
+    float: left;
+  }
+  .fr{
+    float: right;
+  }
+  .split{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: px2vw(20);
+    background: $borderColor;
+  }
   .addAddress {
     position: fixed;
     bottom: 0;
@@ -262,7 +363,6 @@
     -webkit-transform:translate(-50%,-70%); /* Safari 和 Chrome */
     -o-transform:translate(-50%,-70%); 	/* Opera */
   }
-
   .box_top {
     z-index: 100;
     position: fixed;

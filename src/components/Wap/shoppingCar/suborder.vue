@@ -407,7 +407,6 @@
                   {
                     that.isDefault = true;
                     that.addressData = that.addressData[i]
-                    // console.log(that.addressData,'opop')
                     break;
                   }
                 }
@@ -531,18 +530,16 @@
         that.$store.dispatch('GET_SUBMIT', obj).then((res) => {
           console.log(res,'lihui')
           if (res.data.callStatus === 'SUCCEED') {
-            console.log(res,'ppppppp')
             if (res.data.data == null) {
               Indicator.close()
               Toast({message: '提交订单失败！', duration: 1500})
             } else{
-              console.log(res.data,'sdsds')
               if (res.data.data.actualPay == 0) {
                 Indicator.close()
                 window.sessionStorage.removeItem('qbCount')
                 window.sessionStorage.removeItem('paper');
                 window.sessionStorage.removeItem('departure');
-                that.$router.push({ name: 'paySucced', params: {orderId: res.data.data.OrderId, payMoney: res.data.data.actualPay}})
+                that.$router.push({ name: 'paySucced', params: {orderId: res.data.data.OrderId, payMoney: res.data.data.actualPay, canHasCoin: that.canHasCoin}})
               } else {
                 Indicator.close();
                 let orderD = res.data.data;
@@ -795,7 +792,9 @@
           this.$store.state.index.addressBack = 1;
           this.$router.push({path:'/addAddress', query:{editJudge: -2}});
         }else {
-          this.$router.push({path:'/confirmAddress'});
+          // this.$router.push({path:'/confirmAddress'});
+          sessionStorage.setItem('backJudgeAddress', 'fromAddressSuborder');
+          this.$router.push({path: '/address'});
         }
 
       }
