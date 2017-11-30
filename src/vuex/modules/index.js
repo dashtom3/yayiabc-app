@@ -52,12 +52,15 @@ const state = {
   saveCaseDressing: null,
   saveCaseOrder: 0,
   saveCaseSearching:'',
+
 }
 
 const getters = {
   TXData:state => {
     return state.TXData
   },
+
+
   saveJumpIndex : state => {
     return state.saveJumpIndex
   },
@@ -101,6 +104,7 @@ const mutations = {
   [types.UPDATE_DIRECTION](state,payload) {
     state.direction = payload.direction
   },
+
   [types.SAVE_CASE_ORDER](state,all) {
     state.saveCaseOrder = all
   },
@@ -136,6 +140,8 @@ const mutations = {
   [types.SAVE_JUMP_INDEX](state, all){
     state.saveJumpIndex = all
   },
+
+
   [types.SAVE_SEARCH_WORD](state, all){
     state.searchKeyWord = all
   },
@@ -213,6 +219,7 @@ const actions = {
   [types.COMPANY_INVOICE]({commit}, all) {
     commit(types.COMPANY_INVOICE, all);
   },
+
   //保存钱币类型传值
   [types.PUSH_QB_NUM]({commit}, all){
     commit(types.PUSH_QB_NUM, all)

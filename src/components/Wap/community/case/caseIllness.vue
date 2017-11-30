@@ -1,12 +1,5 @@
 <template>
     <div>
-      <!--<div class="search_box">-->
-        <!--<form action="http://47.93.48.111:6181/api/item/itemSearch" method="post" enctype="multipart/form-data" v-on:submit.prevent="search_cargo">-->
-          <!--<input class="search_word" type="search" name="keyWord" @focus="searchActive()" v-focus autofocus="autofocus" @keyup.enter="search_cargo" v-model="searchCargo" autocomplete="on" placeholder="请输入关键字" >-->
-        <!--</form>-->
-        <!--<img class="search_img" src="../../../../images/index/search.png" alt="img">-->
-        <!--<div class="cancel_btn" @click="cancelSearch">取消</div>-->
-      <!--</div>-->
       <div class="wrapBCG"></div>
       <div class="headerBox">
         <!--搜索按钮开始-->
@@ -31,7 +24,7 @@
         <!--提示铃结束-->
       </div>
       <!--头部结束-->
-      <div   class="dressingBox">
+      <div class="dressingBox">
         <span v-for="(item, index) in caseDate.dressing" @click="dressing(index)"  :class="{'DressingColor': (caseListArgs.classify==''?0:caseListArgs.classify) === index}">{{item == '' ? '不限':item}}</span>
 
         <!--筛选按钮-->
@@ -48,15 +41,11 @@
           </transition>
           </span>
       </div>
-      <!--筛选功能栏开始-->
+
+
       <div  class="container">
-
-        <!--筛选功能栏结束-->
         <!--内容开始-->
-        <div class="wrap">
-          <router-view></router-view>
-        </div>
-
+        <router-view></router-view>
         <!--内容结束-->
       </div>
     </div>
@@ -268,6 +257,7 @@
     width: 100vw;
     height: px2vw(88);
     background-color: $themeColor;
+    z-index: 100;
   }
   .wrapBCG{
     position: fixed;
@@ -278,15 +268,15 @@
     z-index: -1;
     background-color: #f4f4f4;
   }
-
-
   .container{
-    position: absolute;
-    top: px2vw(208);
-    bottom: 0;
-    overflow: scroll;
+    position: fixed;
+    top:px2vw(0);
+    padding-top: px2vw(186);
+    left: 0;
     width: 100%;
     -webkit-overflow-scrolling: touch;
+    overflow: scroll;
+    max-height: 91vh;
   }
   .dressingBox>.dressingBtn{
     z-index: 1100;

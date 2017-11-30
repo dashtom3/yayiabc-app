@@ -58,7 +58,10 @@
 <script>
   export default {
     props:{
-
+      isVideo:{
+        type: String,
+        default: ''
+      }
     },
     data(){
       return{
@@ -68,7 +71,6 @@
           allTime: '00:00:00', //总时长
           currPlayTime: '00:00:00', //当前播放时间
           controlShow: false,  //显示视频下部控件开关
-
         },
         full: false,  //全屏
       }
@@ -145,8 +147,11 @@
 
       video.oncanplay = function(){
         //显示视频总时长
-        let time = video.duration;
-        _this.videos.allTime =  getFormatTime(time);
+        if(video.duration)
+        {
+          let time = video.duration;
+          _this.videos.allTime =  getFormatTime(time);
+        }
       };
 
       //进度计算
@@ -169,54 +174,122 @@
       progressBox.addEventListener('touchmove',function (event) {
         if(event.targetTouches.length > 1 || event.scale && event.scale !== 1) return;
         let touch = event.targetTouches[0];
-
-
-
-
         event.preventDefault(); //阻止触摸事件的默认行为，即阻止滚屏
 
-
-        //计算拖动距离
-        let distance = touch.pageX - this.offsetLeft - videoElWith;
-
-        let progressBoxWith = progressBox.offsetWidth;
-
-        if(distance > progressBoxWith || distance < 0)
+        if(_this.full)  //全屏的时候
         {
-          return;
+          //计算拖动距离
+          let distance = touch.pageY - this.offsetLeft - videoElWith;
+
+          let progressBoxWith = progressBox.offsetWidth;
+
+          if(distance > progressBoxWith || distance < 0)
+          {
+            return;
+          }
+
+          timerFuc();
+
+          //计算百分比
+          let proPre = distance / progressBoxWith;
+
+          //显示进度条
+          progress.style.width = (proPre * 100) + '%'; //蓝线进度
+          proCircle.style.left = (proPre * 100) + '%'; //圆圈进度
+
+          let duration = video.duration;
+          //改变播放时间
+          video.currentTime = (distance / progressBoxWith) * duration;
+        }else {
+
+          //计算拖动距离
+          let distance = touch.pageX - this.offsetLeft - videoElWith;
+
+          let progressBoxWith = progressBox.offsetWidth;
+
+          if(distance > progressBoxWith || distance < 0)
+          {
+            return;
+          }
+
+          timerFuc();
+
+          //计算百分比
+          let proPre = distance / progressBoxWith;
+
+          //显示进度条
+          progress.style.width = (proPre * 100) + '%'; //蓝线进度
+          proCircle.style.left = (proPre * 100) + '%'; //圆圈进度
+
+          let duration = video.duration;
+          //改变播放时间
+          video.currentTime = (distance / progressBoxWith) * duration;
         }
 
-        timerFuc();
 
-        //计算百分比
-        let proPre = distance / progressBoxWith;
-
-        //显示进度条
-        progress.style.width = (proPre * 100) + '%'; //蓝线进度
-        proCircle.style.left = (proPre * 100) + '%'; //圆圈进度
-
-        let duration = video.duration;
-        //改变播放时间
-        video.currentTime = (distance / progressBoxWith) * duration;
 
       });
 
 
+
+
+      //监听手机旋转
+      let evt = "onorientationchange" in window ? "orientationchange" : "resize";
+      function resize(fals) {
+        if(window.orientation == 0 || window.orientation == 180) {
+
+        }else if(window.orientation == 90 || window.orientation == 270)
+        {
+          Screen.style.transformOrigin = "center center";
+          Screen.style.transform = "rotate(0deg) ";
+          Screen.style.top = 0;
+          Screen.style.left = 0;
+        }
+      }
+
+
+
       let Screen = _this.$el.querySelector('.videoEl'); //最外边边框
+      let container = document.getElementsByClassName('container')[0]
+      let cc = document.getElementsByClassName('mu-paper')[0]
+
+
       let W = Screen.offsetWidth;  //视频的宽
       let H = Screen.offsetHeight; //视频的高
+
+      // 全屏按钮 ~~~~~~~
       expand.addEventListener('click',function () {
 
         let conW = window.screen.width ;  //屏幕的宽
         let conH = window.screen.height  ; //屏幕的高
-
-//
-//        let conW = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-//        let conH = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-
         _this.full = !_this.full;
 
-//          console.log(Screen);
+        if(_this.isVideo === "video") //视频列表
+        {
+          if(_this.full)  //全屏的时候
+          {
+            cc.style.display = "none";
+            console.log(container);
+            container.style.zIndex = "9999";
+            container.style.overflow = "visible";
+            Screen.style.width = conH + "px";
+            Screen.style.height = conW + "px";
+            Screen.style.transformOrigin = "center center";
+            Screen.style.transform = "rotate(90deg) translate("+((conH-conW)/2)+"px,"+((conH-conW)/2)+"px)";
+            Screen.style.top = 0;
+            Screen.style.left = 0;
+            plus.navigator.setFullscreen(true);
+          }else {  //非全屏
+            cc.style.display = "block";
+            container.style.zIndex = "0";
+            Screen.style.width = W + "px";
+            Screen.style.height = "auto";
+            video.style.width = "100% !import";
+            Screen.style.transform = "rotate(0deg) translate(0,0)";
+            container.style.overflow = "scroll";
+            plus.navigator.setFullscreen(false);
+          }
+        }else {  //视频详情
           if(_this.full)  //全屏的时候
           {
             Screen.style.width = conH + "px";
@@ -224,21 +297,27 @@
             Screen.style.transformOrigin = "center center";
             Screen.style.transform = "rotate(90deg) translate("+((conH-conW)/2)+"px,"+((conH-conW)/2)+"px)";
             Screen.style.top = 0;
-
+            Screen.style.left = 0;
             plus.navigator.setFullscreen(true);
           }else {  //非全屏
             Screen.style.width = W + "px";
             Screen.style.height = "auto";
             video.style.width = "100% !import";
             Screen.style.transform = "rotate(0deg) translate(0,0)";
-
-
-
-
-          plus.navigator.setFullscreen(false);
+            plus.navigator.setFullscreen(false);
           }
-      },false);
+        }
 
+
+        if(_this.full)
+        {
+          window.addEventListener(evt,resize,false);
+        }else {
+          window.removeEventListener(evt,resize);
+        }
+
+
+      },false);
 
 
 
@@ -372,7 +451,6 @@
       position: relative;
       width: 100%;
       height: auto;
-      border: 1px solid gray;
     }
     .videoBox .vplay{
       position: absolute;

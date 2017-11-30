@@ -1,6 +1,5 @@
 <template>
     <div>
-
       <!--无视频样式-->
       <div v-if="!videoArgs" class="noneVideo">
         <div class="noneV">
@@ -9,9 +8,8 @@
         <div>暂无相关视频</div>
       </div>
 
-
-      <mt-loadmore  :top-method="loadMore" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState">
-        <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
+      <!--<mt-loadmore  :top-method="loadMore" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState">-->
+        <!--<topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>-->
 
       <!-- v-for -->
         <div v-infinite-scroll="getCaseListMore" infinite-scroll-immediate-check="true">
@@ -20,11 +18,11 @@
 
           <!--这里放视频-->
           <div class="videoBox">
-            <video-play v-if="videoSwitch">
+            <video-play :isVideo="typeVideo" v-if="videoSwitch">
               <!--<video  src=""  controls="" x5-playsinline="" playsinline="" webkit-playsinline="" poster="" preload="auto"></video>-->
               <!--posterSrc:视频封面地址  slot必须带class="video"-->
-              <video :poster="item.vedioPic"  slot="video" webkit-playsinline="true" playsinline="true" class="video">
-              <source slot="sourceSrc" :src="item.vidRoute" type="video/mp4"></source>
+              <video  webkit-playsinline :src="item.vidRoute" :poster="item.vedioPic"  slot="video"  class="video">
+              <!--<source slot="sourceSrc"  type="video/mp4"></source>-->
               </video>
             </video-play>
           </div>
@@ -51,7 +49,7 @@
         </div>
       </div>
         </div>
-      </mt-loadmore>
+      <!--</mt-loadmore>-->
       <!--结束-->
     </div>
 </template>
@@ -65,6 +63,7 @@
   export default {
     data(){
       return{
+        typeVideo: 'video',
         //获取当前登录账号的userID
         myUserId:tokenMethods.getWapUser() ? tokenMethods.getWapUser().userId:'',
         videoSwitch: true,
@@ -184,6 +183,18 @@
           this.videoArgs['totalPage'] = res.totalPage;
           this.videoArgs['currentPage'] = res.currentPage;
           console.log(res, '时间');
+
+          this.videoArgs = this.videoArgs.filter((item) =>{
+            if(item.vidRoute.substr(0,4) === "http")
+            {
+              return true;
+            }else{
+              return false;
+            }
+          });
+          console.log(this.videoArgs, '呵呵呵');
+
+
           this.isLoaded();
         });
       },
@@ -200,10 +211,28 @@
         }
         else {
           console.log(this.videoListArgs, this.videoListArgs.currentPage,'canshu');
+
           this.$store.dispatch('GET_VIDEO_LIST', this.videoListArgs).then((res) => {
-            this.videoArgs = this.videoArgs.concat(res.data);
+
+
+            let datas = res.data.filter((item) =>{
+              if(item.vidRoute.substr(0,4) === "http")
+              {
+                return true;
+              }else{
+                return false;
+              }
+            });
+            console.log(datas, '呵呵呵');
+
+            this.videoArgs = this.videoArgs.concat(datas);
             this.videoArgs['totalPage'] = res.totalPage;
             this.videoArgs['currentPage'] = res.currentPage;
+
+
+
+
+
           });
         }
       },
@@ -215,7 +244,7 @@
       },
       //把下拉刷新完成之后回调的mt的方法传入我的组件里
       isLoaded(){
-        this.$refs.loadmore.onTopLoaded();
+//        this.$refs.loadmore.onTopLoaded();
       },
       //mt中接受的val值作为参数传入我的组件里
       isState(val){
@@ -286,7 +315,7 @@
   .bottomBox{
     line-height: px2vw(94);
     height: px2vw(94);
-
+    border-top:px2vw(1) solid #cccccc ;
   }
   .prcImg{
     width: px2vw(32);

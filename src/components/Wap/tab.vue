@@ -26,10 +26,10 @@
     <div class="right_box">
       <!-- 点击导航后要切换的内容 -->
 <!--       <transition name="component-fade" mode="out-in"> -->
-        <router-view v-on:listenToChildEvent="MsgFromChild"></router-view>
+        <router-view  v-on:listenToChildEvent="MsgFromChild"></router-view>
 <!--       </transition> -->
     </div>
-    <mu-paper class="big_box">
+    <mu-paper  class="big_box">
       <mu-bottom-nav :value="bottomNav" @change="handleChange">
         <mu-bottom-nav-item value="index" title="首页" icon="home"/>
         <mu-bottom-nav-item value="classify" title="商城" icon="class"/>
@@ -42,6 +42,8 @@
 </template>
 
 <script>
+
+
   // import Vue from 'vue'
   import index from './index/index'
   import classifyIndex from './classify/classifyIndex'
@@ -53,6 +55,7 @@
     name: 'tab',
     data () {
       return {
+        tabSwitch: true,
         selected: '',
         isActive1: true,
         isActive2: false,
@@ -67,8 +70,10 @@
         bottomNav: 'index'
       }
     },
+
     components: {
     },
+
     //*******导航钩子*********//
     beforeRouteEnter (to, from, next) {
       // 通过 `vm` 访问组件实例
@@ -132,10 +137,12 @@
         }
       })
     },
+
     created: function() {
       var that = this
     },
     methods: {
+
       handleChange (val) {
         var that = this
         if (val == 'index') {
@@ -265,6 +272,7 @@
 </style>
 <style scoped lang="scss" rel="stylesheet/scss">
 @import "../../common/sass/factory";
+
 .tab {
   width: 100vw;
   height: 100vh;

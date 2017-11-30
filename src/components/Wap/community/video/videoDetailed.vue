@@ -9,7 +9,7 @@
       </div>
 
       <div class="container">
-        <video-play ref="videoPlay"  v-if="videoSwitch">
+        <video-play :isVideo="typeVideo" ref="videoPlay"  v-if="videoSwitch">
           <video slot="video" webkit-playsinline="true" playsinline="true" class="video">
             <source slot="sourceSrc" :src="videoArgs.vidRoute" type="video/mp4"></source>
           </video>
@@ -67,6 +67,7 @@
   export default {
     data(){
       return{
+        typeVideo: 'videoDetail',
         all: false,
         videoSwitch: false,
         src: 'http://orl5769dk.bkt.clouddn.com/lsnqQYcJMcnTQzYmtKiVy16WRMs1',
