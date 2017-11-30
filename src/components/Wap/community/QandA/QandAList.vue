@@ -35,8 +35,9 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import { InfiniteScroll, LoadMore } from 'mint-ui';
+  import { InfiniteScroll, LoadMore, MessageBox } from 'mint-ui';
   import {mapGetters} from 'vuex';
+  import { tokenMethods } from '../../../../vuex/util'
   import topLoadMore from '../../../salesWap/index/topLoadMore.vue';
   import {COLLECT, FAQ_LIST, MY_QUESTION, } from '../../../../vuex/types'
   import Util from '../../../../vuex/util'
@@ -183,6 +184,12 @@
         });
       },
       gotoPage(router){
+        if(!tokenMethods.getWapToken()){
+          MessageBox.confirm('请先登录!').then(action => {
+            this.$router.push({path: '/logIn', query: {backName: '/yayiCircle'}});
+          })
+          return
+        }
         this.$router.push(router)
       },
       gotoDetail(id){

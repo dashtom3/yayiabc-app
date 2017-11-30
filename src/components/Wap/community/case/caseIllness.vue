@@ -53,6 +53,7 @@
 
 <script>
   import { tokenMethods } from '../../../../vuex/util'
+  import { MessageBox } from 'mint-ui';
   export default {
     data (){
       return{
@@ -117,6 +118,12 @@
       },
       //消息按钮
       msg(){
+        if(!tokenMethods.getWapToken()){
+          MessageBox.confirm('请先登录!').then(action => {
+            this.$router.push({path: '/logIn', query: {backName: '/yayiCircle'}});
+          })
+          return
+        }
         this.$router.push({path:'/infoList',query:{type:1}})
       },
       togoVideo(){

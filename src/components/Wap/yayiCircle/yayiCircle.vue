@@ -216,9 +216,9 @@
           });
           console.log(this.yayiCircleData, 'ww');
           //控制是否显示加载到底的一个判断值，虽然我觉得基本上用不到。
-          if (this.args.currentPage === res.totalPage && this.args.currentPage > 1) {
-            this.noMoreData = true
-          }
+//          if (this.args.currentPage === res.totalPage && this.args.currentPage > 1) {
+//            this.noMoreData = true
+//          }
         }
         else {
           Toast({message: '啊哦！出错了请稍后重试', duration: 1500});
@@ -311,7 +311,9 @@
       },
       loadMore(){
         if(this.args.currentPage >= this.totalPage){
-          this.noMoreData = true;
+          if(!this.isLoading){
+            this.noMoreData = true;
+          }
         }else {
           this.args.currentPage = this.args.currentPage + 1;
           this.noMoreData = false;
@@ -549,12 +551,14 @@
         }
       }
       .noMoreData{
+        margin-top: px2vw(-1);
+        background-color: #fff;
         width: 100%;
-        height: px2vw(40);
+        height: px2vw(80);
         font-size: px2vw(26);
         color: #999;
         text-align: center;
-        line-height: px2vw(40);
+        line-height: px2vw(80);
       }
       .noTrend{
         width: 100%;

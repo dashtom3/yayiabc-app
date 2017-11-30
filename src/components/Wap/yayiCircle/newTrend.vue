@@ -11,7 +11,7 @@
       </div>
       <div>
         <el-upload
-          limit = '9'
+          :limit = '9'
           :action="qiNiuConfig.url"
           :data="qiNiuToken"
           list-type="picture-card"

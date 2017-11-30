@@ -46,7 +46,7 @@
           </span>
         </div>
         <div class="line" v-if="this.args.postStater == 1">
-          <el-checkbox @change="isShare" fill="'#3676B5'"></el-checkbox><span @click.stop="labelFor"> 分享到牙医圈</span>
+          <el-checkbox @change="isShare" fill="'#3676B5'" class="needclick"></el-checkbox><span @click.stop="labelFor"> 分享到牙医圈</span>
         </div>
       </div>
       <!--<div class="blur" @click="blurClass"></div>-->

@@ -41,8 +41,9 @@
 </template>
 
 <script>
-  import { InfiniteScroll, LoadMore,Toast } from 'mint-ui';
+  import { InfiniteScroll, LoadMore,Toast,MessageBox } from 'mint-ui';
   import Util from '../../../../vuex/util'
+  import { tokenMethods } from '../../../../vuex/util'
   import topLoadMore from '../../../salesWap/index/topLoadMore.vue';
   import {mapGetters} from 'vuex';
   import {COLLECT_CASE} from '../../../../vuex/types'
@@ -282,6 +283,12 @@
         this.getCaseList();
       },
       gotoPage(page){
+        if(!tokenMethods.getWapToken()){
+          MessageBox.confirm('请先登录!').then(action => {
+            this.$router.push({path: '/logIn', query: {backName: '/yayiCircle'}});
+          })
+          return
+        }
         this.$router.push(page)
       }
     },
