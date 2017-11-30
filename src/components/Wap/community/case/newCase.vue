@@ -7,7 +7,7 @@
           <img src="../../../../images/case/release.png" alt="">
           发布
         </div>
-        <div class="save" @click="postCase(2)" v-if="this.args.postStater == 1">
+        <div class="save" @click="postCase(2)" v-if="args.postStater == 2">
           <img src="../../../../images/case/save.png" alt="">
           保存
         </div>
@@ -45,7 +45,7 @@
             <img src="../../../../images/mine/coin_img1.png" alt="">
           </span>
         </div>
-        <div class="line" v-if="this.args.postStater == 1">
+        <div class="line" v-if="args.postStater == 2">
           <el-checkbox @change="isShare" fill="'#3676B5'" class="needclick"></el-checkbox><span @click.stop="labelFor"> 分享到牙医圈</span>
         </div>
       </div>

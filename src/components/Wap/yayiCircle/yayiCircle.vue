@@ -12,7 +12,7 @@
       <mt-loadmore :top-method="loadTop" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState" class="innerContainerWrap">
         <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
         <!--有数据的状态-->
-        <div v-infinite-scroll="loadMore" infinite-scroll-immediate-check="true" class="innerContainer">
+        <div v-infinite-scroll="loadMore" infinite-scroll-immediate-check="true" class="innerContainer" :infinite-scroll-disabled="isLoading">
           <div v-for="(item,index) in yayiCircleData" class="eachContainer">
             <div class="headerImgBox">
               <div class="imgBox">
@@ -226,12 +226,14 @@
       },
       //删除动态
       deleteTrend(id,index){
-        this.$store.dispatch(DELETE_TREND, {momentId:id}).then(res=>{
-          console.log(res)
-          if(res.callStatus === 'SUCCEED'){
-            Toast({message: '删除成功！', duration: 1500});
-            this.yayiCircleData.splice(index,1)
-          }
+        MessageBox.confirm('确定删除吗？').then(action => {
+          this.$store.dispatch(DELETE_TREND, {momentId:id}).then(res=>{
+            console.log(res)
+            if(res.callStatus === 'SUCCEED'){
+              Toast({message: '删除成功！', duration: 1500});
+              this.yayiCircleData.splice(index,1)
+            }
+          })
         })
       },
       commenting(index,id,userName,parentId){
@@ -256,17 +258,19 @@
         this.isComment = false;
       },
       deleteTheComment(index,num,id,thisId){
-        let obj = {
-          type:'牙医圈',
-          beCommentedId:id,
-          parentId:thisId,
+        MessageBox.confirm('确定删除吗？').then(action => {
+          let obj = {
+            type:'牙医圈',
+            beCommentedId:id,
+            parentId:thisId,
 //          presentId:''
-        }
-        this.$store.dispatch(DELETE_COMMENT, obj).then(res=>{
-          if(res.callStatus === 'SUCCEED'){
-            Toast({message: '删除成功！', duration: 1500});
-            this.yayiCircleData[index].subCommentList.splice(num,1)
           }
+          this.$store.dispatch(DELETE_COMMENT, obj).then(res=>{
+            if(res.callStatus === 'SUCCEED'){
+              Toast({message: '删除成功！', duration: 1500});
+              this.yayiCircleData[index].subCommentList.splice(num,1)
+            }
+          })
         })
       },
       likeThisTrend(index,id){
