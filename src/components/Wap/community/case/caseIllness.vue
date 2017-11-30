@@ -127,7 +127,7 @@
         this.$router.push({path:'/infoList',query:{type:1}})
       },
       togoVideo(){
-        this.$router.push({path: '/videoDetailed', query: {id: 23}});
+        this.$router.push({path: '/communitySearch', query: {id: 23}});
       },
       dressingFunction (index){
 //        if( this.caseDate.caseClassNum === 0)
