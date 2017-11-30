@@ -623,6 +623,10 @@ export function getVideoList(params) {
   return posts('/vid/showVid', params)
 }
 //视频播放
+export function saveMCollect(params) {
+  return getWithToken('/vid/star', params)
+}
+//视频播放
 export function getVideosDetail(params) {
   return geters('/vid/detail', params)
 }

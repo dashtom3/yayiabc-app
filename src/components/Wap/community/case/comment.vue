@@ -332,7 +332,13 @@
       collect(){
         if(this.pointLogin())
         {
-
+          this.$store.dispatch("SAVE_M_COLLECT", {viId : this.$route.query.id}).then((res)=>{
+            console.log(res);
+            if(res.callStatus === "SUCCEED")
+            {
+              Toast({message: '收藏成功', duration: 1500});
+            }
+          });
         }else {
           this.isLogin();
         }
@@ -445,6 +451,7 @@
       },
       //底部评论按钮
       comment (){
+        console.log(1111);
         let that = this;
         this.commentSwitch = !this.commentSwitch;
         if(this.commentSwitch)

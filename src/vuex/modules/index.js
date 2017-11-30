@@ -1260,6 +1260,16 @@ const actions = {
       });
     });
   },
+  // 视频病例收藏
+  [types.SAVE_M_COLLECT](context, params) {
+    return new Promise((resolve, reject) => {
+      api.saveMCollect(params).then((data) => {
+        resolve(data);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  },
   // 视频播放
   [types.GET_VIDEO_LIST](context, params) {
     return new Promise((resolve, reject) => {

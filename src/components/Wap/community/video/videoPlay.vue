@@ -226,33 +226,26 @@
           video.currentTime = (distance / progressBoxWith) * duration;
         }
 
-
-
       });
 
-
-
-
       //监听手机旋转
-      let evt = "onorientationchange" in window ? "orientationchange" : "resize";
-      function resize(fals) {
-        if(window.orientation == 0 || window.orientation == 180) {
-
-        }else if(window.orientation == 90 || window.orientation == 270)
-        {
-          Screen.style.transformOrigin = "center center";
-          Screen.style.transform = "rotate(0deg) ";
-          Screen.style.top = 0;
-          Screen.style.left = 0;
-        }
-      }
-
-
+//      let evt = "onorientationchange" in window ? "orientationchange" : "resize";
+//      function resize(fals) {
+//        if(window.orientation == 0 || window.orientation == 180) {
+//          Screen.style.transformOrigin = "center center";
+//          Screen.style.transform = "rotate(90deg) translate("+((conH-conW)/2)+"px,"+((conH-conW)/2)+"px)";
+//        }else if(window.orientation == 90 || window.orientation == 270)
+//        {
+//          Screen.style.transformOrigin = "center center";
+//          Screen.style.transform = "rotate(0deg) ";
+//          Screen.style.top = 0;
+//          Screen.style.left = 0;
+//        }
+//      }
 
       let Screen = _this.$el.querySelector('.videoEl'); //最外边边框
       let container = document.getElementsByClassName('container')[0]
       let cc = document.getElementsByClassName('mu-paper')[0]
-
 
       let W = Screen.offsetWidth;  //视频的宽
       let H = Screen.offsetHeight; //视频的高
@@ -308,18 +301,14 @@
           }
         }
 
-
-        if(_this.full)
-        {
-          window.addEventListener(evt,resize,false);
-        }else {
-          window.removeEventListener(evt,resize);
-        }
-
+//        if(_this.full)  //添加手机监听旋转事件
+//        {
+//          window.addEventListener(evt,resize,false);
+//        }else {
+//          window.removeEventListener(evt,resize);
+//      }
 
       },false);
-
-
 
 //      progressBox.addEventListener('touchmove',function (event) {
 //        if(event.targetTouches.length > 1 || event.scale && event.scale !== 1) return;

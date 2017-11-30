@@ -113,6 +113,7 @@
 <script>
   import comment from './comment.vue';
   import { MessageBox,Toast } from 'mint-ui';
+  import { tokenMethods } from '../../../../vuex/util';
   import Util from '../../../../vuex/util'
   export default {
     data(){
@@ -123,6 +124,8 @@
         userCoins: 0,
         timeStamp: '', //时间戳
         delSwitch: false,
+        //获取当前登录账号的userID
+        myUserId:tokenMethods.getWapUser() ? tokenMethods.getWapUser().userId:'',
         args:{
           headline:'',
           classify:'',
@@ -198,7 +201,13 @@
       },
       //立即支付
       payNowFun(){
-        this.payNow = true;
+        if(this.pointLogin())
+        {
+          this.payNow = true;
+        }else {
+          this.isLogin();
+        }
+
       },
       //获取用户的乾币数量
       getUserCoin(){
@@ -282,6 +291,19 @@
         let _html = document.getElementsByTagName("html")[0];
         _html.className = _html.className.replace(reg, " ");
         this.commentChild.switchShow = false;
+      },
+      //判断是否登录
+      pointLogin(){
+        let userToken = tokenMethods.getWapToken();
+        return userToken;
+      },
+      //提示需要登录
+      isLogin() {
+        MessageBox.confirm('请先登录!').then(action => {
+          this.$router.push({path: '/logIn'})
+        }).catch(function (error) {
+          return '';
+        });
       },
     },
     components:{comment}
