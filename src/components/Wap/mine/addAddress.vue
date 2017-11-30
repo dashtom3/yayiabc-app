@@ -27,11 +27,11 @@
       <input v-model="addressData.receiverDetail" type="text" placeholder="详细地址">
     </div>
 
-      <div class="fontAddress buttonDefaultBox" @click="changeColor">
+      <div class="fontAddress buttonDefaultBox needclick" @click="changeColor">
         <!--<div  class="checkBox" :class="{'checkBoxColor': addressData.isDefault == false}">-->
           <!--<div class="checkBox2"></div>-->
         <!--</div>-->
-        <input v-model="addressData.isDefault" type="checkbox" id="selected"/>
+        <input class="needclick" v-model="addressData.isDefault" type="checkbox" id="selected"/>
         <label class="label_a" for="selected"></label>
         <span class="cssColor">设为默认地址</span>
       </div>
@@ -131,7 +131,6 @@
           if (res.callStatus === 'SUCCEED') {
             this.addressData = res.data[this.$route.query.editJudge];
             this.addressR = this.addressData.city + this.addressData.county;
-            console.log( this.addressData ,'呵呵');
           }
         })
       },
@@ -248,7 +247,6 @@
       },
       changeColor(){
         this.addressData.isDefault = !this.addressData.isDefault
-        console.log(this.addressData.isDefault);
       },
       toBack (){
         if(this.$route.query.editJudge == -1)
@@ -437,7 +435,6 @@
   .cssColor {
     margin-left: px2vw(10);
     display: inline-block;
-
   }
 </style>
 

@@ -30,12 +30,31 @@
           <span class="fontBlue"> ¥&nbsp;{{payMoney}}</span>
         </div>
       </div>
-
       <!--查看订单-->
       <mu-raised-button label="查看订单" class="watchDetail" @click="seeDetail"/>
     </div>
-
     <!--末尾-->
+    <!-- 弹出红包模态框 -->
+    <div class="dailog-success" v-if="showDailog">
+      <div class="dailog-content">
+        <div class="content">
+          <h1 class="title">订单支付成功！本次下单获得</h1>
+          <div class="red-box">
+            <img class="bg-img" src="../../../images/order/hongbao.png" alt="背景">
+            <span class="number">{{canHasCoin}}</span>
+            <span class="text">乾币</span>
+          </div>
+          <p class="info">付款时可抵扣{{canHasCoin}}元</p>
+          <div class="mine-info">可在"个人中心-我的乾币"查看</div>
+          <div class="continue-shop" @click="gotoShoping">
+            <span>继续购物</span>
+          </div>
+        </div>
+        <div class="close" @click="showDailog = false">
+          <img src="../../../images/order/close.png" alt="关闭">
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -46,6 +65,8 @@
       return{
         orderId: '',
         payMoney: '',
+        canHasCoin: '',
+        showDailog: true
       }
     },
     created () {
@@ -54,6 +75,7 @@
       if (that.$route.params.orderId) {
         that.orderId = that.$route.params.orderId
         that.payMoney = that.$route.params.payMoney
+        that.canHasCoin = that.$route.params.canHasCoin
       } else {
         // that.$router.push({path: '/'})
       }
@@ -66,6 +88,9 @@
         var that = this
         that.$router.push({name: 'orderSubpage', params: {order_state: 0}})
         sessionStorage.setItem('ORDER_STATE', 0)
+      },
+      gotoShoping() {
+        this.$router.push({path: '/productList'});
       }
     }
   }
@@ -166,6 +191,104 @@
     color: white;
     font-size: 4.533333vw;
     background-color: $themeColor;
+  }
+  .dailog-success{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, .2);
+  }
+  .dailog-content{
+    height: 100vh;
+    .content{
+      position: absolute;
+      top: px2vw(280);
+      left: px2vw(85);
+      width: px2vw(580);
+      height: px2vw(700);
+      background: #fff;
+      border-radius: px2vw(20);
+      .title{
+        margin: px2vw(67) 0 px2vw(80) 0;
+        height: px2vw(34);
+        line-height: px2vw(34);
+        text-align: center;
+        font-size: px2vw(36);
+      }
+      .red-box{
+        position: relative;
+        width: px2vw(213);
+        height: px2vw(215);
+        margin: 0 auto;
+        img{
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+        }
+        span{
+          position: absolute;
+        }
+        .number{
+          top: px2vw(45);
+          left: 0;
+          width: 100%;
+          height: px2vw(56);
+          line-height: px2vw(56);
+          text-align: center;
+          font-size: px2vw(75);
+          color: rgb(252,255,0);
+        }
+        .text{
+          left: px2vw(68);
+          bottom: px2vw(17);
+          height: px2vw(38);
+          line-height: px2vw(38);
+          font-size: px2vw(40);
+          color: #fff;
+        }
+      }
+      .info{
+        margin: px2vw(21) 0 0 0;
+        text-align: center;
+        height: px2vw(34);
+        line-height: px2vw(34);
+        font-size: px2vw(36);
+        color: rgb(216,30,6);
+      }
+      .mine-info{
+        margin: px2vw(87) 0 px2vw(30) 0;
+        text-align: center;
+        height: px2vw(29);
+        line-height: px2vw(29);
+        font-size: px2vw(30);
+        color: rgb(51,51,51);
+      }
+      .continue-shop{
+        width: px2vw(261);
+        height: px2vw(60);
+        line-height: px2vw(60);
+        margin: 0 auto;
+        background: rgb(250,194,0);
+        border-radius: px2vw(30);
+        color: #fff;
+        text-align: center;
+      }
+    }
+    .close{
+      position: absolute;
+      top: px2vw(1023);
+      left: px2vw(345);
+      width: px2vw(60);
+      height: px2vw(60);
+      img{
+        width: 100%;
+        height: 100%;
+      }
+    }
   }
 </style>
 

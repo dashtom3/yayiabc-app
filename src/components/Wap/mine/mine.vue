@@ -18,10 +18,10 @@
           <div class="top_circle">
             <img class="top_circleImg" src="../../../images/mine/topCircle.png" alt="">
             <!--头像-->
-            <img @click="toGoPerson" v-if="userPic" class="headPortraitsImg" :src="userPic" alt="">
-            <img @click="toGoPerson" v-else class="headPortraitsImg" src="static/images/defaultPic.png" alt="">
+            <img @click="goAccount" v-if="userPic" class="headPortraitsImg" :src="userPic" alt="">
+            <img @click="goAccount" v-else class="headPortraitsImg" src="static/images/defaultPic.png" alt="">
             <!--头像-->
-            <div class="phoneUser">{{phone}}</div>
+            <div @click="goAccount" class="phoneUser">{{phone}}</div>
           </div>
         </div>
         <div class="person_info" @click="goAccount"><span>账户信息</span><img src="../../../images/mine/goto.png" alt=""></div>
@@ -80,7 +80,7 @@
       </div>
       <ul class="coin">
         <li class="coin_item">
-          <span class="coin_money">0</span>
+          <span class="coin_money">{{qbBalance}}</span>
           <span>乾币</span>
         </li>
         <li class="coin_item" @click="toCoin('/coinDetail')">
@@ -540,18 +540,18 @@
   .top_backGround_shade {
     position: relative;
     width: 100vw;
-    height: px2vw(370);
+    height: px2vw(330);
   }
 
   .top_backGround {
     position: relative;
     width: 100vw;
     background-size: 100vw px2vw(460);
-    height: px2vw(369);
+    height: px2vw(329);
   }
   .person_info{
     position: absolute;
-    top: px2vw(162);
+    top: px2vw(122);
     right: 0;
     width: px2vw(232);
     height: px2vw(60);
@@ -897,7 +897,7 @@
   }
   .server_box{
     position: absolute;
-    top: px2vw(24);
+    top: 0;
     width: 100%;
     height: px2vw(88);
     z-index: 1;
@@ -954,6 +954,8 @@
     top: px2vw(-77);
     bottom: 0;
     transform: translateX(-50%);
+    height: px2vw(40);
+    line-height: px2vw(40);
     font-weight: 300;
     font-size: px2vw(36);
     color: #fff;
