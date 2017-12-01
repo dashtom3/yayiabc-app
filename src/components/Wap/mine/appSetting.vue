@@ -13,7 +13,7 @@
         </div>
       </div>
       <div class="setting-box">
-        <div class="line" @click="goto">
+        <div class="line no-line" @click="goto">
           <span class="spanDes">意见反馈</span>
           <img src="../../../images/mine/right.png" alt="">
         </div>
@@ -34,8 +34,8 @@
         </div>
       </div> -->
       <!--退出按钮开始-->
-      <div class="esc_background">
-        <mu-raised-button class="esc" label="退出" v-on:click="logOut"/>
+      <div class="esc_background" v-if="logOutShow">
+        <mu-raised-button class="esc" label="退出登录" v-on:click="logOut"/>
       </div>
       <!--退出按钮结束-->
     </div>
@@ -52,7 +52,7 @@
         checking:true,
         ver:'',
         newVer:'',
-        checked:false
+        logOutShow:true
       }
     },
     components:{
@@ -63,6 +63,9 @@
         // this.ver=inf.version;
         // this.checkUpdate();
       // });
+      if (tokenMethods.getWapToken() == null) {
+        this.logOutShow = false
+      }
     },
     methods:{
       aboutApp(){
@@ -127,19 +130,21 @@
   }
   .setting-box{
     margin-bottom: px2vw(20);
-    border-bottom: 1px solid #e5e5e5;
+    // border-bottom: 1px solid #e5e5e5;
   }
   .line{
     height: px2vw(88);
     width: 100%;
     padding: 0 px2vw(35);
     line-height: px2vw(88);
-    border-top: 1px solid #e5e5e5;
+    border-top: px2vw(1) solid #e5e5e5;
     font-size: px2vw(30);
     color: #333;
     background-color: #fff;
   }
-
+  .line.no-line{
+    border: none;
+  }
   .line > .spanDes{
     float: left;
     margin-right: px2vw(20);
@@ -172,15 +177,15 @@
     height: 120px;
   }
   .esc {
-    margin-left: px2vw(124);
+    margin-left: px2vw(55);
     margin-top: px2vw(102);
     text-align: center;
     height: px2vw(100);
-    font-size: 3.733333vw;
+    font-size: px2vw(30);
     line-height: normal;
     background-color: $themeColor;
     color: white;
-    width: 66.8vw;
+    width: px2vw(640);
     box-shadow: 0 0 px2vw(25) $themeColor;
   }
 </style>

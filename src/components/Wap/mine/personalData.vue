@@ -9,7 +9,7 @@
     </div>
     <div class="edit-info">
       <!--头像-->
-      <div class="mint-cell-wrapper ml bb" style="background-image: none;">
+      <div class="mint-cell-wrapper headerWrapper ml bb" style="background-image: none;">
         <el-upload
           class="avatar-uploader head-upload needclick"
           :disabled="ifPass"
@@ -19,8 +19,10 @@
           :data="qiNiuToken"
           >
           <div class="mint-cell-text fl head-wrap">头像</div>
-          <img v-if="personInfo.imageUrl_head" :src="personInfo.imageUrl_head" class="avatar head-img">
-          <img v-else src="../../../images/mine/loadUserImg3.png" alt="img" class="head-img">
+          <span class="avatar head-img">
+            <img v-if="personInfo.imageUrl_head" :src="personInfo.imageUrl_head">
+            <img v-else src="../../../images/mine/loadUserImg3.png" alt="img">
+          </span>
         </el-upload>
       </div>
       <!--用户名-->
@@ -269,6 +271,13 @@
     background-position: center right;
     background-size: px2vw(16) px2vw(30);
   }
+  .edit-info .el-upload, .headerWrapper .mint-cell-value{
+    width: px2vw(710);
+    height: px2vw(120);
+  }
+  .personal_data .el-upload--picture-card:hover, .el-upload:focus{
+    color: #333;
+  }
   .personal_data .ml .mint-cell-wrapper .mint-field-core{
     padding: 0 px2vw(22) 0 0;
   }
@@ -294,7 +303,20 @@
     .mint-cell-text{
       width: 170px;
       display: inline-block;
-      font-size: px2vw(30);
+      font-size: px2vw(30) !important;
+    }
+    .avatar.head-img{
+      position: absolute;
+      width: px2vw(70);
+      height: px2vw(70);
+      top: px2vw(25);
+      right: px2vw(62);
+      font-size: 0;
+      border-radius: 50%;
+      overflow: hidden;
+      img{
+        width: 100%;
+      }
     }
     .head-img{
       width: px2vw(70);
@@ -304,6 +326,7 @@
       border-radius: 50%;
     }
   }
+  
   .personal_data .mint-field-core{
     background-position: center right;
     background-size: px2vw(12) px2vw(26);
@@ -317,7 +340,7 @@
   .personal_data .select .mint-cell-wrapper .mint-cell-value .unset{
     width: 100%;
     text-align: right;
-    margin-right: px2vw(30);
+    margin-right: px2vw(42);
   }
   .head-box .el-upload{
     display: block!important;
@@ -366,6 +389,7 @@
     width: 100%;
     height: px2vw(120);
     .el-upload.el-upload--text{
+      position: relative;
       width: 100%;
       text-align: left;
       padding-top: px2vw(28);
@@ -384,15 +408,14 @@
         text-align: center;
       }
       img{
-        position: absolute;
-        top: px2vw(25);
-        right: px2vw(58);
-        width: px2vw(70);
-        height: px2vw(70);
+        width: 100%;
       }
     }
   }
   .avatar-uploader .el-upload .mint-cell-text.head-wrap{
+    position: absolute;
+    top: 0;
+    left: 0;
     height: px2vw(118);
     line-height: px2vw(118);
     text-align: left;
@@ -401,7 +424,7 @@
     width: 100%;
     font-size: px2vw(28);
     text-align: right;
-    margin-right: px2vw(30);
+    margin-right: px2vw(42);
     height: px2vw(120);
     line-height: px2vw(120);
     color: #333;
@@ -453,7 +476,7 @@
     line-height: px2vw(118);
     .require{
       position: absolute;
-      top: 0;
+      top: px2vw(5);
       left: px2vw(20);
       font-size: px2vw(30);
       color: rgb(216,30,6);

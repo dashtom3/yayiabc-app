@@ -299,4 +299,7 @@
       color: #fff;
     }
   }
+  .picker-item.picker-selected{
+    color: $themeColor;
+  }
 </style>

@@ -11,7 +11,6 @@
           保存
       </span>
     </div>
-
     <!--地址栏开始-->
     <div class="addressR">
       <input v-model="addressData.receiverName" type="text" placeholder="收货人">
@@ -31,9 +30,9 @@
         <!--<div  class="checkBox" :class="{'checkBoxColor': addressData.isDefault == false}">-->
           <!--<div class="checkBox2"></div>-->
         <!--</div>-->
-        <input class="needclick" v-model="addressData.isDefault" type="checkbox" id="selected"/>
-        <label class="label_a" for="selected"></label>
-        <span class="cssColor">设为默认地址</span>
+        <input class="needsclick" v-model="addressData.isDefault" type="checkbox" id="selected"/>
+        <label class="label_a needsclick" for="selected"></label>
+        <span class="cssColor needsclick">设为默认地址</span>
       </div>
     <!--地址栏结束-->
     <!--城市选择框-->

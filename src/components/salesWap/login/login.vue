@@ -4,7 +4,7 @@
       <div class="header_box" @click="back">
         <img class="header_back" src="../../../images/logIn/back.png" alt="img">
       </div>
-      <span class="logWithCode">登录</span>
+      <span class="logWithCode">客服代表登录</span>
     </div>
     <div class="content_wrap">
       <div>

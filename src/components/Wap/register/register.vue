@@ -7,25 +7,32 @@
       <span class="logWithCode">注册</span>
     </div>
     <div class="formWrap">
-      <mt-field @click.native="focus" label="手机号*" class="first-field" placeholder="请输入手机号" v-model="registerData.phone"></mt-field>
-      <mt-field @click.native="focus" label="验证码*" v-model="registerData.rg_code" placeholder="请输入验证码" class="code-box">
+      <mt-field @click.native="focus" label="手机号" class="first-field must" placeholder="请输入手机号" v-model="registerData.phone">
+        <i class="red">*</i>
+      </mt-field>
+      <mt-field @click.native="focus" label="验证码" v-model="registerData.rg_code" placeholder="请输入验证码" class="code-box must">
+        <i class="red">*</i>
         <span class="code_btn" v-text="rg_Yzm" v-if="rg_hYzm" @click.stop="rg_hasYzm(registerData.phone)"></span>
         <span class="code_btn" v-text="rg_Yzm1" v-else></span>
       </mt-field>
-      <mt-field @click.native="focus" label="密码*" v-show="pwd_input" class="pwd_eye" type="password" placeholder="请输入密码"
+      <mt-field @click.native="focus" label="密码" v-show="pwd_input" class="pwd_eye must" type="password" placeholder="请输入密码"
                 v-model="registerData.password">
+        <i class="red">*</i>
         <div class="eye_btn" @click="tabpwdHandler">
           <img src="../../../images/saleman/eye.png" alt="密码">
         </div>
       </mt-field>
-      <mt-field @click.native="focus" label="密码*" v-show="!pwd_input" class="pwd_eye" placeholder="请输入密码" v-model="registerData.password">
+      <mt-field @click.native="focus" label="密码" v-show="!pwd_input" class="pwd_eye must" placeholder="请输入密码" v-model="registerData.password">
+        <i class="red">*</i>
         <div class="eye_btn" @click="tabpwdHandler">
           <img src="../../../images/saleman/eye2.png" alt="密码">
         </div>
       </mt-field>
-      <mt-field @click.native="focus" label="真实姓名*" placeholder="请输入真实姓名" v-model="registerData.trueName"></mt-field>
+      <mt-field @click.native="focus" label="真实姓名" class="must" placeholder="请输入真实姓名" v-model="registerData.trueName">
+        <i class="red">*</i>
+      </mt-field>
       <a class="mint-cell mint-field">
-        <div class="mint-cell-wrapper" @click="sexVisible = true">
+        <div class="mint-cell-wrapper input_arrow" @click="sexVisible = true">
           <div class="mint-cell-text">
             <span>性别</span>
           </div>
@@ -35,7 +42,7 @@
         </div>
       </a>
       <a class="mint-cell mint-field">
-        <div class="mint-cell-wrapper needclick" @click="openPicker('birthDatePicker')">
+        <div class="mint-cell-wrapper needclick input_arrow" @click="openPicker('birthDatePicker')">
           <div class="mint-cell-text">
             <span>出生日期</span>
           </div>
@@ -44,20 +51,24 @@
           </div>
         </div>
       </a>
-      <mt-field @click.native="focus" label="单位名称*" placeholder="请输入单位名称" v-model="registerData.companyName" disableClear></mt-field>
-      <a class="mint-cell mint-field">
-        <div class="mint-cell-wrapper username" @click="openPicker('cityAddressPicker')">
+      <mt-field @click.native="focus" label="单位名称" placeholder="请输入单位名称" class="must" v-model="registerData.companyName" disableClear>
+        <i class="red">*</i>
+      </mt-field>
+      <a class="mint-cell mint-field must">
+        <div class="mint-cell-wrapper username input_arrow" @click="openPicker('cityAddressPicker')">
           <div class="mint-cell-text">
-            <span>单位所在地*</span>
+            <span>单位所在地<i class="red">*</i></span>
           </div>
           <div class="mint-cell-value">
             <span v-text="registerData.part"></span>
           </div>
         </div>
       </a>
-      <mt-field @click.native="focus" label="详细地址*" placeholder="请输入详细地址" v-model="registerData.workAddress" disableClear></mt-field>
+      <mt-field @click.native="focus" label="详细地址" placeholder="请输入详细地址" class="must" v-model="registerData.workAddress" disableClear>
+        <i class="red">*</i>
+      </mt-field>
       <a class="mint-cell mint-field">
-        <div class="mint-cell-wrapper" @click="typeVisible = true">
+        <div class="mint-cell-wrapper input_arrow" @click="typeVisible = true">
           <div class="mint-cell-text">
             <span>类型</span>
           </div>
@@ -498,13 +509,23 @@
     }
   }
 </script>
-<style>
+<style lang="scss" rel="stylesheet/scss">
+  @import "../../../common/sass/factory";
   .first-field .mint-cell-wrapper {
     background-image: none !important;
   }
-</style>
-<style lang="scss" rel="stylesheet/scss">
-  @import "../../../common/sass/factory";
+  .must .mint-cell-wrapper .mint-cell-text{
+    margin-left: px2vw(14)
+  }
+  .edit-info .el-upload, .input_arrow .mint-cell-value{
+    position: relative;
+    background: url(../../../images/mine/back.png) no-repeat;
+    background-position: center right;
+    background-size: px2vw(16) px2vw(30);
+  }
+  .mint-cell-value .mint-field-other{
+    position: static;
+  }
   .mint-cell-text{
     font-size: px2vw(28) !important;
   }
@@ -536,8 +557,12 @@
         }
       }
     }
+    .username .mint-cell-value{
+      margin-left: px2vw(-14);
+    }
     .mint-cell-title, .mint-cell-text {
-      min-width: 170px;
+      min-width: px2vw(340);
+      font-size: px2vw(30) !important;
     }
     .mint-cell-value {
       font-size: px2vw(26);
@@ -590,7 +615,7 @@
   .submit-wrap {
     width: 100%;
     margin: px2vw(30) 0;
-    padding: 0 10px;
+    padding: 0 px2vw(20);
     text-align: center;
     .reg-button {
       width: 100%;
@@ -599,11 +624,17 @@
       background-color: $themeColor;
     }
   }
-
   .yyMP {
     margin: px2vw(10) 0 px2vw(30);
     font-size: px2vw(24);
     text-align: center;
     color: #666;
+  }
+  .red{
+    position: absolute;
+    left: px2vw(20);
+    top: px2vw(38);
+    color: rgb(216,30,6);
+    font-style: normal;
   }
 </style>

@@ -18,7 +18,9 @@
           <div class="top_circle">
             <img class="top_circleImg" src="../../../images/mine/topCircle.png" alt="">
             <!--头像-->
-            <img @click="goAccount" v-if="userPic" class="headPortraitsImg" :src="userPic" alt="">
+            <span class="headImg" v-if="userPic">
+              <img @click="goAccount" :src="userPic" alt="">
+            </span>
             <img @click="goAccount" v-else class="headPortraitsImg" src="static/images/defaultPic.png" alt="">
             <!--头像-->
             <div @click="goAccount" class="phoneUser">{{phone}}</div>
@@ -503,10 +505,8 @@
     }
   }
 </script>
-
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../common/sass/factory";
-
   .header {
     position: fixed;
     z-index: -2;
@@ -514,7 +514,6 @@
     height: px2vw(369);
     top: 0;
   }
-
   .settingLi img{
     width: px2vw(40) !important;
     height: px2vw(43) !important;
@@ -540,14 +539,14 @@
   .top_backGround_shade {
     position: relative;
     width: 100vw;
-    height: px2vw(330);
+    height: px2vw(325);
   }
 
   .top_backGround {
     position: relative;
     width: 100vw;
     background-size: 100vw px2vw(460);
-    height: px2vw(329);
+    height: px2vw(324);
   }
   .person_info{
     position: absolute;
@@ -586,6 +585,18 @@
   .top_circleImg {
     width: 100%;
   }
+  .headImg{
+    border-radius: 50%;
+    position: absolute;
+    top: px2vw(-230);
+    left: 41.6vw;
+    width: px2vw(132);
+    height: px2vw(132);
+    overflow: hidden;
+  }
+  .headImg img{
+    width: 100%;
+  }
   .headPortraitsImg {
     border-radius: 50%;
     position: absolute;
@@ -593,16 +604,6 @@
     left: 41.6vw;
     width: px2vw(132);
     height: px2vw(132);
-  }
-
-  .headPortraitsImg.headPortraitsImg2 {
-    border-radius: 50%;
-    position: absolute;
-    top: px2vw(-60);
-    left: 41.6vw;
-    width: px2vw(132);
-    height: px2vw(132);
-    border: none;
   }
 
   .userName {

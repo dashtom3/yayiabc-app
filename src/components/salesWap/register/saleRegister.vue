@@ -4,53 +4,68 @@
       <div class="header_box" @click="back">
         <img class="header_back" src="../../../images/logIn/back.png" alt="img">
       </div>
-      <span class="logWithCode">注册</span>
+      <span class="logWithCode">客服代表注册</span>
     </div>
     <div class="form-wrap-sale">
-      <mt-field @click.native="focus" label="手机号*" class="first-field" placeholder="请输入您的手机号码" v-model="registerData.phone"></mt-field>
-      <mt-field @click.native="focus" label="验证码*" v-model="registerData.rg_code" placeholder="请输入验证码" class="code-box">
+      <mt-field @click.native="focus" label="手机号" class="first-field must" placeholder="请输入您的手机号码" v-model="registerData.phone">
+        <i class="red">*</i>
+      </mt-field>
+      <mt-field @click.native="focus" label="验证码" v-model="registerData.rg_code" placeholder="请输入验证码" class="code-box must">
+        <i class="red">*</i>
         <span class="code_btn" v-text="rg_Yzm" v-if="rg_hYzm" @click.stop="rg_hasYzm(registerData.phone)"></span>
         <span class="code_btn" v-text="rg_Yzm1" v-else></span>
       </mt-field>
-      <mt-field @click.native="focus" label="密码*" v-show="pwd_input" class="pwd_eye" type="password" placeholder="请输入密码"
+      <mt-field @click.native="focus" label="密码" v-show="pwd_input" class="pwd_eye must" type="password" placeholder="请输入密码"
                 v-model="registerData.password">
+        <i class="red">*</i>
         <div class="eye_btn" @click="tabpwdHandler">
           <img src="../../../images/saleman/eye.png" alt="密码">
         </div>
       </mt-field>
-      <mt-field @click.native="focus" label="密码*" v-show="!pwd_input" class="pwd_eye" placeholder="请输入密码" v-model="registerData.password">
+      <mt-field @click.native="focus" label="密码" v-show="!pwd_input" class="pwd_eye must" placeholder="请输入密码" v-model="registerData.password">
+        <i class="red">*</i>
         <div class="eye_btn" @click="tabpwdHandler">
           <img src="../../../images/saleman/eye2.png" alt="密码">
         </div>
       </mt-field>
-      <mt-field @click.native="focus" label="真实姓名*" placeholder="请输入真实姓名" v-model="registerData.trueName"></mt-field>
-      <a class="mint-cell mint-field">
-        <div class="mint-cell-wrapper" @click="sexVisible = true">
+      <mt-field @click.native="focus" class="must" label="真实姓名" placeholder="请输入真实姓名" v-model="registerData.trueName">
+        <i class="red">*</i>
+      </mt-field>
+      <a class="mint-cell mint-field must">
+        <div class="mint-cell-wrapper input_arrow username" @click="sexVisible = true">
           <div class="mint-cell-text">
-            <span>性别*</span>
+            <span>性别<i class="red">*</i></span>
           </div>
           <div class="mint-cell-value">
             <span v-text="registerData.sexText"></span>
           </div>
         </div>
       </a>
-      <mt-field @click.native="focus" label="身份证号*" placeholder="请输入您的身份证号码" v-model="registerData.idCard"></mt-field>
-      <mt-field @click.native="focus" label="工作单位*" placeholder="请输入单位名称" v-model="registerData.workUnit" disableClear></mt-field>
-      <mt-field @click.native="focus" label="工作职位*" placeholder="请输入您的职位" v-model="registerData.workPosition" disableClear></mt-field>
-      <a class="mint-cell mint-field">
-        <div class="mint-cell-wrapper username" @click="openPicker('cityAddressPicker')">
+      <mt-field @click.native="focus" label="身份证号" class="must" placeholder="请输入您的身份证号码" v-model="registerData.idCard">
+        <i class="red">*</i>
+      </mt-field>
+      <mt-field @click.native="focus" label="工作单位" class="must" placeholder="请输入单位名称" v-model="registerData.workUnit" disableClear>
+        <i class="red">*</i>
+      </mt-field>
+      <mt-field @click.native="focus" label="工作职位" class="must" placeholder="请输入您的职位" v-model="registerData.workPosition" disableClear>
+        <i class="red">*</i>
+      </mt-field>
+      <a class="mint-cell mint-field must">
+        <div class="mint-cell-wrapper input_arrow username" @click="openPicker('cityAddressPicker')">
           <div class="mint-cell-text">
-            <span>所在地省市区*</span>
+            <span>所在地省市区<i class="red">*</i></span>
           </div>
           <div class="mint-cell-value">
             <span v-text="registerData.part"></span>
           </div>
         </div>
       </a>
-      <mt-field @click.native="focus" label="详细地址*" placeholder="请输入单位的详细地址" v-model="registerData.address" disableClear></mt-field>
+      <mt-field @click.native="focus" label="详细地址" class="must" placeholder="请输入单位的详细地址" v-model="registerData.address" disableClear>
+        <i class="red">*</i>
+      </mt-field>
       <mt-field @click.native="focus" label="推荐人姓名" placeholder="请输入您的推荐人" v-model="registerData.referrals" disableClear></mt-field>
       <a class="mint-cell mint-field">
-        <div class="mint-cell-wrapper needclick" @click="openPicker('birthDatePicker')">
+        <div class="mint-cell-wrapper input_arrow needclick" @click="openPicker('birthDatePicker')">
           <div class="mint-cell-text">
             <span>出生日期</span>
           </div>
@@ -341,14 +356,24 @@
       font-size: px2vw(28);
     }
   }
+  .mint-cell-title .mint-cell-text {
+    min-width: 170px;
+    font-size: px2vw(30) !important;
+  }
 </style>
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../common/sass/factory";
-
+  .edit-info .el-upload, .input_arrow .mint-cell-value{
+    background: url(../../../images/mine/back.png) no-repeat;
+    background-position: center right;
+    background-size: px2vw(16) px2vw(30);
+  }
   .form-wrap-sale{
     margin: 0;
   }
-
+  .username .mint-cell-value{
+    margin-left: px2vw(-14);
+  }
   .logIn_header {
     padding-bottom: 0;
     position: fixed;
@@ -384,7 +409,13 @@
       background-color: $themeColor;
     }
   }
-
+  .red{
+    position: absolute;
+    left: px2vw(20);
+    top: px2vw(38);
+    color: rgb(216,30,6);
+    font-style: normal;
+  }
   .ckMP {
     margin: px2vw(10) 0 px2vw(30);
     font-size: px2vw(24);

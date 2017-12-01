@@ -24,10 +24,10 @@
           </div>
         </div>
         <div class="address-opt">
-          <div class="opt-left" @click.stop="setDefault(item)">
-            <input v-model="item.isDefault" type="checkbox" :id="index"/>
-            <label class="check" :for="index"></label>
-            <label class="css-color" :for="index">默认地址</label>
+          <div class="opt-left needsclick" @click.stop="setDefault(item)">
+            <input class="needsclick" v-model="item.isDefault" type="checkbox" :id="index"/>
+            <label class="check needsclick" :for="index"></label>
+            <label class="css-color needsclick" :for="index">默认地址</label>
           </div>
           <div class="opt-right">
             <span class="text" @click.stop="goToAddAddress(index)">
@@ -127,7 +127,7 @@
       setDefault(value) {
         this.addressData = this.addressData.map((item) => {
           if (value.receiverId == item.receiverId) {
-            item.isDefault = true
+            item.isDefault = !item.isDefault
           } else {
             item.isDefault = false
           }
