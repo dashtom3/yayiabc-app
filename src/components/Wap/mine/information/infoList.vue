@@ -19,7 +19,7 @@
           </div>
         </div>
         <!--无内容-->
-        <div class="noRes" v-if="!list && !isLoading">
+        <div class="noRes" v-else-if="!isLoading">
           <img src="../../../../images/mine/noRes.png" alt="">
           <p>暂无内容</p>
         </div>
@@ -42,9 +42,9 @@
         list:[],
         args:{
           type : this.$route.query.type,
-          numberPerPage : 15
+          numberPerPage : 15,
+          currentPage:1,
         },
-        currentPage:1,
         totalPage:0,
         noMoreData:false
       }
@@ -78,7 +78,7 @@
             this.list = res.data.concat(this.list);
             console.log(this.list);
             this.setList(this.list);
-            this.currentPage = res.currentPage;
+            this.args.currentPage = res.currentPage;
             this.totalPage = res.totalPage;
           }
         })
@@ -133,7 +133,7 @@
         }else {
           this.args.currentPage = this.args.currentPage + 1;
           this.noMoreData = false;
-          this.created();
+          this.getTheList();
 //          //  再加载下一页
         }
       },

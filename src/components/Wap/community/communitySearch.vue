@@ -145,6 +145,10 @@
         {
           this.$router.push({path:'/communitySearch/video'});
         }
+        else if(index === 2)
+        {
+          this.$router.push({path:'/communitySearch/QAndASearch'});
+        }
         this.$store.dispatch('SAVE_CASE_ORDER',  index);
       },
       isChooseSecondClassify(){
@@ -176,7 +180,7 @@
 //        this.isSearching = false
         //记得把这个解开，上面的代码是调试用的
         let timer1=window.setTimeout(() =>{
-          this.$router.go(-1);
+          this.$router.push('/caseOfIllness');
           window.clearTimeout(timer1);
         },350)
       },

@@ -283,7 +283,7 @@
     width: 100%;
     -webkit-overflow-scrolling: touch;
     overflow: scroll;
-    max-height: 91vh;
+    max-height: 93vh;
   }
   .dressingBox>.dressingBtn{
     z-index: 1100;

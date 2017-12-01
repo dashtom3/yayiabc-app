@@ -10,7 +10,7 @@
           <div class="userPicture">
             <img :src="item.printUrl ? item.printUrl : require('../../../../images/case/hPic.png')" alt="">
             <span class="userName">{{item.writer}}</span>
-            <span class="userName userTime">{{item.postTime}}分钟前</span>
+            <span class="userName userTime">{{item.postTime}}</span>
           </div>
           <div class="caseContent">
             {{item.headline}}
@@ -125,31 +125,22 @@
     methods: {
       //时间计算
       time(res,rs){
-
-        console.log(res);
-        if(res && (rs.msg !== "服务器错误"))
-        {
-          res.forEach(item => {
-            switch (true){
-              //几分钟前
-              case this.timeStamp - item.postTime < 3600000:
-//                console.log(this.timeStamp - item.postTime)
-                item.postTime = Math.ceil((this.timeStamp - item.postTime) / 1000 / 60) + '分钟前';
-                break;
+        res.forEach(item => {
+          switch (true){
+            //几分钟前
+            case this.timeStamp - item.postTime < 3600000:
+              item.postTime = Math.ceil((this.timeStamp - item.postTime) / 1000 / 60) + '分钟前';
+              break;
               //几小时前
-              case this.timeStamp - item.postTime >= 3600000 && this.timeStamp - item.postTime < 86400000:
-//                console.log(this.timeStamp - item.postTime)
-                item.postTime = Math.floor((this.timeStamp - item.postTime) / 1000 / 60 / 60) + '小时前';
-                break;
+            case this.timeStamp - item.postTime >= 3600000 && this.timeStamp - item.postTime < 86400000:
+              item.postTime = Math.floor((this.timeStamp - item.postTime) / 1000 / 60 / 60) + '小时前';
+              break;
               //日期
-              case this.timeStamp - item.postTime >= 86400000:
-                item.postTime = Util.formatDate.format(new Date(item.postTime),'yy.MM.dd hh:mm').substring(2);
-                break;
-            }
-          });
-        }else {
-
-        }
+            case this.timeStamp - item.postTime >= 86400000:
+              item.postTime = Util.formatDate.format(new Date(item.postTime),'yy.MM.dd hh:mm').substring(2);
+              break;
+          }
+        });
       },
       goCaseDetailed(id){
         this.$router.push({path: '/caseDetailed', query:{'id': id}})
@@ -174,60 +165,59 @@
         console.log(this.$router.history.current.name,'aa');
         if(this.$router.history.current.name === 'caseOfIllnessSearch'){
           this.$store.dispatch('SEARCH_CASE_LIST', this.caseSearchArgs).then( (res) => {
-            this.listCaseData = this.listCaseData.concat(res.data);
-            this.caseSearchArgs.totalPage = res.totalPage;
-            this.caseSearchArgs.currentPage = res.currentPage;
+            if(res.data){
+              this.time(res.data)
+              this.classifyCompute(res.data);
+              this.listCaseData = this.listCaseData.concat(res.data);
+              this.caseSearchArgs.totalPage = res.totalPage;
+              this.caseSearchArgs.currentPage = res.currentPage;
+            }
             this.isLoading = false;
           })
         }else if(this.$router.history.current.name === 'caseOfIllnessCollect') {
           this.$store.dispatch('COLLECT', this.caseListArgs).then((res) => {
-            this.listCaseData = this.listCaseData.concat(res.data);
-            this.caseListArgs.totalPage = res.totalPage;
-            this.caseListArgs.currentPage = res.currentPage;
+            if(res.data) {
+              this.time(res.data)
+              this.classifyCompute(res.data);
+              this.listCaseData = this.listCaseData.concat(res.data);
+              this.caseListArgs.totalPage = res.totalPage;
+              this.caseListArgs.currentPage = res.currentPage;
+            }
             this.isLoading = false;
           })
         }else {
           this.$store.dispatch('GET_CASE_LIST', this.caseListArgs).then( (res) => {
-            let data = res.data;
-            this.time(data,res);
-
-
-
-            this.listCaseData = this.listCaseData.concat(data);
-            this.caseListArgs.totalPage = res.totalPage;
-            this.caseDate.totalPage =  res.totalPage;
-            this.caseListArgs.currentPage = res.currentPage;
-            this.isLoading = false;
-
-            if(res.msg === "服务器错误")
-            {
-              this.listCaseData = [];
+            if(res.data) {
+              this.time(res.data)
+              this.classifyCompute(res.data);
+              this.listCaseData = this.listCaseData.concat(res.data);
+              this.caseListArgs.totalPage = res.totalPage;
+              this.caseDate.totalPage = res.totalPage;
+              this.caseListArgs.currentPage = res.currentPage;
+              this.isLoading = false;
             }
-            if(this.listCaseData)
-            {
-              this.listCaseData.forEach(function (item, index, array) {
-                if(item.classify === 1)
-                {
-                  item.classify = '口腔外科'
-                }else if(item.classify === 2)
-                {
-                  item.classify = '口腔内科'
-                }else if(item.classify === 3)
-                {
-                  item.classify = '口腔修复'
-                }else if(item.classify === 4)
-                {
-                  item.classify = '口腔种植'
-                }else if(item.classify === 5)
-                {
-                  item.classify = '口腔正畸'
-                }
-              });
-            }
-
-            console.log(this.listCaseData,'哦哦哦');
           })
         }
+      },
+      classifyCompute(res){
+        res.forEach(function (item, index, array) {
+          if(item.classify === 1)
+          {
+            item.classify = '口腔外科'
+          }else if(item.classify === 2)
+          {
+            item.classify = '口腔内科'
+          }else if(item.classify === 3)
+          {
+            item.classify = '口腔修复'
+          }else if(item.classify === 4)
+          {
+            item.classify = '口腔种植'
+          }else if(item.classify === 5)
+          {
+            item.classify = '口腔正畸'
+          }
+        });
       },
       //下拉刷新
       loadMore (id){
