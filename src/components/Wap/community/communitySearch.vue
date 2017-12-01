@@ -175,9 +175,8 @@
       cancelSearch: function() {
 //        this.isSearching = false
         //记得把这个解开，上面的代码是调试用的
-        let that = this
-        let timer1=window.setTimeout(function(){
-          that.$router.go(-1);
+        let timer1=window.setTimeout(() =>{
+          this.$router.go(-1);
           window.clearTimeout(timer1);
         },350)
       },
@@ -358,7 +357,7 @@
       overflow: scroll;
       width: 100%;
       -webkit-overflow-scrolling: touch;
-      z-index: -1;
+      /*z-index: -1;*/
     }
   }
 </style>

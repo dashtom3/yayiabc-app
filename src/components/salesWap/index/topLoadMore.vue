@@ -1,8 +1,6 @@
 <template>
   <div class="mint-loadmore-top wrap" :class="{'myCre-load':loading && text == 'loading'}">
-    <img src='../../../images/saleman/topPullImg.png' alt="" v-if="pullImg" class="upDown">
-    <img src='../../../images/saleman/topDropImg.png' alt="" v-if="dropImg" class="upDown">
-    <img src='../../../images/index/loading.gif' alt="" v-if="loadingImg" id="loadingImg">
+    <img src='../../../images/index/loading.gif' alt="" id="loadingImg">
     <div class="text">{{ text }}</div>
   </div>
 </template>

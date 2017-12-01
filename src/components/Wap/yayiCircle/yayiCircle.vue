@@ -56,14 +56,14 @@
                   <img src="../../../images/yayiCircle/like.png" alt="" v-else>
                   {{item.zanNumber}}
                 </span>
-                <span class="commentAndLike" @click="commenting(index,item.momentId)">
+                <span class="commentAndLike" @click="commenting(index,item.momentId,item.userId)">
                   <img src="../../../images/yayiCircle/comment.png" alt="">
                   {{item.subCommentList.length}}
                 </span>
               </div>
               <div class="commentBox" v-if="item.subCommentList.length > 0">
                 <ul>
-                  <li v-for="(comments,commentsIndex) in item.subCommentList" @click.stop="commenting(index,item.momentId,comments.userName,comments.commentId)">
+                  <li v-for="(comments,commentsIndex) in item.subCommentList" @click.stop="commenting(index,item.momentId,comments.userId,comments.userName,comments.commentId)">
                     <span class="commentUserName">{{comments.userName}}</span>
                     <span v-if="comments.replyUserName" class="commentUserName">回复{{comments.replyUserName}}</span>
                     <span class="commentUserName">:</span>
@@ -236,11 +236,14 @@
           })
         })
       },
-      commenting(index,id,userName,parentId){
+      commenting(index,id,userId,userName,parentId){
         if(!tokenMethods.getWapToken()){
           MessageBox.confirm('请先登录!').then(action => {
             this.$router.push({path: '/logIn', query: {backName: '/yayiCircle'}});
           })
+          return
+        }
+        if(userId == this.myUserId){
           return
         }
         this.isComment = true;

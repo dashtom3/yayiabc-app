@@ -33,7 +33,7 @@
       <mu-bottom-nav :value="bottomNav" @change="handleChange">
         <mu-bottom-nav-item value="index" title="首页" icon="home"/>
         <mu-bottom-nav-item value="classify" title="商城" icon="class"/>
-        <mu-bottom-nav-item value="find" title="发现" icon="toys"/>
+        <mu-bottom-nav-item value="caseOfIllness" title="发现" icon="toys"/>
         <mu-bottom-nav-item value="yayiCircle" title="牙医圈" icon="camera"/>
         <mu-bottom-nav-item value="mine" title="我的" icon="person"/>
       </mu-bottom-nav>
@@ -101,7 +101,7 @@
           that.isTouch3 = false;
           that.isTouch4 = false;
           that.isTouch5 = false;
-        } else if(that.$router.history.current.name == 'find'){
+        } else if(that.$router.history.current.name == 'caseOfIllness'){
           that.isActive1 = false;
           that.isActive2 = false;
           that.isActive3 = true;
@@ -140,16 +140,18 @@
 
     created: function() {
       var that = this
+
     },
     methods: {
 
       handleChange (val) {
         var that = this
+        console.log(that.$router.history.current.name,'toobar',val)
         if (val == 'index') {
           that.changeActive1()
         } else if (val == 'classify') {
           that.changeActive2()
-        } else if (val == 'find') {
+        } else if (val == 'caseOfIllness') {
           that.changeActive3()
         } else if (val == 'yayiCircle') {
           that.changeActive4()
@@ -165,7 +167,7 @@
           that.changeActive1()
         } else if (data == 'classify') {
           that.changeActive2()
-        }  else if (data == 'find') {
+        }  else if (data == 'caseOfIllness') {
           that.changeActive3()
         }  else if (data == 'yayiCircle') {
           that.changeActive4()
@@ -216,7 +218,7 @@
         that.isTouch3 = true;
         that.isTouch4 = false;
         that.isTouch5 = false;
-        that.bottomNav = 'find'
+        that.bottomNav = 'caseOfIllness'
       },
       changeActive4: function() {
         var that = this
