@@ -25,9 +25,9 @@
         </div>
         <div class="address-opt">
           <div class="opt-left needsclick" @click.stop="setDefault(item)">
-            <input class="needsclick" v-model="item.isDefault" type="checkbox" :id="index"/>
-            <label class="check needsclick" :for="index"></label>
-            <label class="css-color needsclick" :for="index">默认地址</label>
+            <input v-model="item.isDefault" type="checkbox" :id="index"/>
+            <label class="check needsclick"></label>
+            <label class="css-color needsclick">默认地址</label>
           </div>
           <div class="opt-right">
             <span class="text" @click.stop="goToAddAddress(index)">
@@ -65,6 +65,7 @@
       return{
         addressData:'',
         isLoaded:false,
+        lastIndex: null
       }
     },
     created: function () {
@@ -72,12 +73,16 @@
       if( sessionStorage.getItem('fromAddressMine') === true)
       {
         sessionStorage.setItem('backJudgeAddress','');
-        console.log(123445)
       }
       this.getMyAddress();
     },
     methods:{
       deleteAddress(receiverId,index){
+        if (this.lastIndex == index) {
+          this.lastIndex == null
+        } else if (this.lastIndex > index) {
+          this.lastIndex--
+        }
         MessageBox.confirm('确定删除此地址吗?').then(action => {
           var obj = {
             receiverId: receiverId,
@@ -145,12 +150,9 @@
             phone: value.phone,
             isDefault: value.isDefault,
           }
-        // var obj = Object.assign(value, {token: tokenMethods.getWapToken()})
         that.$store.dispatch('EDIT_ADDRESS', obj).then((res) => {
-          console.log(res);
           if (res.data.callStatus === 'SUCCEED') {
             // Toast('成功保存地址!');
-            // that.getMyAddress()
             return
           }
           Toast('设置默认地址失败！!');

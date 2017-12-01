@@ -52,15 +52,13 @@ const state = {
   saveCaseDressing: null,
   saveCaseOrder: 0,
   saveCaseSearching:'',
-
+  caseOfIllness: {},
 }
 
 const getters = {
   TXData:state => {
     return state.TXData
   },
-
-
   saveJumpIndex : state => {
     return state.saveJumpIndex
   },
@@ -97,6 +95,9 @@ const getters = {
   saveCaseSearching :state => {
     return state.saveCaseSearching
   },
+  caseOfIllness : state => {
+    return state.caseOfIllness
+  }
 };
 
 const mutations = {
@@ -194,6 +195,10 @@ const mutations = {
   //保存创客我的业绩选择的日期
   [types.SAVE_CK_CHECKED_DATE](state, all) {
     state.checkedDate = all
+  },
+  // 保存病例信息
+  [types.SAVE_CASEOFILLNESS](state, all){
+    state.caseOfIllness = all
   }
 }
 

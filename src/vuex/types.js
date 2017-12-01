@@ -203,6 +203,7 @@ export const DELETE_MYCASE = 'DELETE_MYCASE';                           //删除
 export const PAY_CASE_DETAIL = 'PAY_CASE_DETAIL';                           //病例支付
 export const SAVE_M_COLLECT = 'SAVE_M_COLLECT';                           //收藏病例视频
 
+export const SAVE_CASEOFILLNESS = 'SAVE_CASEOFILLNESS'              // 保存病例信息
 
 
 

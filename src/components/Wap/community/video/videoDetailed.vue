@@ -44,6 +44,7 @@
               <div class="productPrice">
                 ¥&nbsp;20
               </div>
+              <img src="../../../../images/mine/back.png" alt="">
             </div>
           </div>
         </div>
@@ -177,10 +178,18 @@
     height: 100%;
   }
   .productNameBox{
+    position: relative;
     display: inline-block;
     width: px2vw(467);
     vertical-align: middle;
     margin-left: px2vw(30);
+    img{
+      position: absolute;
+      top: px2vw(70);
+      right: px2vw(-10);
+      width: px2vw(19);
+      height: px2vw(36);
+    }
   }
   .productName{
     font-size: px2vw(28);

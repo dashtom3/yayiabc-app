@@ -46,7 +46,7 @@
       </div>
 
       <div class="read">
-        <span class="readS">{{caseDetailArgs.readNumber}}阅读</span><span class="drop">&nbsp;·</span><span class="readS">&nbsp;评论&nbsp;</span><span class="drop">·</span><span class="readS">&nbsp;20赞</span>
+        <span class="readS">{{caseDetailArgs.readNumber}}阅读</span><span class="drop">&nbsp;·</span><span class="readS">&nbsp;{{caseOfIllness.postFavour}}评论&nbsp;</span><span class="drop">·</span><span class="readS">&nbsp;{{caseOfIllness.commentNumber}}赞</span>
         <span class="readTime">{{caseDetailArgs.postTime}}</span>
       </div>
 
@@ -66,7 +66,7 @@
 
 
       <comment v-if="$route.query.draft != 1" :types="'病例'"></comment>
-      <div class="bottomWrite" v-else="$route.query.draft == 1">
+      <div class="bottomWrite" v-else-if="$route.query.draft == 1">
         <div class="bottomLeft" @click="releaseCase(1)">
           <span>
             <img src="../../../../images/case/myCase/send.png" alt="">
@@ -115,6 +115,7 @@
   import { MessageBox,Toast } from 'mint-ui';
   import { tokenMethods } from '../../../../vuex/util';
   import Util from '../../../../vuex/util'
+  import {mapGetters} from 'vuex'
   export default {
     data(){
       return{
@@ -138,9 +139,13 @@
         }
       }
     },
+    computed: {
+      ...mapGetters([
+        'caseOfIllness'
+      ])
+    },
     created (){
       this.getCaseData();
-      console.log(this.$route.query.caseId);
       this.getUserCoin();
       this.timeStamp = Date.parse(new Date());
     },
@@ -155,8 +160,6 @@
           postId: this.$route.query.id,
           chargeNumber: payCoins,
         }).then((res) => {
-          console.log(res,'111');
-
           if(res.msg === "支付成功")
           {
             Toast({message: '支付成功', duration: 1000});
@@ -238,35 +241,35 @@
               } else if (this.caseDetailArgs.classify === 5) {
                 this.caseDetailArgs.classify = '口腔正畸'
               }
-
               this.time(this.caseDetailArgs);
-
-
         })
       },
       time(item){
-        if(item)
-        {
-            switch (true){
-              //几分钟前
-              case this.timeStamp - item.postTime < 3600000:
-//                console.log(this.timeStamp - item.postTime)
-                item.postTime = Math.ceil((this.timeStamp - item.postTime) / 1000 / 60) + '分钟前';
-                console.log(2222);
-                break;
-              //几小时前
-              case this.timeStamp - item.postTime >= 3600000 && this.timeStamp - item.postTime < 86400000:
-//                console.log(this.timeStamp - item.postTime)
-                item.postTime = Math.floor((this.timeStamp - item.postTime) / 1000 / 60 / 60) + '小时前';
-                break;
-              //日期
-              case this.timeStamp - item.postTime >= 86400000:
-                item.postTime = Util.formatDate.format(new Date(item.postTime),'yy.MM.dd hh:mm').substring(2);
-                break;
-            }
-        }else {
-
+        if (this.timeStamp - item.postTime < 3600000) {
+          item.postTime = Math.ceil((this.timeStamp - item.postTime) / 1000 / 60) + '分钟前';
+        } else if (this.timeStamp - item.postTime >= 3600000 && this.timeStamp - item.postTime < 86400000) {
+          item.postTime = Math.floor((this.timeStamp - item.postTime) / 1000 / 60 / 60) + '小时前';
+        } else {
+          item.postTime = Util.formatDate.format(new Date(item.postTime),'yyyy-MM-dd hh:mm').substring(0);
         }
+        // if(item){
+        //   switch (true){
+        //     //几分钟前
+        //     case this.timeStamp - item.postTime < 3600000:
+        //       //console.log(this.timeStamp - item.postTime)
+        //       item.postTime = Math.ceil((this.timeStamp - item.postTime) / 1000 / 60) + '分钟前';
+        //       break;
+        //     //几小时前
+        //     case this.timeStamp - item.postTime >= 3600000 && this.timeStamp - item.postTime < 86400000:
+        //     //console.log(this.timeStamp - item.postTime)
+        //       item.postTime = Math.floor((this.timeStamp - item.postTime) / 1000 / 60 / 60) + '小时前';
+        //       break;
+        //     //日期
+        //     case this.timeStamp - item.postTime >= 86400000:
+        //       item.postTime = Util.formatDate.format(new Date(item.postTime),'yyyy-MM-dd hh:mm').substring(2);
+        //       break;
+        //   }
+        // }
       },
       releaseCase(type){
         if(type){

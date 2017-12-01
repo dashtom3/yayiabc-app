@@ -5,7 +5,7 @@
 
     <div  class="scrollBox" v-infinite-scroll="getCaseListMore" infinite-scroll-immediate-check="true">
 
-      <div v-if="listCaseData != null" @click="goCaseDetailed(item.postId)" v-for="(item, index) in listCaseData" class="caseBox">
+      <div v-if="listCaseData != null" @click="goCaseDetailed(item)" v-for="(item, index) in listCaseData" class="caseBox">
         <div class="userBox " :class="{'addChange1': item.cover !== ''}">
           <div class="userPicture">
             <img :src="item.printUrl ? item.printUrl : require('../../../../images/case/hPic.png')" alt="">
@@ -45,7 +45,7 @@
   import Util from '../../../../vuex/util'
   import { tokenMethods } from '../../../../vuex/util'
   import topLoadMore from '../../../salesWap/index/topLoadMore.vue';
-  import {mapGetters} from 'vuex';
+  import {mapGetters, mapMutations} from 'vuex';
   import {COLLECT_CASE} from '../../../../vuex/types'
   export default {
     data (){
@@ -142,14 +142,16 @@
           }
         });
       },
-      goCaseDetailed(id){
-        this.$router.push({path: '/caseDetailed', query:{'id': id}})
+      ...mapMutations({
+        saveCaseIllness: 'SAVE_CASEOFILLNESS'
+      }),
+      goCaseDetailed(item){
+        this.saveCaseIllness(item)
+        this.$router.push({path: '/caseDetailed', query:{'id': item.postId}})
       },
       getCaseListMore (){
-
         if(this.caseDate.totalPage <= this.caseListArgs.currentPage)
         {
-
           return
         }
         else if(this.$router.history.current.name === 'caseOfIllnessSearch' && this.caseSearchArgs.totalPage < this.caseSearchArgs.currentPage){
