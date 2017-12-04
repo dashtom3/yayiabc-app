@@ -1,7 +1,7 @@
 <template>
   <div ref="scrollBoxLeft" class="ProductLeft">
     <!--<mu-grid-list class="gridlist-demo">-->
-    <ul class="main_ul" v-for="(item,index) in leftDate">
+    <ul class="main_ul" v-for="(item,index) in leftDate" :key="index">
       <li @click="downFade(item.oneClassify)">
         <span>{{item.oneClassify}}</span>
         <img :class="{'active_img':item.oneClassify === idx}" src="../../../images/ProductList/Plist.png" alt="">
@@ -13,7 +13,7 @@
           </li>
           <li v-for="(detail,indexNext) in item.classifyTwoList"
               @click="addColor(item.oneClassify,detail.classifyTwoName)"
-              :class="{active_next_li:detail.classifyTwoName === idx_next}">
+              :class="{active_next_li:detail.classifyTwoName === idx_next}" :key="indexNext">
             {{detail.classifyTwoName}}
           </li>
         </ul>
@@ -40,7 +40,6 @@
       }
     },
     created() {
-      console.log('left', this.$route.params);
       var classifName = this.$route.params;
       this.idx = classifName.oneClassify;
       this.idx_next = classifName.twoClassify;
@@ -71,7 +70,6 @@
           oneClassify: this.idx,
           classifyTwoName: this.idx_next == '' ? null : this.idx_next
         }
-        console.log(temp)
         this.$store.commit(SAVE_BRAND_AND_CLASSIFY, temp)
       },
       //点击一级目录
@@ -82,14 +80,12 @@
           this.idx = index;
         }
         this.idx_next = '';
-        console.log(index, '1级分类')
         this.setClassify();
       },
       //点击二级目录
       addColor(index, indexNext) {
         this.idx_next = indexNext;
         this.setClassify();
-        console.log(index, '2级分类')
       }
     }
   }

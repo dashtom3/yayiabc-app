@@ -1,54 +1,48 @@
 <template>
     <div>
       <!--无视频样式-->
-      <div v-if="!videoArgs" class="noneVideo">
+      <div v-if="isShow" class="noneVideo">
         <div class="noneV">
           <img src="../../../../images/video/noneVideo.png" alt="">
         </div>
         <div>暂无相关视频</div>
       </div>
-
       <!--<mt-loadmore  :top-method="loadMore" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState">-->
-        <!--<topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>-->
-
+      <!--<topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>-->
       <!-- v-for -->
-        <div v-infinite-scroll="getCaseListMore" infinite-scroll-immediate-check="true">
-      <div v-for="(item, index) in videoArgs" class="videoWrap">
-        <div class="boxBox">
-
-          <!--这里放视频-->
-          <div class="videoBox">
-            <video-play :isVideo="typeVideo" v-if="videoSwitch">
-              <!--<video  src=""  controls="" x5-playsinline="" playsinline="" webkit-playsinline="" poster="" preload="auto"></video>-->
-              <!--posterSrc:视频封面地址  slot必须带class="video"-->
-              <video  webkit-playsinline :src="item.vidRoute" :poster="item.vedioPic"  slot="video"  class="video">
-              <!--<source slot="sourceSrc"  type="video/mp4"></source>-->
-              </video>
-            </video-play>
+      <div v-infinite-scroll="getCaseListMore" infinite-scroll-immediate-check="true">
+        <div v-for="(item, index) in videoArgs" class="videoWrap" :key="index">
+          <div class="boxBox">
+            <!--这里放视频-->
+            <div class="videoBox">
+              <video-play :isVideo="typeVideo" v-if="videoSwitch">
+                <!--<video  src=""  controls="" x5-playsinline="" playsinline="" webkit-playsinline="" poster="" preload="auto"></video>-->
+                <!--posterSrc:视频封面地址  slot必须带class="video"-->
+                <video  webkit-playsinline :src="item.vidRoute" :poster="item.vedioPic"  slot="video"  class="video">
+                <!--<source slot="sourceSrc"  type="video/mp4"></source>-->
+                </video>
+              </video-play>
+            </div>
+            <!--这里放视频-->
+            <!--底部开始-->
+            <div class="bottomBox">
+              <span class="nameBox">
+                <img class="prcImg" src="../../../../images/video/prc.png" alt="">
+                <span>{{item.vidName}}</span>
+              </span>
+              <span @click="toVideo(item.viId)" class="commentBox">
+                <img class="commentImg" src="../../../../images/video/comment.png" alt="">
+                <span>{{item.vedioCommentNumber}}</span>
+              </span>
+              <span @click="collect(item.viId, item.isStar, index)" class="collectionBox">
+                <img class="collectionImg" src="../../../../images/video/collection.png" alt="">
+                <span>{{item.starNumber == null? 0:item.starNumber }}</span>
+              </span>
+            </div>
+            <!--底部结束-->
           </div>
-          <!--这里放视频-->
-
-          <!--底部开始-->
-          <div class="bottomBox">
-            <span class="nameBox">
-              <img class="prcImg" src="../../../../images/video/prc.png" alt="">
-              <span>{{item.vidName}}</span>
-            </span>
-
-            <span @click="toVideo(item.viId)" class="commentBox">
-              <img class="commentImg" src="../../../../images/video/comment.png" alt="">
-              <span>{{item.vedioCommentNumber }}</span>
-            </span>
-
-            <span @click="collect(item.viId, item.isStar, index)" class="collectionBox">
-              <img class="collectionImg" src="../../../../images/video/collection.png" alt="">
-              <span>{{item.starNumber == null? 0:item.starNumber }}</span>
-            </span>
-          </div>
-          <!--底部结束-->
         </div>
       </div>
-        </div>
       <!--</mt-loadmore>-->
       <!--结束-->
     </div>
@@ -83,6 +77,7 @@
           totalPage: 1,
           numberPerPage:10
         },
+        isShow: false,
         videoArgs:[]
       }
     },
@@ -109,7 +104,6 @@
       if(this.$router.history.current.name === 'videoSearch'){
         this.caseSearchArgs.keyWord = this.saveCaseSearching;
       }
-      console.log(this.$router.history.current.name);
       this.getVideoList()
     },
     mounted(){
@@ -117,14 +111,11 @@
     },
     methods:{
       collect (vid, isStar, index){
-        console.log(isStar);
         if(this.pointLogin())
         {
           this.$store.dispatch('SAVE_COLLECT', {viId: vid}).then((res)=>{
-              console.log(res);
               if(res.callStatus === "SUCCEED")
               {
-
                 if(isStar === 0)  //未收藏
                 {
                   this.videoArgs[index].isStar = 1;
@@ -146,34 +137,41 @@
       getVideoList(){
         this.isLoading = true
         if(this.$router.history.current.name === 'videoSearch'){
-          this.$store.dispatch('SEARCH_CASE_LIST', this.caseSearchArgs).then( (res) => {
+          this.$store.dispatch('SEARCH_CASE_LIST', this.caseSearchArgs).then((res) => {
             this.videoArgs = this.videoArgs.concat(res.data);
             this.caseSearchArgs.totalPage = res.totalPage;
             this.caseSearchArgs.currentPage = res.currentPage;
             this.isLoading = false;
+            if (this.videoArgs == 0) {
+              this.isShow = true
+            }
           })
-        }else if(this.$router.history.current.name === 'videocollect'){
+        } else if (this.$router.history.current.name === 'videocollect') {
           this.$store.dispatch('COLLECT', this.caseSearchArgs).then( (res) => {
             this.videoArgs = this.videoArgs.concat(res.data);
             this.caseSearchArgs.totalPage = res.totalPage;
             this.caseSearchArgs.currentPage = res.currentPage;
             this.isLoading = false;
+            if (this.videoArgs == 0) {
+              this.isShow = true
+            }
           })
-        }
-        else {
+        } else {
           this.$store.dispatch('GET_VIDEO_LIST', this.videoListArgs).then((res) => {
             this.videoSwitch = false;
             this.$nextTick( ()=>{
               this.videoSwitch = true;
             });
-
             if(res.msg !== "服务器错误")
             {
               this.videoArgs = res.data;
               this.videoArgs['totalPage'] = res.totalPage;
               this.isLoading = false;
+              return
             }
-
+            if (this.videoArgs == 0) {
+              this.isShow = true
+            }
           });
         }
       },
@@ -192,9 +190,6 @@
               return false;
             }
           });
-          console.log(this.videoArgs, '呵呵呵');
-
-
           this.isLoaded();
         });
       },

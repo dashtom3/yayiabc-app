@@ -7,23 +7,15 @@
           <img src="../../../../images/case/backer.png" alt="">
         </span>
       </div>
-
       <div class="container">
         <video-play :isVideo="typeVideo" ref="videoPlay"  v-if="videoSwitch">
           <video :poster="videoArgs.vedioPic" slot="video" webkit-playsinline="true" playsinline="true" class="video">
             <source slot="sourceSrc" :src="videoArgs.vidRoute" type="video/mp4"></source>
           </video>
         </video-play>
-
-
-
         <!--标题内容开始-->
-        <div  class="titleBox">
-          这是标题这是标题这是标题这是标题这是标题
-          这是标题这是标题这是标题这是标题这是标题
-        </div>
+        <div  class="titleBox">{{ videoArgs.vidName }}</div>
         <!--标题内容结束-->
-
         <!--相关产品开始-->
         <div class="productBox">
           <div class="productTitle">相关产品</div>
@@ -34,9 +26,7 @@
             </span>
             <!--右-->
             <div class="productNameBox">
-              <div class="productName">
-                麦迪康/MEDICOM普通一()抗敏感/麦迪康
-              </div>
+              <div class="productName">麦迪康/MEDICOM普通一()抗敏感/麦迪康</div>
               <div class="classBox">
                 <span>上海到帮</span>
                 <span>销量:254</span>
@@ -49,19 +39,13 @@
           </div>
         </div>
         <!--相关产品结束-->
-
-
         <div>
           <comment :types="'视频'"></comment>
         </div>
-
-
       </div>
-
       <!--结尾-->
     </div>
 </template>
-
 <script>
   import videoPlay from './videoPlay.vue'
   import comment from '../case/comment.vue'
@@ -79,28 +63,26 @@
       this.getVideosDetail();
     },
     methods:{
-
       getVideosDetail(){
         this.$store.dispatch('GET_VIDEOS_DETAIL', {viId: this.$route.query.id}).then( (res)=>{
           this.videoArgs = res.data;
           this.videoSwitch = true
-          console.log( this.videoArgs.vidRoute);
         });
       },
       goBack(){
-        console.log(11);
         this.$router.go(-1);
       },
     },
-    components:{videoPlay,comment}
+    components:{
+      videoPlay,
+      comment
+    }
   }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss" rel="stylesheet/scss">
     @import "../../../../common/sass/factory";
-
-
     .boxBox{
       min-height: px2vw(422);
       transition: all 0.5s;

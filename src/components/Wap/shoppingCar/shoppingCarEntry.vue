@@ -217,12 +217,11 @@
           that.sendDataList[i].picPath = that.sendDataList[i].pic;
           that.sendDataList[i].goodBrandName = that.sendDataList[i].itemBrandName;
           that.sendDataList[i].goodSort = that.sendDataList[i].itemSort;
-          that.sendDataList[i].goodQb = 2
+          that.sendDataList[i].goodQb = that.sendDataList[i].itemQb
         }
         sendData.details = that.sendDataList;
         sendData.haveSelectedGoodNum = that.haveSelectedGoodNum;
         window.sessionStorage.setItem("suborderData", JSON.stringify(sendData));
-
         sessionStorage.setItem('backJudgeDS', 'shoppingCarEntry')
         that.$router.push({path: '/suborder', query: {backJudge: 'shopCar'}})
       },
@@ -347,13 +346,13 @@
       // new购物车跳转商品详情 (backJudgeSKL) passFirst
       goProductDetail(good) {
         sessionStorage.setItem('backJudgeSL', 'shopCarEntry');
-        this.$router.push({path: '/details/' + good.itemId, query: {name: good.name, itemId: good.itemId}})
+        this.$router.push({path: '/details/' + good.itemId, query: {name: good.name, itemId: good.itemId, backName: this.$route.query.backName}})
         window.scroll(0, 0)
       },
       back: function () {
         if (this.$route.query.backName) {
-           this.$router.push({path: this.$route.query.backName, query:{ refresh: this.refresh}})
-           return
+          this.$router.push({path: this.$route.query.backName, query:{ refresh: this.refresh}})
+          return
         }
         this.$router.push({path: '/productList', query:{ ListBack:'carEntry'}})
       },

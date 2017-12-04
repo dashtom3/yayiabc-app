@@ -12,50 +12,45 @@
         </span>
       </div>
       <div class="classBox">
-          <span @click="changeClass(index)" :class="{'changeColor': change == index}"  v-for="(item, index) in classArgs">
+          <span @click="changeClass(index)" :class="{'changeColor': change == index}"  v-for="(item, index) in classArgs" :key="index">
             {{item}}
             <div :class="{'changeBorder': change == index}"></div>
           </span>
       </div>
 
       <div class="container">
-
         <mt-loadmore  :top-method="loadMore" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState">
           <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
-
-
-        <div v-for="(item,index) in myCaseList" >
-        <div @click="toGoCase(item.postId)"  v-if="myCaseList"  class="caseBox">
-          <div class="userBox " :class="{'addChange1': item.cover}" >
-            <div class="userPicture">
-              <img v-if="change == 2" :src=" item.printUrl == null? require('../../../../images/mine/zhifubao.png') : item.printUrl" alt="">
-              <span class="userName" :class="{'userWrite': change != 2}">{{item.writer}}</span>
-              <span class="userName userTime">{{item.postTime}}</span>
+          <div v-for="(item,index) in myCaseList" :key="index">
+          <div @click="toGoCase(item.postId)"  v-if="myCaseList"  class="caseBox">
+            <div class="userBox " :class="{'addChange1': item.cover}" >
+              <div class="userPicture">
+                <img v-if="change == 2" :src=" item.printUrl == null? require('../../../../images/mine/zhifubao.png') : item.printUrl" alt="">
+                <span class="userName" :class="{'userWrite': change != 2}">{{item.writer}}</span>
+                <span class="userName userTime">{{item.postTime}}</span>
+              </div>
+              <div class="caseContent">
+                {{item.headline}}
+              </div>
             </div>
-            <div class="caseContent">
-              {{item.headline}}
+            <div v-if="item.cover" :class="{'addChange2': item.cover}" class="userImgBox ">
+              <img :src="item.cover" alt="">
+            </div>
+            <div v-if="change != 0" class="readeBox">
+              <span class="readeClass">{{item.classify}}</span>
+              <span class="readeNum">{{item.readNumber}} 阅读</span>
+              <span class="readeNum2">· {{item.commentNumber}}评论</span>
+              <span class="readeNum2">· {{item.postFavour}}赞</span>
+              <span v-if="item.chargeNumber" class="coin"> {{item.chargeNumber}}乾币</span>
             </div>
           </div>
-          <div v-if="item.cover" :class="{'addChange2': item.cover}" class="userImgBox ">
-            <img :src="item.cover" alt="">
           </div>
-
-          <div v-if="change != 0" class="readeBox">
-            <span class="readeClass">{{item.classify}}</span>
-            <span class="readeNum">{{item.readNumber}} 阅读</span>
-            <span class="readeNum2">· {{item.commentNumber}}评论</span>
-            <span class="readeNum2">· {{item.postFavour}}赞</span>
-            <span v-if="item.chargeNumber" class="coin"> {{item.chargeNumber}}乾币</span>
-          </div>
-        </div>
-        </div>
         </mt-loadmore>
         <div v-if="change == 0 && myCaseList == null" class="spaceImgBox">
           <img class="spaceImgFont" src="../../../../images/case/myCase/caogao.png" alt="">
           <div class="spaceSize">还没有草稿</div>
           <div class="spaceFont">(未发布的病例会存储在这里)</div>
         </div>
-
         <div v-if="change == 1 && myCaseList == null" class="spaceImgBox">
           <img class="spaceImg" src="../../../../images/case/myCase/fabu.png" alt="">
           <div class="spaceSize">尚未发布病例</div>
@@ -67,9 +62,7 @@
           <div class="spaceSize">还没有购买病例</div>
           <div class="spaceColor">发现更多病例</div>
         </div>
-
       </div>
-
       <!--末尾-->
     </div>
 </template>
@@ -99,11 +92,14 @@
     },
     created(){
       this.getCaseList();
+      if (this.$route.query.state == undefined) {
+        return
+      }
+      this.changeClass(this.$route.query.state)
     },
     methods:{
       //mt中接受的val值作为参数传入我的组件里
       isState(val){
-        console.log(val)
         this.$refs.topLoadMore.states(val)
       },
       //把下拉刷新完成之后回调的mt的方法传入我的组件里
@@ -115,17 +111,11 @@
       },
       getPayedList(){
         this.$store.dispatch('GET_PAY_CASE', this.myCase).then( (res)=>{
-          console.log(res , 'haha');
           this.myCaseList = res.data;
-
-
-
           if(this.myCaseList)
           {
-
             this.timeStamp = Date.parse(new Date());
             this.time(this.myCaseList);
-
             this.myCaseList.forEach(function (item, index, array) {
               if(item.classify === 1)
               {
@@ -154,12 +144,10 @@
           numberPerPage: this.myCase.numberPerPage
         }).then( (res)=>{
           this.myCaseList = res.data;
-          console.log(res);
           if(this.myCaseList)
           {
             this.timeStamp = Date.parse(new Date());
             this.time(this.myCaseList);
-
             this.myCaseList.forEach(function (item, index, array) {
               if(item.classify === 1)
               {
@@ -190,12 +178,12 @@
             switch (true){
               //几分钟前
               case this.timeStamp - item.postTime < 3600000:
-//                console.log(this.timeStamp - item.postTime)
+//              console.log(this.timeStamp - item.postTime)
                 item.postTime = Math.ceil((this.timeStamp - item.postTime) / 1000 / 60) + '分钟前';
                 break;
               //几小时前
               case this.timeStamp - item.postTime >= 3600000 && this.timeStamp - item.postTime < 86400000:
-//                console.log(this.timeStamp - item.postTime)
+//              console.log(this.timeStamp - item.postTime)
                 item.postTime = Math.floor((this.timeStamp - item.postTime) / 1000 / 60 / 60) + '小时前';
                 break;
               //日期
@@ -219,7 +207,6 @@
           this.$router.push({path: '/caseDetailed', query:{id: postId}})
         }
       },
-
       //下拉刷新
       loadMore (){
         if(this.change === 0) //草稿
@@ -236,9 +223,8 @@
           this.getPayedList();
         }
       },
-
       toWriteCase(){
-        this.$router.push({path: '/newCase'});
+        this.$router.push({path: '/newCase', query: {state: this.change}});
       },
       changeClass(index){
         this.change = index;
@@ -256,19 +242,11 @@
           this.myCaseList = [];
           this.getPayedList();
         }
-
       }
     },
     components:{topLoadMore}
   }
 </script>
-
-<style>
-  .mint-loadmore{
-
-  }
-</style>
-
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss" rel="stylesheet/scss">
@@ -317,7 +295,6 @@
       width: px2vw(508) !important;
     }
     /* 有图添加样式 */
-
     .userPicture img{
       vertical-align: middle;
       width: px2vw(56);

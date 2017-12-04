@@ -215,7 +215,6 @@
             token: tokenMethods.getWapToken()
           }
           that.$store.dispatch('GET_LOGIN_OUT', obj).then((res) => {
-            console.log(JSON.stringify(res),'resyehu')
             if (res.callStatus === 'SUCCEED') {
               that.authLogout()
               tokenMethods.removeSalesToken()

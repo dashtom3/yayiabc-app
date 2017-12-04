@@ -13,7 +13,7 @@
         <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
         <!--有数据的状态-->
         <div v-infinite-scroll="loadMore" infinite-scroll-immediate-check="true" class="innerContainer" :infinite-scroll-disabled="isLoading">
-          <div v-for="(item,index) in yayiCircleData" class="eachContainer">
+          <div v-for="(item,index) in yayiCircleData" class="eachContainer" :key="index">
             <div class="headerImgBox">
               <div class="imgBox">
                 <img :src="item.userPic" alt="" v-if="item.userPic">
@@ -29,7 +29,7 @@
                 </div>
 
                 <div class="pictures">
-                  <div v-for="(pic,picIndex) in item.momentPicture" :class="{onePic:item.momentPicture.length < 2,twoPic:item.momentPicture.length > 1}">
+                  <div v-for="(pic,picIndex) in item.momentPicture" :class="{onePic:item.momentPicture.length < 2,twoPic:item.momentPicture.length > 1}" :key="picIndex">
                     <img :src="pic" alt="" v-if="item.momentPicture.length < 2" @click="seeBigPic(pic)">
                     <img :src="pic" alt="" v-else @click="seeBigPic(pic)">
                   </div>
@@ -63,7 +63,7 @@
               </div>
               <div class="commentBox" v-if="item.subCommentList.length > 0">
                 <ul>
-                  <li v-for="(comments,commentsIndex) in item.subCommentList" @click.stop="commenting(index,item.momentId,comments.userId,comments.userName,comments.commentId)">
+                  <li v-for="(comments,commentsIndex) in item.subCommentList" @click.stop="commenting(index,item.momentId,comments.userId,comments.userName,comments.commentId)" :key="commentsIndex">
                     <span class="commentUserName">{{comments.userName}}</span>
                     <span v-if="comments.replyUserName" class="commentUserName">回复{{comments.replyUserName}}</span>
                     <span class="commentUserName">:</span>
@@ -134,7 +134,6 @@
     },
     created(){
       this.timeStamp = Date.parse(new Date());
-      console.log(this.$router.history.current.name);
       this.getYayiCircle();
     },
     methods:{
@@ -157,7 +156,6 @@
         if(this.$router.history.current.name === 'myYayiCircle'){
           this.headTitle = '我的动态';
           this.$store.dispatch(MY_YAYI_CIRCLE, this.args).then(res =>{
-            console.log(res.data);
             this.dataCompute(res.data);
             this.isLoading = false;
             this.totalPage = res.totalPage
@@ -166,7 +164,6 @@
         else if(this.$router.history.current.name === 'yayiCircle'){
           this.headTitle = '牙医圈';
           this.$store.dispatch(YAYI_CIRCLE, this.args).then(res =>{
-            console.log(res.data);
             this.dataCompute(res.data);
             this.isLoading = false;
             this.totalPage = res.totalPage
@@ -214,7 +211,6 @@
             }
             this.yayiCircleData.push(item)
           });
-          console.log(this.yayiCircleData, 'ww');
           //控制是否显示加载到底的一个判断值，虽然我觉得基本上用不到。
 //          if (this.args.currentPage === res.totalPage && this.args.currentPage > 1) {
 //            this.noMoreData = true
@@ -228,7 +224,6 @@
       deleteTrend(id,index){
         MessageBox.confirm('确定删除吗？').then(action => {
           this.$store.dispatch(DELETE_TREND, {momentId:id}).then(res=>{
-            console.log(res)
             if(res.callStatus === 'SUCCEED'){
               Toast({message: '删除成功！', duration: 1500});
               this.yayiCircleData.splice(index,1)

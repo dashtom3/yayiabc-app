@@ -25,8 +25,7 @@
       </div>
       <!--头部结束-->
       <div class="dressingBox">
-        <span v-for="(item, index) in caseDate.dressing" @click="dressing(index)"  :class="{'DressingColor': (caseListArgs.classify==''?0:caseListArgs.classify) === index}">{{item == '' ? '不限':item}}</span>
-
+        <span v-for="(item, index) in caseDate.dressing" @click="dressing(index)" :class="{'DressingColor': (caseListArgs.classify==''?0:caseListArgs.classify) === index}">{{item == '' ? '不限':item}}</span>
         <!--筛选按钮-->
         <span @click="caseDate.dressingSwitch = !caseDate.dressingSwitch" class="dressingBtn">
             <img src="../../../../images/case/caseOfIllness/classflsy.png" alt="">
@@ -80,7 +79,6 @@
     beforeRouteEnter (to, from, next) {
       // 通过 `vm` 访问组件实例
       next(vm => {
-        console.log(vm.$router.history.current.name);
         if (vm.$router.history.current.name === 'caseOfIllness') {
           vm.caseDate.caseClassNum = 0
         } else if(vm.$router.history.current.name === 'video') {
@@ -135,13 +133,9 @@
 //        {
 //          this.$store.dispatch('SAVE_CASE_ORDER',  index);
 //        }
-
         this.$store.dispatch('SAVE_CASE_ORDER',  index);
-
-
         this.caseListArgs.order = index;
         this.caseDate.dressingSwitch = false;
-
       },
 
       //上部筛选功能栏

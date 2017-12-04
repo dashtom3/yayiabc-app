@@ -34,14 +34,14 @@
         </quill-editor>
       </div>
       <div class="others" @click="blurClass">
-        <div class="line"  v-if="args.chargeContent">
+        <div class="line"  v-if="args.chargeContent" @click.stop="foucsInput()">
           <span>价格（乾币）</span>
-          <input type="number" placeholder="请输入付费内容的价格" class="othersInput" v-model="args.chargeNumber">
+          <input ref="moneyInput" type="number" placeholder="请输入付费内容的价格" class="othersInput" v-model="args.chargeNumber">
         </div>
-        <div class="line">
+        <div class="line" @click="selectClassify">
           <span>分类</span>
           <span class="othersSelect" >
-            <span v-html="classifyName?classifyName:'请选择分类'" @click="selectClassify"></span>
+            <span v-html="classifyName?classifyName:'请选择分类'"></span>
             <img src="../../../../images/mine/coin_img1.png" alt="">
           </span>
         </div>
@@ -234,20 +234,20 @@
           this.editorCharge.insertEmbed(10, 'image', this.qiNiuConfig.ShUrl + file.response.key)
         }
         Indicator.close();
-//        console.log(this.contImgList)
       },
       selectClassify(){
         this.isClassPicker =true;
       },
+      foucsInput() {
+        this.$refs.moneyInput.focus()
+      },
       //监听选择病例类型变化
       onValuesChange(picker, values) {
-        console.log(this.slots[0].values.indexOf(values[0]));
         this.classify = this.slots[0].values.indexOf(values[0]) + 1;
         this.classifyName = this.slots[0].values[parseInt(this.classify) - 1]
       },
       getCaseData(){
         this.$store.dispatch(GET_CASE_DETAIL, {postId: this.$route.query.id}).then((res) => {
-          console.log(res.data);
           this.args.headline = res.data.headline;
           this.args.classify = res.data.classify;
           this.args.freeContent = res.data.freeContent;
@@ -295,7 +295,6 @@
           }
         }
         //下面就要调用接口了
-        console.log(this.args)
         switch (true){
           case !this.args.headline:
             Toast({message: '标题不能为空', duration: 1500});
@@ -303,7 +302,7 @@
           case !this.args.freeContent:
             Toast({message: '一定要有免费内容喔', duration: 1500});
             return
-          case this.args.classify < 0:
+          case this.args.classify == '' || this.args.classify < 0:
             Toast({message: '请选择一个分类', duration: 1500});
             return
           case this.args.chargeContent && !this.args.chargeNumber:
@@ -321,14 +320,14 @@
           else {
             Toast({message: '病例保存成功！', duration: 1500});
           }
-          this.$router.push('/caseOfIllness');
+          // this.$router.push('/caseOfIllness');
+          this.$router.push({path: '/myCase', query: {state: this.$route.query.state}})
           this.$destroy();
         })
       },
       //是否分享到牙医圈功能
       isShare(){
         this.share = !this.share;
-        console.log(this.share)
       },
       shareCase(postId){
         let obj = {
@@ -337,7 +336,6 @@
           momentPicture: null,
           momentContentId: postId
         }
-        console.log(obj,'obj')
         this.$store.dispatch(NEW_TREND,obj).then(res => {
           console.log('分享成功')
         })
@@ -349,10 +347,8 @@
       closePage(){
         MessageBox.confirm('是否保存为草稿方便下次继续编辑?').then(action => {
           this.postCase(2);
-          console.log('save')
           this.$destroy();
         }).catch(reject =>{
-          console.log('cancel')
           this.$router.go(-1)
         });
       }

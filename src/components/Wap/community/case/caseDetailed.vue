@@ -1,7 +1,5 @@
 <template>
   <div  class="titleWrap">
-
-
     <!--删除成功样式-->
     <div v-if="delSwitch" class="delSuccess">
       <div class="delImg">
@@ -9,47 +7,39 @@
       </div>
       <div>删除成功</div>
     </div>
-
     <!--<div class="backgroundImg"></div>-->
     <div class="wrapTop">
       <span class="title">病例详情</span>
       <span @click="back()" class="backImgBox">
         <img src="../../../../images/case/backer.png" alt="">
       </span>
-
       <span @click="deleter()" v-if="$route.query.draft == 1" class="del">
         <img src="../../../../images/case/myCase/dele.png" alt="">
       </span>
-
       <span v-if="$route.query.myCase" @click.stop="editClose()" class="backRightImgBox">
         <img src="../../../../images/case/caseOfIllness/point.png" alt="">
-
         <span v-if="editSwitch" class="editBox">
           <span @click.stop="edit()">编辑</span>
           <span @click.stop="deleter()">删除</span>
         </span>
       </span>
     </div>
-
     <div class="container">
       <div class="titleContainer">
         <div class="titleContent">
           {{caseDetailArgs.headline}}
         </div>
       </div>
-
       <div class="header">
         <img class="headPic" :src="caseDetailArgs.cover? caseDetailArgs.cover : require('../../../../images/case/hPic.png')" alt="">
         <span class="headName">{{caseDetailArgs.writer}}</span>
         <span class="class">{{caseDetailArgs.classify}}</span>
         <span class="class">免费</span>
       </div>
-
       <div class="read">
-        <span class="readS">{{caseDetailArgs.readNumber}}阅读</span><span class="drop">&nbsp;·</span><span class="readS">&nbsp;{{caseOfIllness.postFavour}}评论&nbsp;</span><span class="drop">·</span><span class="readS">&nbsp;{{caseOfIllness.commentNumber}}赞</span>
+        <span class="readS">{{caseDetailArgs.readNumber}}阅读</span><span class="drop">&nbsp;·</span><span class="readS">&nbsp;{{caseOfIllness.commentNumber}}评论&nbsp;</span><span class="drop">·</span><span class="readS">&nbsp;{{caseOfIllness.postFavour}}赞</span>
         <span class="readTime">{{caseDetailArgs.postTime}}</span>
       </div>
-
       <!--病历内容-->
       <div class="content">
         <div class="padding_Box" v-html="caseDetailArgs.freeContent"></div>
@@ -63,8 +53,6 @@
           </span>
         </div>
       </div>
-
-
       <comment v-if="$route.query.draft != 1" :types="'病例'"></comment>
       <div class="bottomWrite" v-else-if="$route.query.draft == 1">
         <div class="bottomLeft" @click="releaseCase(1)">
@@ -73,9 +61,6 @@
           </span>
           <span>发布</span>
         </div>
-
-
-
         <div class="bottomRight" @click="releaseCase(0)">
           <span>
             <img src="../../../../images/case/myCase/write.png" alt="">
@@ -83,30 +68,24 @@
           <span>编辑</span>
         </div>
       </div>
-
     </div>
 
     <div v-if="payNow" @touchmove.prevent class="bgBg">
       <div class="bgBox">
-
         <div @click="closePay()" class="closeBox">
           <img src="../../../../images/case/caseOfIllness/close.png" alt="">
         </div>
-
         <div class="payTexts">你需支付{{caseDetailArgs.chargeNumber}}乾币</div>
         <div class="coinBox">
           <span :class="{'noPay': userCoins < caseDetailArgs.chargeNumber}" class="payCoinText">
              乾币余额:&nbsp;{{userCoins}}&nbsp;
           </span>
-
         <span v-if="userCoins < caseDetailArgs.chargeNumber" class="noCoin">余额不足, 立即充值</span>
-
         </div>
         <div  class="payRel2" v-if="userCoins < caseDetailArgs.chargeNumber">确认支付</div>
         <div @click="payRel(caseDetailArgs.chargeNumber)" class="payRel" v-else>确认支付</div>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -149,13 +128,9 @@
       this.getUserCoin();
       this.timeStamp = Date.parse(new Date());
     },
-    mounted (){
-
-    },
     methods:{
       //确认支付
       payRel(payCoins){
-        console.log(payCoins);
         this.$store.dispatch('PAY_CASE_DETAIL', {
           postId: this.$route.query.id,
           chargeNumber: payCoins,
@@ -185,7 +160,6 @@
       deleter(){
         MessageBox.confirm('是否要删除病例!').then(action => {
           this.$store.dispatch('DELETE_MYCASE', {postId: this.$route.query.id}).then((res) => {
-            console.log(res, '删除病例');
             if(res.msg === "删除成功")
             {
               this.delSwitch = true;
@@ -194,13 +168,11 @@
                 _this.delSwitch = false;
                 _this.$router.go(-1);
               },1000)
-
             }
           })
         }).catch(function (error) {
           return '';
         });
-
       },
       //立即支付
       payNowFun(){
@@ -210,12 +182,10 @@
         }else {
           this.isLogin();
         }
-
       },
       //获取用户的乾币数量
       getUserCoin(){
         this.$store.dispatch('GET_USER_PAY', {qbnum: 0}).then((res) => {
-          console.log(res, 'hahaha');
           this.userCoins = res.data;
         })
       },
@@ -229,54 +199,29 @@
           this.args.chargeContent = res.data.chargeContent
           this.args.chargeNumber = res.data.chargeNumber
           this.args.cover = res.data.cover
-          console.log(this.caseDetailArgs, '呵呵呵');
-              if (this.caseDetailArgs.classify === 1) {
-                this.caseDetailArgs.classify = '口腔外科'
-              } else if (this.caseDetailArgs.classify === 2) {
-                this.caseDetailArgs.classify = '口腔内科'
-              } else if (this.caseDetailArgs.classify === 3) {
-                this.caseDetailArgs.classify = '口腔修复'
-              } else if (this.caseDetailArgs.classify === 4) {
-                this.caseDetailArgs.classify = '口腔种植'
-              } else if (this.caseDetailArgs.classify === 5) {
-                this.caseDetailArgs.classify = '口腔正畸'
-              }
-              this.time(this.caseDetailArgs);
+          if (this.caseDetailArgs.classify === 1) {
+            this.caseDetailArgs.classify = '口腔外科'
+          } else if (this.caseDetailArgs.classify === 2) {
+            this.caseDetailArgs.classify = '口腔内科'
+          } else if (this.caseDetailArgs.classify === 3) {
+            this.caseDetailArgs.classify = '口腔修复'
+          } else if (this.caseDetailArgs.classify === 4) {
+            this.caseDetailArgs.classify = '口腔种植'
+          } else if (this.caseDetailArgs.classify === 5) {
+            this.caseDetailArgs.classify = '口腔正畸'
+          }
+          this.time(this.caseDetailArgs);
         })
       },
       time(item){
-        if (this.timeStamp - item.postTime < 3600000) {
-          item.postTime = Math.ceil((this.timeStamp - item.postTime) / 1000 / 60) + '分钟前';
-        } else if (this.timeStamp - item.postTime >= 3600000 && this.timeStamp - item.postTime < 86400000) {
-          item.postTime = Math.floor((this.timeStamp - item.postTime) / 1000 / 60 / 60) + '小时前';
-        } else {
-          item.postTime = Util.formatDate.format(new Date(item.postTime),'yyyy-MM-dd hh:mm').substring(0);
-        }
-        // if(item){
-        //   switch (true){
-        //     //几分钟前
-        //     case this.timeStamp - item.postTime < 3600000:
-        //       //console.log(this.timeStamp - item.postTime)
-        //       item.postTime = Math.ceil((this.timeStamp - item.postTime) / 1000 / 60) + '分钟前';
-        //       break;
-        //     //几小时前
-        //     case this.timeStamp - item.postTime >= 3600000 && this.timeStamp - item.postTime < 86400000:
-        //     //console.log(this.timeStamp - item.postTime)
-        //       item.postTime = Math.floor((this.timeStamp - item.postTime) / 1000 / 60 / 60) + '小时前';
-        //       break;
-        //     //日期
-        //     case this.timeStamp - item.postTime >= 86400000:
-        //       item.postTime = Util.formatDate.format(new Date(item.postTime),'yyyy-MM-dd hh:mm').substring(2);
-        //       break;
-        //   }
-        // }
+        item.postTime = Util.formatDate.format(new Date(item.postTime),'yyyy-MM-dd hh:mm').substring(0);
       },
       releaseCase(type){
         if(type){
           MessageBox.confirm('以当前状态直接发布？').then(action => {
             this.$store.dispatch('UPLOAD_CASE',this.args).then(res => {
               this.$router.push('/caseOfIllness');
-              this.$destroy();
+              // this.$destroy();
             })
           }).catch(reject =>{
 
@@ -286,7 +231,8 @@
         }
       },
       back (){
-        this.$router.go(-1);
+        this.$router.push({path: '/caseOfIllness'})
+        // this.$router.go(-1);
       },
       //子组件返回按钮
       backChild(){

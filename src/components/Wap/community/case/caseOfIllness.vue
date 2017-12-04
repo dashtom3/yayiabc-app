@@ -1,14 +1,12 @@
 <template>
 <div ref="scrollBox" class="wrap loading">
-    <mt-loadmore :top-method="loadMore" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState">
-      <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
-
-    <div  class="scrollBox" v-infinite-scroll="getCaseListMore" infinite-scroll-immediate-check="true">
-
-      <div v-if="listCaseData != null" @click="goCaseDetailed(item)" v-for="(item, index) in listCaseData" class="caseBox">
+  <mt-loadmore :top-method="loadMore" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState">
+    <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
+    <div v-if="listCaseData != null" class="scrollBox" v-infinite-scroll="getCaseListMore" infinite-scroll-immediate-check="true">
+      <div @click="goCaseDetailed(item)" v-for="(item, index) in listCaseData" class="caseBox" :key="index">
         <div class="userBox " :class="{'addChange1': item.cover !== ''}">
           <div class="userPicture">
-            <img :src="item.printUrl ? item.printUrl : require('../../../../images/case/hPic.png')" alt="">
+            <img :src="item.user != undefined ? item.user.userPic : require('../../../../images/case/hPic.png')" alt="">
             <span class="userName">{{item.writer}}</span>
             <span class="userName userTime">{{item.postTime}}</span>
           </div>
@@ -19,7 +17,6 @@
         <div v-if="item.cover !== ''" class="userImgBox" :class="{'addChange2': item.cover !== ''}">
           <img :src="item.cover" alt="">
         </div>
-
         <div class="readeBox">
           <span class="readeClass">{{item.classify}}</span>
           <span class="readeNum">{{item.readNumber==null?0: item.readNumber}} 阅读</span>
@@ -29,15 +26,13 @@
         </div>
       </div>
     </div>
-    </mt-loadmore>
-    <!--编辑按钮-->
-    <div class="edit" @click="gotoPage('/newCase')" v-if="showNewCase">
-      <img src="../../../../images/case/caseOfIllness/editer.png" alt="">
-    </div>
-    <!--编辑按钮-->
-
+  </mt-loadmore>
+  <!--编辑按钮-->
+  <div class="edit" @click="gotoPage('/newCase')" v-if="showNewCase">
+    <img src="../../../../images/case/caseOfIllness/editer.png" alt="">
+  </div>
+  <!--编辑按钮-->
 </div>
-
 </template>
 
 <script>
@@ -90,7 +85,7 @@
 //        }
       }
     },
-    created (){
+    created() {
       this.getCaseList();
       this.timeStamp = Date.parse(new Date());
       if(this.$router.history.current.name === 'caseOfIllnessSearch'){
@@ -108,17 +103,14 @@
     watch: {
       saveCaseDressing: function (newVal, oldVal) {
         this.dressing(this.saveCaseDressing);
-        console.log(this.saveCaseDressing);
         this.$refs.scrollBox.scrollTop = 0;
       },
       saveCaseOrder: function (newVal, oldVal) {
         this.dressingFunction(this.saveCaseOrder);
-        console.log(this.saveCaseOrder);
         this.$refs.scrollBox.scrollTop = 0;
       },
       saveCaseSearching:function () {
         this.searching(this.saveCaseSearching);
-        console.log(this.saveCaseSearching);
         this.$refs.scrollBox.scrollTop = 0;
       }
     },
@@ -126,20 +118,27 @@
       //时间计算
       time(res,rs){
         res.forEach(item => {
-          switch (true){
-            //几分钟前
-            case this.timeStamp - item.postTime < 3600000:
-              item.postTime = Math.ceil((this.timeStamp - item.postTime) / 1000 / 60) + '分钟前';
-              break;
-              //几小时前
-            case this.timeStamp - item.postTime >= 3600000 && this.timeStamp - item.postTime < 86400000:
-              item.postTime = Math.floor((this.timeStamp - item.postTime) / 1000 / 60 / 60) + '小时前';
-              break;
-              //日期
-            case this.timeStamp - item.postTime >= 86400000:
-              item.postTime = Util.formatDate.format(new Date(item.postTime),'yy.MM.dd hh:mm').substring(2);
-              break;
+          if (this.timeStamp - item.postTime < 3600000) {                                                        //几分钟前
+            item.postTime = Math.ceil((this.timeStamp - item.postTime) / 1000 / 60) + '分钟前';
+          } else if (this.timeStamp - item.postTime >= 3600000 && this.timeStamp - item.postTime < 86400000) {   //几小时前
+            item.postTime = Math.floor((this.timeStamp - item.postTime) / 1000 / 60 / 60) + '小时前';
+          } else {
+            item.postTime = Util.formatDate.format(new Date(item.postTime),'yyyy-MM-dd').substring(0);      //日期
           }
+          // switch (true){
+          //   //几分钟前
+          //   case this.timeStamp - item.postTime < 3600000:
+          //     item.postTime = Math.ceil((this.timeStamp - item.postTime) / 1000 / 60) + '分钟前';
+          //     break;
+          //     //几小时前
+          //   case this.timeStamp - item.postTime >= 3600000 && this.timeStamp - item.postTime < 86400000:
+          //     item.postTime = Math.floor((this.timeStamp - item.postTime) / 1000 / 60 / 60) + '小时前';
+          //     break;
+          //     //日期
+          //   case this.timeStamp - item.postTime >= 86400000:
+          //     item.postTime = Util.formatDate.format(new Date(item.postTime),'yy.MM.dd hh:mm').substring(2);
+          //     break;
+          // }
         });
       },
       ...mapMutations({
@@ -158,13 +157,11 @@
           return
         }
         else {
-          console.log(this.caseListArgs.currentPage);
           this.caseListArgs.currentPage = Number(this.caseListArgs.currentPage) + 1;
           this.getCaseList();
         }
       },
       getCaseList (more){
-        console.log(this.$router.history.current.name,'aa');
         if(this.$router.history.current.name === 'caseOfIllnessSearch'){
           this.$store.dispatch('SEARCH_CASE_LIST', this.caseSearchArgs).then( (res) => {
             if(res.data){
@@ -239,7 +236,6 @@
       },
       //mt中接受的val值作为参数传入我的组件里
       isState(val){
-        console.log(val)
         this.$refs.topLoadMore.states(val)
       },
       //把下拉刷新完成之后回调的mt的方法传入我的组件里
@@ -277,7 +273,7 @@
       gotoPage(page){
         if(!tokenMethods.getWapToken()){
           MessageBox.confirm('请先登录!').then(action => {
-            this.$router.push({path: '/logIn', query: {backName: '/yayiCircle'}});
+            this.$router.push({path: '/logIn', query: {backName: '/caseOfIllness'}});
           })
           return
         }

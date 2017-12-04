@@ -415,7 +415,7 @@
       goCar(){
 //        this.keepAlived = true;
 //        this.$emit('child-keepAlive',this.keepAlived);
-        this.$router.push({path: '/shoppingCarEntry'});
+        this.$router.push({path: '/shoppingCarEntry', query: {backName: '/productList'}});
       },
       changeOrder(index) {
         this.args.currentPage = 1;

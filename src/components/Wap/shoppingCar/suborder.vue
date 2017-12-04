@@ -292,7 +292,6 @@
       this.initInvoice();
       var that = this
       var arr = JSON.parse(window.sessionStorage.getItem('suborderData'))
-      // console.log(arr,'array')
       that.fromGwc = arr
       that.orderItem = arr.details
       that.gwcTotal = arr.allMoney

@@ -44,9 +44,7 @@
             </div>
             <div style="clear: both"></div>
           </div>
-
-
-          <div v-for="(item, index) in commentChild.comment.subCommentList" class="comments commentBox2">
+          <div v-for="(item, index) in commentChild.comment.subCommentList" class="comments commentBox2" :key="index">
             <div class="headReadPicBox">
               <img src="../../../../images/case/caseOfIllness/4.jpg" alt="">
             </div>
@@ -56,59 +54,38 @@
                   <div class="userRightName">{{item.userName}}</div>
                   <div class="rightTime">{{item.commentTime}}</div>
                 </div>
-
                 <div class="likeBox">
-
-
                   <div v-if="item.userId != myUserId" @click="write('two',item.userName)" class="replyBox">
                   <span class="commentImgBox2">
                     <img src="../../../../images/case/caseOfIllness/comment.png" alt="">
                   </span>
                   <span>回复</span>
                   </div>
-
-
                   <div @click="like('two',index, item.commentId)" class="likeBox">
                   <span class="commentImgBoxs">
                    <img :src="item.isZan == 1? require('../../../../images/case/iszan.png'):require('../../../../images/case/caseOfIllness/like.png')" alt="">
                   </span>
                   <span>{{item.zan}}</span>
                   </div>
-
-
-
-
                   <div @click="_delete('two',item.commentId, index)" v-if="item.userId == myUserId" class="likeBox">
                   <span class="commentImgBox2">
                     <img src="../../../../images/case/caseOfIllness/delete.png" alt="">
                   </span>
                     <span>删除</span>
                   </div>
-
                 </div>
               </div>
-
-
               <div class="commentContent">
                 回复&nbsp;<span class="fontColor">{{item.replyUserName}}</span>:&nbsp;{{item.commentContent}}
               </div>
-
-
             </div>
             <div style="clear: both"></div>
           </div>
-
-
           <div class="e ndFonts">-End-</div>
         </div>
-
-
-
       </div>
       <!--二级评论结束-->
-
-
-<!--一级评论-->
+      <!--一级评论-->
       <!--<div :class="{'changeHeight':commentChild.switchShow == true}" class="commentBoxOnce">-->
       <div v-show="!commentChild.switchShow" class="commentBoxOnce">
       <div  id="allCount" class="allCount ">
@@ -123,21 +100,16 @@
             <span>暂无评论,&nbsp;&nbsp;快来<span class="knock">抢沙发</span>吧~</span>
           </div>
         </div>
-
-
-
-      <div v-for="(item, index) in detailedCommentArgs.data" class="comments">
+      <div v-for="(item, index) in detailedCommentArgs.data" class="comments" :key="index">
         <div class="headReadPicBox">
           <img src="../../../../images/case/caseOfIllness/4.jpg" alt="">
         </div>
-
         <div class="commentsRightBox">
           <div class="clearFix">
             <div class="nameWrap">
               <div class="userRightName">{{item.userName}}</div>
               <div class="rightTime">{{item.commentTime}}</div>
             </div>
-
             <div class="likeBox">
               <div v-if="item.userId != myUserId" @click="write('three','',index)" class="likeBox">
                   <span class="commentImgBox2">
@@ -145,16 +117,12 @@
                   </span>
               <span>回复</span>
                </div>
-
-
               <div @click="_delete('one',item.commentId, index)" v-if="item.userId == myUserId" class="likeBox">
                   <span class="commentImgBox2">
                     <img src="../../../../images/case/caseOfIllness/delete.png" alt="">
                   </span>
                 <span>删除</span>
               </div>
-
-
               <div @click="like('one', index, item.commentId)" class="likeBox">
               <span class="commentImgBoxs">
                     <img :src="item.isZan == 1? require('../../../../images/case/iszan.png'):require('../../../../images/case/caseOfIllness/like.png')" alt="">
@@ -164,24 +132,15 @@
               </div>
             </div>
           </div>
-
           <div class="commentContent">
             {{item.commentContent}}
           </div>
-
           <div @click="childComment(index)" v-if="item.subCommentList.length != 0" class="conmentsBox">{{item.subCommentList[0].replyUserName}}<span v-if="item.subCommentList.length != 1">等人</span>共{{item.subCommentList.length}}条回复&nbsp;></div>
         </div>
         <div style="clear: both"></div>
       </div>
-        <div v-if="detailedCommentArgs.data.length != 0" class="endFonts">-End-</div>
-
-
-      </div>
-
-
-        <doComment class="doComment" v-if="isComment" :args="commentInfo" v-on:commentRes="isCommentRes" v-on:cancelComment="escBtn"></doComment>
-
-
+      <div v-if="detailedCommentArgs.data.length != 0" class="endFonts">-End-</div></div>
+      <doComment class="doComment" v-if="isComment" :args="commentInfo" v-on:commentRes="isCommentRes" v-on:cancelComment="escBtn"></doComment>
       <!--下部导航栏-->
       <div v-show="writeSwitch"  class="tabDevBox">
         <div>  <!--开关-->
@@ -193,7 +152,6 @@
               <span>有想法就写下来吧&nbsp;.&nbsp;.&nbsp;.</span>
             </div>
           </div>
-
           <div class="tabDev">
             <div @click="comment()" class="tabButtonBox">
               <div>
@@ -222,8 +180,6 @@
           </div>
         </div>
       </div>
-
-
       <share v-if="isShareShow" v-on:cancelShare="isShareShow = false" :shareData="shareData"></share>
     </div>
 </template>
@@ -234,7 +190,6 @@
   import { MessageBox,Toast } from 'mint-ui';
   import share from '../../index/share.vue';
   import Util from '../../../../vuex/util';
-
 
   export default {
     props:{
@@ -279,7 +234,6 @@
     },
     created(){
       [this.detailedCommentParameter.beCommentedId, this.deleteArgs.beCommentedId] = [this.$route.query.id, this.$route.query.id];
-
       this.getCaseComment();
     },
     methods:{
@@ -305,7 +259,6 @@
           }else { //two 二级评论
             this.deleteArgs.parentId = this.commentIndex;
             this.deleteArgs.presentId = commentId;
-
             this.$store.dispatch('DELETE_COMMENT', this.deleteArgs).then( (res)=>{
               console.log(res);
               if(res.callStatus === "SUCCEED")
@@ -317,13 +270,11 @@
                 Toast({message: '删除失败', duration: 1500});
               }
             });
-
           }
         }else {
           this.isLogin();
         }
       },
-
       //隐藏二级评论
       backChild(){
         this.commentChild.switchShow = false;
@@ -334,7 +285,6 @@
         if(this.pointLogin())
         {
           this.$store.dispatch("SAVE_M_COLLECT", {viId : this.$route.query.id}).then((res)=>{
-            console.log(res);
             if(res.callStatus === "SUCCEED")
             {
               Toast({message: '收藏成功', duration: 1500});
@@ -427,8 +377,6 @@
                 Toast({message: '请求失败', duration: 1500});
               }
             });
-
-
           }
         }else {
           this.isLogin();
@@ -472,25 +420,14 @@
         console.log(res,'结果');
         this.isComment = false;
         window.scroll(0,this.containerScrollTop);
-
         if(res.replyUserId)
         { //二级评论
-
-
-
           this.detailedCommentArgs.data[this.commentIndex]['subCommentList'].unshift(res);
-
-          console.log(this.detailedCommentArgs.data[this.commentIndex], '哈哈哈哈');
-
-          console.log(res,'二级评论');
-
         }else {
           //一级评论
           res.subCommentList = [];
           this.detailedCommentArgs.data.unshift(res);
         }
-
-
       },
       write(type, name, index){
         name = name || '';
@@ -534,7 +471,6 @@
               userName: name,
               parentId: this.commentChild.comment.commentId
             };
-            console.log(this.commentInfo, 'hehe');
           }
         }else {
           this.isLogin();
@@ -546,7 +482,6 @@
         this.$store.dispatch('GET_CASE_COMMENT', this.detailedCommentParameter).then((res) => {
           this.detailedCommentArgs = res;
           this.time(this.detailedCommentArgs.data);
-          console.log(this.detailedCommentArgs.data, '是是是');
         })
       },
       //子组件 跳转二级评论
@@ -555,9 +490,7 @@
         this.commentChild.comment = this.detailedCommentArgs.data[index];
         this.commentChild.switchShow = true;
       },
-
       time(res){
-
         if(res)
         {
           res.forEach(item => {
@@ -579,14 +512,8 @@
             }
           });
         }else {
-
         }
-
-
-
       },
-
-
       //判断是否登录
       pointLogin(){
         let userToken = tokenMethods.getWapToken();
@@ -595,7 +522,7 @@
        //提示需要登录
       isLogin() {
         MessageBox.confirm('请先登录!').then(action => {
-          this.$router.push({path: '/logIn'})
+          this.$router.push({path: '/logIn', query: {backName: this.$route.fullPath}})
         }).catch(function (error) {
           return '';
         });
@@ -608,7 +535,6 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss" rel="stylesheet/scss">
     @import "../../../../common/sass/factory";
-
     .sofaText .knock{
       color: $themeColor;
     }
@@ -641,7 +567,6 @@
       background-color: #f4f4f4;
       z-index: 1000;
     }
-
     .userRightName{
       max-width: px2vw(250);
       font-size: px2vw(24);

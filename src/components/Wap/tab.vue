@@ -42,8 +42,6 @@
 </template>
 
 <script>
-
-
   // import Vue from 'vue'
   import index from './index/index'
   import classifyIndex from './classify/classifyIndex'
@@ -70,10 +68,6 @@
         bottomNav: 'index'
       }
     },
-
-    components: {
-    },
-
     //*******导航钩子*********//
     beforeRouteEnter (to, from, next) {
       // 通过 `vm` 访问组件实例
@@ -112,6 +106,7 @@
           that.isTouch3 = true;
           that.isTouch4 = false;
           that.isTouch5 = false;
+          that.bottomNav = 'caseOfIllness'
         } else if(that.$router.history.current.name == 'yayiCircle'){
           that.isActive1 = false;
           that.isActive2 = false;
@@ -123,6 +118,8 @@
           that.isTouch3 = false;
           that.isTouch4 = true;
           that.isTouch5 = false;
+          that.bottomNav = 'yayiCircle'
+          console.log('22222222222')
         } else if(that.$router.history.current.name == 'mine'){
           that.isActive1 = false;
           that.isActive2 = false;
@@ -137,16 +134,12 @@
         }
       })
     },
-
     created: function() {
       var that = this
-
     },
     methods: {
-
       handleChange (val) {
         var that = this
-        console.log(that.$router.history.current.name,'toobar',val)
         if (val == 'index') {
           that.changeActive1()
         } else if (val == 'classify') {
@@ -155,8 +148,7 @@
           that.changeActive3()
         } else if (val == 'yayiCircle') {
           that.changeActive4()
-        }
-        else if (val == 'mine') {
+        } else if (val == 'mine') {
           that.changeActive5()
         }
         that.bottomNav = val
@@ -167,11 +159,11 @@
           that.changeActive1()
         } else if (data == 'classify') {
           that.changeActive2()
-        }  else if (data == 'caseOfIllness') {
+        } else if (data == 'caseOfIllness') {
           that.changeActive3()
-        }  else if (data == 'yayiCircle') {
+        } else if (data == 'yayiCircle') {
           that.changeActive4()
-        }else if (data == 'mine') {
+        } else if (data == 'mine') {
           that.changeActive5()
         }
       },
@@ -277,7 +269,6 @@
 </style>
 <style scoped lang="scss" rel="stylesheet/scss">
 @import "../../common/sass/factory";
-
 .tab {
   width: 100vw;
   height: 100vh;

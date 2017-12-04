@@ -110,7 +110,6 @@
         that.alreadyLog = false;
       }
       that.gBack();
-      console.log(tokenMethods.getWapUser().certification,'aa')
     },
     components: {
       topLoadMore

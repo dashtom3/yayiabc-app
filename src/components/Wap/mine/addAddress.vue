@@ -31,7 +31,7 @@
           <!--<div class="checkBox2"></div>-->
         <!--</div>-->
         <input class="needsclick" v-model="addressData.isDefault" type="checkbox" id="selected"/>
-        <label class="label_a needsclick" for="selected"></label>
+        <label class="label_a needsclick"></label>
         <span class="cssColor needsclick">设为默认地址</span>
       </div>
     <!--地址栏结束-->
@@ -365,8 +365,8 @@
     margin-top: px2vw(-8);
     border-radius: 50%;
     border: px2vw(1) solid $themeColor;
-    width: px2vw(31);
-    height: px2vw(31);
+    width: px2vw(32);
+    height: px2vw(32);
     background-color: white;
   }
   #selected:checked+.label_a{
@@ -424,7 +424,7 @@
 
   .buttonDefaultBox {
     padding-bottom: px2vw(20);
-    padding-left: px2vw(16);
+    padding-left: px2vw(20);
   }
 
   .top_wrap {
