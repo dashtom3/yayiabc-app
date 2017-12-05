@@ -43,7 +43,7 @@
         </span>
         <span class="qb-style">
           <img src="../../../../images/order/qb2.png" class="img" height="100%">
-          <span class="text">{{qbDes[3] || 0}}</span>
+          <span class="text">{{qbDes[2] || 0}}</span>
         </span>
         <!-- <span class="qb-style">
           <img src="../../../../images/order/qb3.png" class="img" height="100%">

@@ -54,6 +54,7 @@ const collect = resolve => require(['@/components/Wap/mine/collect/collect'], re
 const datumDetail = resolve => require(['@/components/Wap/mine/collect/datumDetail'], resolve)
 const goodCollect = resolve => require(['@/components/Wap/mine/collect/goodCollect'], resolve)
 const datum = resolve => require(['@/components/Wap/mine/collect/datum'], resolve)
+const datumBase = resolve => require(['@/components/Wap/index/datumBase'], resolve)
 
 /*wx_user组件*/
 const User = resolve => require(['@/components/wx_user/user'], resolve)
@@ -233,11 +234,11 @@ let router = new Router({
       path: '/qrcode',
       component: QrCode
     },
-    // {
-    //   name: 'personalData',
-    //   path: '/personalData',
-    //   component: personalData
-    // },
+    {
+      name: 'datumBase',
+      path: '/datumBase',
+      component: datumBase
+    },
     {
       name: 'collect',
       path: '/collect',

@@ -1,22 +1,19 @@
 <template>
-    <div >
-
+    <div>
       <!--视频区域开始-->
       <div :class="{'fullScreen': full}" class="videoBox videoEl" >
         <!--<video poster="https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1510884409&di=1217e09e096bb11a78d1b585ff9b7b70&src=http://pic.baike.soso.com/p/20140619/20140619113120-670398887.jpg" webkit-playsinline="true" playsinline="true" class="video">-->
-
           <!--<slot name="sourceSrc"></slot>-->
-
           <!--<p>设备不支持</p>-->
         <!--</video>-->
-
         <slot name="video">
           <slot name="sourceSrc"></slot>
           <p>设备不支持</p>
         </slot>
-
+        <div class="video-mask">
+          <h2 class="video-title">{{ title }}</h2>
+        </div>
         <img v-show="videos.centerPlayImg" class="vplay" src="../../../../images/video/play.png"/>
-
         <transition name="fade">
           <!--视频控制条开始-->
           <div v-show="videos.controlShow" class="controls">
@@ -26,7 +23,6 @@
             <span>
               {{videos.currPlayTime}}
             </span>
-
             <!--进度条-->
             <div class="progressBox">
             <span class="progress">
@@ -49,8 +45,6 @@
         <!--视频控制条结束-->
       </div>
       <!--视频区域结束-->
-
-
     </div>
 </template>
 
@@ -58,6 +52,10 @@
   export default {
     props:{
       isVideo:{
+        type: String,
+        default: ''
+      },
+      title: {
         type: String,
         default: ''
       }
@@ -90,16 +88,12 @@
       let playImgBox = this.$el.querySelector('.playImgBox'); //控件左下角的播放按钮
       let vplay = this.$el.querySelector('.vplay'); //中间的播放按钮
       let videoElWith = this.$el.querySelector('.videoEl').offsetLeft; //最外边边框宽度
-
 //      let backgroundEl = this.$el.querySelector('.backgroundEl'); //封面背景
 //      console.log(video.getAttribute("posterSrc"));
 //      let poster = video.getAttribute("posterSrc");
 //      backgroundEl.style.backgroundImage="url("+ poster + ")"; //设置封面
 //      backgroundEl.style.backgroundSize="100% 100%"; //设置封面
-
-
       video.controls=false; //隐藏原有控件
-
       //控件左下角的播放按钮
       playImgBox.addEventListener('click',function () {
         if(video.paused) {
@@ -113,7 +107,6 @@
           timerFuc();
         }
       },false);
-
       //中间的播放按钮
       vplay.addEventListener('click',function () {
         video.play();
@@ -121,7 +114,6 @@
         _this.videos.centerPlayImg = false;
         timerFuc();
       },false);
-
       video.addEventListener('click', function () {
         _this.videos.controlShow = !_this.videos.controlShow;
         if(_this.videos.controlShow)
@@ -129,16 +121,13 @@
           timerFuc();
         }
       },false);
-
       //计时隐藏控制条
       function timerFuc() {
         window.clearTimeout(timer);
         timer = window.setTimeout(function () {
-          console.log(1);
           _this.videos.controlShow = false;
         },4500)
       }
-
       video.oncanplay = function(){
         //显示视频总时长
         if(video.duration)
@@ -147,81 +136,60 @@
           _this.videos.allTime =  getFormatTime(time);
         }
       };
-
       //进度计算
       video.ontimeupdate = function(){
         let currTime = this.currentTime,    //当前播放时间
           duration = this.duration;       // 视频总时长
         //计算百分比
         let proPre = currTime / duration * 100 + "%";
-
         //显示进度条
         progress.style.width = proPre; //蓝线进度
         proCircle.style.left = proPre; //圆圈进度
-
         //显示当前播放进度时间
         _this.videos.currPlayTime = getFormatTime(currTime);
       };
-
-
       //拖动播放监听
       progressBox.addEventListener('touchmove',function (event) {
         if(event.targetTouches.length > 1 || event.scale && event.scale !== 1) return;
         let touch = event.targetTouches[0];
         event.preventDefault(); //阻止触摸事件的默认行为，即阻止滚屏
-
         if(_this.full)  //全屏的时候
         {
           //计算拖动距离
           let distance = touch.pageY - this.offsetLeft - videoElWith;
-
           let progressBoxWith = progressBox.offsetWidth;
-
           if(distance > progressBoxWith || distance < 0)
           {
             return;
           }
-
           timerFuc();
-
           //计算百分比
           let proPre = distance / progressBoxWith;
-
           //显示进度条
           progress.style.width = (proPre * 100) + '%'; //蓝线进度
           proCircle.style.left = (proPre * 100) + '%'; //圆圈进度
-
           let duration = video.duration;
           //改变播放时间
           video.currentTime = (distance / progressBoxWith) * duration;
         }else {
-
           //计算拖动距离
           let distance = touch.pageX - this.offsetLeft - videoElWith;
-
           let progressBoxWith = progressBox.offsetWidth;
-
           if(distance > progressBoxWith || distance < 0)
           {
             return;
           }
-
           timerFuc();
-
           //计算百分比
           let proPre = distance / progressBoxWith;
-
           //显示进度条
           progress.style.width = (proPre * 100) + '%'; //蓝线进度
           proCircle.style.left = (proPre * 100) + '%'; //圆圈进度
-
           let duration = video.duration;
           //改变播放时间
           video.currentTime = (distance / progressBoxWith) * duration;
         }
-
       });
-
       //监听手机旋转
 //      let evt = "onorientationchange" in window ? "orientationchange" : "resize";
 //      function resize(fals) {
@@ -236,21 +204,16 @@
 //          Screen.style.left = 0;
 //        }
 //      }
-
       let Screen = _this.$el.querySelector('.videoEl'); //最外边边框
       let container = document.getElementsByClassName('container')[0]
       let cc = document.getElementsByClassName('mu-paper')[0]
-
       let W = Screen.offsetWidth;  //视频的宽
       let H = Screen.offsetHeight; //视频的高
-
       // 全屏按钮 ~~~~~~~
       expand.addEventListener('click',function () {
-
         let conW = window.screen.width ;  //屏幕的宽
         let conH = window.screen.height  ; //屏幕的高
         _this.full = !_this.full;
-
         if(_this.isVideo === "video") //视频列表
         {
           if(_this.full)  //全屏的时候
@@ -294,16 +257,13 @@
             plus.navigator.setFullscreen(false);
           }
         }
-
 //        if(_this.full)  //添加手机监听旋转事件
 //        {
 //          window.addEventListener(evt,resize,false);
 //        }else {
 //          window.removeEventListener(evt,resize);
 //      }
-
       },false);
-
 //      progressBox.addEventListener('touchmove',function (event) {
 //        if(event.targetTouches.length > 1 || event.scale && event.scale !== 1) return;
 //        let touch = event.targetTouches[0].target;
@@ -361,7 +321,23 @@
 
 
     .videoBox{
+      position: relative;
       background-color: black;
+    }
+    .video-mask{
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, .5);
+      color: #fff;
+    }
+    .video-mask h2{
+      margin: px2vw(29) 0 0 px2vw(19);
+      line-height: px2vw(34);
+      font-size: px2vw(36);
+      font-weight: normal;
     }
     video{
       object-fit: contain;
@@ -434,11 +410,12 @@
       line-height: 0;
       position: relative;
       width: 100%;
-      height: auto;
+      height: px2vw(424);
     }
     .videoBox .vplay{
       position: absolute;
-      width: 15%;
+      width: px2vw(70);
+      height: px2vw(70);
       z-index: 999;
       top: 50%;
       left: 50%;

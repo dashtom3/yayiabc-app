@@ -12,12 +12,11 @@
         </span>
       </div>
       <div class="classBox">
-          <span @click="changeClass(index)" :class="{'changeColor': change == index}"  v-for="(item, index) in classArgs" :key="index">
-            {{item}}
-            <div :class="{'changeBorder': change == index}"></div>
-          </span>
+        <span @click="changeClass(index)" :class="{'changeColor': change == index}"  v-for="(item, index) in classArgs" :key="index">
+          {{item}}
+          <div :class="{'changeBorder': change == index}"></div>
+        </span>
       </div>
-
       <div class="container">
         <mt-loadmore  :top-method="loadMore" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState">
           <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
@@ -26,8 +25,8 @@
             <div class="userBox " :class="{'addChange1': item.cover}" >
               <div class="userPicture">
                 <img v-if="change == 2" :src=" item.printUrl == null? require('../../../../images/mine/zhifubao.png') : item.printUrl" alt="">
-                <span class="userName" :class="{'userWrite': change != 2}">{{item.writer}}</span>
-                <span class="userName userTime">{{item.postTime}}</span>
+                <span v-if="change == 2" class="userName" :class="{'userWrite': change != 2}">{{item.writer}}</span>
+                <span class="userName userTime"><span v-if="change != 2">更新于</span>{{item.postTime}}</span>
               </div>
               <div class="caseContent">
                 {{item.headline}}
@@ -188,7 +187,7 @@
                 break;
               //日期
               case this.timeStamp - item.postTime >= 86400000:
-                item.postTime = Util.formatDate.format(new Date(item.postTime),'yy.MM.dd hh:mm').substring(2);
+                item.postTime = Util.formatDate.format(new Date(item.postTime),'yyyy-MM-dd hh:mm').substring(4);
                 break;
             }
           });
@@ -382,6 +381,7 @@
       position: fixed;
       height: px2vw(88);
       top:0;
+      left: 0;
       width: 100vw;
       background-color: $themeColor;
       text-align: center;

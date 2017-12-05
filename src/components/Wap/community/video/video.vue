@@ -15,7 +15,7 @@
           <div class="boxBox">
             <!--这里放视频-->
             <div class="videoBox">
-              <video-play :isVideo="typeVideo" v-if="videoSwitch">
+              <video-play :isVideo="typeVideo" v-if="videoSwitch" :title="item.vidName">
                 <!--<video  src=""  controls="" x5-playsinline="" playsinline="" webkit-playsinline="" poster="" preload="auto"></video>-->
                 <!--posterSrc:视频封面地址  slot必须带class="video"-->
                 <video  webkit-playsinline :src="item.vidRoute" :poster="item.vedioPic"  slot="video"  class="video">
@@ -30,14 +30,18 @@
                 <img class="prcImg" src="../../../../images/video/prc.png" alt="">
                 <span>{{item.vidName}}</span>
               </span>
-              <span @click="toVideo(item.viId)" class="commentBox">
-                <img class="commentImg" src="../../../../images/video/comment.png" alt="">
-                <span>{{item.vedioCommentNumber}}</span>
-              </span>
-              <span @click="collect(item.viId, item.isStar, index)" class="collectionBox">
-                <img class="collectionImg" src="../../../../images/video/collection.png" alt="">
-                <span>{{item.starNumber == null? 0:item.starNumber }}</span>
-              </span>
+              <div class="bottom-right">
+                <span @click="toVideo(item.viId)" class="commentBox">
+                  <img class="commentImg" src="../../../../images/video/comment.png" alt="">
+                  <span class="commentNum">{{item.vedioCommentNumber}}</span>
+                  <!-- <span class="commentNum">806</span> -->
+                </span>
+                <span @click="collect(item.viId, item.isStar, index)" class="collectionBox">
+                  <img class="collectionImg" src="../../../../images/video/collection.png" alt="">
+                  <!-- <span>{{item.starNumber == null? 0:item.starNumber }}</span> -->
+                  <span class="collection-text">{{ item.isStar == 1 ? '已收藏' : '收藏' }}</span>
+                </span>
+              </div>
             </div>
             <!--底部结束-->
           </div>
@@ -78,7 +82,7 @@
           numberPerPage:10
         },
         isShow: false,
-        videoArgs:[]
+        videoArgs:[],
       }
     },
     computed: {
@@ -180,8 +184,6 @@
           this.videoArgs = res.data;
           this.videoArgs['totalPage'] = res.totalPage;
           this.videoArgs['currentPage'] = res.currentPage;
-          console.log(res, '时间');
-
           this.videoArgs = this.videoArgs.filter((item) =>{
             if(item.vidRoute.substr(0,4) === "http")
             {
@@ -193,7 +195,6 @@
           this.isLoaded();
         });
       },
-
       //无限滚动
       getCaseListMore (){
         this.videoListArgs.currentPage++;
@@ -205,11 +206,7 @@
           return
         }
         else {
-          console.log(this.videoListArgs, this.videoListArgs.currentPage,'canshu');
-
           this.$store.dispatch('GET_VIDEO_LIST', this.videoListArgs).then((res) => {
-
-
             let datas = res.data.filter((item) =>{
               if(item.vidRoute.substr(0,4) === "http")
               {
@@ -218,16 +215,9 @@
                 return false;
               }
             });
-            console.log(datas, '呵呵呵');
-
             this.videoArgs = this.videoArgs.concat(datas);
             this.videoArgs['totalPage'] = res.totalPage;
             this.videoArgs['currentPage'] = res.currentPage;
-
-
-
-
-
           });
         }
       },
@@ -269,79 +259,98 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss" rel="stylesheet/scss">
-    @import "../../../../common/sass/factory";
-
-    .noneVideo{
-      z-index: 9999;
-      position: fixed;
-      top: 43%;
-      left: 50%;
-      transform: translate(-50%,0);
-      font-size: px2vw(30);
-      color: #666666;
-      text-align: center;
-    }
-    .noneV img{
-      width: px2vw(150);
-      height: px2vw(149);
-    }
-  .videoWrap{
-    width: 100%;
-    padding-left: px2vw(20);
-    padding-top: px2vw(25);
-    padding-right: px2vw(20);
-
-  }
-  .videoWrap:nth-child(1){
-    padding-top: 0 !important;
-  }
-  .videoBox{
-    width: 100%;
-  }
-  .boxBox{
-    box-shadow: 0 px2vw(0) px2vw(10) gray;
-    background-color: white;
-    border-radius: px2vw(8);
-    overflow: hidden;
-  }
-  .bottomBox{
-    line-height: px2vw(94);
-    height: px2vw(94);
-    border-top:px2vw(1) solid #cccccc ;
-  }
-  .prcImg{
-    width: px2vw(32);
-    height: px2vw(32);
-  }
-  .collectionImg{
-    width: px2vw(32);
-    height: px2vw(30);
-  }
-  .commentImg{
-    width: px2vw(32);
-    height: px2vw(29);
-  }
-
-  .bottomBox>span img,.bottomBox>span>span{
-    vertical-align: middle;
-  }
-  .bottomBox>span{
-    display: inline-block;
-    height: 100%;
-  }
-  .nameBox{
-    color: $themeColor;
-    margin-left: px2vw(28);
-  }
-  .collectionBox{
-    float: right;
-    padding-right: px2vw(13);
-  }
-  .commentBox{
-    float: right;
-    margin-right: px2vw(10);
-    padding-right: px2vw(20);
-    padding-left: px2vw(14);
-  }
+@import "../../../../common/sass/factory";
+.noneVideo{
+  z-index: 9999;
+  position: fixed;
+  top: 43%;
+  left: 50%;
+  transform: translate(-50%,0);
+  font-size: px2vw(30);
+  color: #666666;
+  text-align: center;
+}
+.noneV img{
+  width: px2vw(150);
+  height: px2vw(149);
+}
+.videoWrap{
+  width: 100%;
+}
+.videoWrap:nth-child(1){
+  padding-top: 0 !important;
+}
+.videoBox{
+  width: 100%;
+  overflow: hidden;
+}
+.videoBox video{
+  height: px2vw(424);
+}
+.boxBox{
+  box-shadow: 0 px2vw(0) px2vw(10) gray;
+  background-color: white;
+  overflow: hidden;
+}
+.bottomBox{
+  position: relative;
+  line-height: px2vw(88);
+  height: px2vw(88);
+  border-top:px2vw(1) solid #cccccc ;
+}
+.bottom-right{
+  position: absolute;
+  top: 0;
+  right: px2vw(21);
+  line-height: px2vw(88);
+  height: px2vw(88);
+}
+.prcImg{
+  width: px2vw(32);
+  height: px2vw(32);
+}
+.collectionImg{
+  width: px2vw(32);
+  height: px2vw(30);
+}
+.collection-text{
+  display: inline-block;
+  width: px2vw(78);
+  margin-left: px2vw(10);
+  font-size: px2vw(26);
+}
+.commentImg{
+  width: px2vw(32);
+  height: px2vw(29);
+}
+.commentNum{
+  display: inline-block;
+  margin-left: px2vw(9);
+  font-size: px2vw(30);
+}
+.bottom-right>span img,.bottom-right>span>span{
+  vertical-align: middle;
+}
+.bottomBox>span{
+  display: inline-block;
+  height: 100%;
+}
+.nameBox{
+  color: $themeColor;
+  margin-left: px2vw(20);
+}
+.collectionBox{
+  float: right;
+  line-height: px2vw(88);
+  height: px2vw(88);
+  margin-right: px2vw(10);
+  font-size: px2vw(0);
+}
+.commentBox{
+  float: right;
+  height: px2vw(88);
+  line-height: px2vw(88);
+  font-size: 0;
+}
 </style>
 
