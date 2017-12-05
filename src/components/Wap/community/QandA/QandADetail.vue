@@ -58,7 +58,8 @@
         </div>
       </div>
     </div>
-    <div class="answerBtn" v-if="showAnswerBtn">我要回答</div>
+    <div class="answerBtn" v-if="showAnswerBtn" @click="isCommenting">我要回答</div>
+    <doComment v-if="isComment" :args="commentInfo" v-on:commentRes="isCommentRes" v-on:cancelComment="isComment = false"></doComment>
   </div>
 </template>
 
@@ -67,6 +68,7 @@
   import { InfiniteScroll} from 'mint-ui';
   import Util from '../../../../vuex/util'
   import { tokenMethods } from '../../../../vuex/util'
+  import doComment from '../../index/doComment.vue'
 
   export default {
     data(){
@@ -85,6 +87,8 @@
         myUserId:tokenMethods.getWapUser() ? tokenMethods.getWapUser().userId:'',
         userIdList:[],
         showAnswerBtn:false,
+        isComment:false,
+        commentInfo:{},
       }
     },
     created(){
@@ -175,6 +179,16 @@
       goBack(){
         this.$router.go(-1);
         this.$destroy()
+      },
+      isCommenting(){
+//        this.isComment = true;
+        this.commentInfo = {
+          faqQuestionId : this.$route.query.faqQuestionId,
+          star : 1, //唯一标识
+        }
+      },
+      isCommentRes(res){
+
       },
       displayOrFold(){
         this.isDisplayOrFold = !this.isDisplayOrFold

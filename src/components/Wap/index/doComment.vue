@@ -12,7 +12,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {ADD_COMMENT} from '../../../vuex/types'
+  import {ADD_COMMENT, ADD_ANSWER} from '../../../vuex/types'
   import {Toast} from 'mint-ui'
 
   export default {
@@ -43,28 +43,52 @@
           Toast({message: '请输入内容！', duration: 1500});
           return
         }
-        let obj = {
-          type:this.args.type,
-          beCommentedId:this.args.id,
-          commentContent:this.commentContent,
-          parentId:this.args.parentId ? this.args.parentId : '',
-        }
-//        console.log(obj,'obj')
-        this.$store.dispatch(ADD_COMMENT, obj).then(res=>{
-          if(res.callStatus === 'SUCCEED'){
+        if(this.args.star === 1){
+          let obj = {
+            faqQuestionId : this.args.faqQuestionId,
+            faqAnswerContent : this.commentContent,
+          }
+          this.$store.dispatch(ADD_ANSWER, obj).then(res=>{
+            if(res.callStatus === 'SUCCEED'){
 //            console.log(res)
-            Toast({message: '发布成功！', duration: 1500});
-            let timer1=window.setTimeout(() => {
-              this.$emit('commentRes',res.data);
-              this.commentContent = ''
-              document.body.classList.remove('full-body-commentArea')
-              window.clearTimeout(timer1);
-            },350)
+              Toast({message: '发布成功！', duration: 1500});
+              let timer1=window.setTimeout(() => {
+                this.$emit('commentRes',res.data);
+                this.commentContent = ''
+                document.body.classList.remove('full-body-commentArea')
+                window.clearTimeout(timer1);
+              },350)
+            }
+            else {
+              Toast({message: '发布失败！请重试', duration: 1500});
+            }
+          })
+        }
+        else {
+          let obj = {
+            type:this.args.type,
+            beCommentedId:this.args.id,
+            commentContent:this.commentContent,
+            parentId:this.args.parentId ? this.args.parentId : '',
           }
-          else {
-            Toast({message: '发布失败！请重试', duration: 1500});
-          }
-        })
+//        console.log(obj,'obj')
+          this.$store.dispatch(ADD_COMMENT, obj).then(res=>{
+            if(res.callStatus === 'SUCCEED'){
+//            console.log(res)
+              Toast({message: '发布成功！', duration: 1500});
+              let timer1=window.setTimeout(() => {
+                this.$emit('commentRes',res.data);
+                this.commentContent = ''
+                document.body.classList.remove('full-body-commentArea')
+                window.clearTimeout(timer1);
+              },350)
+            }
+            else {
+              Toast({message: '发布失败！请重试', duration: 1500});
+            }
+          })
+        }
+
       },
       writeComment(){
 

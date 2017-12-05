@@ -187,7 +187,8 @@ export const FAQ_LIST = 'FAQ_LIST';                           //问答列表
 export const MY_QUESTION = 'MY_QUESTION';                     //我的问答列表
 export const MY_ANSWER = 'MY_ANSWER';                         //我的回答
 export const FAQ_DETAIL = 'FAQ_DETAIL';                       //问答详情
-export const ADD_QUESTION = 'ADD_QUESTION';                       //问答详情
+export const ADD_QUESTION = 'ADD_QUESTION';                       //发布问题
+export const ADD_ANSWER = 'ADD_ANSWER';                       //回答问题
 
 
 export const GET_PLAY_VIDEOS = 'GET_PLAY_VIDEOS';                         //视频播放

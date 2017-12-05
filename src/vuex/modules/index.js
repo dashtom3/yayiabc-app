@@ -1356,6 +1356,16 @@ const actions = {
       });
     });
   },
+  // 回答问题
+  [types.ADD_ANSWER](context, params) {
+    return new Promise((resolve, reject) => {
+      api.addAnswer(params).then((data) => {
+        resolve(data);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  },
   // 问答列表
   [types.FAQ_DETAIL](context, params) {
     return new Promise((resolve, reject) => {

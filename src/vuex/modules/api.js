@@ -362,6 +362,11 @@ export function addQuestion(params) {
   return getWithToken('/faq/addQuestion', params);
 }
 
+//回答问题
+export function addAnswer(params) {
+  return getWithToken('/faq/addAnswer', params);
+}
+
 //获取问答详情
 export function faqDetail(params) {
   return getWithToken('/faq/detail', params);
