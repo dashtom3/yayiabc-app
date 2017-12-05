@@ -123,7 +123,7 @@
           })
           return
         }
-        this.$router.push({path:'/infoList',query:{type:1}})
+        this.$router.push({path:'/infoIndex'})
       },
       togoVideo(){
         this.$router.push({path: '/communitySearch', query: {id: 23}});

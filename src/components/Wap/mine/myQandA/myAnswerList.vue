@@ -56,6 +56,7 @@
     },
     created(){
       this.timeStamp = Date.parse(new Date());
+      this.getAnswerList();
     },
     methods:{
       //下拉刷新

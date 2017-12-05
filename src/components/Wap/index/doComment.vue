@@ -1,11 +1,10 @@
 <template>
   <div>
-    <div class="holder"></div>
+    <div class="holder" @click.stop="cancelComment"></div>
     <div class="inputArea1">
       <textarea name="" id="" cols="30" rows="10" :placeholder="placeHolder" v-model="commentContent" @focus="writeComment" class="textArea"></textarea>
       <div class="buttons">
         <button @click="releaseComment">发表</button>
-        <br>
         <button @click="cancelComment">取消</button>
       </div>
     </div>
@@ -132,30 +131,36 @@
     background-color: #fff;
     .textArea{
       resize: none;
-      width: px2vw(600);
-      margin: 0 px2vw(10);
+      width: px2vw(710);
+      margin: px2vw(20) px2vw(20) 0;
       padding: px2vw(10);
       border-radius: px2vw(10);
-      height: px2vw(120);
-      max-height: px2vw(200);
+      height: px2vw(180);
     }
     .buttons{
-      float: right;
+      width: px2vw(710);
+      height: px2vw(80);
+      line-height: px2vw(80);
       z-index: 2120;
+      margin: 0 px2vw(20);
       button{
         width: px2vw(100);
         height: px2vw(50);
+        line-height: px2vw(50);
         margin: px2vw(10) 0 0;
         background-color: #fff;
         border-radius: px2vw(10);
+        font-size: px2vw(24);
       }
       button:nth-child(1){
+        float: right;
         border: 1px solid $themeColor;
         background-color: $themeColor;
         color: white;
       }
-      button:nth-child(3){
-        border: 1px solid #ddd;
+      button:nth-child(2){
+        float: left;
+        color: #999;
       }
     }
   }

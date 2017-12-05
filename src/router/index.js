@@ -256,7 +256,7 @@ let router = new Router({
         },
         {
           name: 'videoCollect',
-          path: '/collect/videocollect',
+          path: '/collect/videoCollect',
           component: video
         },
         {

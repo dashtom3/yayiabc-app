@@ -146,7 +146,7 @@
               this.isShow = true
             }
           })
-        } else if (this.$router.history.current.name === 'videocollect') {
+        } else if (this.$router.history.current.name === 'videoCollect') {
           this.$store.dispatch('COLLECT', this.caseSearchArgs).then( (res) => {
             this.videoArgs = this.videoArgs.concat(res.data);
             this.caseSearchArgs.totalPage = res.totalPage;

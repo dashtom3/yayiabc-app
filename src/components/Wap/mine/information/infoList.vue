@@ -7,7 +7,7 @@
     <div class="container">
       <div class="innerContainerWrap">
         <!--有内容-->
-        <div v-infinite-scroll="loadMore" infinite-scroll-immediate-check="true" class="innerContainer" v-if="list">
+        <div v-infinite-scroll="loadMore" infinite-scroll-immediate-check="true" class="innerContainer" v-if="list.length > 0">
           <div class="line" @click="goPage(item,key)" v-for="(item,key) in list"><!--v-for开始-->
             <span class="thisTitle">
               {{item.message}}
@@ -56,6 +56,7 @@
 
     },
     created(){
+      console.log(this.$router.history.current.name)
       switch (true){
         case this.$route.query.type === 1:
           this.list = JSON.parse(tokenMethods.getInfoList()) ? JSON.parse(tokenMethods.getInfoList()) : [];
@@ -72,6 +73,7 @@
         this.$destroy()
       },
       getTheList(){
+        this.isLoading =true;
         this.$store.dispatch(GET_INFO_DETAIL, this.args).then(res =>{
           console.log(res)
           if(res.data){
@@ -81,6 +83,7 @@
             this.args.currentPage = res.currentPage;
             this.totalPage = res.totalPage;
           }
+          this.isLoading = false;
         })
       },
       setList(val){
