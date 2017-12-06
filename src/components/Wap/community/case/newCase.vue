@@ -304,6 +304,7 @@
             return
           case this.args.classify == '' || this.args.classify < 0:
             Toast({message: '请选择一个分类', duration: 1500});
+            this.args.postStater = 2;
             return
           case this.args.chargeContent && !this.args.chargeNumber:
             Toast({message: '请输入价格', duration: 1500});
@@ -372,7 +373,6 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../../common/sass/factory";
-
   .header {
     position: fixed;
     top: 0;

@@ -330,6 +330,9 @@
        height: 100%;
      }
    }
+   .scrollBox{
+     min-height: px2vw(1052);
+   }
    .userImgBox>img{
      width: px2vw(160);
      height: px2vw(160);

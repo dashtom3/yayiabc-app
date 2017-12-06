@@ -31,7 +31,7 @@
       <mt-field @click.native="focus" label="真实姓名" class="must" placeholder="请输入真实姓名" v-model="registerData.trueName">
         <i class="red">*</i>
       </mt-field>
-      <a class="mint-cell mint-field">
+      <!-- <a class="mint-cell mint-field">
         <div class="mint-cell-wrapper input_arrow" @click="sexVisible = true">
           <div class="mint-cell-text">
             <span>性别</span>
@@ -40,8 +40,8 @@
             <span v-text="registerData.sexText"></span>
           </div>
         </div>
-      </a>
-      <a class="mint-cell mint-field">
+      </a> -->
+      <!-- <a class="mint-cell mint-field">
         <div class="mint-cell-wrapper needclick input_arrow" @click="openPicker('birthDatePicker')">
           <div class="mint-cell-text">
             <span>出生日期</span>
@@ -50,7 +50,7 @@
             <span v-text="registerData.birthday"></span>
           </div>
         </div>
-      </a>
+      </a> -->
       <mt-field @click.native="focus" label="单位名称" placeholder="请输入单位名称" class="must" v-model="registerData.companyName" disableClear>
         <i class="red">*</i>
       </mt-field>
@@ -67,7 +67,7 @@
       <mt-field @click.native="focus" label="详细地址" placeholder="请输入详细地址" class="must" v-model="registerData.workAddress" disableClear>
         <i class="red">*</i>
       </mt-field>
-      <a class="mint-cell mint-field">
+      <!-- <a class="mint-cell mint-field">
         <div class="mint-cell-wrapper input_arrow" @click="typeVisible = true">
           <div class="mint-cell-text">
             <span>类型</span>
@@ -76,8 +76,8 @@
             <span v-text="registerData.typeText"></span>
           </div>
         </div>
-      </a>
-      <div class="mint-cell-wrapper" v-show="registerData.typeText === '个人'">
+      </a> -->
+      <!-- <div class="mint-cell-wrapper" v-show="registerData.typeText === '个人'">
         <el-upload
           class="avatar-uploader needclick"
           :action="qiNiuConfig.url"
@@ -193,7 +193,7 @@
           <img v-if="registerData.imageUrl_id_back" :src="registerData.imageUrl_id_back" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon fl"></i>
         </el-upload>
-      </div>
+      </div> -->
       <div class="submit-wrap" @click="registerHandler">
         <mu-raised-button label="注册" class="reg-button" primary/>
       </div>
@@ -335,7 +335,7 @@
           params['certification.companyName'] = this.registerData.companyName;
           params['certification.part'] = this.registerData.part;
           params['certification.workAddress'] = this.registerData.workAddress;
-          params['certification.doctorPic'] = this.registerData.imageUrl_doctorPic;
+          // params['certification.doctorPic'] = this.registerData.imageUrl_doctorPic;
         } else {
           //机构
           params = {
@@ -350,14 +350,14 @@
           params['certification.companyName'] = this.registerData.companyName;
           params['certification.part'] = this.registerData.part;
           params['certification.workAddress'] = this.registerData.workAddress;
-          params['certification.doctorPic'] = this.registerData.imageUrl_doctor;
-          params['certification.medicalLicense'] = this.registerData.imageUrl_medical;
-          params['certification.businessLicense'] = this.registerData.imageUrl_business;
-          params['certification.taxRegistration'] = this.registerData.imageUrl_tax;
-          params['certification.openingPermit'] = this.registerData.imageUrl_open_permit;
-          params['certification.radiologicalPermit'] = this.registerData.imageUrl_treatment;
-          params['certification.idCardPositive'] = this.registerData.imageUrl_id_front;
-          params['certification.idCardOtherside'] = this.registerData.imageUrl_id_back;
+          // params['certification.doctorPic'] = this.registerData.imageUrl_doctor;
+          // params['certification.medicalLicense'] = this.registerData.imageUrl_medical;
+          // params['certification.businessLicense'] = this.registerData.imageUrl_business;
+          // params['certification.taxRegistration'] = this.registerData.imageUrl_tax;
+          // params['certification.openingPermit'] = this.registerData.imageUrl_open_permit;
+          // params['certification.radiologicalPermit'] = this.registerData.imageUrl_treatment;
+          // params['certification.idCardPositive'] = this.registerData.imageUrl_id_front;
+          // params['certification.idCardOtherside'] = this.registerData.imageUrl_id_back;
         }
         switch (true) {
           case !(this.registerData.phone && mb.test(this.registerData.phone)):
@@ -436,36 +436,36 @@
           })
         }
       },
-      uploadFile(res, file) {
-        this.registerData.imageUrl_head = this.qiNiuConfig.ShUrl + file.response.key
-      },
-      uploadFile1(res, file) {
-        this.registerData.imageUrl_medical = this.qiNiuConfig.ShUrl + file.response.key
-      },
-      uploadFile2(res, file) {
-        this.registerData.imageUrl_business = this.qiNiuConfig.ShUrl + file.response.key
-      },
-      uploadFile3(res, file) {
-        this.registerData.imageUrl_tax = this.qiNiuConfig.ShUrl + file.response.key
-      },
-      uploadFile4(res, file) {
-        this.registerData.imageUrl_open_permit = this.qiNiuConfig.ShUrl + file.response.key
-      },
-      uploadFile5(res, file) {
-        this.registerData.imageUrl_doctor = this.qiNiuConfig.ShUrl + file.response.key
-      },
-      uploadFile6(res, file) {
-        this.registerData.imageUrl_treatment = this.qiNiuConfig.ShUrl + file.response.key
-      },
-      uploadFile7(res, file) {
-        this.registerData.imageUrl_id_front = this.qiNiuConfig.ShUrl + file.response.key
-      },
-      uploadFile8(res, file) {
-        this.registerData.imageUrl_id_back = this.qiNiuConfig.ShUrl + file.response.key
-      },
-      uploadFile10(res, file) {
-        this.registerData.imageUrl_doctorPic = this.qiNiuConfig.ShUrl + file.response.key
-      },
+      // uploadFile(res, file) {
+      //   this.registerData.imageUrl_head = this.qiNiuConfig.ShUrl + file.response.key
+      // },
+      // uploadFile1(res, file) {
+      //   this.registerData.imageUrl_medical = this.qiNiuConfig.ShUrl + file.response.key
+      // },
+      // uploadFile2(res, file) {
+      //   this.registerData.imageUrl_business = this.qiNiuConfig.ShUrl + file.response.key
+      // },
+      // uploadFile3(res, file) {
+      //   this.registerData.imageUrl_tax = this.qiNiuConfig.ShUrl + file.response.key
+      // },
+      // uploadFile4(res, file) {
+      //   this.registerData.imageUrl_open_permit = this.qiNiuConfig.ShUrl + file.response.key
+      // },
+      // uploadFile5(res, file) {
+      //   this.registerData.imageUrl_doctor = this.qiNiuConfig.ShUrl + file.response.key
+      // },
+      // uploadFile6(res, file) {
+      //   this.registerData.imageUrl_treatment = this.qiNiuConfig.ShUrl + file.response.key
+      // },
+      // uploadFile7(res, file) {
+      //   this.registerData.imageUrl_id_front = this.qiNiuConfig.ShUrl + file.response.key
+      // },
+      // uploadFile8(res, file) {
+      //   this.registerData.imageUrl_id_back = this.qiNiuConfig.ShUrl + file.response.key
+      // },
+      // uploadFile10(res, file) {
+      //   this.registerData.imageUrl_doctorPic = this.qiNiuConfig.ShUrl + file.response.key
+      // },
       openPicker(name) {
         this.$refs[name].open()
       },
@@ -614,7 +614,7 @@
   }
   .submit-wrap {
     width: 100%;
-    margin: px2vw(30) 0;
+    margin: px2vw(90) 0 px2vw(30) 0;
     padding: 0 px2vw(20);
     text-align: center;
     .reg-button {

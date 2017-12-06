@@ -31,7 +31,7 @@
       <mt-field @click.native="focus" class="must" label="真实姓名" placeholder="请输入真实姓名" v-model="registerData.trueName">
         <i class="red">*</i>
       </mt-field>
-      <a class="mint-cell mint-field must">
+      <!-- <a class="mint-cell mint-field must">
         <div class="mint-cell-wrapper input_arrow username" @click="sexVisible = true">
           <div class="mint-cell-text">
             <span>性别<i class="red">*</i></span>
@@ -40,8 +40,8 @@
             <span v-text="registerData.sexText"></span>
           </div>
         </div>
-      </a>
-      <mt-field @click.native="focus" label="身份证号" class="must" placeholder="请输入您的身份证号码" v-model="registerData.idCard">
+      </a> -->
+      <!-- <mt-field @click.native="focus" label="身份证号" class="must" placeholder="请输入您的身份证号码" v-model="registerData.idCard">
         <i class="red">*</i>
       </mt-field>
       <mt-field @click.native="focus" label="工作单位" class="must" placeholder="请输入单位名称" v-model="registerData.workUnit" disableClear>
@@ -49,11 +49,11 @@
       </mt-field>
       <mt-field @click.native="focus" label="工作职位" class="must" placeholder="请输入您的职位" v-model="registerData.workPosition" disableClear>
         <i class="red">*</i>
-      </mt-field>
+      </mt-field> -->
       <a class="mint-cell mint-field must">
         <div class="mint-cell-wrapper input_arrow username" @click="openPicker('cityAddressPicker')">
           <div class="mint-cell-text">
-            <span>所在地省市区<i class="red">*</i></span>
+            <span>单位所在地<i class="red">*</i></span>
           </div>
           <div class="mint-cell-value">
             <span v-text="registerData.part"></span>
@@ -63,8 +63,8 @@
       <mt-field @click.native="focus" label="详细地址" class="must" placeholder="请输入单位的详细地址" v-model="registerData.address" disableClear>
         <i class="red">*</i>
       </mt-field>
-      <mt-field @click.native="focus" label="推荐人姓名" placeholder="请输入您的推荐人" v-model="registerData.referrals" disableClear></mt-field>
-      <a class="mint-cell mint-field">
+      <!-- <mt-field @click.native="focus" label="推荐人姓名" placeholder="请输入您的推荐人" v-model="registerData.referrals" disableClear></mt-field> -->
+      <!-- <a class="mint-cell mint-field">
         <div class="mint-cell-wrapper input_arrow needclick" @click="openPicker('birthDatePicker')">
           <div class="mint-cell-text">
             <span>出生日期</span>
@@ -73,7 +73,7 @@
             <span v-text="registerData.birthday"></span>
           </div>
         </div>
-      </a>
+      </a> -->
       <!-- <a class="mint-cell mint-field">
         <div class="mint-cell-wrapper" @click="typeVisible = true">
           <div class="mint-cell-text">
@@ -84,9 +84,9 @@
           </div>
         </div>
       </a> -->
-      <mt-field @click.native="focus" label="学历" placeholder="请输入您的学历" v-model="registerData.education" disableClear></mt-field>
+      <!-- <mt-field @click.native="focus" label="学历" placeholder="请输入您的学历" v-model="registerData.education" disableClear></mt-field>
       <mt-field @click.native="focus" label="微信" placeholder="请输入您的微信号" v-model="registerData.weChar" disableClear></mt-field>
-      <mt-field @click.native="focus" label="邮箱" placeholder="请输入您的邮箱" v-model="registerData.email" disableClear></mt-field>
+      <mt-field @click.native="focus" label="邮箱" placeholder="请输入您的邮箱" v-model="registerData.email" disableClear></mt-field> -->
       <div class="submit-wrap" @click="registerHandler">
         <mu-raised-button label="注册" class="demo-raised-button" primary/>
       </div>
@@ -333,7 +333,6 @@
 <style lang="scss" rel="stylesheet/scss">
   @import "../../../common/sass/factory";
   .form-wrap-sale {
-    padding: 0 px2vw(20);
     position: fixed;
     top: px2vw(88);
     bottom: 0;
@@ -345,6 +344,7 @@
     }
     .mint-cell-title, .mint-cell-text {
       min-width: 170px;
+      font-size: px2vw(30) !important;
     }
     .mint-cell-value{
       font-size: px2vw(26);
@@ -397,9 +397,9 @@
   }
 
   .submit-wrap {
-    width: 100%;
+    width: 92%;
     height: px2vw(90);
-    margin: px2vw(30) 0;
+    margin: px2vw(90) auto px2vw(30);
     text-align: center;
     box-shadow: 0 0 7px $themeColor;
     font-size: px2vw(32);
