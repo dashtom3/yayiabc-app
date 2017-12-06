@@ -25,7 +25,8 @@
         </div>
       </div>
       <div class="noData" v-else-if="!isLoading">
-
+        <img src="../../../../images/question/noQuestionList.png" alt="">
+        <p>暂无任何评论~</p>
       </div>
     </mt-loadmore>
     <div class="edit" @click="gotoPage('/newQuest')" v-if="showNewQuest">
@@ -284,6 +285,19 @@
           }
         }
       }
+    }
+    .noData{
+      width: 100%;
+      margin-top: px2vw(360);
+      text-align: center;
+      img{
+        width: px2vw(120);
+      }
+      p{
+        font-size: px2vw(28);
+        color: #999;
+        line-height: px2vw(60);
+      };
     }
     .edit{
       width: px2vw(100);

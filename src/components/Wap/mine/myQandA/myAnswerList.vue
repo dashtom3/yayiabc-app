@@ -2,7 +2,7 @@
   <div class="container">
     <mt-loadmore :top-method="loadMore" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState">
       <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
-      <div class="scrollBox" v-infinite-scroll="getAnswerListMore" infinite-scroll-immediate-check="true">
+      <div class="scrollBox" v-infinite-scroll="getAnswerListMore" infinite-scroll-immediate-check="true" v-if="answerList.length > 0">
         <div class="eachContainer"  @click="gotoDetail()">
           <div class="headLine">
             <div class="headImg">
@@ -25,11 +25,11 @@
             <span class="clr"></span>
           </div>
         </div>
-        <div>
-          <!--无内容-->
-        </div>
       </div>
-
+      <div class="noData" v-else-if="!isLoading">
+        <img src="../../../../images/question/noAnswerList.png" alt="">
+        <p>暂无任何回答~</p>
+      </div>
     </mt-loadmore>
   </div>
 </template>
@@ -178,6 +178,19 @@
           }
         }
       }
+    }
+    .noData{
+      width: 100%;
+      margin-top: px2vw(360);
+      text-align: center;
+      img{
+        width: px2vw(120);
+      }
+      p{
+        font-size: px2vw(28);
+        color: #999;
+        line-height: px2vw(60);
+      };
     }
   }
 </style>

@@ -81,7 +81,7 @@
           - End -
         </div>
         <!--请求完毕后，无数据显示状态-->
-        <div class="noTrend" v-else-if="!isLoading">
+        <div class="noTrend" v-if="noData && yayiCircleData.length > 0">
           <img src="../../../images/yayiCircle/new.png" alt="">
           <p><span @click="newTrend">立即发布新动态~</span></p>
         </div>
@@ -125,6 +125,7 @@
         },
         picUrl:'',            //查看大图的url
         showPic:false,        //查看大图的开关
+        noData:false,         //无数据
       }
     },
     components:{
@@ -217,6 +218,7 @@
 //          }
         }
         else {
+          this.noData = true;
           Toast({message: '啊哦！出错了请稍后重试', duration: 1500});
         }
       },
@@ -234,7 +236,7 @@
       commenting(index,id,userId,commentUserId,userName,parentId){
         if(!tokenMethods.getWapToken()){
           MessageBox.confirm('请先登录!').then(action => {
-            this.$router.push({path: '/logIn', query: {backName: '/yayiCircle'}});
+            this.$router.push({path: '/logIn', query: {backName: '/yayi/yayiCircle'}});
           })
           return
         }
@@ -301,14 +303,13 @@
         }
         switch (true){
           case type == 2:
-            this.$router.push({path:'/caseDetailed',query:{id:postId}})
-            break
-          case type == 3:
             this.$router.push({path:'/videoDetailed',query:{id:postId}})
             break
+          case type == 3:
+            this.$router.push({path:'/caseDetailed',query:{id:postId}})
+            break
           case type == 4:
-            console.log(type);
-            //别忘了做点什么！！
+            this.$router.push({path:'/QandADetail',query:{faqQuestionId:postId}})
             break
         }
       },

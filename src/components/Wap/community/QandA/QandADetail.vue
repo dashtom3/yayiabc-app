@@ -2,7 +2,7 @@
   <div>
     <div class="header">
       <span class="back-click-area" @click="goBack"></span>
-      <span class="share"></span>
+      <span class="share" @click="isSharing(detailData.faqQuestionId)"></span>
       <span class="collect"></span>
     </div>
     <div class="container">
@@ -60,6 +60,7 @@
     </div>
     <div class="answerBtn" v-if="showAnswerBtn" @click="isCommenting">我要回答</div>
     <doComment v-if="isComment" :args="commentInfo" v-on:commentRes="isCommentRes" v-on:cancelComment="isComment = false"></doComment>
+    <share v-if="isShareShow" v-on:cancelShare="isShareShow = false" :shareData="shareData"></share>
   </div>
 </template>
 
@@ -69,6 +70,7 @@
   import Util from '../../../../vuex/util'
   import { tokenMethods } from '../../../../vuex/util'
   import doComment from '../../index/doComment.vue'
+  import share from '../../index/share.vue';
 
   export default {
     data(){
@@ -89,7 +91,13 @@
         showAnswerBtn:false,
         isComment:false,
         commentInfo:{},
+        shareData:{},
+        isShareShow:false,
       }
+    },
+    components:{
+      doComment,
+      share
     },
     created(){
       this.timeStamp = Date.parse(new Date());
@@ -181,15 +189,36 @@
         this.$destroy()
       },
       isCommenting(){
-//        this.isComment = true;
+        if(!tokenMethods.getWapToken()){
+          MessageBox.confirm('请先登录!').then(action => {
+            this.$router.push({path: '/logIn', query: {backName: '/QandADetail'}});
+          })
+          return
+        }
+        this.isComment = true;
         this.commentInfo = {
           faqQuestionId : this.$route.query.faqQuestionId,
           star : 1, //唯一标识
         }
       },
       isCommentRes(res){
-
+//        res.faqAnswerTime = Math.ceil((this.timeStamp - res.faqAnswerTime) / 1000 / 60) + '分钟前';
+        res.faqAnswerTime = '1分钟前';
+        this.answerList.unshift(res);
+        this.isComment = false;
       },
+      isSharing(postId){
+        this.shareData = {
+          momentType: '问答',
+          momentContent: null,
+          momentPicture: null,
+          momentContentId: postId
+        }
+        this.isShareShow = true;
+      },
+//      isShared(){
+//
+//      },
       displayOrFold(){
         this.isDisplayOrFold = !this.isDisplayOrFold
       },
@@ -332,47 +361,50 @@
         }
       }
     }
-    .eachAnswer{
-      padding: px2vw(20) px2vw(20) px2vw(20);
-      width: 100%;
-      border-bottom: px2vw(1) solid #e5e5e5;
-      .headLine{
+    .answerList{
+      margin-bottom: px2vw(120);
+      .eachAnswer{
+        padding: px2vw(20) px2vw(20) px2vw(20);
         width: 100%;
-        height: px2vw(120);
-        float: left;
-        .headImg{
-          display: inline-block;
-          width: px2vw(60);
-          height: px2vw(60);
-          border-radius: 50%;
-          overflow: hidden;
-          vertical-align: middle;
-          img{
-            width: 100%;
-            line-height: px2vw(60);
+        border-bottom: px2vw(1) solid #e5e5e5;
+        .headLine{
+          width: 100%;
+          height: px2vw(120);
+          float: left;
+          .headImg{
+            display: inline-block;
+            width: px2vw(60);
+            height: px2vw(60);
+            border-radius: 50%;
+            overflow: hidden;
+            vertical-align: middle;
+            img{
+              width: 100%;
+              line-height: px2vw(60);
+            }
+          }
+          .name{
+            font-weight: bold;
+            line-height: px2vw(120);
+            display: inline-block;
+            font-size: px2vw(26);
+            color: #333;
+            margin-left: px2vw(10);
+          }
+          .time{
+            line-height: px2vw(120);
+            display: inline-block;
+            font-size: px2vw(24);
+            color: #999;
+            margin-left: px2vw(10);
           }
         }
-        .name{
-          font-weight: bold;
-          line-height: px2vw(120);
-          display: inline-block;
-          font-size: px2vw(26);
+        .answer{
+          width: 100%;
+          font-size: px2vw(28);
           color: #333;
-          margin-left: px2vw(10);
+          margin-bottom: px2vw(20);
         }
-        .time{
-          line-height: px2vw(120);
-          display: inline-block;
-          font-size: px2vw(24);
-          color: #999;
-          margin-left: px2vw(10);
-        }
-      }
-      .answer{
-        width: 100%;
-        font-size: px2vw(28);
-        color: #333;
-        margin-bottom: px2vw(20);
       }
     }
     .noAnswer{

@@ -30,7 +30,10 @@
     data(){
       return{
         shareData: '',
-        caseDetailArgs:{},
+        caseDetailArgs:{
+          headline:'',
+          cover:''
+        },
       }
     },
     created(){
@@ -38,9 +41,22 @@
       console.log(this.shareData)
     },
     mounted(){
-      this.$store.dispatch('GET_CASE_DETAIL', {postId: this.shareData.momentContentId}).then((res) => {
-        this.caseDetailArgs = res.data;
-      });
+      switch (true){
+        case this.shareData.momentType == 4:
+          this.$store.dispatch('FAQ_DETAIL', {faqQuestionId: this.shareData.momentContentId}).then((res) => {
+//            this.caseDetailArgs = res.data;
+            this.caseDetailArgs.headline = res.data.faqQuestionTitle
+            console.log(this.caseDetailArgs)
+          });
+          break;
+        case this.shareData.momentType == 3:
+          this.$store.dispatch('GET_CASE_DETAIL', {postId: this.shareData.momentContentId}).then((res) => {
+            this.caseDetailArgs = res.data;
+          });
+          break;
+        case this.shareData.momentType == 2:
+          break;
+      }
     },
     methods:{
       closePage(){
@@ -50,7 +66,7 @@
       release(){
         this.$store.dispatch(NEW_TREND,this.shareData).then(res => {
           Toast({message: '发布成功！', duration: 1500})
-          this.$router.push('/yayiCircle');
+          this.$router.push('/yayi/yayiCircle');
           this.$destroy()
         })
       }

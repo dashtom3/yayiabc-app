@@ -96,7 +96,7 @@
           that.isTouch3 = false;
           that.isTouch4 = false;
           that.isTouch5 = false;
-        } else if(that.$router.history.current.name == 'caseOfIllness' || that.$router.history.current.name == 'video'){
+        } else if(that.$router.history.current.name == 'caseOfIllness' || that.$router.history.current.name == 'video' || that.$router.history.current.name == 'QandAList'){
           that.isActive1 = false;
           that.isActive2 = false;
           that.isActive3 = true;

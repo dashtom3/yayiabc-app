@@ -55,7 +55,7 @@
         case this.shareData.momentType === '病例':
           this.shareData.momentType = 3;
           break;
-        case this.shareData.momentType === '培训':
+        case this.shareData.momentType === '问答':
           this.shareData.momentType = 4;
           break;
         case this.shareData.momentType === '视频':
