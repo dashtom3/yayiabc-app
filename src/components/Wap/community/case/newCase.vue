@@ -215,8 +215,8 @@
       },
       labelFor(){
         this.isShare();
-//        var labels = document.getElementsByClassName("el-checkbox__original")
-//        labels[0].click();
+        var labels = document.getElementsByClassName("el-checkbox__original")
+        labels[0].click();
       },
       //上传图片
       upLoading(){
@@ -321,7 +321,8 @@
             Toast({message: '病例保存成功！', duration: 1500});
           }
           // this.$router.push('/caseOfIllness');
-          this.$router.push({path: '/myCase', query: {state: this.$route.query.state}})
+           this.$router.go(-1);
+          //this.$router.push({path: '/myCase', query: {state: this.$route.query.state}})
           this.$destroy();
         })
       },

@@ -69,9 +69,8 @@
         ],
         args:{
           faqQuestionTitle:'',
-          faqQuestionType:'',
+          faqQuestionType:null,
           faqQuestionContent:'',
-
         },
         qiNiuConfig:this.$store.state.index.qiNiuConfig,
         qiNiuToken:{},
@@ -88,7 +87,7 @@
       },
       postQuest(){
         switch (true){
-          case this.args.classify < 0:
+          case this.args.faqQuestionType < 0:
             Toast({message: '请选择一个分类', duration: 1500});
             return
           case !this.args.faqQuestionTitle:
@@ -124,15 +123,15 @@
       onClassPicker(num){
         if(num){
           if(this.classify < 1){
-            this.args.classify = 2
+            this.args.faqQuestionType = 2
             this.classifyName = this.slots[0].values[2]
           }else {
-            this.args.classify = this.classify;
-            this.classifyName = this.slots[0].values[this.args.classify - 1]
+            this.args.faqQuestionType = this.classify;
+            this.classifyName = this.slots[0].values[this.args.faqQuestionType - 1]
           }
         }else {
           this.classify = -1;
-          this.args.classify = '';
+          this.args.faqQuestionType = null;
           this.classifyName = ''
         }
 //        console.log(this.args.classify);

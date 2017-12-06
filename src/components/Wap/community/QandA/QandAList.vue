@@ -26,7 +26,7 @@
       </div>
       <div class="noData" v-else-if="!isLoading">
         <img src="../../../../images/question/noQuestionList.png" alt="">
-        <p>暂无任何评论~</p>
+        <p>暂无任何问题~</p>
       </div>
     </mt-loadmore>
     <div class="edit" @click="gotoPage('/newQuest')" v-if="showNewQuest">
@@ -215,7 +215,7 @@
   .FAQContainer{
     width: 100%;
     height: 100%;
-    min-height: 60vh;
+    min-height: 79vh;
     background-color: #fff;
     .scrollBox{
       width: 100%;
