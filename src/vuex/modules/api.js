@@ -655,3 +655,8 @@ export function deleteMyCase(params) {
 export function payCaseDetail(params) {
   return getWithToken('/cottoms/playChargePost', params)
 }
+
+// 资料库
+export function getDatumBaseList(params) {
+  return geters('/cottoms/playChargePost', params)
+}

@@ -52,9 +52,15 @@ export default {
       this.$router.go(-1);
     },
     dressing (index){
-      this.$store.dispatch('SAVE_CASE_DRESSING',  index);
+      this.$store.dispatch('SAVE_DATUM_DRESSING',  index);
       this.caseListArgs.classify = index;
     },
+    // 获取资料库数据
+    getDatumList() {
+      this.$store.dispatch('DATUMBASE_LIST', {}).then((res) => {
+
+      })
+    }
   }
 }
 </script>

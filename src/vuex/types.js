@@ -206,7 +206,8 @@ export const SAVE_M_COLLECT = 'SAVE_M_COLLECT';                           //收�
 
 export const SAVE_CASEOFILLNESS = 'SAVE_CASEOFILLNESS'              // 保存病例信息
 
-
+export const DATUMBASE_LIST = 'DATUMBASE_LIST'                    // 资料库
+export const SAVE_DATUM_DRESSING = 'SAVE_DATUM_DRESSING';           //保存资料库筛选按钮的值
 
 
 

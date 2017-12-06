@@ -54,6 +54,7 @@ const state = {
   saveCaseOrder: 0,
   saveCaseSearching:'',
   caseOfIllness: {},
+  saveDatumDressing: null, // 保存资料库筛选的值
 }
 
 const getters = {
@@ -116,6 +117,9 @@ const mutations = {
   },
   [types.SAVE_CASE_DRESSING](state,params) {
     state.saveCaseDressing = params;
+  },
+  [types.SAVE_DATUM_DRESSING](state,params) {
+    state.saveDatumDressing = params;
   },
   [types.SAVE_CASE_SEARCHING](state,all) {
     state.saveCaseSearching = all;
@@ -1406,6 +1410,16 @@ const actions = {
       });
     });
   },
+   // 资料库列表
+   [types.DATUMBASE_LIST](context, params) {
+    return new Promise((resolve, reject) => {
+      api.getDatumBaseList(params).then((data) => {
+        resolve(data);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  },
   // 保存发现病分类筛选的值
   [types.SAVE_CASE_DRESSING]({commit}, params) {
     commit(types.SAVE_CASE_DRESSING,params);
@@ -1415,6 +1429,10 @@ const actions = {
   },
   [types.SAVE_CASE_SEARCHING]({commit}, params) {
     commit(types.SAVE_CASE_SEARCHING,params);
+  },
+  // 保存资料库筛选的值
+  [types.SAVE_DATUM_DRESSING]({commit}, params) {
+    commit(types.SAVE_DATUM_DRESSING,params);
   },
 }
 
