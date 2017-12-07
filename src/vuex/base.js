@@ -31,7 +31,7 @@ export function get(url, params = {}) {
     Indicator.open();
     axios.get(HOST + url, {params})
       .then((res) => {
-        if (res.status === 500 || res.status === 503 || res.status === 504) {
+        if (res.status === 500 || res.status === 503 || res.status === 504 || res.status === 404) {
           Indicator.close();
           Indicator.open({
             text: '服务器出小差了',
@@ -187,7 +187,7 @@ export function post(url, params) {
     axios.post(HOST + url, temp)
       .then((res) => {
         // console.log(JSON.stringify(res), 'base>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..')
-        if (res.status === 500 || res.status === 503 || res.status === 504) {
+        if (res.status === 500 || res.status === 503 || res.status === 504 || res.status === 404) {
           Indicator.close();
           Indicator.open({
             text: '服务器出小差了',
@@ -207,7 +207,7 @@ export function post(url, params) {
       }).catch((err) => {
       // console.log(JSON.stringify(err), 'base>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..')
       reject('网络请求错误');
-      Toast({message: '网络请求错误!', duration: 3000})
+      Toast({message: '服务器出小差了!', duration: 3000})
       Indicator.close();
     });
   });
@@ -235,7 +235,7 @@ export function posts(url, params) {
       }).catch((err) => {
       // console.log(JSON.stringify(err), 'base>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..')
       reject('网络请求错误');
-      Toast({message: '网络请求错误!', duration: 3000})
+      Toast({message: '服务器出小差了!', duration: 3000})
       Indicator.close();
     });
   });
@@ -270,7 +270,7 @@ export function getWithToken(url, params = {}) {
       // console.log(JSON.stringify(err), 'base>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..')
       reject('网络请求错误');
       Indicator.close();
-      Toast({message: '网络请求错误!', duration: 3000})
+      Toast({message: '服务器出小差了!', duration: 3000})
     });
   });
 }
@@ -307,7 +307,7 @@ export function postWithToken(url, params) {
       }).catch(() => {
       reject('网络请求错误');
       Indicator.close();
-      Toast({message: '网络请求错误!', duration: 3000})
+      Toast({message: '服务器出小差了!', duration: 3000})
     });
   });
 }
@@ -334,7 +334,7 @@ export function getWithSaleToken(url, params = {}) {
       .catch(() => {
         Indicator.close()
         reject('网络请求错误')
-        Toast({message: '网络请求错误!', duration: 3000})
+        Toast({message: '服务器出小差了!', duration: 3000})
       });
   });
 }
@@ -365,7 +365,7 @@ export function postWithSaleToken(url, params) {
       .catch(() => {
         Indicator.close()
         reject('网络请求错误');
-        Toast({message: '网络请求错误!', duration: 3000})
+        Toast({message: '服务器出小差了!', duration: 3000})
       });
   });
 }

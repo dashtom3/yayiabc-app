@@ -342,6 +342,12 @@
       font-size: px2vw(26);
       color: #207bce;
     }
+    .mint-cell-value .mint-field-other{
+      position: static;
+    }
+    .must .mint-cell-wrapper .mint-cell-text{
+      margin-left: px2vw(14)
+    }
     .mint-cell-title, .mint-cell-text {
       min-width: 170px;
       font-size: px2vw(30) !important;

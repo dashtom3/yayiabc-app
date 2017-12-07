@@ -110,7 +110,9 @@ const infoDetail = resolve => require(['@/components/Wap/mine/information/infoDe
 const myQandA = resolve => require(['@/components/Wap/mine/myQandA/myQandA'], resolve)
 const myAnswerList = resolve => require(['@/components/Wap/mine/myQandA/myAnswerList'], resolve)
 
-
+// 企业录
+const enterpriseRecord = resolve => require(['@/components/salesWap/enterpriseRecord/enterpriseRecord'], resolve)
+const enterpriseList = resolve => require(['@/components/salesWap/enterpriseRecord/enterpriseList'], resolve)
 
 const myCase = resolve => require(['@/components/Wap/mine/case/myCase'], resolve);
 // const casePublish = resolve => require(['@/components/Wap/mine/case/casePublish'], resolve);
@@ -638,6 +640,18 @@ let router = new Router({
       name: 'qualifications',
       path: '/account/qualifications',
       component: qualifications
+    },
+    {
+      name: 'enterpriseRecord',
+      path: '/enterpriseRecord',
+      component: enterpriseRecord,
+      children: [
+        {
+          name: 'enterpriseList',
+          path: '/enterpriseList',
+          component: enterpriseList
+        },
+      ]
     },
   ],
 })

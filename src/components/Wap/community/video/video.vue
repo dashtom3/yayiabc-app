@@ -285,7 +285,7 @@
   overflow: hidden;
 }
 .videoBox video{
-  height: px2vw(424);
+  height: 56.533vw;
 }
 .boxBox{
   box-shadow: 0 px2vw(0) px2vw(10) gray;

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="new-case-wrapper">
     <div class="header" @click="blurClass">
       <div class="backIco" @click="closePage"></div>
       <div class="saveAndRelease">
@@ -373,8 +373,11 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../../common/sass/factory";
+  .new-case-wrapper{
+    height: 100vh;
+  }
   .header {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;

@@ -202,11 +202,14 @@
           birthday: this.personInfo.birthday && util.formatDate.format(new Date(this.personInfo.birthday)) || '1970-01-01',
           userPic: this.personInfo.imageUrl_head,
           type: this.personInfo.type,
-          part: this.personInfo.part,
-          companyName: this.personInfo.companyName,
-          workAddress: this.personInfo.workAddress,
+          // part: this.personInfo.part,
+          // companyName: this.personInfo.companyName,
+          // workAddress: this.personInfo.workAddress,
           // judge: this.personInfo.judge
         }
+        params['certification.companyName'] = this.personInfo.companyName
+        params['certification.part'] = this.personInfo.part
+        params['certification.workAddress'] = this.personInfo.workAddress
         //验证姓名
         if(this.personInfo.trueName === '' || this.personInfo.trueName === null){
           Toast('请输入姓名')
@@ -223,14 +226,14 @@
           return
         }
         //保存个人信息
-        console.log(params, 'hahaha');
         this.$store.dispatch('SAVE_PERSON_LIST', params).then((res) => {
           if (res.data.callStatus === 'SUCCEED') {
-            this.$store.dispatch('SAVE_CERTIFICATION', params).then((res) => {
-              if (res.data.callStatus === 'SUCCEED') {
-                Toast('你的信息保存成功');
-              }
-            })
+            Toast('你的信息保存成功');
+            // this.$store.dispatch('SAVE_CERTIFICATION', params).then((res) => {
+            //   if (res.data.callStatus === 'SUCCEED') {
+            //     Toast('你的信息保存成功');
+            //   }
+            // })
           }
         });
       },

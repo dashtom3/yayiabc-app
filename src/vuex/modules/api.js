@@ -660,3 +660,8 @@ export function payCaseDetail(params) {
 export function getDatumBaseList(params) {
   return geters('/cottoms/playChargePost', params)
 }
+
+// 企业录
+export function getEnterpriseList(params) {
+  return geters('/crawlerPages/getYellowPages', params)
+}

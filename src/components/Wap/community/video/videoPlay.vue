@@ -10,7 +10,7 @@
           <slot name="sourceSrc"></slot>
           <p>设备不支持</p>
         </slot>
-        <div class="video-mask">
+        <div class="video-mask" v-show="videos.centerPlayImg">
           <h2 class="video-title">{{ title }}</h2>
         </div>
         <img v-show="videos.centerPlayImg" class="vplay" src="../../../../images/video/play.png"/>
@@ -218,6 +218,7 @@
         {
           if(_this.full)  //全屏的时候
           {
+            video.style.height = 'auto';
             cc.style.display = "none";
             console.log(container);
             container.style.zIndex = "9999";
@@ -230,6 +231,7 @@
             Screen.style.left = 0;
             plus.navigator.setFullscreen(true);
           }else {  //非全屏
+          video.style.height = '56.533vw';
             cc.style.display = "block";
             container.style.zIndex = "0";
             Screen.style.width = W + "px";

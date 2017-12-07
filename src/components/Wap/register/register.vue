@@ -608,9 +608,9 @@
 
   .logIn_header {
     padding-bottom: 0;
-    position: fixed;
-    z-index: 99;
+    position: absolute;
     top: 0;
+    left: 0;
   }
   .submit-wrap {
     width: 100%;

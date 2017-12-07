@@ -1420,6 +1420,16 @@ const actions = {
       });
     });
   },
+  // 获取企业录
+  [types.GET_ENTERPRISE_DATA](context, params) {
+    return new Promise((resolve, reject) => {
+      api.getEnterpriseList(params).then((data) => {
+        resolve(data);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  },
   // 保存发现病分类筛选的值
   [types.SAVE_CASE_DRESSING]({commit}, params) {
     commit(types.SAVE_CASE_DRESSING,params);

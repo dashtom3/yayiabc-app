@@ -372,9 +372,9 @@
             birthday: this.personInfo.birthday && util.formatDate.format(new Date(this.personInfo.birthday)) || '1970-01-01',
             userPic: this.personInfo.imageUrl_head,
             type: this.personInfo.type,
-            companyName: this.personInfo.companyName,
-            part: this.personInfo.part,
-            workAddress: this.personInfo.workAddress,
+            // companyName: this.personInfo.companyName,
+            // part: this.personInfo.part,
+            // workAddress: this.personInfo.workAddress,
             doctorPic: this.personInfo.imageUrl_doctorPic,//医师职业资格证
             medicalLicense: '',//医疗机构执业许可证
             businessLicense: '',//营业执照
@@ -394,9 +394,9 @@
             birthday: this.personInfo.birthday && util.formatDate.format(new Date(this.personInfo.birthday)) || '1970-01-01',
             userPic: this.personInfo.imageUrl_head,
             type: this.personInfo.type,
-            companyName: this.personInfo.companyName,
-            part: this.personInfo.part,
-            workAddress: this.personInfo.workAddress,
+            // companyName: this.personInfo.companyName,
+            // part: this.personInfo.part,
+            // workAddress: this.personInfo.workAddress,
             doctorPic: this.personInfo.imageUrl_doctor,//医师职业资格证
             medicalLicense: this.personInfo.imageUrl_medical,//医疗机构执业许可证
             businessLicense: this.personInfo.imageUrl_business,//营业执照
@@ -431,20 +431,21 @@
             return
           }
         }
-        //保存个人信息
-        this.$store.dispatch('SAVE_PERSON_LIST', params).then((res) => {
+        //保存资质审核信息
+        this.$store.dispatch('SAVE_CERTIFICATION', params).then((res) => {
           if (res.data.callStatus === 'SUCCEED') {
-            this.$store.dispatch('SAVE_CERTIFICATION', params).then((res) => {
-              if (res.data.callStatus === 'SUCCEED') {
-                Toast('您的认证信息我们会尽快审核，请耐心等待~');
-                this.queryHandler()
-                this.ifPass = true;
-                this.isEdit = false;
-                this.pending_validate = true;
-              }
-            })
+            Toast('您的认证信息我们会尽快审核，请耐心等待~');
+            this.queryHandler()
+            this.ifPass = true;
+            this.isEdit = false;
+            this.pending_validate = true;
           }
-        });
+        })
+        // this.$store.dispatch('SAVE_PERSON_LIST', params).then((res) => {
+        //   if (res.data.callStatus === 'SUCCEED') {
+            
+        //   }
+        // });
       },
       uploadFile(res, file) {
         this.personInfo.imageUrl_head = this.qiNiuConfig.ShUrl + file.response.key
