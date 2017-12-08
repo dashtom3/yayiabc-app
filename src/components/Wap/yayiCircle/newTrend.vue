@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="newTrend">
     <div class="header">
       <span @click="closePage">取消</span>
       <span>发动态</span>
@@ -7,7 +7,7 @@
     </div>
     <div class="container">
       <div class="inputArea">
-        <textarea name="" id="" cols="30" rows="10" v-model="inputer" placeholder="这一刻的想法..."></textarea>
+        <textarea name="" id="" cols="30" rows="10" v-model="inputer" placeholder="这一刻的想法..." @focus="focused"></textarea>
       </div>
       <div>
         <el-upload
@@ -81,7 +81,10 @@
         MessageBox.confirm('是否退出本次编辑?').then(action => {
           this.$router.go(-1)
         })
-      }
+      },
+      focused(){
+
+      },
     },
     created(){
       this.$store.dispatch(GET_UPLOAD_TOKEN).then(res => {
@@ -92,6 +95,25 @@
     }
   }
 </script>
+
+<style lang="scss" rel="stylesheet/scss">
+  @import "../../../common/sass/factory";
+
+  body {
+    &.full-body-commentArea{
+      position: absolute !important;
+      top: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      overflow: hidden !important;
+    }
+  }
+</style>
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../common/sass/factory";

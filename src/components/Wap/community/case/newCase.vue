@@ -432,7 +432,7 @@
         width: 100%;
         font-size:px2vw(36);
         height: px2vw(90);
-        line-height: px2vw(90);
+        /*line-height: px2vw(90);*/
         border: none;
         border-bottom: px2vw(1) solid #ddd;
       }

@@ -17,7 +17,7 @@
       </div>
       <div  class="line" @click="gotoPage(2)">
         <div  class="logoImg">
-          <img src="../../../../images/mine/commentInfo.png" alt="">
+          <img src="../../../../images/mine/answerInfo.png" alt="">
         </div>
         <div  class="detail">
           <span class="title">问答</span>
@@ -48,14 +48,22 @@ export default {
     commonHeader,
   },
   created(){
-    this.$store.dispatch(GET_INFO_NUM,{}).then(res =>{
-      this.myInfo = res.data.commentNumber + parseInt(tokenMethods.getInfoNum());
-      tokenMethods.setInfoNum(this.myInfo);
-    })
+    this.inits();
   },
   methods:{
+    inits(){
+      this.$store.dispatch(GET_INFO_NUM,{}).then(res =>{
+        if(parseInt(tokenMethods.getInfoNum())){
+          console.log(res.data)
+          this.myInfo = res.data.commentNumber == 0 ? parseInt(tokenMethods.getInfoNum()) : Number(res.data.commentNumber) + parseInt(tokenMethods.getInfoNum());
+        }else {
+          this.myInfo = Number(res.data.commentNumber);
+        }
+        tokenMethods.setInfoNum(this.myInfo);
+      })
+    },
     gotoPage(num){
-      this.$router.push({path:'/infoList',query:{type:num}});
+      this.$router.push({path:'/infoList',query:{type:num,backName:this.$route.query.backName}});
       this.$destroy()
     }
   }

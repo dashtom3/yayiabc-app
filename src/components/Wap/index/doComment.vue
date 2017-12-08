@@ -120,7 +120,7 @@
   @import "../../../common/sass/factory";
   body {
     &.full-body-commentArea{
-      position: fixed !important;
+      position: absolute !important;
       top: 0 !important;
       right: 0 !important;
       bottom: 0 !important;

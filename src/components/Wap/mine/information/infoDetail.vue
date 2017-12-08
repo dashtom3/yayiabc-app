@@ -255,7 +255,7 @@
         this.isDisplayOrFold = !this.isDisplayOrFold
       },
       goBack(){
-        this.$router.go(-1);
+        this.$router.push({path:this.$route.query.backName,query:{type:this.$route.query.type,backName:this.$route.query.backName}});
         this.$destroy()
       }
     },

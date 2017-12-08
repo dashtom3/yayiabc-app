@@ -51,7 +51,7 @@
           currentPage:1,
           faqQuestionType:null,
           keyWord:'',
-          order:1,
+          order:0,
           type:4
         },
         questList:[],

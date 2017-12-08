@@ -8,7 +8,7 @@
       <div class="innerContainerWrap">
         <!--有内容-->
         <div v-infinite-scroll="loadMore" infinite-scroll-immediate-check="true" class="innerContainer" v-if="list.length > 0">
-          <div class="line" @click="goPage(item,key)" v-for="(item,key) in list"><!--v-for开始-->
+          <div class="line" @click="goPage(item,key,type)" v-for="(item,key) in list"><!--v-for开始-->
             <span class="thisTitle">
               {{item.message}}
             </span>
@@ -46,7 +46,8 @@
           currentPage:1,
         },
         totalPage:0,
-        noMoreData:false
+        noMoreData:false,
+        type:this.$route.query.type,
       }
     },
     components:{
@@ -57,22 +58,29 @@
     },
     created(){
       console.log(this.$router.history.current.name)
-      switch (true){
-        case this.$route.query.type === 1:
-          this.list = JSON.parse(tokenMethods.getInfoList()) ? JSON.parse(tokenMethods.getInfoList()) : [];
-          break;
-        case this.$route.query.type === 2:
-          this.list = JSON.parse(tokenMethods.getAnswerList()) ? JSON.parse(tokenMethods.getAnswerList()) : [];
-      }
-      console.log(this.list)
       this.getTheList();
     },
+    mounted(){
+    },
     methods:{
+      inits(){
+        switch (true){
+          case this.$route.query.type === 1:
+            console.log('sosisi')
+            this.list = JSON.parse(tokenMethods.getInfoList()) ? JSON.parse(tokenMethods.getInfoList()) : [];
+            break;
+          case this.$route.query.type === 2:
+            console.log('cccci')
+            this.list = JSON.parse(tokenMethods.getAnswerList()) ? JSON.parse(tokenMethods.getAnswerList()) : [];
+        }
+        console.log(this.list)
+      },
       goBack(){
-        this.$router.go(-1);
+        this.$router.push(this.$route.query.backName);
         this.$destroy()
       },
       getTheList(){
+        this.inits();
         this.isLoading =true;
         this.$store.dispatch(GET_INFO_DETAIL, this.args).then(res =>{
           console.log(res)
@@ -99,11 +107,13 @@
         }
 
       },
-      goPage(item,key){
+      goPage(item,key,type){
         //这个是需要传一个obj的。
         if(this.$route.query.type === 1) {
           let obj = {
-            momentId: item.typeId
+            momentId: item.typeId,
+            type:type,
+            backName:'/infoList'
           }
           console.log(this.list,key)
           this.list.splice(key, 1)

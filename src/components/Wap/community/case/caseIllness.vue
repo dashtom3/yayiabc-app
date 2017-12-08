@@ -30,13 +30,13 @@
         <span @click="caseDate.dressingSwitch = !caseDate.dressingSwitch" class="dressingBtn">
             <img src="../../../../images/case/caseOfIllness/classflsy.png" alt="">
             <transition name="fade">
-            <span v-show="caseDate.dressingSwitch" class="dressingFunction" :class="{'dressingSecond': caseDate.caseClassNum === 0, 'dressingThree': caseDate.caseClassNum === 1}">
+            <div v-show="caseDate.dressingSwitch" class="dressingFunction" :class="{'dressingSecond': caseDate.caseClassNum === 0, 'dressingThree': caseDate.caseClassNum === 1}">
               <span :class="{'DressingColor': index === caseListArgs.order}" @click.stop="dressingFunction(index)" class="updata" v-for="(item, index) in caseDate.updataTime">
                 {{item}}
                 <img v-show="caseListArgs.order === index" src="../../../../images/case/caseOfIllness/yes.png" alt="">
               </span>
               <span class="before"></span>
-            </span>
+            </div>
           </transition>
           </span>
       </div>
@@ -108,7 +108,7 @@
         this.$store.dispatch('GET_INFO_NUM', {}).then( (res)=>{
           if(parseInt(tokenMethods.getInfoNum()))
           {
-            this.msgNum = Number(res.data.commentNumber) + parseInt(tokenMethods.getInfoNum());
+            this.msgNum = res.data.commentNumber == 0 ? parseInt(tokenMethods.getInfoNum()) : Number(res.data.commentNumber) + parseInt(tokenMethods.getInfoNum());
           }else {
             this.msgNum = Number(res.data.commentNumber);
           }
@@ -123,7 +123,7 @@
           })
           return
         }
-        this.$router.push({path:'/infoIndex'})
+        this.$router.push({path:'/infoIndex',query:{backName:'/' + this.$router.history.current.name}})
       },
       togoVideo(){
         this.$router.push({path: '/communitySearch', query: {id: 23}});
