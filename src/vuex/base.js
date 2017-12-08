@@ -52,6 +52,30 @@ export function get(url, params = {}) {
   });
 }
 
+
+  export function getNoLoading(url, params = {}) {
+    return new Promise((resolve, reject) => {
+      axios.get(HOST + url, {params})
+        .then((res) => {
+          if (res.status === 500 || res.status === 503 || res.status === 504 || res.status === 404) {
+            Indicator.close();
+            Indicator.open({
+              text: '服务器出小差了',
+              spinnerType: 'fading-circle'
+            });
+            setTimeout(() => {
+            }, 2000)
+            return
+          }
+          if (res.data.callStatus === 'SUCCEED') {
+            resolve(res.data.data);
+          } else {
+            if (res.data.data) resolve(res.data);
+          }
+        }).catch(err => reject(err));
+    });
+  }
+
 export function geters(url, params = {}) {
   return new Promise((resolve, reject) => {
     Indicator.open();
@@ -270,6 +294,37 @@ export function getWithToken(url, params = {}) {
       // console.log(JSON.stringify(err), 'base>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..')
       reject('网络请求错误');
       Indicator.close();
+      Toast({message: '服务器出小差了!', duration: 3000})
+    });
+  });
+}
+
+export function getWithTokenNoLoading(url, params = {}) {
+  return new Promise((resolve, reject) => {
+    axios.defaults.headers['token'] = tokenMethods.getWapToken()
+    axios.get(HOST + url, {params})
+      .then((res) => {
+        if (res.data.callStatus === 'SUCCEED') {
+          resolve(res.data);
+          return false
+        }
+        if (res.data.errorCode === 'RE_LOGIN') {
+          // console.log(res.data.errorCode)
+          Indicator.close();
+          tokenMethods.removeMsg()
+          resolve(res.data);
+          // router.push({path: '/logIn'})
+          // Toast({message: '登录过期，请重新登录！', duration: 1500})
+          return false
+        }
+        if (res.data.callStatus === 'FAILED') {
+          Indicator.close();
+          resolve(res.data);
+          return false
+        }
+      }).catch((err) => {
+      // console.log(JSON.stringify(err), 'base>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..')
+      reject('网络请求错误');
       Toast({message: '服务器出小差了!', duration: 3000})
     });
   });

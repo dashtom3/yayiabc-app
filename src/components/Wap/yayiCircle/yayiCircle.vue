@@ -141,7 +141,7 @@
       newTrend(){
         if(!tokenMethods.getWapToken()){
           MessageBox.confirm('请先登录!').then(action => {
-            this.$router.push({path: '/logIn', query: {backName: '/yayiCircle'}});
+            this.$router.push({path: '/logIn', query: {backName: '/yayi/yayiCircle'}});
           })
           return
         }

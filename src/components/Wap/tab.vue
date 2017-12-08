@@ -33,7 +33,7 @@
       <mu-bottom-nav :value="bottomNav" @change="handleChange">
         <mu-bottom-nav-item value="index" title="首页" icon="home"/>
         <mu-bottom-nav-item value="classify" title="商城" icon="class"/>
-        <mu-bottom-nav-item value="caseOfIllness" title="发现" icon="toys"/>
+        <mu-bottom-nav-item value="caseOfIllness" title="社区" icon="toys"/>
         <mu-bottom-nav-item value="yayiCircle" title="牙医圈" icon="camera"/>
         <mu-bottom-nav-item value="mine" title="我的" icon="person"/>
       </mu-bottom-nav>

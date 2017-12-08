@@ -140,6 +140,7 @@
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../common/sass/factory";
   .holder{
+    background-color: rgba(0,0,0,0.5);
     position: absolute;
     height: 100%;
     width: 100%;
@@ -155,6 +156,8 @@
     z-index: 2110;
     background-color: #fff;
     .textArea{
+      border: none;
+      background-color: #f4f4f4;
       resize: none;
       width: px2vw(710);
       margin: px2vw(20) px2vw(20) 0;
@@ -169,7 +172,7 @@
       z-index: 2120;
       margin: 0 px2vw(20);
       button{
-        width: px2vw(100);
+        width: px2vw(120);
         height: px2vw(50);
         line-height: px2vw(50);
         margin: px2vw(10) 0 0;

@@ -87,7 +87,6 @@
         answerList:[],
         showFoldSwitch:false,
         myUserId:tokenMethods.getWapUser() ? tokenMethods.getWapUser().userId:'',
-        userIdList:[],
         showAnswerBtn:false,
         isComment:false,
         commentInfo:{},
@@ -116,7 +115,6 @@
                 this.showFoldSwitch = true
               }
             }
-            this.userIdList.push(this.detailData.userId)
           }
           res.data.faqAnswerList.forEach(item =>{
             switch (true){
@@ -133,9 +131,8 @@
                 item.faqAnswerTime = Util.formatDate.format(new Date(item.faqAnswerTime),'yy.MM.dd hh:mm').substring(2);
                 break;
             }
-            this.userIdList.push(item.userId)
           });
-          if(this.myUserId.indexOf(this.userIdList) < 0){
+          if(this.myUserId != res.data.userId){
             this.showAnswerBtn = true
           }
           this.answerList = res.data.faqAnswerList.concat(this.answerList);
@@ -426,11 +423,11 @@
     position: fixed;
     bottom: 0;
     left: 0;
-    height: px2vw(120);
+    height: px2vw(98);
     width: 100%;
     background-color: $themeColor;
     color: #fff;
-    line-height: px2vw(120);
+    line-height: px2vw(98);
     text-align: center;
     font-size: px2vw(32);
   }

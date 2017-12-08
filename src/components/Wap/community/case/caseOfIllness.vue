@@ -2,7 +2,7 @@
 <div ref="scrollBox" class="wrap loading">
   <mt-loadmore :top-method="loadMore" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState">
     <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
-    <div v-if="listCaseData != null" class="scrollBox" v-infinite-scroll="getCaseListMore" infinite-scroll-immediate-check="true">
+    <div class="scrollBox" v-infinite-scroll="getCaseListMore" infinite-scroll-immediate-check="true">
       <div @click="goCaseDetailed(item)" v-for="(item, index) in listCaseData" class="caseBox" :key="index">
         <div class="userBox " :class="{'addChange1': item.cover !== ''}">
           <div class="userPicture">
@@ -24,6 +24,10 @@
           <span class="readeNum2">· {{item.postFavour}}赞</span>
           <span v-if="item.chargeNumber" class="coin"> {{item.chargeNumber}}乾币</span>
         </div>
+      </div>
+      <div v-if="noData && listCaseData != null" class="noTrend">
+        <img src="../../../../images/case/myCase/fabu.png" alt="">
+        <p>暂无任何病例~</p>
       </div>
     </div>
   </mt-loadmore>
@@ -69,6 +73,7 @@
         isLoading:false,
         listCaseData: [],//获取到列表的数据
         showNewCase: true,
+        noData:false,         //无数据
 //        listCaseData: {
 //          totalPage: null,
 //          totalNumber: null,
@@ -170,6 +175,8 @@
               this.listCaseData = this.listCaseData.concat(res.data);
               this.caseSearchArgs.totalPage = res.totalPage;
               this.caseSearchArgs.currentPage = res.currentPage;
+            }else {
+              this.noData = true;
             }
             this.isLoading = false;
           })
@@ -181,6 +188,8 @@
               this.listCaseData = this.listCaseData.concat(res.data);
               this.caseListArgs.totalPage = res.totalPage;
               this.caseListArgs.currentPage = res.currentPage;
+            }else {
+              this.noData = true;
             }
             this.isLoading = false;
           })
@@ -194,7 +203,10 @@
               this.caseDate.totalPage = res.totalPage;
               this.caseListArgs.currentPage = res.currentPage;
               this.isLoading = false;
+            }else {
+              this.noData = true;
             }
+            this.isLoading = false;
           })
         }
       },
@@ -297,6 +309,18 @@
 <style scoped lang="scss" rel="stylesheet/scss">
     @import "../../../../common/sass/factory";
 
+    .noTrend{
+      width: 100%;
+      text-align: center;
+      img{
+        margin:px2vw(400) auto px2vw(30);
+        width: px2vw(150);
+      }
+      p{
+        font-size: px2vw(30);
+        color:$themeColor;
+      }
+    }
     /* 有图添加样式 */
     .addChange2{
       display: inline-block !important;

@@ -24,7 +24,7 @@
           </div>
         </div>
       </div>
-      <div class="noData" v-else-if="!isLoading">
+      <div class="noData" v-else-if="noData && questList != null">
         <img src="../../../../images/question/noQuestionList.png" alt="">
         <p>暂无任何问题~</p>
       </div>
@@ -40,7 +40,7 @@
   import {mapGetters} from 'vuex';
   import { tokenMethods } from '../../../../vuex/util'
   import topLoadMore from '../../../salesWap/index/topLoadMore.vue';
-  import {COLLECT, FAQ_LIST, MY_QUESTION, } from '../../../../vuex/types'
+  import {COLLECT, FAQ_LIST, MY_QUESTION, SEARCH_CASE_LIST} from '../../../../vuex/types'
   import Util from '../../../../vuex/util'
 
   export default {
@@ -58,6 +58,7 @@
         totalPage:0,
         timeStamp:null,
         showNewQuest:false,
+        noData:false,
       }
     },
     components:{
@@ -83,16 +84,20 @@
           this.loadMore();
         }
       },
-      saveCaseSearching: {
-        handler: function (val) {
-          this.args.keyWord = val;
-          this.type = this.args.keyWord ? 3 : 4;
-          this.loadMore();
-        }
-      }
+//      saveCaseSearching: {
+//        handler: function (val) {
+//          this.args.keyWord = val;
+//          this.type = this.args.keyWord ? 3 : 4;
+//          this.loadMore();
+//        }
+//      }
     },
     created(){
       this.timeStamp = Date.parse(new Date());
+      if(this.saveCaseSearching){
+        this.args.keyWord = this.saveCaseSearching;
+        this.args.type = 3
+      }
       this.getQuestList();//这里可能会有问题
     },
     methods:{
@@ -112,32 +117,58 @@
             this.showNewQuest =true;
             //发现
             this.$store.dispatch(FAQ_LIST, this.args).then(res=>{
-              this.dataCompute(res.data)
-              this.questList = res.data.concat(this.questList);
-              this.totalPage = res.totalPage;
-              this.isLoading = false;
-              console.log(res,1)
+              if(res.data){
+                this.dataCompute(res.data)
+                this.questList = res.data.concat(this.questList);
+                this.totalPage = res.totalPage;
+                this.isLoading = false;
+                console.log(res,1)
+              }else {
+                this.noData = true;
+              }
             });
             break;
           case this.$router.history.current.name === 'myQuestion':
             this.$store.dispatch(MY_QUESTION, this.args).then(res=>{
-              this.dataCompute(res.data)
-              this.questList = res.data.concat(this.questList);
-              this.totalPage = res.totalPage;
-              this.isLoading = false;
-              console.log(res,2)
+              if(res.data){
+                this.dataCompute(res.data)
+                this.questList = res.data.concat(this.questList);
+                this.totalPage = res.totalPage;
+                this.isLoading = false;
+                console.log(res,2)
+              }else {
+                this.noData = true;
+              }
             });
             //我的
             break;
           case this.$router.history.current.name === 'questCollect':
             this.$store.dispatch(COLLECT, this.args).then(res=>{
-              this.dataCompute(res.data)
-              this.questList = res.data.concat(this.questList);
-              this.totalPage = res.totalPage;
-              this.isLoading = false;
-              console.log(res,3)
+              if(res.data){
+                this.dataCompute(res.data)
+                this.questList = res.data.concat(this.questList);
+                this.totalPage = res.totalPage;
+                this.isLoading = false;
+                console.log(res,3)
+              }else {
+                this.noData = true;
+              }
             });
             //收藏
+            break;
+          case this.$router.history.current.name === 'QASearch':
+            this.$store.dispatch(SEARCH_CASE_LIST, this.args).then(res=>{
+              if(res.data){
+                this.dataCompute(res.data)
+                this.questList = res.data.concat(this.questList);
+                this.totalPage = res.totalPage;
+                this.isLoading = false;
+                console.log(res,3)
+              }else {
+                this.noData = true;
+              }
+            });
+            //搜索
             break;
         }
       },

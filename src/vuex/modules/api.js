@@ -1,9 +1,11 @@
 import {
   get,
+  getNoLoading,
   geters,
   getWithToken,
   getWithSaleToken,
   getWithVerfiCode,
+  getWithTokenNoLoading,
   post,
   posts,
   postWithToken,
@@ -42,7 +44,7 @@ export function getItemQuery(params) {
 
 //获取所有商品分类和品牌列表
 export function getAllClassifyAndBrand(params) {
-  return get('/item/getAllClassifyAndBrand', params)
+  return getNoLoading('/item/getAllClassifyAndBrand', params)
 }
 
 //商品根据分类和品牌以及排序查询
@@ -196,7 +198,7 @@ export function queryOrderDetails(params) {
 
 //获取左侧边栏列表
 export function getProductLeft(params) {
-  return get('/item/getAllClassifyAndBrand', params);
+  return getNoLoading('/item/getAllClassifyAndBrand', params);
 }
 
 //展示商品分类
@@ -206,7 +208,7 @@ export function showClassify(params) {
 
 //获取品牌列表
 export function getBrandList(params) {
-  return get('/item/brandList', params);
+  return getNoLoading('/item/brandList', params);
 }
 
 //商品根据分类和品牌以及排序查询(Post)
@@ -339,22 +341,22 @@ export function newTrend(params) {
 
 //获取牙医圈列表
 export function yayiCircle(params) {
-  return getWithToken('/moment/queryList', params);
+  return getWithTokenNoLoading('/moment/queryList', params);
 }
 
 //获取问答列表
 export function FAQList(params) {
-  return getWithToken('/faq/list', params);
+  return getWithTokenNoLoading('/faq/list', params);
 }
 
 //获取我的问答列表
 export function myQuestion(params) {
-  return getWithToken('/faq/myQuestion', params);
+  return getWithTokenNoLoading('/faq/myQuestion', params);
 }
 
 //获取我的回答列表
 export function myAnswer(params) {
-  return getWithToken('/faq/myAnswer', params);
+  return getWithTokenNoLoading('/faq/myAnswer', params);
 }
 
 //发布问题
@@ -374,7 +376,7 @@ export function faqDetail(params) {
 
 //获取我的牙医圈列表
 export function myYayiCircle(params) {
-  return getWithToken('/moment/myMoment', params);
+  return getWithTokenNoLoading('/moment/myMoment', params);
 }
 
 //获取单条牙医圈列表
@@ -415,7 +417,7 @@ export function getInfoNum(params) {
 
 //获取病例列表
 export function searchCaseList(params) {
-  return getWithToken('/search/findList', params);
+  return getWithTokenNoLoading('/search/findList', params);
 }
 /*
 wx_绑定用户&扫码绑定销售的接口
