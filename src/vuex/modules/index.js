@@ -1370,6 +1370,16 @@ const actions = {
       });
     });
   },
+  // 收藏问题
+  [types.FAQ_STAR](context, params) {
+    return new Promise((resolve, reject) => {
+      api.FAQStar(params).then((data) => {
+        resolve(data);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  },
   // 问答列表
   [types.FAQ_DETAIL](context, params) {
     return new Promise((resolve, reject) => {

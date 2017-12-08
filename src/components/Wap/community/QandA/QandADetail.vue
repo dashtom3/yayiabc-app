@@ -3,7 +3,8 @@
     <div class="header">
       <span class="back-click-area" @click="goBack"></span>
       <span class="share" @click="isSharing(detailData.faqQuestionId)"></span>
-      <span class="collect"></span>
+      <span class="collect" @click="collect"></span>
+      <!--<span class="isCollected" @click="collect"></span>-->
     </div>
     <div class="container">
       <div class="eachContainer">
@@ -65,7 +66,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {FAQ_DETAIL, } from '../../../../vuex/types'
+  import {FAQ_DETAIL, FAQ_STAR} from '../../../../vuex/types'
   import { InfiniteScroll} from 'mint-ui';
   import Util from '../../../../vuex/util'
   import { tokenMethods } from '../../../../vuex/util'
@@ -185,6 +186,13 @@
         this.$router.go(-1);
         this.$destroy()
       },
+      collect(){
+        this.$store.dispatch(FAQ_STAR, this.args).then(res=> {
+          if(res.callStatus === 'SUCCEED'){
+//            this.detailData.a = !this.detailData.a;
+          }
+        })
+      },
       isCommenting(){
         if(!tokenMethods.getWapToken()){
           MessageBox.confirm('请先登录!').then(action => {
@@ -263,6 +271,15 @@
       right: px2vw(80);
       width: px2vw(80);
       background: url("../../../../images/mine/star.png") px2vw(20) center no-repeat;
+      background-size: px2vw(40) px2vw(38);
+    }
+    .isCollected {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      right: px2vw(80);
+      width: px2vw(80);
+      background: url("../../../../images/mine/collectWhite.png") px2vw(20) center no-repeat;
       background-size: px2vw(40) px2vw(38);
     }
   }

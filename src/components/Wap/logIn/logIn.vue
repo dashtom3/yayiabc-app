@@ -258,6 +258,7 @@
           phone: that.mobilePhone,
           password: str,
         }
+
         that.$store.dispatch('GET_LOGIN', obj).then((res) => {
           if (res.data.callStatus === 'SUCCEED') {
             tokenMethods.setWapToken(res.data.token)

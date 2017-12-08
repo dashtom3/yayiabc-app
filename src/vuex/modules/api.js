@@ -374,6 +374,11 @@ export function faqDetail(params) {
   return getWithToken('/faq/detail', params);
 }
 
+//收藏问题
+export function FAQStar(params) {
+  return getWithToken('/faq/star', params);
+}
+
 //获取我的牙医圈列表
 export function myYayiCircle(params) {
   return getWithTokenNoLoading('/moment/myMoment', params);

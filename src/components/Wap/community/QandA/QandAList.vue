@@ -6,7 +6,7 @@
         <div class="eachContainer" @click="gotoDetail(value.faqQuestionId)" v-for="(value,index) in questList" v-if="questList.length > 0">
           <div class="headLine">
             <div class="headImg">
-              <img :src="questList.userPic" alt="" v-if="value.userPic">
+              <img :src="value.userPic" alt="" v-if="value.userPic">
               <img src="../../../../images/mine/defaultHead.png" alt="" v-else>
             </div>
             <div class="name">
@@ -24,7 +24,7 @@
           </div>
         </div>
       </div>
-      <div class="noData" v-else-if="noData && questList != null">
+      <div class="noData" v-if="noData && questList.length == 0">
         <img src="../../../../images/question/noQuestionList.png" alt="">
         <p>暂无任何问题~</p>
       </div>
@@ -117,7 +117,7 @@
             this.showNewQuest =true;
             //发现
             this.$store.dispatch(FAQ_LIST, this.args).then(res=>{
-              if(res.data){
+              if(res.data.length > 0){
                 this.dataCompute(res.data)
                 this.questList = res.data.concat(this.questList);
                 this.totalPage = res.totalPage;
@@ -130,7 +130,7 @@
             break;
           case this.$router.history.current.name === 'myQuestion':
             this.$store.dispatch(MY_QUESTION, this.args).then(res=>{
-              if(res.data){
+              if(res.data.length > 0){
                 this.dataCompute(res.data)
                 this.questList = res.data.concat(this.questList);
                 this.totalPage = res.totalPage;
@@ -144,7 +144,7 @@
             break;
           case this.$router.history.current.name === 'questCollect':
             this.$store.dispatch(COLLECT, this.args).then(res=>{
-              if(res.data){
+              if(res.data.length > 0){
                 this.dataCompute(res.data)
                 this.questList = res.data.concat(this.questList);
                 this.totalPage = res.totalPage;
@@ -158,7 +158,7 @@
             break;
           case this.$router.history.current.name === 'QASearch':
             this.$store.dispatch(SEARCH_CASE_LIST, this.args).then(res=>{
-              if(res.data){
+              if(res.data.length > 0){
                 this.dataCompute(res.data)
                 this.questList = res.data.concat(this.questList);
                 this.totalPage = res.totalPage;

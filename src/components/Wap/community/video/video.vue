@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="out">
       <!--无视频样式-->
       <div v-if="isShow" class="noneVideo">
         <div class="noneV">
@@ -96,17 +96,23 @@
       saveCaseDressing: function (newVal,oldVal) {
         this.videoListArgs.videoCategory = this.saveCaseDressing;
         this.videoListArgs.currentPage = 1;
-        this.getChangeList();
+        this.videoArgs = [];
+        this.isShow = false;
+        this.getVideoList();
       },
       saveCaseOrder: function (newVal,oldVal) {
         this.videoListArgs.rule = this.saveCaseOrder;
         this.videoListArgs.currentPage = 1;
-        this.getChangeList();
+        this.videoArgs = [];
+        this.isShow = false;
+        this.getVideoList();
       },
     },
     created(){
       if(this.$router.history.current.name === 'videoSearch'){
         this.caseSearchArgs.keyWord = this.saveCaseSearching;
+        this.videoArgs = [];
+        this.isShow = false;
       }
       this.getVideoList()
     },
@@ -146,7 +152,15 @@
             this.caseSearchArgs.totalPage = res.totalPage;
             this.caseSearchArgs.currentPage = res.currentPage;
             this.isLoading = false;
-            if (this.videoArgs == 0) {
+            this.videoArgs = this.videoArgs.filter((item) =>{
+              if(item.vidRoute.substr(0,4) === "http")
+              {
+                return true;
+              }else{
+                return false;
+              }
+            });
+            if (this.videoArgs.length == 0) {
               this.isShow = true
             }
           })
@@ -156,7 +170,15 @@
             this.caseSearchArgs.totalPage = res.totalPage;
             this.caseSearchArgs.currentPage = res.currentPage;
             this.isLoading = false;
-            if (this.videoArgs == 0) {
+            this.videoArgs = this.videoArgs.filter((item) =>{
+              if(item.vidRoute.substr(0,4) === "http")
+              {
+                return true;
+              }else{
+                return false;
+              }
+            });
+            if (this.videoArgs.length == 0) {
               this.isShow = true
             }
           })
@@ -166,35 +188,44 @@
             this.$nextTick( ()=>{
               this.videoSwitch = true;
             });
-            if(res.msg !== "服务器错误")
+            if(res.data.length > 0)
             {
+              console.log(res.data)
               this.videoArgs = res.data;
               this.videoArgs['totalPage'] = res.totalPage;
               this.isLoading = false;
-              return
+              this.videoArgs = this.videoArgs.filter((item) =>{
+                if(item.vidRoute.substr(0,4) === "http")
+                {
+                  return true;
+                }else{
+                  return false;
+                }
+              });
             }
-            if (this.videoArgs == 0) {
+            else {
+              console.log(this.videoArgs,res.data)
               this.isShow = true
             }
           });
         }
       },
-      getChangeList(){
-        this.$store.dispatch('GET_VIDEO_LIST', this.videoListArgs).then((res) => {
-          this.videoArgs = res.data;
-          this.videoArgs['totalPage'] = res.totalPage;
-          this.videoArgs['currentPage'] = res.currentPage;
-          this.videoArgs = this.videoArgs.filter((item) =>{
-            if(item.vidRoute.substr(0,4) === "http")
-            {
-              return true;
-            }else{
-              return false;
-            }
-          });
-          this.isLoaded();
-        });
-      },
+//      getChangeList(){
+//        this.$store.dispatch('GET_VIDEO_LIST', this.videoListArgs).then((res) => {
+//          this.videoArgs = res.data;
+//          this.videoArgs['totalPage'] = res.totalPage;
+//          this.videoArgs['currentPage'] = res.currentPage;
+//          this.videoArgs = this.videoArgs.filter((item) =>{
+//            if(item.vidRoute.substr(0,4) === "http")
+//            {
+//              return true;
+//            }else{
+//              return false;
+//            }
+//          });
+//          this.isLoaded();
+//        });
+//      },
       //无限滚动
       getCaseListMore (){
         this.videoListArgs.currentPage++;
@@ -260,6 +291,10 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss" rel="stylesheet/scss">
 @import "../../../../common/sass/factory";
+.out{
+  width: 100%;
+  min-height: 85vh;
+}
 .noneVideo{
   z-index: 9999;
   position: fixed;
