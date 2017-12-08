@@ -16917,12 +16917,6 @@
       className: 'slot2',
       textAlign: 'center'
     },
-    {
-      flex: 1,
-      values: [],
-      className: 'slot3',
-      textAlign: 'center'
-    }
   ];
 
   export default {
@@ -16955,20 +16949,15 @@
       onValuesChange(picker, values) {
         if (values[0]) {
           this.slots[1].values = address.filter((item, index) => {
-            if (item.apid === values[0].aid) {
+            if (item.apid === values[0].aid && item.aname != '不限') {
               return item;
             }
           });
         }
-        if (values[1]) {
-          this.slots[2].values = address.filter((item, index) => {
-            if (item.apid === values[1].aid) {
-              return item;
-            }
-          });
-        }
-        if (values[2]) {
-          this.temp_addr = values[0].aname + ' ' + values[1].aname + ' ' + values[2].aname;
+        if (values[1] && values[1].aname != '不限') {
+          this.temp_addr = values[1].aname;
+        } else {
+          this.temp_addr = values[0].aname
         }
       },
       open() {

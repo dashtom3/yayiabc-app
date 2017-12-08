@@ -26,11 +26,11 @@
         </el-upload>
       </div>
       <!--用户名-->
-      <mt-field class="ml bb" label="用户名" placeholder="请输入用户名" v-model="personInfo.phone" readonly disableClear></mt-field>
+      <mt-field class="ml bb userPhone" label="用户名" placeholder="请输入用户名" v-model="personInfo.phone" readonly disableClear></mt-field>
       <!--真实姓名-->
-      <div class="require-wrapper ml nameTrue">
+      <div class="require-wrapper">
         <span class="require">*</span>
-        <mt-field @click.native="focus" label="真实姓名" placeholder="请输入真实姓名" class="input_arrow pl" v-model="personInfo.trueName" disableClear></mt-field>
+        <mt-field @click.native="focus" label="真实姓名" placeholder="请输入真实姓名" class="input_arrow pl bb" v-model="personInfo.trueName" disableClear></mt-field>
       </div>
       <!--性别-->
       <a class="mint-cell mint-field input_arrow pl select bb">
@@ -57,7 +57,7 @@
       <!--单位名称-->
       <div class="require-wrapper">
         <span class="require">*</span>
-        <mt-field @click.native="focus" label="单位名称" class="input_arrow pl" placeholder="请输入单位名称" v-model="personInfo.companyName" disableClear></mt-field>
+        <mt-field @click.native="focus" label="单位名称" class="input_arrow pl bb" placeholder="请输入单位名称" v-model="personInfo.companyName" disableClear></mt-field>
       </div>
       <!--单位所在地-->
       <a class="mint-cell mint-field pl input_arrow bb">
@@ -269,6 +269,9 @@
 </script>
 <style lang="scss" rel="stylesheet/scss">
   @import "../../../common/sass/factory";
+  .mint-cell:last-child{
+    background: none;
+  }
   .edit-info .el-upload, .input_arrow .mint-cell-value{
     background: url(../../../images/mine/back.png) no-repeat;
     background-position: center right;
@@ -291,7 +294,7 @@
     padding-left: 0;
   }
   .personal_data .edit-info .mint-cell-wrapper{
-    width: 100%;
+    width: 98%;
     padding: 0;
     position: relative;
     background-size: 120% 0;
@@ -329,7 +332,11 @@
       border-radius: 50%;
     }
   }
-  
+  .personal_data .edit-info .userPhone .mint-cell-wrapper{
+     input[type="text"]{
+      color: #ccc;
+    }
+  }
   .personal_data .mint-field-core{
     background-position: center right;
     background-size: px2vw(12) px2vw(26);
@@ -377,7 +384,7 @@
     // bottom: 0;
     left: 0;
     right: 0;
-    padding: 0 px2vw(22) 0 0;
+    // padding: 0 px2vw(22) 0 0;
     // overflow: scroll;
     background: #fff;
     -webkit-overflow-scrolling: touch;
@@ -444,11 +451,11 @@
     width: px2vw(750);
     height: px2vw(118);
     line-height: px2vw(118);
-    padding-left: px2vw(20);
+    margin-left: px2vw(20);
   }
   // border-bottom
   .bb{
-    border-bottom: 1px solid rgb(229,229,229);
+    border-bottom: px2vw(1) solid rgb(229,229,229);
   }
   // .bb{
   //   position: relative;

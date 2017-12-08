@@ -468,8 +468,6 @@
       },
       // QQ咨询
       qq_contact() {
-        console.dir(this)
-        console.log(this)
         if (plus.os.name == "iOS") {  
           plus.runtime.launchApplication({  
           action: "mqq://im/chat?chat_type=wpa&uin=2966679536&version=1&src_type=web"  

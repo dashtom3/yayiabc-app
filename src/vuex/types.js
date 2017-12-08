@@ -211,4 +211,4 @@ export const DATUMBASE_LIST = 'DATUMBASE_LIST'                    // 资料库
 export const SAVE_DATUM_DRESSING = 'SAVE_DATUM_DRESSING';           //保存资料库筛选按钮的值
 
 export const GET_ENTERPRISE_DATA = 'GET_ENTERPRISE_DATA';           //获取企业录
-
+export const GET_YAYI_DATA = 'GET_YAYI_DATA';           //获取企业录

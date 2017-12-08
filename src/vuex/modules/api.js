@@ -4,6 +4,7 @@ import {
   geters,
   getWithToken,
   getWithSaleToken,
+  getWithSaleTokenNull,
   getWithVerfiCode,
   getWithTokenNoLoading,
   post,
@@ -670,5 +671,9 @@ export function getDatumBaseList(params) {
 
 // 企业录
 export function getEnterpriseList(params) {
-  return geters('/crawlerPages/getYellowPages', params)
+  return geters('/crawlerPages/getList', params)
+}
+// 牙医录
+export function getYayiList(params) {
+  return getWithSaleTokenNull('/findCus/registered', params)
 }

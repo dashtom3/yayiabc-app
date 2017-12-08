@@ -393,7 +393,23 @@ export function getWithSaleToken(url, params = {}) {
       });
   });
 }
-
+//创客带token的get请求
+export function getWithSaleTokenNull(url, params = {}) {
+  return new Promise((resolve, reject) => {
+    Indicator.open();
+    axios.defaults.headers['saleToken'] = 'saleToken'
+    axios.get(HOST + url, {params})
+      .then((res) => {
+        resolve(res.data)
+        Indicator.close();
+      })
+      .catch(() => {
+        Indicator.close()
+        reject('网络请求错误')
+        Toast({message: '服务器出小差了!', duration: 3000})
+      });
+  });
+}
 //创客带token的post请求
 export function postWithSaleToken(url, params) {
   return new Promise((resolve, reject) => {

@@ -18,12 +18,15 @@
           <img src="../../../images/salesWap/customer/down.png" alt="下拉">
         </div>
         <div class="search-box">
-          <span>
+          <span @click="searchInfo">
             <img src="../../../images/salesWap/customer/search-c.png" alt="搜索">
           </span>
-          <input type="text">
+          <input v-model="keyWords" type="text" placeholder="请输入关键字">
+          <span v-show="closeShow" class="close-wrapper" @click="closeKeyWord">
+            <img class="close" src="../../../images/saleman/close.png" alt="关闭">
+          </span>
         </div>
-        <div class="map-wrapper">
+        <div class="map-wrapper" v-show="mapIconShow">
           <img src="../../../images/salesWap/customer/map.png" alt="地图">
           <span>地图</span>
         </div>
@@ -48,11 +51,14 @@ export default {
     return {
       classIndex: 0,
       classify: ['门诊', '牙医'],
-      address: '上海市'
+      address: '上海市',
+      mapIconShow: true,
+      keyWords: '',
+      closeShow: false,
     };
   },
   created () {
-    this.$router.push({path:'/enterpriseList'});
+    
   },
   methods: {
     toBack(){
@@ -65,7 +71,31 @@ export default {
       this.address = e.split(' ').join('/')
     },
     changeIndex(index) {
-      console.log(index);
+      this.classIndex = index;
+      if (index === 0) {
+        this.mapIconShow = true
+        this.$router.push({path:'/enterpriseList'});
+      } else {
+        this.mapIconShow = false
+        this.$router.push({path:'/salesYayi'});
+      }
+    },
+    searchInfo() {
+      this.$router.push({path:'/enterpriseList', query: {'keyWord': this.keyWords}});
+    },
+    closeKeyWord() {
+      this.keyWords = '';
+    }
+  },
+  watch: {
+    keyWords: {
+      handler: function (val) {
+        if (val == '') {
+          this.closeShow = false
+        } else {
+          this.closeShow = true
+        }
+      }
     }
   }
 }
@@ -79,9 +109,10 @@ export default {
   top:0;
   left: 0;
   width: 100vw;
-  height: px2vw(198);
+  height: px2vw(180);
 }
 .header-top {
+  position: relative;
   background-color: $themeColor;
   height: px2vw(88);
   border-bottom: px2vw(1) solid $borderColor;
@@ -128,8 +159,11 @@ export default {
     color: #fff;
   }
 .person-img-box{
-  position: relative;
+  position: absolute;
+  width: px2vw(88);
   height: px2vw(88);
+  top: 0;
+  right: 0;
   padding-left: px2vw(20);
   padding-right: px2vw(20);
   img{
@@ -185,10 +219,19 @@ export default {
       position: absolute;
       top: 0;
       right: 0;
+      padding: 0 0 0 px2vw(8);
+      margin: px2vw(16) 0 0 0;
       width: px2vw(390);
-      height: px2vw(60);
+      height: px2vw(30);
+      line-height: px2vw(30);
+      font-size: px2vw(26);
       outline: none;
       border: none;
+    }
+    .close-wrapper{
+      position: absolute;
+      top: px2vw(2);
+      right: px2vw(20)
     }
   }
   .map-wrapper{
@@ -217,7 +260,7 @@ export default {
   }
 }
 .content-wrapper{
-  margin-top: px2vw(198);
+  margin-top: px2vw(180);
 }
 .split{
   width: 100%;
