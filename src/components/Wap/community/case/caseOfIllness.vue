@@ -6,13 +6,11 @@
       <div @click="goCaseDetailed(item)" v-for="(item, index) in listCaseData" class="caseBox" :key="index">
         <div class="userBox " :class="{'addChange1': item.cover !== ''}">
           <div class="userPicture">
-            <img :src="item.user != undefined ? item.user.userPic : require('../../../../images/case/hPic.png')" alt="">
+            <img :src="item.user != undefined ? item.user.userPic + '?imageView2/1/w/200/h/200' : require('../../../../images/case/hPic.png')" alt="">
             <span class="userName">{{item.writer}}</span>
             <span class="userName userTime">{{item.postTime}}</span>
           </div>
-          <div class="caseContent">
-            {{item.headline}}
-          </div>
+          <div class="caseContent">{{item.headline}}</div>
         </div>
         <div v-if="item.cover !== ''" class="userImgBox" :class="{'addChange2': item.cover !== ''}">
           <img :src="item.cover" alt="">
@@ -32,9 +30,9 @@
     </div>
   </mt-loadmore>
   <!--编辑按钮-->
-  <div class="edit" @click="gotoPage('/newCase')" v-if="showNewCase">
+  <!-- <div class="edit" @click="gotoPage('/newCase')" v-if="showNewCase">
     <img src="../../../../images/case/caseOfIllness/editer.png" alt="">
-  </div>
+  </div> -->
   <!--编辑按钮-->
 </div>
 </template>
@@ -94,7 +92,7 @@
       this.getCaseList();
       this.timeStamp = Date.parse(new Date());
       if(this.$router.history.current.name === 'caseOfIllnessSearch'){
-        this.showNewCase = false;
+        // this.showNewCase = false;
         this.caseSearchArgs.keyWord = this.saveCaseSearching;
       }
     },
@@ -151,7 +149,7 @@
       }),
       goCaseDetailed(item){
         this.saveCaseIllness(item)
-        this.$router.push({path: '/caseDetailed', query:{'id': item.postId}})
+        this.$router.push({path: '/caseDetailed', query:{'id': item.postId, backLocal: this.$route.fullPath}})
       },
       getCaseListMore (){
         if(this.caseDate.totalPage <= this.caseListArgs.currentPage)
@@ -347,11 +345,11 @@
      width: px2vw(100);
      height: px2vw(100);
      position: fixed;
-     bottom: px2vw(148);
+     top: px2vw(1085);
      right: px2vw(50);
      img{
        width: 100%;
-       height: 100%;
+      //  height: 100%;
      }
    }
    .scrollBox{

@@ -30,34 +30,49 @@
 </template>
 
 <script type="text/ecmascript-6">
-    export default {
-      data(){
-        return{
-          bottomVal:''
+import {tokenMethods} from '@vuex/util'
+export default {
+  data(){
+    return{
+      bottomVal:''
 
-        }
-      },
-      props:['bottomNav'],
-      created(){
-        this.bottomVal=this.bottomNav;
-      },
-      methods:{
-        handleChange(val){
-          console.log(val);
-          this.bottomVal=val;
-          if(val==='achievement'){
-            this.$router.push({path: '/salesIndex'});
-          }else if(val==='range'){
-            this.$router.push({path: '/salesRange'});
-          }else if(val==='customer'){
-            this.$router.push({path: '/salesCustomer'});
-          }else if(val==='personal'){
-            this.$router.push({path: '/salePersonal'});
-          }
-
-        }
-      }
     }
+  },
+  props:['bottomNav'],
+  created(){
+    this.bottomVal=this.bottomNav;
+  },
+  methods:{
+    handleChange(val){
+      console.log(val);
+      this.bottomVal=val;
+      if(val==='achievement'){
+        // 判断是否登录
+        if (tokenMethods.getSalesToken()) {
+          this.$router.push({path: '/salesIndex'});
+          return
+        }
+        this.$router.push({path: '/salesLogin'});
+      }else if(val==='range'){
+        if (tokenMethods.getSalesToken()) {
+          this.$router.push({path: '/salesRange'});
+          return
+        }
+        this.$router.push({path: '/salesLogin'});
+      }else if(val==='customer'){
+        // this.$router.push({path: '/salesCustomer'});
+        this.$router.push({path: '/enterpriseRecord'});
+      }else if(val==='personal'){
+        if (tokenMethods.getSalesToken()) {
+          this.$router.push({path: '/salePersonal'});
+          return
+        }
+        this.$router.push({path: '/salesLogin'});
+      }
+
+    }
+  }
+}
 </script>
 
 <style  lang="scss" rel="stylesheet/scss">

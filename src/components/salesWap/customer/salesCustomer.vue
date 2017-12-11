@@ -2,7 +2,8 @@
   <div class="salesCustomer">
     <div class="wrap_box">
       <div class="top_box">
-        发现客户
+        <span class="back-click-area" @click="goBack"></span>
+        <span>发现客户</span>
       </div>
     <div class="login">
       <div class="loginBox">
@@ -105,6 +106,10 @@
         }
       },
       methods: {
+        // 返回app页面
+        goBack() {
+          this.$router.push({path:'/yayi/index'})
+        },
         toMyCoustomer(){
           this.$router.push({path:'/myCustomer', query:{backJudge: 'salesCustomer'}})
         },
@@ -269,6 +274,15 @@
       top:0;
       left: 0;
       z-index: 998;
+      .back-click-area {
+        position: absolute;
+        top: 0;
+        height: px2vw(88);
+        left: 0;
+        width: px2vw(150);
+        background: url("../../../images/logIn/back.png") px2vw(20) center no-repeat;
+        background-size: px2vw(18) px2vw(29);
+      }
     }
     .salesBox{
       background: #e5e5e5;

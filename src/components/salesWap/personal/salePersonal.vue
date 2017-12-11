@@ -1,6 +1,6 @@
 <template>
   <div class="salesPerson-container">
-    <sales-header headerText="个人中心" :noBack="true"></sales-header>
+    <sales-header headerText="个人中心" :noBack="false"></sales-header>
     <div class="sale-info-container">
       <div class="avatar-content" @click="goPage('salePersonalData')">
         <img class="avatar" v-if="!saleInfo.salePic " src="../../../images/salePersonal/avatar.jpg" alt="" width="100%"

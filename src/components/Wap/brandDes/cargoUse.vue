@@ -1,6 +1,12 @@
 <template>
   <div class="cargoUse">
-    <div v-if="isActive" class="instruction" v-html="itemDetail.itemUse"></div>
+    <div v-if="isActive" class="instruction" v-html="itemDetail.itemUse">
+      <!-- <video-play :isVideo="typeVideo" ref="videoPlay"  v-if="videoSwitch">
+        <video slot="video" webkit-playsinline="true" playsinline="true" class="video">
+          <source slot="sourceSrc" type="video/mp4"></source>
+        </video>
+      </video-play> -->
+    </div>
     <div class="noInfo" v-else>
       <img class="useInfo_img" src="../../../images/details/useInfo.png" alt="img">
       <p class="useInfo_word">使用说明（图文和视频）正在紧急制作中～</p>
@@ -11,15 +17,19 @@
 
 <script>
 import {Indicator} from 'mint-ui'
+// import videoPlay from '@/components/Wap/community/video/videoPlay.vue'
 export default {
   name: 'cargoUse',
   data () {
     return {
+      typeVideo: 'videoDetail',
+      videoSwitch: false,
       itemDetail: {},
       isActive: true,
     }
   },
   components: {
+    // videoPlay
   },
   created: function() {
     var that = this

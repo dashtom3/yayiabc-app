@@ -354,7 +354,7 @@
     width: 100vw;
     height: px2vw(88);
     line-height: px2vw(88);
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     padding-bottom: 10vw;

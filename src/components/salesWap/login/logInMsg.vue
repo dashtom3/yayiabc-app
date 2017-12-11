@@ -82,7 +82,8 @@ export default {
           Toast({message: '登录成功', duration: 3000})
           that.mobilePhone = ''
           that.identifyCode = ''
-          that.$router.push({ path: '/salesIndex'})
+          // that.$router.push({ path: '/salesIndex'})
+          this.$router.push({path: '/enterpriseRecord'})
         } else {
           Toast({message: res.data.msg, duration: 3000})
         }

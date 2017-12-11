@@ -33,7 +33,9 @@ export default {
       this.$router.push('/register')
     },
     goToServiceHandler(){
-      this.$router.push('/salesLogin')
+      //直接跳到发现客户页面
+      // this.$router.push({path: '/salesCustomer'})
+      this.$router.push({path: '/enterpriseRecord'})
     },
     goToQb(){
       if(tokenMethods.getWapToken()) {

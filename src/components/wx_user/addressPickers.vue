@@ -16949,15 +16949,13 @@
       onValuesChange(picker, values) {
         if (values[0]) {
           this.slots[1].values = address.filter((item, index) => {
-            if (item.apid === values[0].aid && item.aname != '不限') {
+            if (item.apid === values[0].aid) {
               return item;
             }
           });
         }
-        if (values[1] && values[1].aname != '不限') {
+        if (values[1]) {
           this.temp_addr = values[1].aname;
-        } else {
-          this.temp_addr = values[0].aname
         }
       },
       open() {
@@ -16980,6 +16978,7 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../common/sass/factory";
+
   .addressPicker-container {
     width: 100%;
     .mint-datetime-action {
@@ -16996,8 +16995,11 @@
     .picker-toolbar {
       border-bottom: solid 1px #eaeaea;
     }
+
     .address-picker {
 
     }
+
   }
+
 </style>

@@ -30,14 +30,14 @@
         <span @click="caseDate.dressingSwitch = !caseDate.dressingSwitch" class="dressingBtn">
             <img src="../../../../images/case/caseOfIllness/classflsy.png" alt="">
             <transition name="fade">
-            <div v-show="caseDate.dressingSwitch" class="dressingFunction" :class="{'dressingSecond': caseDate.caseClassNum === 0, 'dressingThree': caseDate.caseClassNum === 1}">
-              <span :class="{'DressingColor': index === caseListArgs.order}" @click.stop="dressingFunction(index)" class="updata" v-for="(item, index) in caseDate.updataTime">
-                {{item}}
-                <img v-show="caseListArgs.order === index" src="../../../../images/case/caseOfIllness/yes.png" alt="">
-              </span>
-              <span class="before"></span>
-            </div>
-          </transition>
+              <div v-show="caseDate.dressingSwitch" class="dressingFunction" :class="{'dressingSecond': caseDate.caseClassNum === 0, 'dressingThree': caseDate.caseClassNum === 1}">
+                <span :class="{'DressingColor': index === caseListArgs.order}" @click.stop="dressingFunction(index)" class="updata" v-for="(item, index) in caseDate.updataTime">
+                  {{item}}
+                  <img v-show="caseListArgs.order === index" src="../../../../images/case/caseOfIllness/yes.png" alt="">
+                </span>
+                <span class="before"></span>
+              </div>
+            </transition>
           </span>
       </div>
 
@@ -46,6 +46,14 @@
         <!--内容开始-->
         <router-view></router-view>
         <!--内容结束-->
+      </div>
+       <!--编辑按钮-->
+      <div class="edit1" @click="gotoPage1('/newCase')" v-show="caseDate.caseClassNum==0">
+        <img src="../../../../images/case/caseOfIllness/editer.png" alt="">
+      </div>
+      <!-- 问答按钮 -->
+      <div class="edit2" @click="gotoPage2('/newQuest')" v-if="caseDate.caseClassNum==2">
+        <img src="../../../../images/question/newQuestion.png" alt="">
       </div>
     </div>
 </template>
@@ -147,8 +155,26 @@
         this.$store.dispatch('SAVE_CASE_DRESSING',  index);
         this.caseListArgs.classify = index;
       },
-      gotoPage(page){
+      // gotoPage(page){
+      //   this.$router.push(page)
+      // },
+      gotoPage1(page){
+        if(!tokenMethods.getWapToken()){
+          MessageBox.confirm('请先登录!').then(action => {
+            this.$router.push({path: '/logIn', query: {backName: '/caseOfIllness'}});
+          })
+          return
+        }
         this.$router.push(page)
+      },
+      gotoPage2(router){
+        if(!tokenMethods.getWapToken()){
+          MessageBox.confirm('请先登录!').then(action => {
+            this.$router.push({path: '/logIn', query: {backName: '/yayiCircle'}});
+          })
+          return
+        }
+        this.$router.push(router)
       },
       // 病例 视频 培训分类
       changeClass (index){
@@ -333,8 +359,8 @@
     display: inline-block;
     width: 0;
     position: absolute;
-    top:px2vw(38);
-    right: px2vw(-10);
+    top:px2vw(40);
+    right: px2vw(-9);
     border-top: px2vw(16) solid transparent;
     border-right: px2vw(10) solid transparent;
     border-left: px2vw(10) solid transparent;
@@ -346,7 +372,7 @@
     position: absolute;
     top: px2vw(80);
     left: px2vw(-128);
-    border: 1px solid #9ac8f6;
+    border: px2vw(2) solid #9ac8f6;
     width: px2vw(200);
     border-radius: px2vw(10);
     background-color: white;
@@ -375,6 +401,28 @@
   }
   .DressingColor{
     color: #3676b6;
+  }
+  .edit1{
+     width: px2vw(88);
+     height: px2vw(88);
+     position: fixed;
+     bottom: px2vw(154);
+     right: px2vw(56);
+     img{
+       width: 100%;
+      //  height: 100%;
+     }
+  }
+  .edit2{
+     width: px2vw(100);
+     height: px2vw(100);
+     position: fixed;
+     bottom: px2vw(148);
+     right: px2vw(50);
+     img{
+       width: 100%;
+      //  height: 100%;
+     }
   }
 </style>
 

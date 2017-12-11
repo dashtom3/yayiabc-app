@@ -3,7 +3,7 @@
     <div v-if="yayiDataList != null" class="scrollBox" v-infinite-scroll="getListMore" infinite-scroll-immediate-check="true">
       <div class="yayi-item"  v-for="(item, index) in yayiDataList" :key="index">
         <div class="item-left clearfix">
-          <img v-if="item.userPic" :src="item.userPic" alt="头像">
+          <img v-if="item.userPic" :src="item.userPic + '?imageView2/1/w/200/h/200'" alt="头像">
           <img v-else src="../../../images/mine/defaultHead.png" alt="头像">
         </div>
         <div class="item-right">

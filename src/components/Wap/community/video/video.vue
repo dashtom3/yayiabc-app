@@ -293,7 +293,7 @@
 @import "../../../../common/sass/factory";
 .out{
   width: 100%;
-  min-height: 85vh;
+  min-height: 79vh;
 }
 .noneVideo{
   z-index: 9999;

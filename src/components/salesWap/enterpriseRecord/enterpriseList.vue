@@ -7,7 +7,7 @@
       <div class="enterprise-item" v-for="(item, index) in enterpriseList" :key="index">
         <div class="item-top clearfix">
           <h2 class="item-title">{{ item.poiname }}</h2>
-          <p v-if="tipsShow" class="item-phone">{{ item.telephone !== null ? item.telephone : '暂无联系方式' }}</p>
+          <p v-if="!tipsShow" class="item-phone">{{ item.telephone !== null ? item.telephone : '暂无联系方式' }}</p>
           <p v-else class="item-phone">{{ item.telephone | formatPhone }}</p>
         </div>
         <div class="item-bottom">
@@ -18,7 +18,7 @@
     </div>
     <div v-else class="no-result">
       <img src="../../../images/saleman/no-result.png" alt="暂无结果">
-      <span class="no-info">暂无相关信息~</span>
+      <div class="no-info">暂无相关信息~</div>
     </div>
     <div class="end-wrapper" v-show="endShow">
       <span class="end">-End-</span>
@@ -102,6 +102,21 @@ a{
     font-family: 'PingFangSC-Medium' !important;
     font-size: px2vw(28);
     border-bottom: px2vw(2) solid #fff;
+  }
+}
+.no-result{
+  height: px2vw(1153);
+  background: rgba(188,188,188,0.49);
+  font-size: 0;
+  img{
+    display: inline-block;
+    margin: px2vw(400) 0 px2vw(40) px2vw(308);
+    width: px2vw(134);
+    height: px2vw(124);
+  }
+  div{
+    font-size: px2vw(30);
+    text-align: center;
   }
 }
 .enterprise-item{

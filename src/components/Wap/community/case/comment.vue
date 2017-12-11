@@ -146,9 +146,9 @@
         <div>  <!--开关-->
           <div v-show="commentSwitch" class="writeCommentBox">
             <div @click="write('one')" class="writeCommentBoxSecond">
-          <span class="writeImgBox">
-            <img src="../../../../images/case/caseOfIllness/write.png" alt="">
-          </span>
+              <span class="writeImgBox">
+                <img src="../../../../images/case/caseOfIllness/write.png" alt="">
+              </span>
               <span>有想法就写下来吧&nbsp;.&nbsp;.&nbsp;.</span>
             </div>
           </div>
@@ -201,7 +201,7 @@
     data(){
       return{
         commentIndex: '',
-        commentSwitch: false,
+        commentSwitch: true,
         writeSwitch: true,
         containerScrollTop: 0,
         detailedCommentArgs: {
@@ -400,7 +400,6 @@
       },
       //底部评论按钮
       comment (){
-        console.log(1111);
         let that = this;
         this.commentSwitch = !this.commentSwitch;
         if(this.commentSwitch)
@@ -417,7 +416,6 @@
       //发布按钮
       isCommentRes(res){
         this.writeSwitch =true;
-        console.log(res,'结果');
         this.isComment = false;
         window.scroll(0,this.containerScrollTop);
         if(res.replyUserId)
@@ -923,7 +921,7 @@
       padding: px2vw(36) px2vw(25) px2vw(45) px2vw(17);
       border-top: px2vw(20) solid #f4f4f4;
       background-color: white;
-      margin-bottom: px2vw(88);
+      margin-bottom: px2vw(176);
     }
   .doComment{
     position: relative !important;

@@ -45,7 +45,7 @@
         <div class="padding_Box" v-html="caseDetailArgs.freeContent"></div>
         <!--付费内容-->
         <div class="padding_Box" v-if="caseDetailArgs.chargeContent !== null" v-html="caseDetailArgs.chargeContent"></div>
-        <div class="payBox" v-if="caseDetailArgs.chargeContent === null">
+        <div class="payBox" v-if="caseDetailArgs.chargeNumber != null || payFlag">
           <span class="payText">查看完整病例,&nbsp;需要支付{{caseDetailArgs.chargeNumber}}乾币~</span>
           <span @click="payNowFun()" class="payNow">
             <span class="payNowText">立即支付</span>
@@ -115,7 +115,9 @@
           postStater:1,
           cover:'',
           postId:this.$route.query.caseId,
-        }
+        },
+        // 是否付费
+        payFlag: false
       }
     },
     computed: {
@@ -140,9 +142,11 @@
             Toast({message: '支付成功', duration: 1000});
             this.getCaseData();
             this.payNow = false;
+            this.payFlag = true;
           }else {
             this.payNow = false;
-            Toast({message: '支付失败', duration: 1000});
+            this.payFlag = false;
+            Toast({message: res.msg, duration: 1000});
           }
         });
       },
@@ -231,7 +235,7 @@
         }
       },
       back (){
-        this.$router.push({path: '/caseOfIllness'})
+        this.$router.push({path: this.$route.query.backLocal})
         // this.$router.go(-1);
       },
       //子组件返回按钮

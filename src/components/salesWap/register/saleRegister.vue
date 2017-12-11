@@ -338,6 +338,9 @@
     bottom: 0;
     overflow: scroll;
     -webkit-overflow-scrolling: touch;
+    .mint-cell-wrapper{
+      background-image: none !important;
+    }
     .code_btn {
       font-size: px2vw(26);
       color: #207bce;
@@ -386,7 +389,9 @@
     z-index: 99;
     top: 0;
   }
-
+  .must{
+    border-bottom: px2vw(1) solid rgb(229,229,229);
+  }
   .pwd_eye {
     .eye_btn {
       width: px2vw(88);

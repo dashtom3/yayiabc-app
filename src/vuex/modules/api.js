@@ -332,7 +332,7 @@ export function wxH5Pay(params) {
 
 //上传病例
 export function upLoadCase(params) {
-  return postWithToken('/cottoms/add', params)
+  return getWithToken('/cottoms/add', params)
 }
 
 //发布新的牙医圈

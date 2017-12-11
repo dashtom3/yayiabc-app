@@ -19,7 +19,7 @@
             <img class="top_circleImg" src="../../../images/mine/topCircle.png" alt="">
             <!--头像-->
             <span class="headImg" v-if="userPic">
-              <img @click="goAccount" :src="userPic" alt="">
+              <img @click="goAccount" :src="userPic + '?imageView2/1/w/200/h/200'" alt="">
             </span>
             <img @click="goAccount" v-else class="headPortraitsImg" src="static/images/defaultPic.png" alt="">
             <!--头像-->

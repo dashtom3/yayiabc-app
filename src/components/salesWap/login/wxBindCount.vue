@@ -218,7 +218,8 @@
           tokenMethods.setSalesToken(res.data.token)
           Toast({ message: '客服代表账号绑定成功', duration: 4000 })
           //这要跳转到哪去？
-          this.$router.push({path: '/salesIndex'})
+          // this.$router.push({path: '/salesIndex'})
+          this.$router.push({path: '/enterpriseRecord'})
           // query: { role: 'sale', phone: this.phone, token: (res.token) }
         })
       }

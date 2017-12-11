@@ -29,9 +29,9 @@
         <p>暂无任何问题~</p>
       </div>
     </mt-loadmore>
-    <div class="edit" @click="gotoPage('/newQuest')" v-if="showNewQuest">
+    <!-- <div class="edit" @click="gotoPage('/newQuest')" v-if="showNewQuest">
       <img src="../../../../images/question/newQuestion.png" alt="">
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -114,7 +114,7 @@
         this.isLoading = true;
         switch (true){
           case this.$router.history.current.name === 'QandAList':
-            this.showNewQuest =true;
+            // this.showNewQuest =true;
             //发现
             this.$store.dispatch(FAQ_LIST, this.args).then(res=>{
               if(res.data.length > 0){

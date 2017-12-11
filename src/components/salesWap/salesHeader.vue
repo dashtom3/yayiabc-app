@@ -21,7 +21,8 @@
     },
     methods: {
       goBack() {
-        this.$router.go(-1)
+        this.$router.push({path: '/enterpriseRecord'})
+        // this.$router.go(-1)
       }
     }
   }

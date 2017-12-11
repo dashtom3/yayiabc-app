@@ -6,7 +6,7 @@
       </div>
       <span class="logWithCode">注册</span>
     </div>
-    <div class="formWrap">
+    <div class="formWrap form-wrap">
       <mt-field @click.native="focus" label="手机号" class="first-field must" placeholder="请输入手机号" v-model="registerData.phone">
         <i class="red">*</i>
       </mt-field>
@@ -511,8 +511,11 @@
 </script>
 <style lang="scss" rel="stylesheet/scss">
   @import "../../../common/sass/factory";
-  .first-field .mint-cell-wrapper {
+  .form-wrap .mint-cell-wrapper {
     background-image: none !important;
+  }
+  .must{
+    border-bottom: px2vw(1) solid rgb(229,229,229);
   }
   .must .mint-cell-wrapper .mint-cell-text{
     margin-left: px2vw(14)

@@ -7,7 +7,8 @@
           <img src="../../../../images/case/release.png" alt="">
           发布
         </div>
-        <div class="save" @click="postCase(2)" v-if="args.postStater == 2">
+        <!-- <div class="save" @click="postCase(2)" v-if="args.postStater == 2"> -->
+        <div class="save" @click="postCase(2)">
           <img src="../../../../images/case/save.png" alt="">
           保存
         </div>
@@ -45,7 +46,8 @@
             <img src="../../../../images/mine/coin_img1.png" alt="">
           </span>
         </div>
-        <div class="line" v-if="args.postStater == 2">
+        <!-- <div class="line" v-if="args.postStater == 2"> -->
+        <div class="line">
           <el-checkbox @change="isShare" fill="'#3676B5'" class="needclick"></el-checkbox><span @click.stop="labelFor"> 分享到牙医圈</span>
         </div>
       </div>
@@ -304,7 +306,7 @@
             return
           case this.args.classify == '' || this.args.classify < 0:
             Toast({message: '请选择一个分类', duration: 1500});
-            this.args.postStater = 2;
+            // this.args.postStater = 2;
             return
           case this.args.chargeContent && !this.args.chargeNumber:
             Toast({message: '请输入价格', duration: 1500});

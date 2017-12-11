@@ -20,7 +20,7 @@
           >
           <div class="mint-cell-text fl head-wrap">头像</div>
           <span class="avatar head-img">
-            <img v-if="personInfo.imageUrl_head" :src="personInfo.imageUrl_head">
+            <img v-if="personInfo.imageUrl_head" :src="personInfo.imageUrl_head + '?imageView2/1/w/200/h/200'">
             <img v-else src="../../../images/mine/loadUserImg3.png" alt="img">
           </span>
         </el-upload>

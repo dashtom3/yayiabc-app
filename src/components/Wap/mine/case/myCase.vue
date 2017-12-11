@@ -18,9 +18,9 @@
         </span>
       </div>
       <div class="container">
-        <mt-loadmore  :top-method="loadMore" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState">
-          <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
-          <div>
+        <!-- <mt-loadmore  :top-method="loadMore" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState"> -->
+          <!-- <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore> -->
+          <div v-infinite-scroll="getListMore" infinite-scroll-immediate-check="true">
             <div v-for="(item,index) in myCaseList" :key="index">
               <div @click="toGoCase(item.postId)"  v-if="myCaseList"  class="caseBox">
                 <div class="userBox " :class="{'addChange1': item.cover}" >
@@ -46,7 +46,7 @@
               </div>
             </div>
           </div>
-        </mt-loadmore>
+        <!-- </mt-loadmore> -->
         <div v-if="change == 0 && myCaseList == null" class="spaceImgBox">
           <img class="spaceImgFont" src="../../../../images/case/myCase/caogao.png" alt="">
           <div class="spaceSize">还没有草稿</div>
@@ -89,7 +89,8 @@ export default {
         postStater: 2
       },
       myCaseList: [],
-      timeStamp: 0
+      timeStamp: 0,
+      totalPage: 0
     };
   },
   created() {
@@ -141,7 +142,9 @@ export default {
           numberPerPage: this.myCase.numberPerPage
         })
         .then(res => {
-          this.myCaseList = res.data;
+          // this.myCaseList = res.data;
+          this.myCaseList = this.myCaseList.concat(res.data);
+          this.totalPage = res.totalPage;
           if (this.myCaseList) {
             this.timeStamp = Date.parse(new Date());
             this.time(this.myCaseList);
@@ -162,7 +165,14 @@ export default {
           this.isLoaded();
         });
     },
-
+    getListMore (){
+      if (this.totalPage <= this.myCase.currentPage){
+        // this.endShow = true
+      } else {
+        this.myCase.currentPage = Number(this.myCase.currentPage) + 1;
+        this.getCaseList();
+      }
+    },
     time(res) {
       if (res) {
         res.forEach(item => {
@@ -197,17 +207,17 @@ export default {
         //草稿
         this.$router.push({
           path: "/caseDetailed",
-          query: { id: postId, draft: 1 }
+          query: { id: postId, draft: 1, backLocal: '/myCase'}
         });
       } else if (this.change === 1) {
         //发布
         this.$router.push({
           path: "/caseDetailed",
-          query: { id: postId, myCase: 1 }
+          query: { id: postId, myCase: 1, backLocal: '/myCase' }
         });
       } else {
         //已购买
-        this.$router.push({ path: "/caseDetailed", query: { id: postId } });
+        this.$router.push({ path: "/caseDetailed", query: { id: postId, backLocal: '/myCase' } });
       }
     },
     //下拉刷新
@@ -231,6 +241,8 @@ export default {
       this.$router.push({ path: "/newCase", query: { state: this.change } });
     },
     changeClass(index) {
+      this.myCase.currentPage = 1;
+      this.myCaseList = [];
       this.change = index;
       if (index === 0) {
         //草稿

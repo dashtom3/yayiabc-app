@@ -12,8 +12,10 @@
       <div class="info clearfix">
         <div class="avatar-wrapper">
           <div class="avatar">
-            <img v-if="userPic" class="headPortraitsImg" :src="userPic" alt="头像">
-            <img v-else src="static/images/defaultPic.png" alt="头像">
+            <span class="header-wrapper">
+              <img v-if="userPic" class="headPortraitsImg" :src="userPic + '?imageView2/1/w/200/h/200'" alt="头像">
+              <img v-else src="static/images/defaultPic.png" alt="头像">
+            </span>
           </div>
         </div>
         <div class="text">
@@ -185,13 +187,17 @@ export default {
         font-size: 0;
         border: 1px solid rgba(51, 51, 51, .3);
         border-radius: 50%;
-        img{
+        .header-wrapper{
           position: absolute;
           top: px2vw(4);
           left: px2vw(4.14);
           width: px2vw(100);
           height: px2vw(100);
           border-radius: 50%;
+          overflow: hidden;
+        }
+        img{
+          width: 100%;
         }
       }
       .text{

@@ -35,6 +35,8 @@
     <div class="content-wrapper">
       <router-view></router-view>
     </div>
+    <!-- 底部 -->
+    <salesFooter bottomNav="customer"></salesFooter>
     <!--城市选择框-->
     <address-pickers ref="cityAddressPickers" @addresschange="saveAddress"></address-pickers>
   </div>
@@ -42,10 +44,12 @@
 
 <script>
 import addressPickers from '../../wx_user/addressPickers.vue'
+import salesFooter from '../salesFooter.vue'
 export default {
   name: "enterpriseRecord",
   components: {
-    addressPickers
+    addressPickers,
+    salesFooter
   },
   data () {
     return {
@@ -62,7 +66,7 @@ export default {
   },
   methods: {
     toBack(){
-      this.$router.go(-1);
+      this.$router.push({path:'/yayi/index'})
     },
     openPicker() {
       this.$refs.cityAddressPickers.open()
@@ -261,6 +265,7 @@ export default {
 }
 .content-wrapper{
   margin-top: px2vw(180);
+  padding-bottom: px2vw(112);
 }
 .split{
   width: 100%;

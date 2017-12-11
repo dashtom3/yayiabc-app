@@ -1,6 +1,7 @@
 <template>
   <div class="saleCharts">
     <div class="logIn_header">
+      <span class="back-click-area" @click="goBack"></span>
       <span class="logWithCode">销售排行榜</span>
     </div>
     <div class="banner">
@@ -330,6 +331,9 @@
       },
       tabTableHandler() {
         this.btn_show = false
+      },
+      goBack() {
+        this.$router.push({path: '/enterpriseRecord'})
       }
     }
   }
@@ -358,6 +362,15 @@
     position: fixed;
     z-index: 99;
     top: 0;
+    .back-click-area {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      left: 0;
+      width: px2vw(150);
+      background: url("../../../images/logIn/back.png") px2vw(20) center no-repeat;
+      background-size: px2vw(18) px2vw(29);
+    }
   }
 
   .banner {
