@@ -168,7 +168,6 @@
             <div @click="collect()" class="tabButtonBox">
               <div>
                 <img class="img3" src="../../../../images/case/caseOfIllness/collect.png" alt="">
-                <!--<img class="img3" src="../../../../images/mine/shoucang.png" alt="">-->
               </div>
               <div>收藏</div>
             </div>
@@ -202,7 +201,7 @@ export default {
   data() {
     return {
       commentIndex: "",
-      commentSwitch: true,
+      commentSwitch: false,
       writeSwitch: true,
       containerScrollTop: 0,
       detailedCommentArgs: {
@@ -956,11 +955,11 @@ export default {
   padding: px2vw(36) px2vw(25) px2vw(45) px2vw(17);
   border-top: px2vw(20) solid #f4f4f4;
   background-color: white;
-  margin-bottom: px2vw(176);
+  margin-bottom: px2vw(88);
 }
-.mb {
-  margin-bottom: px2vw(476);
-}
+// .mb {
+//   margin-bottom: px2vw(476);
+// }
 .doComment {
   position: relative !important;
   z-index: 20000 !important;

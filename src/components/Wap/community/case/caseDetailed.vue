@@ -18,10 +18,17 @@
       </span>
       <span v-if="$route.query.myCase" @click.stop="editClose()" class="backRightImgBox">
         <img src="../../../../images/case/caseOfIllness/point.png" alt="">
-        <span v-if="editSwitch" class="editBox">
-          <span @click.stop="edit()">编辑</span>
-          <span @click.stop="deleter()">删除</span>
-        </span>
+        <div v-if="editSwitch" class="editBox">
+          <div @click.stop="edit()">
+            <img src="../../../../images/case/caseOfIllness/write.png" alt="编辑">
+            <span>编辑</span>
+          </div>
+          <i class="line"></i>
+          <div @click.stop="deleter()">
+            <img src="../../../../images/case/caseOfIllness/delete.png" alt="删除">
+            <span>删除</span>
+          </div>
+        </div>
       </span>
     </div>
     <div class="container">
@@ -382,16 +389,43 @@
   }
 
   .editBox{
-    background: url("../../../../images/case/caseOfIllness/editBox.png");
     position: absolute;
     top:px2vw(50);
-    right: px2vw(30);
-    display: block;
-    color: black;
+    right: px2vw(16);
     width: px2vw(200);
     height: px2vw(191);
+    background-image: url("../../../../images/case/caseOfIllness/editBox.png");
+    background-size: px2vw(200) px2vw(191);
+    background-repeat: no-repeat;
+    font-size: 0;
+    color: black;
+    div{
+      padding: 0 px2vw(10);
+    }
+    img{
+      width: px2vw(30);
+      height: px2vw(30);
+      vertical-align: top;
+      margin: px2vw(26) px2vw(31) 0 0;
+    }
+    span{
+      display: inline-block;
+      height: px2vw(84);
+      line-height: px2vw(84);
+      color: rgb(51,51,51);
+      font-size: px2vw(28)
+    }
   }
-
+  .line{
+    display: inline-block;
+    height: px2vw(2);
+    width: px2vw(180);
+    margin: 0 auto;
+    background: rgb(220,220,220);
+  }
+  .editBox div:nth-child(1){
+    margin-top: px2vw(18);
+  }
   .bgBg{
     position: fixed;
     z-index: 3000;
@@ -520,17 +554,12 @@
     width: px2vw(40);
     height: px2vw(8);
   }
-
-
-
-
-
-
   .container{
     position: absolute;
     top:px2vw(88);
     overflow: scroll;
     width: 100%;
+    min-height: px2vw(1206);
     -webkit-overflow-scrolling: touch;
   }
   .titleContainer{
@@ -641,7 +670,6 @@
     left: 0;
     z-index: -10;
   }
-
   .bottomWrite{
     position: fixed;
     bottom: 0;
@@ -651,7 +679,8 @@
     padding-top: px2vw(10);
     padding-bottom: px2vw(10);
     font-size: px2vw(30);
-    border-top:px2vw(1) solid #cccccc ;
+    border-top:px2vw(1) solid #cccccc;
+    background: #fff;
   }
   .bottomWrite span img{
     vertical-align: text-bottom;
@@ -682,6 +711,5 @@
     width: px2vw(40);
     height: px2vw(40);
   }
-
 </style>
 

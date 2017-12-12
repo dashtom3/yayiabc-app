@@ -137,6 +137,7 @@ export default {
     },
     getCaseList() {
       let params = {
+        type: 2,
         currentPage: this.myCase.currentPage,
         numberPerPage: this.myCase.numberPerPage
       }
