@@ -4,12 +4,12 @@
     <div class="fixBox">
     <div class="shareBox">
       <div class="eachBox">
-        <div class="imgBox" @click="shareWxPal">
+        <div class="imgBox" @click="shareHref">
           <img src="../../../images/case/wxPal.png" alt="">
         </div>
         <p>微信好友</p>
       </div>
-      <div class="eachBox">
+      <div class="eachBox" @click="shareHref">
         <div class="imgBox">
           <img src="../../../images/case/wxCircle.png" alt="">
         </div>
@@ -77,8 +77,65 @@
         document.body.classList.remove('shareBox-ggKula');
         this.$destroy()
       },
-      shareWxPal(){
-
+      shareHref(){
+        var ids = [{
+            id: "weixin",
+            ex: "WXSceneSession"  /*微信好友*/
+          }, {
+            id: "weixin",
+            ex: "WXSceneTimeline" /*微信朋友圈*/
+          }],
+          bts = [{
+            title: "发送给微信好友"
+          }, {
+            title: "分享到微信朋友圈"
+          }];
+        plus.nativeUI.actionSheet({
+            cancel: "取消",
+            buttons: bts
+          },
+          function(e) {
+            var i = e.index;
+            if (i > 0) {
+              this.shareAction(ids[i - 1].id, ids[i - 1].ex);
+            }
+          }
+        );
+      },
+      shareAction(id, ex){
+        var s = null;
+        if (!id || !(s = shares[id])) {
+          alert("无效的分享服务！");
+          return;
+        }
+        if (s.authenticated) {
+          alert("---已授权---");
+          this.shareMessage(s, ex);
+        } else {
+          alert("---未授权---");
+          s.authorize(function() {
+            this.shareMessage(s, ex);
+          }, function(e) {
+            alert("认证授权失败");
+          });
+        }
+      },
+      shareMessage(s, ex){
+        var msg = {
+          content: '分享牙医abc测试',
+          href: 'http://wap.yayiabc.com',
+          title: '分享测试',
+          thumbs: ['../../../images/yayiCircle/noImgDefault.png'],
+          pictures: ['../../../images/yayiCircle/noImgDefault.png'],
+          extra: {
+            scene: ex
+          }
+        };
+        s.send(msg, function() {
+          alert("分享成功!");
+        }, function(e) {
+          alert("分享失败!");
+        });
       },
     }
   }
