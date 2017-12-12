@@ -168,6 +168,7 @@
             <div @click="collect()" class="tabButtonBox">
               <div>
                 <img class="img3" src="../../../../images/case/caseOfIllness/collect.png" alt="">
+                <!--<img class="img3" src="../../../../images/mine/shoucang.png" alt="">-->
               </div>
               <div>收藏</div>
             </div>

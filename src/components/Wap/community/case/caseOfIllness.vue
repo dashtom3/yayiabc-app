@@ -23,7 +23,7 @@
           <span v-if="item.chargeNumber" class="coin"> {{item.chargeNumber}}乾币</span>
         </div>
       </div>
-      <div v-if="noData && listCaseData != null" class="noTrend">
+      <div v-if="(noData && listCaseData.length == 0) || (noData && !listCaseData) " class="noTrend">
         <img src="../../../../images/case/myCase/fabu.png" alt="">
         <p>暂无任何病例~</p>
       </div>

@@ -3,8 +3,8 @@
     <div class="header">
       <span class="back-click-area" @click="goBack"></span>
       <span class="share" @click="isSharing(detailData.faqQuestionId)"></span>
-      <span class="collect" @click="collect" v-if="detailData.isStar == 0"></span>
-      <span class="isCollected" @click="collect" v-else=""></span>
+      <span class="collect" @click="collect" v-if="!isStar"></span>
+      <span class="isCollected" @click="collect" v-else></span>
     </div>
     <div class="container">
       <div class="eachContainer">
@@ -93,6 +93,7 @@
         commentInfo:{},
         shareData:{},
         isShareShow:false,
+        isStar:false
       }
     },
     components:{
@@ -137,6 +138,7 @@
           if(this.myUserId != res.data.userId){
             this.showAnswerBtn = true
           }
+          this.isStar = this.detailData.isStar ? true : false;
           this.answerList = res.data.faqAnswerList.concat(this.answerList);
           this.totalPage = res.totalPage
           this.isLoading = false;
@@ -190,7 +192,7 @@
       collect(){
         this.$store.dispatch(FAQ_STAR, this.args).then(res=> {
           if(res.callStatus === 'SUCCEED'){
-            this.detailData.isStar = !this.detailData.isStar;
+            this.isStar = !this.isStar;
           }
         })
       },

@@ -262,14 +262,19 @@
     font-size: px2vw(24);
   }
   .goods_color1{
+    display: block;
+    padding: 0 px2vw(6);
+    color: white;
+    background-color: $themeColor;
     position: absolute;
-    bottom:px2vw(60);
+    bottom:px2vw(50);
+    border-radius: px2vw(6);
     left: 0;
     font-size: 3.3333333vw;
   }
   .money{
     position: absolute;
-    bottom: px2vw(20);
+    bottom: 0;
     left: 0;
     font-size: 3.7333333vw;
     color: #d81e06;

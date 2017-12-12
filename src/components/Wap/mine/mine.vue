@@ -325,11 +325,11 @@
       msg(){
         if(!tokenMethods.getWapToken()){
           MessageBox.confirm('请先登录!').then(action => {
-            this.$router.push({path: '/logIn', query: {backName:'/' + this.$router.history.current.name}});
+            this.$router.push({path: '/logIn', query: {backName:'/yayi/mine'}});
           })
           return
         }
-        this.$router.push({path:'/infoIndex',query:{backName:'/' + this.$router.history.current.name}})
+        this.$router.push({path:'/infoIndex',query:{backName:'/yayi/mine',star:1}})
       },
       goToAppSetting(){
         this.$router.push({path: '/appSetting'})

@@ -76,7 +76,7 @@
         console.log(this.list)
       },
       goBack(){
-        this.$router.push(this.$route.query.backName);
+        this.$router.push({path:this.$route.query.backName,query:{backName:this.$route.query.star == 1?'/yayi/mine':'/caseOfIllness'}});
         this.$destroy()
       },
       getTheList(){
