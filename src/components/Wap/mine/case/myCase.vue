@@ -22,8 +22,8 @@
           <!-- <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore> -->
           <div v-infinite-scroll="getListMore" infinite-scroll-immediate-check="true">
             <div v-for="(item,index) in myCaseList" :key="index">
-              <div @click="toGoCase(item.postId)"  v-if="myCaseList"  class="caseBox">
-                <div class="userBox " :class="{'addChange1': item.cover}" >
+              <div @click="toGoCase(item.postId)"  v-if="myCaseList" class="caseBox">
+                <div class="userBox " :class="{'addChange1': item.cover}">
                   <div class="userPicture">
                     <img v-if="change == 2" :src=" item.printUrl == null? require('../../../../images/mine/zhifubao.png') : item.printUrl" alt="">
                     <span v-if="change == 2" class="userName" :class="{'userWrite': change != 2}">{{item.writer}}</span>
@@ -36,29 +36,29 @@
                 <div v-if="item.cover" :class="{'addChange2': item.cover}" class="userImgBox ">
                   <img :src="item.cover" alt="">
                 </div>
-                <div v-if="change != 0" class="readeBox">
+                <div class="readeBox">
                   <span class="readeClass">{{item.classify}}</span>
-                  <span class="readeNum">{{item.readNumber}} 阅读</span>
-                  <span class="readeNum2">· {{item.commentNumber}}评论</span>
-                  <span class="readeNum2">· {{item.postFavour}}赞</span>
+                  <span v-if="change != 0" class="readeNum">{{item.readNumber}} 阅读</span>
+                  <span v-if="change != 0" class="readeNum2">· {{item.commentNumber}}评论</span>
+                  <span v-if="change != 0" class="readeNum2">· {{item.postFavour}}赞</span>
                   <span v-if="item.chargeNumber" class="coin"> {{item.chargeNumber}}乾币</span>
                 </div>
               </div>
             </div>
           </div>
         <!-- </mt-loadmore> -->
-        <div v-if="change == 0 && myCaseList == null" class="spaceImgBox">
+        <div v-if="change == 0 && myCaseList.length == 0" class="spaceImgBox">
           <img class="spaceImgFont" src="../../../../images/case/myCase/caogao.png" alt="">
           <div class="spaceSize">还没有草稿</div>
           <div class="spaceFont">(未发布的病例会存储在这里)</div>
         </div>
-        <div v-if="change == 1 && myCaseList == null" class="spaceImgBox">
+        <div v-if="change == 1 && myCaseList.length == 0" class="spaceImgBox">
           <img class="spaceImg" src="../../../../images/case/myCase/fabu.png" alt="">
           <div class="spaceSize">尚未发布病例</div>
           <div class="spaceColor">去写病例~</div>
         </div>
 
-        <div v-if="change == 2 && myCaseList == null" class="spaceImgBox">
+        <div v-if="change == 2 && myCaseList.length == 0" class="spaceImgBox">
           <img class="spaceImg" src="../../../../images/case/myCase/goumai.png" alt="">
           <div class="spaceSize">还没有购买病例</div>
           <div class="spaceColor">发现更多病例</div>
@@ -107,7 +107,7 @@ export default {
     },
     //把下拉刷新完成之后回调的mt的方法传入我的组件里
     isLoaded() {
-      this.$refs.loadmore.onTopLoaded();
+      // this.$refs.loadmore.onTopLoaded();
     },
     goBack() {
       this.$router.push("/yayi/mine");
@@ -136,14 +136,22 @@ export default {
       });
     },
     getCaseList() {
+      let params = {
+        currentPage: this.myCase.currentPage,
+        numberPerPage: this.myCase.numberPerPage
+      }
+      if (this.change == 0) {
+        params.postStater = 2
+      } else if (this.change == 1) {
+        params.postStater = 1
+      }
       this.$store
-        .dispatch("GET_MY_CASE", {
-          currentPage: this.myCase.currentPage,
-          numberPerPage: this.myCase.numberPerPage
-        })
+        .dispatch("GET_MY_CASE", params)
         .then(res => {
           // this.myCaseList = res.data;
-          this.myCaseList = this.myCaseList.concat(res.data);
+          if (res.data != null) {
+            this.myCaseList = this.myCaseList.concat(res.data);
+          }
           this.totalPage = res.totalPage;
           if (this.myCaseList) {
             this.timeStamp = Date.parse(new Date());
@@ -193,9 +201,7 @@ export default {
               break;
             //日期
             case this.timeStamp - item.postTime >= 86400000:
-              item.postTime = Util.formatDate
-                .format(new Date(item.postTime), "yyyy-MM-dd hh:mm")
-                .substring(4);
+              item.postTime = Util.formatDate.format(new Date(item.postTime), "yyyy-MM-dd hh:mm").substring(0);
               break;
           }
         });
@@ -319,7 +325,7 @@ export default {
   border-radius: 50%;
 }
 .userName {
-  margin-left: px2vw(20);
+  // margin-left: px2vw(20);
   font-size: px2vw(26);
   vertical-align: middle;
 }
@@ -332,9 +338,13 @@ export default {
   margin-top: px2vw(24);
   font-size: px2vw(36);
 }
-.userImgBox > img {
+.userImgBox{
   width: px2vw(160);
   height: px2vw(160);
+  overflow: hidden;
+}
+.userImgBox > img {
+  width: 100%;
   border-radius: px2vw(10);
 }
 .readeBox {

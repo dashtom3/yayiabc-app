@@ -37,7 +37,8 @@
                   <!-- <span class="commentNum">806</span> -->
                 </span>
                 <span @click="collect(item.viId, item.isStar, index)" class="collectionBox">
-                  <img class="collectionImg" src="../../../../images/video/collection.png" alt="">
+                  <img class="collectionImg" v-if="item.isStar == 1" src="../../../../images/case/iscollect.png" alt="">
+                  <img class="collectionImg" v-else src="../../../../images/video/collection.png" alt="">
                   <!-- <span>{{item.starNumber == null? 0:item.starNumber }}</span> -->
                   <span class="collection-text">{{ item.isStar == 1 ? '已收藏' : '收藏' }}</span>
                 </span>
@@ -341,6 +342,8 @@
   height: px2vw(88);
 }
 .prcImg{
+  vertical-align: top;
+  margin-top: px2vw(27);
   width: px2vw(32);
   height: px2vw(32);
 }
@@ -378,7 +381,7 @@
   float: right;
   line-height: px2vw(88);
   height: px2vw(88);
-  margin-right: px2vw(10);
+  margin-right: px2vw(20);
   font-size: px2vw(0);
 }
 .commentBox{

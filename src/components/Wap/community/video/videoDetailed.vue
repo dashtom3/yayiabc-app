@@ -64,7 +64,7 @@
     },
     methods:{
       getVideosDetail(){
-        this.$store.dispatch('GET_VIDEOS_DETAIL', {viId: this.$route.query.id}).then( (res)=>{
+        this.$store.dispatch('GET_VIDEOS_DETAIL', {viId: this.$route.query.id}).then((res)=>{
           this.videoArgs = res.data;
           this.videoSwitch = true
         });

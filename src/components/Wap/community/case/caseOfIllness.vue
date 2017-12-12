@@ -201,7 +201,11 @@
               this.caseDate.totalPage = res.totalPage;
               this.caseListArgs.currentPage = res.currentPage;
               this.isLoading = false;
-            }else {
+            }
+            // else {
+            //   this.noData = false;
+            // }
+            if (this.listCaseData != null && this.listCaseData.length == 0) {
               this.noData = true;
             }
             this.isLoading = false;

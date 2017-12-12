@@ -649,7 +649,7 @@ export function getMyCase(params) {
 }
 //我的病例
 export function getPayCase(params) {
-  return getWithToken('/cottoms/myCollect', params)
+  return getWithToken('/cottoms/myBuy', params)
 }
 //我的病例
 export function getUserPay(params) {

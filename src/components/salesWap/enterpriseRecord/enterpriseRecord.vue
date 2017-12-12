@@ -12,53 +12,27 @@
           <img src="../../../images/salesWap/customer/preson-favor.png" alt="img">
         </div>
       </div>
-      <div class="search-wrapper">
-        <div class="address-wrapper" @click="openPicker">
-          <span v-text="address"></span>
-          <img src="../../../images/salesWap/customer/down.png" alt="下拉">
-        </div>
-        <div class="search-box">
-          <span @click="searchInfo">
-            <img src="../../../images/salesWap/customer/search-c.png" alt="搜索">
-          </span>
-          <input v-model="keyWords" type="text" placeholder="请输入关键字">
-          <span v-show="closeShow" class="close-wrapper" @click="closeKeyWord">
-            <img class="close" src="../../../images/saleman/close.png" alt="关闭">
-          </span>
-        </div>
-        <div class="map-wrapper" v-show="mapIconShow">
-          <img src="../../../images/salesWap/customer/map.png" alt="地图">
-          <span>地图</span>
-        </div>
-      </div>
     </div>
     <div class="content-wrapper">
       <router-view></router-view>
     </div>
     <!-- 底部 -->
     <salesFooter bottomNav="customer"></salesFooter>
-    <!--城市选择框-->
-    <address-pickers ref="cityAddressPickers" @addresschange="saveAddress"></address-pickers>
   </div>
 </template>
 
 <script>
-import addressPickers from '../../wx_user/addressPickers.vue'
 import salesFooter from '../salesFooter.vue'
 export default {
   name: "enterpriseRecord",
   components: {
-    addressPickers,
     salesFooter
   },
   data () {
     return {
       classIndex: 0,
       classify: ['门诊', '牙医'],
-      address: '上海市',
       mapIconShow: true,
-      keyWords: '',
-      closeShow: false,
     };
   },
   created () {
@@ -67,12 +41,6 @@ export default {
   methods: {
     toBack(){
       this.$router.push({path:'/yayi/index'})
-    },
-    openPicker() {
-      this.$refs.cityAddressPickers.open()
-    },
-    saveAddress(e) {
-      this.address = e.split(' ').join('/')
     },
     changeIndex(index) {
       this.classIndex = index;
@@ -84,36 +52,23 @@ export default {
         this.$router.push({path:'/salesYayi'});
       }
     },
-    searchInfo() {
-      this.$router.push({path:'/enterpriseList', query: {'keyWord': this.keyWords}});
-    },
-    closeKeyWord() {
-      this.keyWords = '';
-    }
   },
-  watch: {
-    keyWords: {
-      handler: function (val) {
-        if (val == '') {
-          this.closeShow = false
-        } else {
-          this.closeShow = true
-        }
-      }
-    }
-  }
 }
 </script>
 
 <style lang="scss" scoped>
 @import "../../../common/sass/factory";
+.dutam-wrapper{
+  height: 163vw;
+  overflow: scroll;
+}
 .box-top {
   z-index: 100;
   position: fixed;
   top:0;
   left: 0;
   width: 100vw;
-  height: px2vw(180);
+  height: px2vw(88);
 }
 .header-top {
   position: relative;
@@ -178,94 +133,9 @@ export default {
     height: px2vw(32);
   }
 }
-.search-wrapper{
-  position: relative;
-  display: flex;
-  top: 0;
-  width: 100vw;
-  height: px2vw(90);
-  font-size: 0;
-  background-color: rgb(244,244,244);
-  z-index: 10;
-  img{
-    display: inline-block;
-    vertical-align: top;
-  }
-  .address-wrapper{
-    width: px2vw(195);
-    padding: 0 0 0 px2vw(19);
-    img{
-      margin: px2vw(39) 0 0 px2vw(21);
-      width: px2vw(22);
-      height: px2vw(12);
-    }
-  }
-  .search-box{
-    position: relative;
-    margin: px2vw(18) 0;
-    width: px2vw(450);
-    height: px2vw(60);
-    border-radius: px2vw(30);
-    background: #fff;
-    overflow: hidden;
-    span{
-      display: inline-block;
-      width: px2vw(60);
-      height: px2vw(60);
-      overflow: hidden;
-    }
-    img{
-      margin: px2vw(13) 0 0 0;
-      width: px2vw(34);
-      height: px2vw(34);
-    }
-    input{
-      position: absolute;
-      top: 0;
-      right: 0;
-      padding: 0 0 0 px2vw(8);
-      margin: px2vw(16) 0 0 0;
-      width: px2vw(390);
-      height: px2vw(30);
-      line-height: px2vw(30);
-      font-size: px2vw(26);
-      outline: none;
-      border: none;
-    }
-    .close-wrapper{
-      position: absolute;
-      top: px2vw(2);
-      right: px2vw(20)
-    }
-  }
-  .map-wrapper{
-    position: relative;
-    padding: px2vw(22) 0 0 px2vw(6);
-    width: px2vw(105);
-    img{
-      position: absolute;
-      top: px2vw(12);
-      right: px2vw(27);
-      width: px2vw(34);
-      height: px2vw(34);
-    }
-    span{
-      display: inline-block;
-    }
-  }
-  span{
-    flex: 1;
-    width: px2vw(106);
-    height: px2vw(90);
-    font-size: px2vw(30);
-    line-height: px2vw(90);
-    text-align: center;
-    color: #3676b6;
-  }
-}
 .content-wrapper{
-  margin-top: px2vw(180);
-  padding-bottom: px2vw(112);
+  margin-top: px2vw(88);
+  // padding-bottom: px2vw(112);
 }
 .split{
   width: 100%;
