@@ -52,7 +52,8 @@
           faqQuestionType:null,
           keyWord:'',
           order:0,
-          type:4
+          type:4,
+          numberPerPage:10
         },
         questList:[],
         totalPage:0,

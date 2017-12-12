@@ -265,7 +265,7 @@ let router = new Router({
         },
         {
           name: 'questCollect',
-          path: '/collect/questCollect',
+          path: '/collect/QandAList',
           component: QandAList
         },
         {

@@ -3,7 +3,10 @@
     <div class="box_wrap"></div>
     <div class="server_box">
       <img @click="goToAppSetting" src="../../../images/mine/shezhi.png" alt="">
-      <img @click="goToNews" src="../../../images/mine/xiaoxi.png" alt="">
+      <img @click="msg" src="../../../images/mine/xiaoxi.png" alt="">
+      <span class="numBox" v-if="msgNum > 0">
+        <span class="tsNum">{{msgNum}}</span>
+      </span>
     </div>
     <div v-if="showLogin">
       <!--上部开始-->
@@ -272,7 +275,7 @@
 
 <script>
   import {tokenMethods} from '../../../vuex/util'
-  import {Toast, Indicator} from 'mint-ui'
+  import {Toast, Indicator, MessageBox} from 'mint-ui'
   import {GET_ORDER_NUM} from '@vuex/types'
 
   export default {
@@ -286,7 +289,8 @@
         showLogin: true,
         ordersState: [],
         token: '',
-        state: ''
+        state: '',
+        msgNum:'',
       }
     },
     components: {},
@@ -303,13 +307,32 @@
       // }
       that.init();
       that.gBack();
+      that.getMsg();
     },
     methods: {
+      getMsg(){
+        this.$store.dispatch('GET_INFO_NUM', {}).then( (res)=>{
+          if(parseInt(tokenMethods.getInfoNum()))
+          {
+            this.msgNum = res.data.commentNumber == 0 ? parseInt(tokenMethods.getInfoNum()) : Number(res.data.commentNumber) + parseInt(tokenMethods.getInfoNum());
+          }else {
+            this.msgNum = Number(res.data.commentNumber);
+          }
+          tokenMethods.setInfoNum(this.msgNum);
+        });
+      },
+      //消息按钮
+      msg(){
+        if(!tokenMethods.getWapToken()){
+          MessageBox.confirm('请先登录!').then(action => {
+            this.$router.push({path: '/logIn', query: {backName:'/' + this.$router.history.current.name}});
+          })
+          return
+        }
+        this.$router.push({path:'/infoIndex',query:{backName:'/' + this.$router.history.current.name}})
+      },
       goToAppSetting(){
         this.$router.push({path: '/appSetting'})
-      },
-      goToNews() {
-        this.$router.push({path: '/infoIndex'})
       },
       toGoPerson() {
         this.$router.push({path: '/logIn', query: {backName: '/yayi/mine'}})
@@ -520,7 +543,29 @@
     width: 110%;
     height: 120%;
   }
-
+  .tsNum{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -48%);
+  }
+  .numBox{
+    position: absolute;
+    top:px2vw(10);
+    right: px2vw(5);
+    text-align: center;
+    font-size: px2vw(32);
+    color: #ffffff;
+    border-radius: 50%;
+    background-color: red;
+    width: px2vw(40);
+    height: px2vw(40);
+    transform:scale(0.66,0.66);
+    -ms-transform:scale(0.66,0.66); 	/* IE 9 */
+    -moz-transform:scale(0.66,0.66); 	/* Firefox */
+    -webkit-transform:scale(0.66,0.66); /* Safari 和 Chrome */
+    -o-transform:scale(0.66,0.66);
+  }
   .header_shade {
     position: fixed;
     top: 0;

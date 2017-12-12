@@ -65,7 +65,7 @@
                 <ul>
                   <li v-for="(comments,commentsIndex) in item.subCommentList" @click.stop="commenting(index,item.momentId,item.userId,comments.userId,comments.userName,comments.commentId)" :key="commentsIndex">
                     <span class="commentUserName">{{comments.userName}}</span>
-                    <span v-if="comments.replyUserName" class="commentUserName">回复{{comments.replyUserName}}</span>
+                    <span v-if="comments.replyUserName" class="commentUserName">回复 {{comments.replyUserName}}</span>
                     <span class="commentUserName">:</span>
                     <span>{{comments.commentContent}}</span>
                     <span v-if="myUserId == comments.userId" class="deleteComment" @click.stop="deleteTheComment(index,commentsIndex,item.momentId,comments.commentId)">删除</span>

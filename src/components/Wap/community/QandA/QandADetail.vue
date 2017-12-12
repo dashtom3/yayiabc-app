@@ -3,8 +3,8 @@
     <div class="header">
       <span class="back-click-area" @click="goBack"></span>
       <span class="share" @click="isSharing(detailData.faqQuestionId)"></span>
-      <span class="collect" @click="collect"></span>
-      <!--<span class="isCollected" @click="collect"></span>-->
+      <span class="collect" @click="collect" v-if="detailData.isStar == 0"></span>
+      <span class="isCollected" @click="collect" v-else=""></span>
     </div>
     <div class="container">
       <div class="eachContainer">
@@ -110,6 +110,7 @@
 //          console.log(res.data);
           if(this.args.currentPage === 1){
             this.detailData = res.data;
+            this.detailData.isStar = res.data.isStar == 1 ? true : false;
             this.dataCompute(this.detailData);
             if(this.detailData.faqQuestionContent){
               if(this.detailData.faqQuestionContent.length > 50){
@@ -189,7 +190,7 @@
       collect(){
         this.$store.dispatch(FAQ_STAR, this.args).then(res=> {
           if(res.callStatus === 'SUCCEED'){
-//            this.detailData.a = !this.detailData.a;
+            this.detailData.isStar = !this.detailData.isStar;
           }
         })
       },
