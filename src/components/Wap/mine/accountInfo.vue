@@ -50,7 +50,8 @@ export default {
       picImg: 'static/images/defaultPic.png',
       name: '',
       phone: '',
-      status: ''
+      status: '',
+      userPic: ''
     };
   },
   created () {

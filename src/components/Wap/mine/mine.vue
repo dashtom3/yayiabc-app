@@ -329,7 +329,7 @@
           })
           return
         }
-        this.$router.push({path:'/infoIndex',query:{backName:'/yayi/mine',star:1}})
+        this.$router.push({path:'/infoIndex',query:{backName:'/yayi/mine', star:1}})
       },
       goToAppSetting(){
         this.$router.push({path: '/appSetting'})

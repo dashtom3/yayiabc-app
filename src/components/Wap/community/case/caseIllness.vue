@@ -118,7 +118,9 @@
           {
             this.msgNum = res.data.commentNumber == 0 ? parseInt(tokenMethods.getInfoNum()) : Number(res.data.commentNumber) + parseInt(tokenMethods.getInfoNum());
           }else {
-            this.msgNum = Number(res.data.commentNumber);
+            if (res.data != null) {
+              this.msgNum = Number(res.data.commentNumber);
+            }
           }
           tokenMethods.setInfoNum(this.msgNum);
         });

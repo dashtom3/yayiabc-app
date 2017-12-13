@@ -123,10 +123,8 @@
                   state: 'ds',
                 }
                 plus.nativeUI.showWaiting()
-                console.log(JSON.stringify(obj),'zhangpeng')
                 that.$store.dispatch('WX_LOGIN_SEARCH', obj).then((res) => {
                   plus.nativeUI.closeWaiting()
-                  console.log(JSON.stringify(res),'lihui')
                   if (res.data.callStatus === 'SUCCEED') {
                     tokenMethods.setWapToken(res.data.token)
                     tokenMethods.setWapUser(res.data.data)
@@ -141,9 +139,6 @@
                     }
                   }
                 })
-                // s.userInfo.openId
-                // showData(type,jsonObj);
-                // authLogout();
             }, function(e) {
               plus.nativeUI.alert("获取用户信息失败：" + e.message + " - " + e.code)
             });

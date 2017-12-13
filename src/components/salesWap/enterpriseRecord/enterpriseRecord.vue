@@ -8,7 +8,7 @@
         <div class="header">
           <span v-for="(item, index) in classify" :key="index" @click="changeIndex(index)" :class="{'change-class': index === classIndex}">{{ item }}</span>
         </div>
-        <div class="person-img-box">
+        <div @click="toCustomer" class="person-img-box">
           <img src="../../../images/salesWap/customer/preson-favor.png" alt="img">
         </div>
       </div>
@@ -41,6 +41,9 @@ export default {
   methods: {
     toBack(){
       this.$router.push({path:'/yayi/index'})
+    },
+    toCustomer() {
+      this.$router.push({path: '/myCustomer', query: {backJudge: 'enterpriseRecord'}})
     },
     changeIndex(index) {
       this.classIndex = index;

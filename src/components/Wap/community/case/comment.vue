@@ -201,7 +201,7 @@ export default {
   data() {
     return {
       commentIndex: "",
-      commentSwitch: false,
+      commentSwitch: true,
       writeSwitch: true,
       containerScrollTop: 0,
       detailedCommentArgs: {

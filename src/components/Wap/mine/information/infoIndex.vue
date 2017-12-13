@@ -57,7 +57,6 @@ export default {
     inits(){
       this.$store.dispatch(GET_INFO_NUM,{}).then(res =>{
         if(parseInt(tokenMethods.getInfoNum())){
-          console.log(res.data)
           this.myInfo = res.data.commentNumber == 0 ? parseInt(tokenMethods.getInfoNum()) : Number(res.data.commentNumber) + parseInt(tokenMethods.getInfoNum());
         }else {
           this.myInfo = Number(res.data.commentNumber);

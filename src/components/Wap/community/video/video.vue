@@ -26,9 +26,9 @@
             <!--这里放视频-->
             <!--底部开始-->
             <div class="bottomBox">
-              <span class="nameBox">
+              <span class="nameBox" v-if="item.itemInfo != null">
                 <img class="prcImg" src="../../../../images/video/prc.png" alt="">
-                <span>{{item.vidName}}</span>
+                <span>{{item.itemInfo.itemName}}</span>
               </span>
               <div class="bottom-right">
                 <span @click="toVideo(item.viId)" class="commentBox">

@@ -1,11 +1,13 @@
 <template>
   <div class="cargoUse">
-    <div v-if="isActive" class="instruction" v-html="itemDetail.itemUse">
+    <!-- v-html="itemDetail.itemUse" -->
+    <div v-if="isActive" class="instruction">
       <!-- <video-play :isVideo="typeVideo" ref="videoPlay"  v-if="videoSwitch">
         <video slot="video" webkit-playsinline="true" playsinline="true" class="video">
           <source slot="sourceSrc" type="video/mp4"></source>
         </video>
       </video-play> -->
+      <video class="video-play" controls :src="itemDetail.video"></video>
     </div>
     <div class="noInfo" v-else>
       <img class="useInfo_img" src="../../../images/details/useInfo.png" alt="img">
@@ -48,7 +50,7 @@ export default {
           Indicator.close()
           let nowGoodDetails = res.data.data;
           that.itemDetail = nowGoodDetails.itemDetail;
-          if (that.itemDetail.itemUse.length <= 11) {
+          if (that.itemDetail.video == null) {
             that.isActive = false
           } else {
             that.isActive = true
@@ -93,6 +95,9 @@ export default {
 .useInfo_word {
   font-size: px2vw(28);
   color: #999;
+}
+.video-play{
+  width: 100%;
 }
 </style>
 

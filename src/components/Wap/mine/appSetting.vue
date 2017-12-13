@@ -1,6 +1,6 @@
 <template>
   <div class="box">
-    <salesHeader headerText="设置"></salesHeader>
+    <salesHeader :back-to="path" headerText="设置"></salesHeader>
     <div class="setting-wrap">
       <div class="setting-box">
         <!--<div class="line" @click="clearTmp">-->
@@ -52,7 +52,8 @@
         checking:true,
         ver:'',
         newVer:'',
-        logOutShow:true
+        logOutShow:true,
+        path: '',
       }
     },
     components:{
@@ -63,6 +64,7 @@
         // this.ver=inf.version;
         // this.checkUpdate();
       // });
+     this.path = this.$route.fullPath
       if (tokenMethods.getWapToken() == null) {
         this.logOutShow = false
       }

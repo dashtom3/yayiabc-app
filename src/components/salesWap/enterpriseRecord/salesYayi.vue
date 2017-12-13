@@ -59,7 +59,7 @@ export default {
       yayiDataList: [],
       isLoading:false,
       listParams: {
-        cityName: '上海市',
+        cityName: '北京市',
         state: '',
         currentPage: 1,
         numberPerPage: 10,
@@ -172,11 +172,12 @@ export default {
       position: absolute;
       top: 0;
       right: 0;
-      padding: 0 0 0 px2vw(8);
+      padding: 0 0 px2vw(8) px2vw(8);
       margin: px2vw(16) 0 0 0;
       width: px2vw(390);
-      height: px2vw(30);
-      line-height: px2vw(30);
+      height: px2vw(36);
+      vertical-align:middle;
+      line-height: px2vw(36);
       font-size: px2vw(26);
       outline: none;
       border: none;

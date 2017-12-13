@@ -3,6 +3,7 @@ import Router from 'vue-router'
 
 const Tab = resolve => require(['@/components/Wap/tab'], resolve)
 const Index = resolve => require(['@/components/Wap/index/index'], resolve)
+const Main = resolve => require(['@/components/Wap/index/main'], resolve)
 const classifyIndex = resolve => require(['@/components/Wap/classify/classifyIndex'], resolve)
 const shoppingCar = resolve => require(['@/components/Wap/shoppingCar/shoppingCar'], resolve)
 const shoppingCarEntry = resolve => require(['@/components/Wap/shoppingCar/shoppingCarEntry'], resolve)
@@ -137,13 +138,37 @@ let router = new Router({
       component: Tab,
       name: 'tab',
       children: [
-        {path: '/yayi/index', component: Index, name: 'index'},
+        // 可以把Index组件删除
+        // {path: '/yayi/index', component: Index, name: 'index'},
+        {
+          path: '/yayi/index',
+          component: Main,
+          name: 'index',
+          redirect: '/main/caseOfIllness',
+          children: [
+            {
+              name: 'caseOfIllness',
+              path: '/main/caseOfIllness',
+              component: caseOfIllness
+            },
+            {
+              name: 'video',
+              path: '/main/video',
+              component: video
+            },
+            {
+              name: 'QandAList',
+              path: '/main/QandAList',
+              component: QandAList
+            }
+          ]
+        },
         {path: '/yayi/classify', component: classifyIndex, name: 'classifyIndex'},
         {
           path: '/yayi/find',
           component: caseIllness,
           name: 'find',
-          redirect: {name: 'caseOfIllness'},
+          redirect: '/caseOfIllness',
           children: [
             {
               name: 'caseOfIllness',

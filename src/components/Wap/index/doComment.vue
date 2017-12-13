@@ -47,12 +47,13 @@
           let obj = {
             faqQuestionId : this.args.faqQuestionId,
             faqAnswerContent : this.commentContent,
+            type: this.args.type,
+            parentId:this.args.parentId ? this.args.parentId : '',
           }
           this.$store.dispatch(ADD_ANSWER, obj).then(res=>{
             if(res.callStatus === 'SUCCEED'){
 //            console.log(res)
               Toast({message: '发布成功！', duration: 1500});
-              console.log(res,'ssss')
               let timer1=window.setTimeout(() => {
                 this.$emit('commentRes',res.data);
                 this.commentContent = ''

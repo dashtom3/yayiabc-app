@@ -128,20 +128,6 @@
           } else {
             item.postTime = Util.formatDate.format(new Date(item.postTime),'yyyy-MM-dd').substring(0);      //日期
           }
-          // switch (true){
-          //   //几分钟前
-          //   case this.timeStamp - item.postTime < 3600000:
-          //     item.postTime = Math.ceil((this.timeStamp - item.postTime) / 1000 / 60) + '分钟前';
-          //     break;
-          //     //几小时前
-          //   case this.timeStamp - item.postTime >= 3600000 && this.timeStamp - item.postTime < 86400000:
-          //     item.postTime = Math.floor((this.timeStamp - item.postTime) / 1000 / 60 / 60) + '小时前';
-          //     break;
-          //     //日期
-          //   case this.timeStamp - item.postTime >= 86400000:
-          //     item.postTime = Util.formatDate.format(new Date(item.postTime),'yy.MM.dd hh:mm').substring(2);
-          //     break;
-          // }
         });
       },
       ...mapMutations({

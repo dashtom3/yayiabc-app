@@ -57,7 +57,6 @@
 
     },
     created(){
-      console.log(this.$router.history.current.name)
       this.getTheList();
     },
     mounted(){
@@ -66,27 +65,22 @@
       inits(){
         switch (true){
           case this.$route.query.type === 1:
-            console.log('sosisi')
             this.list = JSON.parse(tokenMethods.getInfoList()) ? JSON.parse(tokenMethods.getInfoList()) : [];
             break;
           case this.$route.query.type === 2:
-            console.log('cccci')
             this.list = JSON.parse(tokenMethods.getAnswerList()) ? JSON.parse(tokenMethods.getAnswerList()) : [];
         }
-        console.log(this.list)
       },
       goBack(){
-        this.$router.push({path:this.$route.query.backName,query:{backName:this.$route.query.star == 1?'/yayi/mine':'/caseOfIllness'}});
+        this.$router.push({path:this.$route.query.backName,query:{backName:this.$route.query.star == 1?'/yayi/mine':'/caseOfIllness', star: this.$route.query.star == 1 ? 1 : ''}});
         this.$destroy()
       },
       getTheList(){
         this.inits();
         this.isLoading =true;
         this.$store.dispatch(GET_INFO_DETAIL, this.args).then(res =>{
-          console.log(res)
           if(res.data){
             this.list = res.data.concat(this.list);
-            console.log(this.list);
             this.setList(this.list);
             this.args.currentPage = res.currentPage;
             this.totalPage = res.totalPage;
@@ -105,7 +99,6 @@
             tokenMethods.setAnswerNum(val.length);
             break;
         }
-
       },
       goPage(item,key,type){
         //这个是需要传一个obj的。
@@ -113,14 +106,12 @@
           let obj = {
             momentId: item.typeId,
             type:type,
-            backName:'/infoList'
+            backName:'/infoList',
           }
-          console.log(this.list,key)
           this.list.splice(key, 1)
           if(this.list) {
             this.setList(this.list);
           }else {
-            console.log('no')
             switch (true) {
               case this.$route.query.type === 1:
                 tokenMethods.removeInfoList(val)
@@ -133,7 +124,6 @@
             }
           }
           this.$router.push({path: '/infoDetail', query: obj})
-          console.log(JSON.parse(tokenMethods.getInfoList()),'whh')
 //        this.$destroy()
         }
         else if(this.$route.query.type === 2){

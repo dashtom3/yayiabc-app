@@ -17,7 +17,7 @@
         <div  class="titleBox">{{ videoArgs.vidName }}</div>
         <!--标题内容结束-->
         <!--相关产品开始-->
-        <div class="productBox">
+        <div class="productBox" v-if='videoArgs.itemInfo != null'>
           <div class="productTitle">相关产品</div>
           <div class="productContent">
             <!--左-->
@@ -26,13 +26,13 @@
             </span>
             <!--右-->
             <div class="productNameBox">
-              <div class="productName">麦迪康/MEDICOM普通一()抗敏感/麦迪康</div>
+              <div class="productName">{{videoArgs.itemInfo.itemName}}</div>
               <div class="classBox">
-                <span>上海到帮</span>
-                <span>销量:254</span>
+                <span>{{videoArgs.itemInfo.itemBrand}}</span>
+                <span>销量:{{videoArgs.itemInfo.sales != null ? videoArgs.itemInfo.sales : 0}}</span>
               </div>
               <div class="productPrice">
-                ¥&nbsp;20
+                ¥&nbsp;{{videoArgs.itemInfo.itemPrice}}
               </div>
               <img src="../../../../images/mine/back.png" alt="">
             </div>

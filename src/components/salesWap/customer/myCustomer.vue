@@ -98,7 +98,6 @@
     },
     created() {
       this.mBack("backWeb");
-      console.log(sessionStorage);
       this.getDetailData()
     },
     mounted(){
@@ -106,16 +105,16 @@
     },
     methods: {
       backWeb(){
-        if(this.$route.query.backJudge === 'salesCustomer')
+        if(this.$route.query.backJudge === 'enterpriseRecord')
         {
-          this.$router.push({path:'/salesCustomer'})
+          this.$router.push({path:'/enterpriseRecord'})
         }
         else if(this.$route.query.backJudge === 'salePersonal')
         {
           this.$router.push({path:'/salePersonal'})
         }
         else{
-          this.$router.push({path:'/salesCustomer'})
+          this.$router.push({path:'/enterpriseRecord'})
         }
       },
       space(){

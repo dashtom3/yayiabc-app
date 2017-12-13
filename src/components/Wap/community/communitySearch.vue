@@ -128,7 +128,6 @@
           }
           that.userHistory = userHistoryData
           that.$store.dispatch('SAVE_CASE_SEARCHING',  that.searchCargo);
-          console.log(that.userHistory,'9999')
         }
         tokenMethods.setCommunityHistory(that.userHistory);
         that.caseClassNum = 0;

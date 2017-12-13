@@ -38,7 +38,7 @@
         </div>
       </div>
       <div class="header">
-        <img class="headPic" :src="caseDetailArgs.cover? caseDetailArgs.cover : require('../../../../images/case/hPic.png')" alt="">
+        <img class="headPic" :src="userPic? userPic : require('../../../../images/case/hPic.png')" alt="">
         <span class="headName">{{caseDetailArgs.writer}}</span>
         <span class="class">{{caseDetailArgs.classify}}</span>
         <span class="class">免费</span>
@@ -123,6 +123,8 @@
           cover:'',
           postId:this.$route.query.caseId,
         },
+        // 头像
+        userPic: ''
       }
     },
     computed: {
@@ -199,7 +201,8 @@
       //获取病例数据
       getCaseData(){
         this.$store.dispatch('GET_CASE_DETAIL', {postId: this.$route.query.id}).then((res) => {
-          this.caseDetailArgs = res.data;
+          this.caseDetailArgs = res.data
+          this.userPic = res.fl
           this.args.headline = res.data.headline
           this.args.classify = res.data.classify
           this.args.freeContent = res.data.freeContent
@@ -239,7 +242,6 @@
       },
       back (){
         this.$router.push({path: this.$route.query.backLocal})
-        // this.$router.go(-1);
       },
       //子组件返回按钮
       backChild(){
@@ -256,7 +258,7 @@
       //提示需要登录
       isLogin() {
         MessageBox.confirm('请先登录!').then(action => {
-          this.$router.push({path: '/logIn'})
+          this.$router.push({path: '/logIn', query: { backName: this.$route.fullPath}})
         }).catch(function (error) {
           return '';
         });
