@@ -75,6 +75,7 @@
     watch: {
       saveCaseDressing: {
         handler:function (val) {
+          this.noData = false;
           this.args.faqQuestionType = val;
           this.loadMore();
         }

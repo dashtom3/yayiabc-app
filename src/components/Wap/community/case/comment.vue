@@ -405,13 +405,17 @@ export default {
     },
     //分享按钮
     shareCase(postId, type) {
-      this.shareData = {
-        momentType: type,
-        momentContent: null,
-        momentPicture: null,
-        momentContentId: postId
-      };
-      this.isShareShow = true;
+      if(this.pointLogin){
+        this.shareData = {
+          momentType: type,
+          momentContent: null,
+          momentPicture: null,
+          momentContentId: postId
+        };
+        this.isShareShow = true;
+      }else {
+        this.isLogin();
+      }
     },
     //评论取消按钮
     escBtn() {

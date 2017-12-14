@@ -67,7 +67,7 @@
 
 <script type="text/ecmascript-6">
   import {FAQ_DETAIL, FAQ_STAR} from '../../../../vuex/types'
-  import { InfiniteScroll} from 'mint-ui';
+  import { InfiniteScroll, MessageBox} from 'mint-ui';
   import Util from '../../../../vuex/util'
   import { tokenMethods } from '../../../../vuex/util'
   import doComment from '../../index/doComment.vue'
@@ -190,23 +190,25 @@
         this.$destroy()
       },
       collect(){
-        this.$store.dispatch(FAQ_STAR, this.args).then(res=> {
-          if(res.callStatus === 'SUCCEED'){
-            this.isStar = !this.isStar;
-          }
-        })
+        if (this.pointLogin()) {
+          this.$store.dispatch(FAQ_STAR, this.args).then(res => {
+            if (res.callStatus === 'SUCCEED') {
+              this.isStar = !this.isStar;
+            }
+          })
+        }else {
+          this.isLogin();
+        }
       },
       isCommenting(){
-        if(!tokenMethods.getWapToken()){
-          MessageBox.confirm('请先登录!').then(action => {
-            this.$router.push({path: '/logIn', query: {backName: '/QandADetail'}});
-          })
-          return
-        }
-        this.isComment = true;
-        this.commentInfo = {
-          faqQuestionId : this.$route.query.faqQuestionId,
-          star : 1, //唯一标识
+        if (this.pointLogin()) {
+          this.isComment = true;
+          this.commentInfo = {
+            faqQuestionId: this.$route.query.faqQuestionId,
+            star: 1, //唯一标识
+          }
+        }else {
+          this.isLogin();
         }
       },
       isCommentRes(res){
@@ -216,13 +218,17 @@
         this.isComment = false;
       },
       isSharing(postId){
-        this.shareData = {
-          momentType: '问答',
-          momentContent: null,
-          momentPicture: null,
-          momentContentId: postId
+        if (this.pointLogin()) {
+          this.shareData = {
+            momentType: '问答',
+            momentContent: null,
+            momentPicture: null,
+            momentContentId: postId
+          }
+          this.isShareShow = true;
+        }else {
+          this.isLogin();
         }
-        this.isShareShow = true;
       },
 //      isShared(){
 //
@@ -230,6 +236,22 @@
       displayOrFold(){
         this.isDisplayOrFold = !this.isDisplayOrFold
       },
+      //判断是否登录
+      pointLogin() {
+        let userToken = tokenMethods.getWapToken();
+        return userToken;
+      },
+      //提示需要登录
+      isLogin() {
+        MessageBox.confirm("请先登录!").then(action => {
+          this.$router.push({
+            path: "/logIn",
+            query: { backName: this.$route.fullPath }
+          });
+        }).catch(function(error) {
+          return "";
+        });
+      }
     }
   }
 </script>

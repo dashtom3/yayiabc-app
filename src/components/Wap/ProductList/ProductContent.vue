@@ -1154,7 +1154,7 @@
   .in_car{
     width: px2vw(80);
     position: fixed;
-    right: 0;
+    right: px2vw(20);
     bottom: px2vw(98);
   }
   .in_car>img{

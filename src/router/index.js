@@ -148,17 +148,17 @@ let router = new Router({
           redirect: '/main/caseOfIllness',
           children: [
             {
-              name: 'caseOfIllness',
+              name: 'caseOfIllnessIndex',
               path: '/main/caseOfIllness',
               component: caseOfIllness
             },
             {
-              name: 'video',
+              name: 'videoIndex',
               path: '/main/video',
               component: video
             },
             {
-              name: 'QandAList',
+              name: 'QandAListIndex',
               path: '/main/QandAList',
               component: QandAList
             }
