@@ -36,6 +36,12 @@
   });
   var wxChannel = null; // 微信支付
   var aliChannel = null; // 支付宝支付
+  //分享模块
+  var Intent = null,
+    File = null,
+    Uri = null,
+    main = null;
+  var shares = null;
   mui.plusReady(function () {
     // 判断有无网络
     // if (!navigator.onLine) {
@@ -72,6 +78,23 @@
     }, function (e) {
       alert("获取支付通道失败：" + e.message);
     });
+    //分享模块
+    plus.share.getServices(function(s) {
+      shares = {};
+      for(var i in s) {
+        var t = s[i];
+        shares[t.id] = t;
+      }
+      alert("获取分享服务列表成功");
+    }, function(e) {
+      alert("获取分享服务列表失败：" + e.message);
+    });
+    if(plus.os.name == "Android") {
+      Intent = plus.android.importClass("android.content.Intent");
+      File = plus.android.importClass("java.io.File");
+      Uri = plus.android.importClass("android.net.Uri");
+      main = plus.android.runtimeMainActivity();
+    }
   });
 </script>
 </body>
