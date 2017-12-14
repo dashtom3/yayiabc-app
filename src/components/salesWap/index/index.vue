@@ -339,7 +339,7 @@
         this.$refs.picker.open()
       },
       goBack() {
-        this.$router.push({path: '/enterpriseRecord'})
+        this.$router.push({path: '/yayi/index'})
       }
     }
   }

@@ -163,7 +163,7 @@
       },
       //编辑病例
       edit() {
-        this.$router.push({path:'/newCase',query:{id:this.$route.query.caseId}})
+        this.$router.push({path:'/newCase',query:{id:this.$route.query.id}})
       },
       //删除病例
       deleter(){

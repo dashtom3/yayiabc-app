@@ -44,7 +44,6 @@ export default {
   },
   methods:{
     handleChange(val){
-      console.log(val);
       this.bottomVal=val;
       if(val==='achievement'){
         // 判断是否登录

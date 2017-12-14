@@ -333,7 +333,7 @@
         this.btn_show = false
       },
       goBack() {
-        this.$router.push({path: '/enterpriseRecord'})
+        this.$router.push({path: '/yayi/index'})
       }
     }
   }

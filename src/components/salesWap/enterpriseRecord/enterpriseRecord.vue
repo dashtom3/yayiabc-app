@@ -13,7 +13,7 @@
         </div>
       </div>
     </div>
-    <div class="content-wrapper">
+    <div class="content-wrapper" @scroll.stop.prevent>
       <router-view></router-view>
     </div>
     <!-- 底部 -->
@@ -61,10 +61,10 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../../common/sass/factory";
-.dutam-wrapper{
-  height: 163vw;
-  overflow: scroll;
-}
+// .dutam-wrapper{
+//   height: 163vw;
+//   overflow: scroll;
+// }
 .box-top {
   z-index: 100;
   position: fixed;
@@ -137,7 +137,10 @@ export default {
   }
 }
 .content-wrapper{
+  width: 100%;
   margin-top: px2vw(88);
+  -webkit-overflow-scrolling: touch;
+  // overflow: hidden;
   // padding-bottom: px2vw(112);
 }
 .split{

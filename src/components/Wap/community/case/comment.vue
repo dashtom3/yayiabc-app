@@ -12,7 +12,9 @@
         <div class="container">
           <div  class="comments commentBox">
             <div class="headReadPicBox">
-              <img src="../../../../images/case/caseOfIllness/4.jpg" alt="">
+              <img v-if="item.userPic" :src="item.userPic" alt="头像">
+              <img v-else src="../../../../images/case/hPic.png" alt="头像">
+              <!-- <img src="../../../../images/case/caseOfIllness/4.jpg" alt=""> -->
             </div>
             <div class="commentsRightBox">
               <div class="clearFix">
@@ -46,7 +48,9 @@
           </div>
           <div v-for="(item, index) in commentChild.comment.subCommentList" class="comments commentBox2" :key="index">
             <div class="headReadPicBox">
-              <img src="../../../../images/case/caseOfIllness/4.jpg" alt="">
+              <img v-if="item.userPic" :src="item.userPic" alt="头像">
+              <img v-else src="../../../../images/case/hPic.png" alt="头像">
+              <!-- <img src="../../../../images/case/caseOfIllness/4.jpg" alt=""> -->
             </div>
             <div class="commentsRightBox">
               <div class="clearFix">
@@ -101,7 +105,8 @@
         </div>
         <div v-for="(item, index) in detailedCommentArgs.data" class="comments" :key="index">
           <div class="headReadPicBox">
-            <img src="../../../../images/case/caseOfIllness/4.jpg" alt="">
+            <img v-if="item.userPic" :src="item.userPic" alt="头像">
+            <img v-else src="../../../../images/case/hPic.png" alt="头像">
           </div>
           <div class="commentsRightBox">
             <div class="clearFix">
