@@ -82,6 +82,7 @@
       },
       saveCaseOrder: {
         handler:function (val) {
+          this.noData = false;
           this.args.order = val;
           this.loadMore();
         }
