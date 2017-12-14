@@ -7,7 +7,7 @@
     </div>
     <div class="container">
       <div class="inputArea">
-        <textarea name="" id="" cols="30" rows="10" v-model="inputer" placeholder="这一刻的想法..." @focus="focused"></textarea>
+        <textarea name="" id="" cols="30" rows="10" v-model="inputer" placeholder="这一刻的想法..." @focus="focused" @blur="blured"></textarea>
       </div>
       <div>
         <el-upload
@@ -74,7 +74,7 @@
         this.$store.dispatch(NEW_TREND,args).then(res => {
           Toast({message: '发布成功！', duration: 1500})
           this.$destroy();
-          this.$router.push('/yayi/yayiCircle')
+          this.$router.go(-1)
         })
       },
       closePage(){
@@ -83,8 +83,11 @@
         })
       },
       focused(){
-
+        document.body.classList.add('full-body-commentArea')
       },
+      blured(){
+        document.body.classList.remove('full-body-commentArea')
+      }
     },
     created(){
       this.$store.dispatch(GET_UPLOAD_TOKEN).then(res => {

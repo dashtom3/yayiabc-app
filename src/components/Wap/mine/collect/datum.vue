@@ -27,6 +27,48 @@
     </div>
 </template>
 <script>
+  import {GET_MATER} from '../../../../vuex/types'
+
+  export default {
+    data(){
+      return{
+        isLoading:false,
+        noData:false,
+        args:{
+          currentPage:1,
+          keyWord:this.keyWord
+        }
+      }
+    },
+    props:[keyWord],
+    created(){
+
+    },
+    methods:{
+      getList(){
+        switch (true){
+          case this.$router.history.current.name === 'database':
+            this.$store.dispatch(GET_MATER, this.args).then(res=>{
+              if(res.data.length > 0){
+
+              }else {
+                this.noData = true;
+              }
+            })
+            break;
+          case this.$router.history.current.name === 'datumcollect':
+            this.$store.dispatch(GET_MATER, this.args).then(res=>{    //要改这个接口
+              if(res.data.length > 0){
+
+              }else {
+                this.noData = true;
+              }
+            })
+            break;
+        }
+      },
+    }
+  }
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss" rel="stylesheet/scss">

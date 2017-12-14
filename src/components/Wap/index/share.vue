@@ -4,12 +4,12 @@
     <div class="fixBox">
     <div class="shareBox">
       <div class="eachBox">
-        <div class="imgBox" @click="shareHref">
+        <div class="imgBox" @click="shareHref('WXSceneSession')">
           <img src="../../../images/case/wxPal.png" alt="">
         </div>
         <p>微信好友</p>
       </div>
-      <div class="eachBox" @click="shareHref">
+      <div class="eachBox" @click="shareHref(WXSceneTimeline)">
         <div class="imgBox">
           <img src="../../../images/case/wxCircle.png" alt="">
         </div>
@@ -77,44 +77,44 @@
         document.body.classList.remove('shareBox-ggKula');
         this.$destroy()
       },
-      shareHref(){
-        var ids = [{
+      shareHref(ex){
+        let ids = {
             id: "weixin",
-            ex: "WXSceneSession"  /*微信好友*/
-          }, {
-            id: "weixin",
-            ex: "WXSceneTimeline" /*微信朋友圈*/
-          }],
-          bts = [{
-            title: "发送给微信好友"
-          }, {
-            title: "分享到微信朋友圈"
-          }];
-        plus.nativeUI.actionSheet({
-            cancel: "取消",
-            buttons: bts
-          },
-          function(e) {
-            var i = e.index;
-            if (i > 0) {
-              this.shareAction(ids[i - 1].id, ids[i - 1].ex);
-            }
-          }
-        );
+            ex: ex  /*微信好友*//*微信朋友圈*/
+          };
+//          bts = [{
+//            title: "发送给微信好友"
+//          }, {
+//            title: "分享到微信朋友圈"
+//          }];
+//        plus.nativeUI.actionSheet({
+//            cancel: "取消",
+//            buttons: bts
+//          },
+//          function(e) {
+//            var i = e.index;
+//            if (i > 0) {
+//
+//            }
+//          }
+//        );
+        this.shareAction(ids.id, ids.ex);
       },
       shareAction(id, ex){
-        var s = null;
-        if (!id || !(s = shares[id])) {
-          alert("无效的分享服务！");
-          return;
+        var so = null;
+        for (let i = 0; i < shares.length; i++) {
+          if (shares[i].id == id) {
+            so = shares[i]
+            break
+          }
         }
-        if (s.authenticated) {
+        if (so.authenticated) {
           alert("---已授权---");
-          this.shareMessage(s, ex);
+          this.shareMessage(so, ex);
         } else {
           alert("---未授权---");
-          s.authorize(function() {
-            this.shareMessage(s, ex);
+          so.authorize(function() {
+            this.shareMessage(so, ex);
           }, function(e) {
             alert("认证授权失败");
           });

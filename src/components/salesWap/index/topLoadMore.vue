@@ -22,7 +22,7 @@
     data(){
       return{
         pullText: '下拉刷新',
-        dropText: '释放更新',
+        dropText: '释放刷新',
         loadingText: '加载中...',
         pullImg: true,
         dropImg: false,

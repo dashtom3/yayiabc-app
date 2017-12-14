@@ -1450,6 +1450,16 @@ const actions = {
       });
     });
   },
+  // 获取资料列表
+  [types.GET_MATER](context, params) {
+    return new Promise((resolve, reject) => {
+      api.getMater(params).then((data) => {
+        resolve(data);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  },
   // 保存发现病分类筛选的值
   [types.SAVE_CASE_DRESSING]({commit}, params) {
     commit(types.SAVE_CASE_DRESSING,params);

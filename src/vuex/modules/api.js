@@ -677,3 +677,7 @@ export function getEnterpriseList(params) {
 export function getYayiList(params) {
   return getWithSaleTokenNull('/findCus/registered', params)
 }
+// 获取资料列表
+export function getMater(params) {
+  return getWithSaleTokenNull('/crawlerPages/getMater', params)
+}

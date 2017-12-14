@@ -8,14 +8,14 @@
     <div class="classify">
       <div class="classifyList">
         <div id="classifyWrap">
-          <span v-for="(value,index) in isSelect" :class="{select:index == args.selected}" @click="dress(index)">{{value}}</span>
+          <span v-for="(value,index) in isSelect" :class="{select:index == args.selected}" @click="dress(index,value)">{{value}}</span>
         </div>
       </div>
       <div class="showMore" @click="changeClassifyShow">
         +
       </div>
     </div>
-    <datum class="datum"></datum>
+    <datum class="datum" :keyWord="keyWord"></datum>
     <div v-if="classifyShow" class="classifyModule">
       <div @click="changeClassifyShow" class="closeIt">
         <div></div>
@@ -48,12 +48,15 @@ import datum from '../../mine/collect/datum.vue'
   export default {
     data(){
       return{
-        isSelect:localStorage.getItem('isSelectDataBase') ? localStorage.getItem('infoList') : ['1','2','3','4','5'],
-        notSelect:localStorage.getItem('isSelectDataBase') ? localStorage.getItem('isSelectDataBase') :['6','7','8','9','10','11','12','12','14','15','16','17','18','19','20'],
+        isSelect:localStorage.getItem('isSelectDataBase') ? JSON.parse(localStorage.getItem('isSelectDataBase')) : ['1','2','3','4','5'],
+        //isSelect: ['1','2','3','4','5'],
+        notSelect:localStorage.getItem('isSelectDataBase') ? JSON.parse(localStorage.getItem('notSelectDataBase')) :['6','7','8','9','10','11','12','12','14','15','16','17','18','19','20'],
+        //notSelect:['6','7','8','9','10','11','12','12','14','15','16','17','18','19','20'],
         classifyShow:false,
         args:{
           selected:0,
         },
+        keyWord:'',
       }
     },
     watch:{
@@ -65,6 +68,9 @@ import datum from '../../mine/collect/datum.vue'
       deep:true
     },
     components:{datum},
+    created(){
+      console.log(this.$router.history.current.name)
+    },
     methods:{
       addClassify(index){
         this.isSelect.push(this.notSelect[index]);
@@ -84,8 +90,9 @@ import datum from '../../mine/collect/datum.vue'
       goBack(){
         this.$router.go(-1);
       },
-      dress(index){
+      dress(index,value){
         this.args.selected = index;
+        this.keyWord = value
       }
     }
   }

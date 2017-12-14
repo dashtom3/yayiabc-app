@@ -314,7 +314,8 @@
         this.$store.dispatch('GET_INFO_NUM', {}).then( (res)=>{
           if(parseInt(tokenMethods.getInfoNum()))
           {
-            this.msgNum = res.data.commentNumber == 0 ? parseInt(tokenMethods.getInfoNum()) : Number(res.data.commentNumber) + parseInt(tokenMethods.getInfoNum());
+            console.log(res.data)
+            this.msgNum = res.data.commentNumber == 0 ? parseInt(tokenMethods.getInfoNum()) : Number(res.data.commentNumber);
           }else {
             this.msgNum = Number(res.data.commentNumber);
           }

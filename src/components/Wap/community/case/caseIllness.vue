@@ -116,7 +116,7 @@
         this.$store.dispatch('GET_INFO_NUM', {}).then( (res)=>{
           if(parseInt(tokenMethods.getInfoNum()))
           {
-            this.msgNum = res.data.commentNumber == 0 ? parseInt(tokenMethods.getInfoNum()) : Number(res.data.commentNumber) + parseInt(tokenMethods.getInfoNum());
+            this.msgNum = res.data.commentNumber == 0 ? parseInt(tokenMethods.getInfoNum()) : Number(res.data.commentNumber);
           }else {
             if (res.data != null) {
               this.msgNum = Number(res.data.commentNumber);

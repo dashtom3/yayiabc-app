@@ -219,7 +219,7 @@
         }
         else {
           this.noData = true;
-          Toast({message: '啊哦！出错了请稍后重试', duration: 1500});
+//          Toast({message: '啊哦！出错了请稍后重试', duration: 1500});
         }
       },
       //删除动态
@@ -277,7 +277,7 @@
       likeThisTrend(index,id){
         if(!tokenMethods.getWapToken()){
           MessageBox.confirm('请先登录!').then(action => {
-            this.$router.push({path: '/logIn', query: {backName: '/yayiCircle'}});
+            this.$router.push({path: '/logIn', query: {backName: '/yayi/yayiCircle'}});
           })
           return
         }

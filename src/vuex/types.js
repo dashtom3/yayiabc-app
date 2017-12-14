@@ -212,3 +212,5 @@ export const SAVE_DATUM_DRESSING = 'SAVE_DATUM_DRESSING';           //保存资�
 
 export const GET_ENTERPRISE_DATA = 'GET_ENTERPRISE_DATA';           //获取企业录
 export const GET_YAYI_DATA = 'GET_YAYI_DATA';           //获取企业录
+
+export const GET_MATER = 'GET_MATER';           //获取资料列表
