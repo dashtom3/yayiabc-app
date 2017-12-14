@@ -231,7 +231,7 @@
             Screen.style.left = 0;
             plus.navigator.setFullscreen(true);
           }else {  //非全屏
-          video.style.height = '56.533vw';
+            video.style.height = '56.533vw';
             cc.style.display = "block";
             container.style.zIndex = "0";
             Screen.style.width = W + "px";

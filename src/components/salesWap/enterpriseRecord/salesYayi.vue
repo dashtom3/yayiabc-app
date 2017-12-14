@@ -15,8 +15,8 @@
         </span>
       </div>
     </div>
-    <div ref="scrollBox" class="yayi-wrapper">
-      <div v-if="yayiDataList.length > 0" class="scrollBox" v-infinite-scroll="getListMore" infinite-scroll-immediate-check="true">
+    <div class="yayi-wrapper">
+      <div v-if="yayiDataList.length > 0" class="scroll-box" v-infinite-scroll="getListMore" infinite-scroll-immediate-check="true">
         <div class="yayi-item"  v-for="(item, index) in yayiDataList" :key="index">
           <div class="item-left clearfix">
             <img v-if="item.userPic" :src="item.userPic + '?imageView2/1/w/200/h/200'" alt="头像">
@@ -200,6 +200,10 @@ export default {
 }
 .yayi-wrapper{
   padding-top: px2vw(90);
+}
+.scroll-box{
+  height: px2vw(1044);
+  overflow: scroll;
 }
 .no-result{
   height: 139vw;

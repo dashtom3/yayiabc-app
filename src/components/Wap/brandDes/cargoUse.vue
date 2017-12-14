@@ -7,7 +7,7 @@
           <source slot="sourceSrc" type="video/mp4"></source>
         </video>
       </video-play> -->
-      <video class="video-play" controls :src="itemDetail.video"></video>
+      <video class="video-play" webkit-playsinline controls :src="itemDetail.video"></video>
     </div>
     <div class="noInfo" v-else>
       <img class="useInfo_img" src="../../../images/details/useInfo.png" alt="img">

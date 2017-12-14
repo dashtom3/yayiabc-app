@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="wrapper">
     <div class="search-wrapper">
       <div class="address-wrapper" @click="openPicker">
         <span v-text="listParams.cityName"></span>
@@ -19,11 +19,11 @@
         <span>地图</span>
       </div>
     </div>
-    <div ref="scrollBox" class="enterprise-list">
+    <div class="enterprise-list">
       <div v-if="tipsShow" class="tips-wrapper">
         <span class="tips">客服代表登录后，即可查看联系方式！</span><span class="login" @click="goToLogin">立即登录</span>
       </div>
-      <div v-if="enterpriseList.length > 0" class="scrollBox" v-infinite-scroll="getListMore" infinite-scroll-immediate-check="true">
+      <div v-if="enterpriseList.length > 0" class="scroll-box" v-infinite-scroll="getListMore" infinite-scroll-immediate-check="true">
         <div class="enterprise-item" v-for="(item, index) in enterpriseList" :key="index">
           <div class="item-top clearfix">
             <h2 class="item-title">{{ item.poiname }}</h2>
@@ -145,6 +145,10 @@ a{
 
 <style lang="scss" scoped>
 @import "../../../common/sass/factory";
+.wrapper{
+  width: 100%;
+  overflow: hidden;
+}
 .search-wrapper{
   position: absolute;
   display: flex;
@@ -235,6 +239,11 @@ a{
 .enterprise-list{
   padding-top: px2vw(90)
 }
+.scroll-box{
+  width: 100%;
+  height: px2vw(1044);
+  overflow: scroll;
+}
 .tips-wrapper{
   position: fixed;
   top: px2vw(180);
@@ -273,27 +282,35 @@ a{
   width: 100%;
   height: px2vw(167);
   border-bottom: px2vw(2) solid $borderColor;
+  // overflow: hidden;
 }
 .item-title{
   float: left;
+  width: px2vw(510);
   margin: px2vw(40) 0 0 px2vw(21);
-  height: px2vw(31);
-  line-height: px2vw(31);
+  // height: px2vw(31);
+  line-height: px2vw(34);
   font-size: px2vw(32);
 }
 .item-phone{
   float: right;
   margin: px2vw(47) px2vw(21) 0 0;
+  width: px2vw(180);
   height: px2vw(20);
   line-height: px2vw(20);
   font-size: px2vw(26);
 }
+.item-top{
+  margin-bottom: px2vw(26);
+}
 .item-bottom{
   font-size: 0;
-  margin: px2vw(29) 0 0 px2vw(21);
+  margin: 0 0 0 px2vw(21);
+  display: flex;
   img{
     display: inline-block;
     vertical-align: top;
+    margin-top: px2vw(2);
     width: px2vw(20);
     height: px2vw(24);
   }
@@ -301,7 +318,7 @@ a{
     display: inline-block;
     margin: 0 0 0 px2vw(8);
     height: px2vw(25);
-    line-height: px2vw(25);
+    line-height: px2vw(28);
     font-size: px2vw(26);
   }
 }

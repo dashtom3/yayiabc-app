@@ -9,11 +9,41 @@
     <div class="tip-wrapper">
       <img src="../../../images/index/info.png" alt="消息">
       <span class="tip-text">【牙医abc快报】</span>
-      <span class="tip-phone">156****1555</span>
-      <span class="tip-info">提现了60元</span>
+      <div class="contanier">
+        <div class="scorll-box">
+          <ul class="info-wrapper">
+            <li class="info-item">
+              <span class="tip-phone">156****1555</span>
+              <span class="tip-info">提现了60元</span>
+            </li>
+            <li class="info-item">
+              <span class="tip-phone">156****1555</span>
+              <span class="tip-info">提现了60元</span>
+            </li>
+            <li class="info-item">
+              <span class="tip-phone">156****1555</span>
+              <span class="tip-info">提现了60元</span>
+            </li>
+          </ul>
+          <ul class="info-wrapper">
+            <li class="info-item">
+              <span class="tip-phone">156****1555</span>
+              <span class="tip-info">提现了60元</span>
+            </li>
+            <li class="info-item">
+              <span class="tip-phone">156****1555</span>
+              <span class="tip-info">提现了60元</span>
+            </li>
+            <li class="info-item">
+              <span class="tip-phone">156****1555</span>
+              <span class="tip-info">提现了60元</span>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
     <div class="banner-wrapper">
-      <div class="banner-left">
+      <div class="banner-left" @click.stop="goToPage('/inviteRegister')">
         <img src="../../../images/index/img1.png" alt="牙医注册">
       </div>
       <div class="banner-right">
@@ -49,7 +79,7 @@
         <img class="item-icon" src="../../../images/index/register.png" alt="注册">
         <span class="item-name">注册</span>
       </div>
-      <div class="main-item" @click="goToPage()">
+      <div class="main-item" @click="goToPage('/salesIndex')">
         <img class="item-icon" src="../../../images/index/ckSale.png" alt="客服代表">
         <span class="item-name">客服代表</span>
       </div>
@@ -59,7 +89,7 @@
       <div class="hot-header">
         <span class="hot-item" v-for="(hot, index) in hotClass" :key="index" :class="{'active': index === activeIndex}" @click.stop="refreshTo(index)">{{ hot }}</span>
       </div>
-      <div class="hot-container">
+      <div class="hot-container" @scroll.stop.prevent>
         <router-view></router-view>
       </div>
     </div>
@@ -86,6 +116,7 @@
 
 <script>
 import Carousel from './carousel'
+import { tokenMethods } from '@vuex/util'
 export default {
   name: "index",
   components: {
@@ -128,6 +159,9 @@ export default {
     };
     that.$store.dispatch('GET_CLASSIFY_QUERY')
     that.$emit('listenToChildEvent','index')
+    setTimeout(() => {
+      
+    }, 20)
   },
   methods: {
     searchActive: function() {
@@ -148,7 +182,14 @@ export default {
       }
     },
     goToPage(url) {
-      this.$router.push({path: url, backName: 'yayi/index'})
+      if (url == '/salesIndex') {
+         // 判断是否登录
+        if (!tokenMethods.getSalesToken()) {
+          this.$router.push({path: '/salesLogin', query: {toPath: '/salesIndex'}});
+          return
+        }
+      }
+      this.$router.push({path: url, query: {backName: 'yayi/index'}})
     },
     plusReady: function(){
       // 获取本地应用资源版本号
@@ -216,11 +257,18 @@ export default {
 @import "../../../common/sass/factory";
 .index {
   width: 100vw;
+  height: px2vw(1234);
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+  padding-top: px2vw(88);
 }
 .search-box {
   width: 100vw;
   height: px2vw(88);
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9999;
   background-color: $themeColor;
 }
 .search-word {
@@ -250,6 +298,26 @@ export default {
   width: px2vw(40);
   height: px2vw(40);
 }
+@keyframes rolling{
+  0% {
+    transform:translate(0,0);
+    -webkit-transform:translate(0,0);
+  }
+  100% {
+    transform:translate(0,-100%);
+    -webkit-transform:translate(0,-100%);
+  }
+}
+@-webkit-keyframes rolling{
+  0% {
+    transform:translate(0,0);
+    -webkit-transform:translate(0,0);
+  }
+  100% {
+    transform:translate(0,-100%);
+    -webkit-transform:translate(0,-100%);
+  }
+}
 .tip-wrapper{
   display: flex;
   align-items: center;
@@ -260,6 +328,16 @@ export default {
     width: px2vw(30);
     height: px2vw(27);
     margin-left: px2vw(21);
+  }
+  .contanier{
+    display: inline-block;
+    width: px2vw(300);
+    height: px2vw(36);
+    overflow: hidden;
+  }
+  .scorll-box{
+    animation: rolling 8s linear infinite;
+    -webkit-animation: rolling 8s linear infinite;
   }
   .tip-text{
     font-size: px2vw(28);

@@ -129,6 +129,10 @@
                     // plus.nativeUI.alert("登录成功")
                     Toast({message: '登录成功', duration: 1500})
                     // that.$router.push({path: '/salesIndex'})
+                    if (this.$route.query.toPath) {
+                      this.$router.push({path: this.$route.query.toPath})
+                      return
+                    }
                     this.$router.push({path: '/enterpriseRecord'})
                   } else {
                     if (res.data.errorCode == 'OPENID_NOT_EXIST') {
@@ -257,6 +261,10 @@
             that.mobilePhone = ''
             that.password = ''
             // that.$router.push({path: '/salesCustomer'})
+            if (this.$route.query.toPath) {
+              this.$router.push({path: this.$route.query.toPath})
+              return
+            }
             this.$router.push({path: '/enterpriseRecord'})
           } else {
             Toast({message: res.data.msg, duration: 3000})

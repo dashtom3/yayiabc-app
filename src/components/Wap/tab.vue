@@ -73,7 +73,6 @@
       // 通过 `vm` 访问组件实例
       next(vm => {
         var that = vm;
-        console.log(that.$router.history, 'hahahahahaha')
         if (that.$router.history.current.path == '/main/caseOfIllness') {
           that.isActive1 = true;
           that.isActive2 = false;

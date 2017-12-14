@@ -26,9 +26,8 @@
     methods: {
       goBack() {
         if (!this.backTo) {
-          this.$router.push({path: '/enterpriseRecord'})
+          this.$router.push({path: '/yayi/index'})
         } else if (this.backTo == '/appSetting') {
-          console.log(this.backTo)
           this.$router.push({path: '/yayi/mine'})
         }
         // this.$router.go(-1)

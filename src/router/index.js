@@ -125,6 +125,9 @@ const myCase = resolve => require(['@/components/Wap/mine/case/myCase'], resolve
 // 账户信息
 const accountInfo = resolve => require(['@/components/Wap/mine/accountInfo'], resolve)
 const qualifications = resolve => require(['@/components/Wap/mine/qualifications'], resolve)
+
+// 邀请注册页
+const inviteRegister = resolve => require(['@/components/Wap/register/inviteRegister'], resolve)
 Vue.use(Router)
 
 let router = new Router({
@@ -690,6 +693,11 @@ let router = new Router({
           component: salesYayi
         },
       ]
+    },
+    {
+      name: 'inviteRegister',
+      path: '/inviteRegister',
+      component: inviteRegister
     },
   ],
 })
