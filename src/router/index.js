@@ -56,6 +56,7 @@ const datumDetail = resolve => require(['@/components/Wap/mine/collect/datumDeta
 const goodCollect = resolve => require(['@/components/Wap/mine/collect/goodCollect'], resolve)
 const datum = resolve => require(['@/components/Wap/mine/collect/datum'], resolve)
 const datumBase = resolve => require(['@/components/Wap/index/datumBase'], resolve)
+const database = resolve => require(['@/components/Wap/index/database/database'], resolve)
 
 /*wx_user组件*/
 const User = resolve => require(['@/components/wx_user/user'], resolve)
@@ -656,6 +657,11 @@ let router = new Router({
       name: 'accountInfo',
       path: '/account',
       component: accountInfo,
+    },
+    {
+      name: 'database',
+      path: '/database',
+      component: database,
     },
     {
       name: 'editor',

@@ -37,7 +37,7 @@
         <img class="item-icon" src="../../../images/index/faq.png" alt="问答">
         <span class="item-name">问答</span>
       </div>
-      <div class="main-item" @click="goToPage('')">
+      <div class="main-item" @click="goToPage('/database')">
         <img class="item-icon" src="../../../images/index/database.png" alt="资料库">
         <span class="item-name">资料库</span>
       </div>
@@ -111,7 +111,7 @@ export default {
       } else {
         document.addEventListener('plusready',that.plusReady,false);
       }
-    } 
+    }
     // 判断红包是否显示
     if (this.$route.params.redPacket === true) {
       this.isShow2 = true;
