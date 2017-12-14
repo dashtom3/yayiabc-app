@@ -32,19 +32,44 @@
   export default {
     data(){
       return{
+        timeStamp:null,
         isLoading:false,
         noData:false,
         args:{
           currentPage:1,
-          keyWord:this.keyWord
+          keyWord:''
+        },
+        dataList:[],
+      }
+    },
+    props:{
+      keyWords:{
+        type:String
+      }
+    },
+    watch:{
+      keyWords:{
+        handler:function (val) {
+          this.args.keyWord = val;
+          this.noData = false;
+          this.loadMore();
         }
       }
     },
-    props:[keyWord],
     created(){
-
+      this.timeStamp = Date.parse(new Date());
+    },
+    mounted(){
+      console.log(this.args)
     },
     methods:{
+      loadMore(){
+        this.timeStamp = Date.parse(new Date());
+        this.args.currentPage = 1;
+        this.totalPage = 0;
+        this.dataList = [];
+        //this.getList();
+      },
       getList(){
         switch (true){
           case this.$router.history.current.name === 'database':

@@ -15,7 +15,7 @@
         +
       </div>
     </div>
-    <datum class="datum" :keyWord="keyWord"></datum>
+    <datum class="datum" :keyWords="keyWord"></datum>
     <div v-if="classifyShow" class="classifyModule">
       <div @click="changeClassifyShow" class="closeIt">
         <div></div>
