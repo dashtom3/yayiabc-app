@@ -1401,6 +1401,46 @@ const actions = {
       });
     });
   },
+  // 获取资料列表
+  [types.GET_MATER_LIST](context, params) {
+    return new Promise((resolve, reject) => {
+      api.getMaterList(params).then((data) => {
+        resolve(data);
+      }).catch((err) => {
+        reject(err);
+      });
+    })
+  },
+  // 收藏资料
+  [types.COLLECT_MATER](context, params) {
+    return new Promise((resolve, reject) => {
+      api.collectMater(params).then((data) => {
+        resolve(data);
+      }).catch((err) => {
+        reject(err);
+      });
+    })
+  },
+  // 资料详情
+  [types.MATER_DETAIL](context, params) {
+    return new Promise((resolve, reject) => {
+      api.materDetail(params).then((data) => {
+        resolve(data);
+      }).catch((err) => {
+        reject(err);
+      });
+    })
+  },
+  // 资料收藏列表
+  [types.COLLECT_MATER_LIST](context, params) {
+    return new Promise((resolve, reject) => {
+      api.collectMaterList(params).then((data) => {
+        resolve(data);
+      }).catch((err) => {
+        reject(err);
+      });
+    })
+  },
   // 我的病例乾币
   [types.GET_USER_PAY](context, params) {
     return new Promise((resolve, reject) => {
@@ -1460,16 +1500,6 @@ const actions = {
         reject(err);
       });
     });
-  },
-  // 获取资料列表
-  [types.GET_MATER_LIST](context, params) {
-    return new Promise((resolve, reject) => {
-      api.getMater(params).then((data) => {
-        resolve(data);
-      }).catch((err) => {
-        reject(err);
-      });
-    })
   },
   // 获取消息列表
   [types.GET_TIPS_LIST](context, params) {

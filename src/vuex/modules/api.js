@@ -484,6 +484,22 @@ export function getUserCaptcha(params) {
 export function queryOrderNums(params) {
   return getWithToken('/OrderDetails/queryOrderNums', params)
 }
+// 获取资料列表
+export function getMaterList(params) {
+  return getWithTokenNoLoading('/crawlerPages/getMaterList', params)
+}
+// 收藏资料
+export function collectMater(params) {
+  return getWithToken('/crawlerPages/collectionMater', params)
+}
+// 资料详情
+export function materDetail(params) {
+  return getWithToken('/crawlerPages/getMaterDetail', params)
+}
+// 资料收藏列表
+export function collectMaterList(params) {
+  return getWithToken('/crawlerPages/userCollectionList', params)
+}
 
 
 /*
@@ -679,10 +695,6 @@ export function getEnterpriseList(params) {
 // 牙医录
 export function getYayiList(params) {
   return getWithSaleTokenNull('/findCus/registered', params)
-}
-// 获取资料列表
-export function getMater(params) {
-  return getWithSaleTokenNull('/crawlerPages/getMaterList', params)
 }
 // 消息列表
 export function getTipsList(params) {

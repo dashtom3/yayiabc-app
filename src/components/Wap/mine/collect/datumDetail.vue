@@ -11,7 +11,7 @@
 
         <!--右上角收藏 分享收藏按钮-->
         <div class="collectBox">
-          <span class="starBox">
+          <span class="starBox" @click="collect">
             <img class="starImg" src="../../../../images/mine/colloct/star.png" alt="img">
             <!--<img class="starImg" src="../../../../images/mine/collectWhite.png" alt="img">-->
           </span>
@@ -52,6 +52,7 @@
 
 <script>
   import share from "../../index/share.vue";
+  import {COLLECT_MATER} from '../../../../vuex/types'
   import { MessageBox} from 'mint-ui';
   import { tokenMethods } from '../../../../vuex/util'
 
@@ -74,6 +75,13 @@
         this.$store.dispatch('', this.args).then(res=>{
           this.dataDetail = res.data;
         })
+      },
+      collect(){
+        if (this.pointLogin()) {
+
+        }else {
+          this.isLogin();
+        }
       },
       isSharing(postId){
         if (this.pointLogin()) {

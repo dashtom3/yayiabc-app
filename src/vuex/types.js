@@ -216,3 +216,6 @@ export const GET_YAYI_DATA = 'GET_YAYI_DATA';           //获取企业录
 
 export const GET_TIPS_LIST = 'GET_TIPS_LIST';           // 获取消息列表
 export const GET_MATER_LIST = 'GET_MATER_LIST';           //获取资料列表
+export const COLLECT_MATER = 'COLLECT_MATER';           //收藏资料
+export const MATER_DETAIL = 'MATER_DETAIL';           //资料详情
+export const COLLECT_MATER_LIST = 'COLLECT_MATER_LIST';           //收藏资料列表
