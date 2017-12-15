@@ -1,5 +1,5 @@
 <template>
-  <div class="mint-loadmore-top wrap" :class="{myCreLoad:loading && text == 'loading'}">
+  <div class="mint-loadmore-bottom wrap" :class="{'myCre-load2':loading && text == 'loading'}">
     <img src='../../../images/index/loading.gif' alt="" id="loadingImg">
     <div class="text">{{ text }}</div>
   </div>
@@ -7,7 +7,14 @@
 
 <script type="text/ecmascript-6">
   export default {
-    name:'topLoadMore',
+    data(){
+      return{
+        pullText: '上拉加载',
+        dropText: '释放刷新',
+        loadingText: '加载中...',
+      }
+    },
+    name:'bottomLoadMore',
     props:{
       //判断数据是否加载完成的布尔值
       loading:{
@@ -19,37 +26,17 @@
         type:Function,
       }
     },
-    data(){
-      return{
-        pullText: '下拉刷新',
-        dropText: '释放刷新',
-        loadingText: '加载中...',
-//        pullImg: true,
-//        dropImg: false,
-//        loadingImg: false,
-        text:'',
-      }
-    },
     methods:{
       states(val){
         switch (val) {
           case 'pull':
             this.text = this.pullText;
-//            this.pullImg = true;
-//            this.dropImg = false;
-//            this.loadingImg = false;
             break;
           case 'drop':
             this.text = this.dropText;
-//            this.pullImg = false;
-//            this.dropImg = true;
-//            this.loadingImg = false;
             break;
           case 'loading':
             this.text = this.loadingText;
-//            this.pullImg = false;
-//            this.dropImg = false;
-//            this.loadingImg = true;
             break;
         }
       }
@@ -65,17 +52,14 @@
     },
     created(){
       this.text = this.pullText;
-//      this.pullImg = true;
-//      this.dropImg = false;
-//      this.loadingImg = false;
     }
   }
 </script>
 
 <style lang="scss" rel="stylesheet/scss">
   @import "../../../common/sass/factory";
-  .myCreLoad{
-    margin-top:0;
+  .myCre-load2{
+    margin-bottom:0;
   }
 </style>
 

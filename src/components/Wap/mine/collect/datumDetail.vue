@@ -5,7 +5,7 @@
         资料详情
 
         <!--左上角 返回按钮-->
-        <div class="back">
+        <div class="back" @click="goBack">
           <img src="../../../../images/mine/colloct/back.png" alt="img">
         </div>
 
@@ -13,8 +13,9 @@
         <div class="collectBox">
           <span class="starBox">
             <img class="starImg" src="../../../../images/mine/colloct/star.png" alt="img">
+            <!--<img class="starImg" src="../../../../images/mine/collectWhite.png" alt="img">-->
           </span>
-          <span class="enjoyBox">
+          <span class="enjoyBox" @click="isSharing(dataDetail.id)">
             <img class="enjoyImg" src="../../../../images/mine/colloct/enjoy.png" alt="img">
           </span>
         </div>
@@ -25,22 +26,22 @@
       <div class="container">
         <!--标题-->
         <div class="headLine">
-           这是回答标题. 这是病例 这是病例标题
+           {{dataDetail.title}}
         </div>
         <div class="classBox">
-          <span>口腔外科</span>
+          <span>{{dataDetail.secondClassify}}</span>
           <span>12人阅读</span>
         </div>
 
         <!--资料内容开始-->
         <div class="contentWrap">
-          这是内容
+          {{dataDetail.context ? dataDetail.context : '暂无详细内容'}}
         </div>
         <!--资料内容结束-->
 
       </div>
 
-
+      <share v-if="isShareShow" v-on:cancelShare="isShareShow = false" :shareData="shareData"></share>
 
 
 
@@ -50,6 +51,61 @@
 </template>
 
 <script>
+  import share from "../../index/share.vue";
+  import { MessageBox} from 'mint-ui';
+  import { tokenMethods } from '../../../../vuex/util'
+
+  export default {
+    data(){
+      return{
+        args:{
+          id:this.$route.query.id
+        },
+        dataDetail:{},
+        isShareShow:false,
+        shareData:{},
+      }
+    },
+    methods:{
+      goBack(){
+        this.$router.push(this.$route.query.backName)
+      },
+      getDetail(){
+        this.$store.dispatch('', this.args).then(res=>{
+          this.dataDetail = res.data;
+        })
+      },
+      isSharing(postId){
+        if (this.pointLogin()) {
+          this.shareData = {
+            momentType: '问答',
+            momentContent: null,
+            momentPicture: null,
+            momentContentId: postId
+          }
+          this.isShareShow = true;
+        }else {
+          this.isLogin();
+        }
+      },
+      //判断是否登录
+      pointLogin() {
+        let userToken = tokenMethods.getWapToken();
+        return userToken;
+      },
+      //提示需要登录
+      isLogin() {
+        MessageBox.confirm("请先登录!").then(action => {
+          this.$router.push({
+            path: "/logIn",
+            query: { backName: this.$route.fullPath }
+          });
+        }).catch(function(error) {
+          return "";
+        });
+      }
+    }
+  }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

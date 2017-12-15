@@ -186,7 +186,11 @@
         }
       },
       goBack(){
-        this.$router.go(-1);
+        if(this.$route.query.backName){
+          this.$router.push(this.$route.query.backName)
+        }else {
+          this.$router.go(-1);
+        }
         this.$destroy()
       },
       collect(){

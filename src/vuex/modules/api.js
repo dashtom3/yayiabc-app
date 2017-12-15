@@ -663,7 +663,10 @@ export function deleteMyCase(params) {
 export function payCaseDetail(params) {
   return getWithToken('/cottoms/playChargePost', params)
 }
-
+//病例支付
+export function caseCollect(params) {
+  return getWithToken('/cottoms/collect', params)
+}
 // 资料库
 export function getDatumBaseList(params) {
   return geters('/cottoms/playChargePost', params)
@@ -679,7 +682,7 @@ export function getYayiList(params) {
 }
 // 获取资料列表
 export function getMater(params) {
-  return getWithSaleTokenNull('/crawlerPages/getMater', params)
+  return getWithSaleTokenNull('/crawlerPages/getMaterList', params)
 }
 // 消息列表
 export function getTipsList(params) {

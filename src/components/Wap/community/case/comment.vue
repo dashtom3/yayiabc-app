@@ -164,7 +164,7 @@
               </div>
               <div>评论{{detailedCommentArgs.totalNumber}}</div>
             </div>
-            <div class="tabButtonBox">
+            <div class="tabButtonBox" @click="likeThisCase">
               <div>
                 <img class="img2" src="../../../../images/case/caseOfIllness/like.png" alt="">
               </div>
@@ -265,7 +265,8 @@ export default {
               Toast({ message: "删除失败", duration: 1500 });
             }
           });
-        } else {
+        }
+        else {
           //two 二级评论
           this.deleteArgs.parentId = this.commentIndex;
           this.deleteArgs.presentId = commentId;
@@ -293,9 +294,7 @@ export default {
     //收藏按钮
     collect() {
       if (this.pointLogin()) {
-        this.$store
-          .dispatch("SAVE_M_COLLECT", { viId: this.$route.query.id })
-          .then(res => {
+        this.$store.dispatch("CASE_COLLECT", { postId: this.$route.query.id }).then(res => {
             if (res.callStatus === "SUCCEED") {
               Toast({ message: "收藏成功", duration: 1500 });
             }
@@ -408,9 +407,18 @@ export default {
         this.isLogin();
       }
     },
+    likeThisCase(){
+      if (this.pointLogin()) {
+        this.$store.dispatch("LIKE", {type:2,typeId:this.$route.query.id}).then(res => {
+
+        })
+      }else {
+        this.isLogin();
+      }
+    },
     //分享按钮
     shareCase(postId, type) {
-      if(this.pointLogin){
+      if(this.pointLogin()){
         this.shareData = {
           momentType: type,
           momentContent: null,
@@ -507,6 +515,7 @@ export default {
       this.$store
         .dispatch("GET_CASE_COMMENT", this.detailedCommentParameter)
         .then(res => {
+          console.log(res.data,'comment')
           this.detailedCommentArgs = res;
           this.time(this.detailedCommentArgs.data);
         });

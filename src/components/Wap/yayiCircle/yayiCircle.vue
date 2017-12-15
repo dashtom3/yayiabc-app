@@ -16,7 +16,7 @@
           <div v-for="(item,index) in yayiCircleData" class="eachContainer" :key="index">
             <div class="headerImgBox">
               <div class="imgBox">
-                <img :src="item.userPic" alt="" v-if="item.userPic">
+                <img :src="item.userPic + '?imageView2/1/w/200/h/200'" alt="" v-if="item.userPic">
                 <img src="../../../images/mine/defaultHead.png" alt="" v-else>
               </div>
             </div>
@@ -30,8 +30,8 @@
 
                 <div class="pictures">
                   <div v-for="(pic,picIndex) in item.momentPicture" :class="{onePic:item.momentPicture.length < 2,twoPic:item.momentPicture.length > 1}" :key="picIndex">
-                    <img :src="pic" alt="" v-if="item.momentPicture.length < 2" @click="seeBigPic(pic)">
-                    <img :src="pic" alt="" v-else @click="seeBigPic(pic)">
+                    <img :src="pic + '?imageView2/1/w/300/h/300'" alt="" v-if="item.momentPicture.length < 2" @click="seeBigPic(pic)">
+                    <img :src="pic + '?imageView2/1/w/300/h/300'" alt="" v-else @click="seeBigPic(pic)">
                   </div>
                 </div>
               </div>

@@ -1230,6 +1230,17 @@ const actions = {
     });
   },
 
+  // 收藏病例
+  [types.CASE_COLLECT](context, params) {
+    return new Promise((resolve, reject) => {
+      api.caseCollect(params).then((data) => {
+        resolve(data);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  },
+
   // 获取病例详情信息
   [types.GET_CASE_DETAIL](context, params) {
     return new Promise((resolve, reject) => {
@@ -1451,7 +1462,7 @@ const actions = {
     });
   },
   // 获取资料列表
-  [types.GET_MATER](context, params) {
+  [types.GET_MATER_LIST](context, params) {
     return new Promise((resolve, reject) => {
       api.getMater(params).then((data) => {
         resolve(data);

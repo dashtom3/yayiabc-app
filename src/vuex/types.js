@@ -181,6 +181,7 @@ export const SAVE_CASE_SEARCHING = 'SAVE_CASE_SEARCHING';                //保�
 export const GET_CASE_DETAIL = 'GET_CASE_DETAIL';                         //保存病例详情
 export const GET_CASE_COMMENT = 'GET_CASE_COMMENT';                         //保存病例评论
 export const COLLECT = 'COLLECT';                         //收藏的病例列表
+export const CASE_COLLECT = 'CASE_COLLECT';                         //收藏的病例列表
 
 
 export const FAQ_LIST = 'FAQ_LIST';                           //问答列表
@@ -213,5 +214,5 @@ export const SAVE_DATUM_DRESSING = 'SAVE_DATUM_DRESSING';           //保存资�
 export const GET_ENTERPRISE_DATA = 'GET_ENTERPRISE_DATA';           //获取企业录
 export const GET_YAYI_DATA = 'GET_YAYI_DATA';           //获取企业录
 
-export const GET_MATER = 'GET_MATER';           //获取资料列表
 export const GET_TIPS_LIST = 'GET_TIPS_LIST';           // 获取消息列表
+export const GET_MATER_LIST = 'GET_MATER_LIST';           //获取资料列表

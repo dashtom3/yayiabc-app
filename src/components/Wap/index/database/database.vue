@@ -26,7 +26,7 @@
           <span class="titleDes">点击删除分类</span>
         </div>
         <div class="classifyForm">
-          <span v-for="(value,index) in isSelect" @click="deleteClassify(index)">{{value}}</span>
+          <span v-for="(value,index) in isSelect" @click="deleteClassify(index)" :class="{longText:value.length > 5}">{{value}}</span>
         </div>
       </div>
       <div class="area">
@@ -35,7 +35,7 @@
           <span class="titleDes">点击添加分类</span>
         </div>
         <div class="classifyForm">
-          <span v-for="(value,index) in notSelect" @click="addClassify(index)">+{{value}}</span>
+          <span v-for="(value,index) in notSelect" @click="addClassify(index)" :class="{longText:value.length > 5}">{{value}}</span>
         </div>
       </div>
     </div>
@@ -48,10 +48,10 @@ import datum from '../../mine/collect/datum.vue'
   export default {
     data(){
       return{
-        isSelect:localStorage.getItem('isSelectDataBase') ? JSON.parse(localStorage.getItem('isSelectDataBase')) : ['1','2','3','4','5'],
-        //isSelect: ['1','2','3','4','5'],
-        notSelect:localStorage.getItem('isSelectDataBase') ? JSON.parse(localStorage.getItem('notSelectDataBase')) :['6','7','8','9','10','11','12','12','14','15','16','17','18','19','20'],
-        //notSelect:['6','7','8','9','10','11','12','12','14','15','16','17','18','19','20'],
+        isSelect:localStorage.getItem('isSelectDataBase') ? JSON.parse(localStorage.getItem('isSelectDataBase')) : ['全部','全口种植','隐形正畸','牙齿矫正问答','口腔修复病例'],
+//        isSelect: ['全部','全口种植','隐形正畸','牙齿矫正问答','口腔修复病例'],
+        notSelect:localStorage.getItem('isSelectDataBase') ? JSON.parse(localStorage.getItem('notSelectDataBase')) :['龋齿','牙龈炎','儿童龋病','老年人龋病','慢性龈炎','鹅口疮'],
+//        notSelect:['龋齿','牙龈炎','儿童龋病','老年人龋病','慢性龈炎','鹅口疮'],
         classifyShow:false,
         args:{
           selected:0,
@@ -62,7 +62,12 @@ import datum from '../../mine/collect/datum.vue'
     watch:{
       isSelect:{
         handler:function (val) {
-          document.getElementById('classifyWrap').style.width = 14.4 * val.length + 'vw';
+          let long = 0;
+          for(let i = 0;i < val.length;i++){
+            long += val[i].length;
+          }
+          console.log(long)
+          document.getElementById('classifyWrap').style.width = 4 * long + 3.2 * val.length + 'vw';
         }
       },
       deep:true
@@ -92,7 +97,7 @@ import datum from '../../mine/collect/datum.vue'
       },
       dress(index,value){
         this.args.selected = index;
-        this.keyWord = value
+        this.keyWord = index > 0 ? value :'';
       }
     }
   }
@@ -154,10 +159,12 @@ import datum from '../../mine/collect/datum.vue'
         line-height: px2vw(50);
         span{
           text-align: center;
+          height: px2vw(50);
           display: inline-block;
-          width: px2vw(108);
+          padding: 0 px2vw(12);
           font-size: px2vw(30);
           color: #333;
+          /*overflow: hidden;*/
         }
         .select{
           color: $themeColor;
@@ -178,6 +185,7 @@ import datum from '../../mine/collect/datum.vue'
     position: fixed;
     top:px2vw(198);
     left: 0;
+    width: 100%;
   }
   .classifyModule{
     position: fixed;
@@ -230,6 +238,11 @@ import datum from '../../mine/collect/datum.vue'
           text-align: center;
           font-size: px2vw(26);
           color: #666;
+          text-overflow:ellipsis;
+        }
+        .longText{
+          font-size: px2vw(24);
+          text-overflow:ellipsis;
         }
       }
     }

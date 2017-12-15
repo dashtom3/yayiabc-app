@@ -201,6 +201,7 @@
       //获取病例数据
       getCaseData(){
         this.$store.dispatch('GET_CASE_DETAIL', {postId: this.$route.query.id}).then((res) => {
+          console.log(res.data,'detail')
           this.caseDetailArgs = res.data
           this.userPic = res.fl
           this.args.headline = res.data.headline

@@ -1,8 +1,8 @@
 <template>
   <div class="FAQContainer" ref="scrollBox">
-    <mt-loadmore :top-method="loadMore" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState">
+    <mt-loadmore :top-method="loadMore" :bottom-method="getQuestListMore" :bottom-all-loaded="allLoaded" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState" v-on:bottom-status-change="isStateB" class="loadMore">
       <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
-      <div class="scrollBox" v-infinite-scroll="getQuestListMore" infinite-scroll-immediate-check="true" v-if="questList.length > 0">
+      <div class="scrollBox">
         <div class="eachContainer" @click="gotoDetail(value.faqQuestionId)" v-for="(value,index) in questList" v-if="questList.length > 0">
           <div class="headLine">
             <div class="headImg">
@@ -28,6 +28,7 @@
         <img src="../../../../images/question/noQuestionList.png" alt="">
         <p>暂无任何问题~</p>
       </div>
+      <bottomLoadMore ref="bottomLoadMore" slot="bottom" :loading="isLoading" :loaded="isLoadedB"></bottomLoadMore>
     </mt-loadmore>
     <!-- <div class="edit" @click="gotoPage('/newQuest')" v-if="showNewQuest">
       <img src="../../../../images/question/newQuestion.png" alt="">
@@ -36,10 +37,11 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import { InfiniteScroll, LoadMore, MessageBox } from 'mint-ui';
+  import { InfiniteScroll, LoadMore, MessageBox,Indicator } from 'mint-ui';
   import {mapGetters} from 'vuex';
   import { tokenMethods } from '../../../../vuex/util'
   import topLoadMore from '../../../salesWap/index/topLoadMore.vue';
+  import bottomLoadMore from '../../../salesWap/index/bottomLoadMore.vue';
   import {COLLECT, FAQ_LIST, MY_QUESTION, SEARCH_CASE_LIST} from '../../../../vuex/types'
   import Util from '../../../../vuex/util'
 
@@ -47,6 +49,7 @@
     data(){
       return{
         isLoading:false,
+        allLoaded:false,
         args:{
           currentPage:1,
           faqQuestionType:null,
@@ -60,10 +63,11 @@
         timeStamp:null,
         showNewQuest:false,
         noData:false,
+        backName:''
       }
     },
     components:{
-      topLoadMore
+      topLoadMore,bottomLoadMore
     },
     computed: {
       ...mapGetters([
@@ -77,6 +81,7 @@
         handler:function (val) {
           this.noData = false;
           this.args.faqQuestionType = val;
+          Indicator.open();
           this.loadMore();
         }
       },
@@ -84,6 +89,7 @@
         handler:function (val) {
           this.noData = false;
           this.args.order = val;
+          Indicator.open();
           this.loadMore();
         }
       },
@@ -97,6 +103,7 @@
     },
     created(){
       this.timeStamp = Date.parse(new Date());
+      Indicator.open();
       if(this.saveCaseSearching){
         this.args.keyWord = this.saveCaseSearching;
         this.args.type = 3
@@ -107,10 +114,11 @@
       //下拉刷新
       loadMore (id){
         this.timeStamp = Date.parse(new Date());
+        this.allLoaded = false;
         this.args.currentPage = 1;
         this.totalPage = 0;
         this.questList = [];
-        this.$refs.scrollBox.scrollTop = 0;
+//        this.$refs.scrollBox.scrollTop = 0;
         this.getQuestList();
       },
       getQuestList(){
@@ -119,12 +127,15 @@
           case this.$router.history.current.name === 'QandAList':
             // this.showNewQuest =true;
             //发现
+            this.backName = '/QandAList'
             this.$store.dispatch(FAQ_LIST, this.args).then(res=>{
               if(res.data.length > 0){
                 this.dataCompute(res.data)
                 this.questList = res.data.concat(this.questList);
                 this.totalPage = res.totalPage;
                 this.isLoading = false;
+                this.isAllLoaded();
+                Indicator.close();
                 console.log(res,1)
               }else {
                 this.noData = true;
@@ -138,6 +149,8 @@
                 this.questList = res.data.concat(this.questList);
                 this.totalPage = res.totalPage;
                 this.isLoading = false;
+                this.isAllLoaded();
+                Indicator.close();
                 console.log(res,2)
               }else {
                 this.noData = true;
@@ -152,6 +165,8 @@
                 this.questList = res.data.concat(this.questList);
                 this.totalPage = res.totalPage;
                 this.isLoading = false;
+                this.isAllLoaded();
+                Indicator.close();
                 console.log(res,3)
               }else {
                 this.noData = true;
@@ -160,12 +175,15 @@
             //收藏
             break;
           case this.$router.history.current.name === 'QASearch':
+            this.backName = '/communitySearch/QAndASearch'
             this.$store.dispatch(SEARCH_CASE_LIST, this.args).then(res=>{
               if(res.data.length > 0){
                 this.dataCompute(res.data)
                 this.questList = res.data.concat(this.questList);
                 this.totalPage = res.totalPage;
                 this.isLoading = false;
+                this.isAllLoaded();
+                Indicator.close();
                 console.log(res,3)
               }else {
                 this.noData = true;
@@ -218,27 +236,38 @@
           }
         });
       },
-      gotoPage(router){
-        if(!tokenMethods.getWapToken()){
-          MessageBox.confirm('请先登录!').then(action => {
-            this.$router.push({path: '/logIn', query: {backName: '/yayiCircle'}});
-          })
-          return
-        }
-        this.$router.push(router)
-      },
+//      gotoPage(router){
+//        if(!tokenMethods.getWapToken()){
+//          MessageBox.confirm('请先登录!').then(action => {
+//            this.$router.push({path: '/logIn', query: {backName: '/yayiCircle'}});
+//          })
+//          return
+//        }
+//        this.$router.push(router)
+//      },
       gotoDetail(id){
-        this.$router.push({path:'/QandADetail',query:{faqQuestionId:id}})
+        this.$router.push({path:'/QandADetail',query:{faqQuestionId:id,backName:this.backName}})
       },
       //mt中接受的val值作为参数传入我的组件里
       isState(val){
         console.log(val)
         this.$refs.topLoadMore.states(val)
       },
+      isStateB(val){
+        console.log(val)
+        this.$refs.bottomLoadMore.states(val)
+      },
       //把下拉刷新完成之后回调的mt的方法传入我的组件里
       isLoaded(){
         this.$refs.loadmore.onTopLoaded();
       },
+      isLoadedB(){
+        this.$refs.loadmore.onBottomLoaded();
+      },
+      isAllLoaded(){
+        this.allLoaded = this.totalPage <= this.args.currentPage ? true : false;
+        console.log(this.allLoaded);
+      }
     }
   }
 </script>
@@ -250,89 +279,94 @@
     width: 100%;
     height: 100%;
     min-height: 79vh;
-    background-color: #fff;
-    .scrollBox{
-      width: 100%;
-      height: 100%;
-      .eachContainer{
-        padding: px2vw(20) px2vw(20) 0;
+    .loadMore{
+      min-height: 79vh;
+      .scrollBox{
+        min-height: 79vh;
         width: 100%;
-        .headLine{
+        height: 100%;
+        .eachContainer{
+          background-color: #fff;
+          padding: px2vw(20) px2vw(20) 0;
           width: 100%;
-          height: px2vw(120);
-          float: left;
-          .headImg{
-            display: inline-block;
-            width: px2vw(60);
-            height: px2vw(60);
-            border-radius: 50%;
-            overflow: hidden;
-            vertical-align: middle;
-            img{
-              width: 100%;
-              line-height: px2vw(60);
-            }
-          }
-          .name{
-            line-height: px2vw(120);
-            display: inline-block;
-            font-size: px2vw(26);
-            color: #333;
-            margin-left: px2vw(10);
-          }
-          .time{
-            line-height: px2vw(120);
-            display: inline-block;
-            font-size: px2vw(24);
-            color: #999;
-            margin-left: px2vw(10);
-          }
-        }
-        .title{
-          width: 100%;
-          font-size: px2vw(30);
-          color: #333;
-          margin-bottom: px2vw(20);
-          font-weight: bold;
-        }
-        .other{
-          padding-bottom: px2vw(30);
-          border-bottom: px2vw(1) solid #e5e5e5;
-          height: px2vw(70);
-          .classify{
-            font-size: px2vw(22);
-            border: px2vw(1) solid $themeColor;
-            color: $themeColor;
-            border-radius: px2vw(5);
+          .headLine{
+            width: 100%;
+            height: px2vw(120);
             float: left;
-          }
-          .num{
-            float: right;
-            font-size: px2vw(24);
-            color: #999;
-            span{
-              color: $themeColor;
+            .headImg{
+              display: inline-block;
+              width: px2vw(60);
+              height: px2vw(60);
+              border-radius: 50%;
+              overflow: hidden;
+              vertical-align: middle;
+              img{
+                width: 100%;
+                line-height: px2vw(60);
+              }
+            }
+            .name{
+              line-height: px2vw(120);
+              display: inline-block;
+              font-size: px2vw(26);
+              color: #333;
+              margin-left: px2vw(10);
+            }
+            .time{
+              line-height: px2vw(120);
+              display: inline-block;
+              font-size: px2vw(24);
+              color: #999;
+              margin-left: px2vw(10);
             }
           }
-          .clr{
-            clear: both;
+          .title{
+            width: 100%;
+            font-size: px2vw(30);
+            color: #333;
+            margin-bottom: px2vw(20);
+            font-weight: bold;
+          }
+          .other{
+            padding-bottom: px2vw(30);
+            border-bottom: px2vw(1) solid #e5e5e5;
+            height: px2vw(70);
+            .classify{
+              font-size: px2vw(22);
+              border: px2vw(1) solid $themeColor;
+              color: $themeColor;
+              border-radius: px2vw(5);
+              float: left;
+            }
+            .num{
+              float: right;
+              font-size: px2vw(24);
+              color: #999;
+              span{
+                color: $themeColor;
+              }
+            }
+            .clr{
+              clear: both;
+            }
           }
         }
       }
-    }
-    .noData{
-      width: 100%;
-      margin-top: px2vw(360);
-      text-align: center;
-      img{
-        width: px2vw(120);
+      .noData{
+        width: 100%;
+        margin-top: px2vw(360);
+        text-align: center;
+        img{
+          width: px2vw(120);
+        }
+        p{
+          font-size: px2vw(28);
+          color: #999;
+          line-height: px2vw(60);
+        };
       }
-      p{
-        font-size: px2vw(28);
-        color: #999;
-        line-height: px2vw(60);
-      };
     }
+
     .edit{
       width: px2vw(100);
       height: px2vw(100);

@@ -10,15 +10,15 @@
       <!--暂无内容图片 样式结束-->
       <div class="container">
         <!--这里 v-for -->
-        <div class="list-wrap">
+        <div class="list-wrap" v-for="(value,index) in dataList" @click="gotoDetail(value.id)">
           <div class="list-title">
-            这是病例标题这是病例标题
+            {{value.title}}
           </div>
           <div class="list-content">
-            这是问题答案, 这是问题答案, 这是问题答案, 这是问题答案, 这是问题答案
+            {{value.context ? value.context : '暂无详细内容'}}
           </div>
           <div class="list-class-box">
-            <span>口腔外科</span>
+            <span>{{value.secondClassify}}</span>
             <span>22人阅读</span>
           </div>
         </div>
@@ -27,7 +27,7 @@
     </div>
 </template>
 <script>
-  import {GET_MATER} from '../../../../vuex/types'
+  import {GET_MATER_LIST} from '../../../../vuex/types'
 
   export default {
     data(){
@@ -40,6 +40,7 @@
           keyWord:''
         },
         dataList:[],
+        backName:'',
       }
     },
     props:{
@@ -68,21 +69,23 @@
         this.args.currentPage = 1;
         this.totalPage = 0;
         this.dataList = [];
-        //this.getList();
+        this.getList();
       },
       getList(){
         switch (true){
           case this.$router.history.current.name === 'database':
-            this.$store.dispatch(GET_MATER, this.args).then(res=>{
+            this.backName = '/database'
+            this.$store.dispatch(GET_MATER_LIST, this.args).then(res=>{
               if(res.data.length > 0){
-
+                console.log(res.data);
+                this.dataList = res.data;
               }else {
                 this.noData = true;
               }
             })
             break;
           case this.$router.history.current.name === 'datumcollect':
-            this.$store.dispatch(GET_MATER, this.args).then(res=>{    //要改这个接口
+            this.$store.dispatch(GET_MATER_LIST, this.args).then(res=>{    //要改这个接口
               if(res.data.length > 0){
 
               }else {
@@ -92,6 +95,9 @@
             break;
         }
       },
+      gotoDetail(id){
+        this.$router.push({path:'',query:{backName:this.backName,id:id}})
+      }
     }
   }
 </script>
