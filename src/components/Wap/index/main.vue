@@ -44,7 +44,7 @@
           <img class="item-icon" src="../../../images/index/faq.png" alt="问答">
           <span class="item-name">问答</span>
         </div>
-        <div class="main-item" @click="goToPage('')">
+        <div class="main-item" @click="goToPage('/database')">
           <img class="item-icon" src="../../../images/index/database.png" alt="资料库">
           <span class="item-name">资料库</span>
         </div>
@@ -122,7 +122,7 @@ export default {
       } else {
         document.addEventListener('plusready',that.plusReady,false);
       }
-    } 
+    }
     // 判断红包是否显示
     if (this.$route.params.redPacket === true) {
       this.isShow2 = true;
@@ -185,7 +185,7 @@ export default {
       scan = new plus.barcode.Barcode('bcid');
       scan.onmarked = onmarked;
       this.startScan;
-    }, 
+    },
     startScan () {
       scan.start();
     },
@@ -249,7 +249,7 @@ export default {
     },
     scroll(){
       this.animate= true;
-      var that = this; 
+      var that = this;
       setTimeout(function(){
         that.list.push(that.list[0]);
         that.list.shift();
