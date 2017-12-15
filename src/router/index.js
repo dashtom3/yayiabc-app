@@ -126,8 +126,11 @@ const myCase = resolve => require(['@/components/Wap/mine/case/myCase'], resolve
 const accountInfo = resolve => require(['@/components/Wap/mine/accountInfo'], resolve)
 const qualifications = resolve => require(['@/components/Wap/mine/qualifications'], resolve)
 
-// 邀请注册页
+// 用户邀请注册页
 const inviteRegister = resolve => require(['@/components/Wap/register/inviteRegister'], resolve)
+const inviteRegist = resolve => require(['@/components/Wap/register/inviteRegist'], resolve)
+// 客服邀请注册
+const inviteSaleRegister = resolve => require(['@/components/salesWap/register/inviteSaleRegister'], resolve)
 Vue.use(Router)
 
 let router = new Router({
@@ -694,10 +697,22 @@ let router = new Router({
         },
       ]
     },
+    // 用户邀请注册
     {
       name: 'inviteRegister',
       path: '/inviteRegister',
       component: inviteRegister
+    },
+    {
+      name: 'inviteRegist',
+      path: '/inviteRegist',
+      component: inviteRegist
+    },
+    // 客服代表邀请注册
+    {
+      name: 'inviteSaleRegister',
+      path: '/inviteSaleRegister',
+      component: inviteSaleRegister
     },
   ],
 })

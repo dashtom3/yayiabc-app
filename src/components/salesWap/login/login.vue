@@ -282,7 +282,7 @@
       },
       back: function () {
         // this.$router.push({path: '/'})
-        this.$router.push({path: '/enterpriseRecord'})
+        this.$router.push({path: '/yayi/index'})
       }
     }
   }

@@ -250,11 +250,11 @@
             <img src="../../../images/mine/shoucang.png" alt="">
             <div>我的收藏</div>
           </li>
-          <li class="mine_function_bottom_item" @click.stop="goToAppSetting">
+          <li class="mine_function_bottom_item">
             <img src="../../../images/mine/dizhi.png" alt="">
             <div>我的地址</div>
           </li>
-          <li class="mine_function_bottom_item" @click.stop="qq_contact">
+          <li class="mine_function_bottom_item">
             <img src="../../../images/mine/qq.png" alt="">
             <div>QQ咨询</div>
           </li>

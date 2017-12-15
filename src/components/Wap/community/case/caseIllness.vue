@@ -7,13 +7,11 @@
           <img src="../../../../images/case/caseOfIllness/search.png" alt="img">
         </span>
         <!--搜索按钮结束-->
-
         <!--分类功能开始-->
         <div class="classBox">
-          <span v-for="(item, index) in caseDate.caseClass" @click="changeClass(index)" :class="{'changeClass': index === caseDate.caseClassNum}">{{item}}</span>
+          <span v-for="(item, index) in caseDate.caseClass" :key="index" @click="changeClass(index)" :class="{'changeClass': index === caseDate.caseClassNum}">{{item}}</span>
         </div>
         <!--分类功能结束-->
-
         <!--提示铃开始-->
         <span @click="msg()" class="tsImgBox">
           <span class="numBox" v-if="msgNum > 0">
@@ -25,7 +23,7 @@
       </div>
       <!--头部结束-->
       <div class="dressingBox">
-        <span v-for="(item, index) in caseDate.dressing" @click="dressing(index)" :class="{'DressingColor': (caseListArgs.classify==''?0:caseListArgs.classify) === index}">{{item == '' ? '不限':item}}</span>
+        <span v-for="(item, index) in caseDate.dressing" :key="index" @click="dressing(index)" :class="{'DressingColor': (caseListArgs.classify==''?0:caseListArgs.classify) === index}">{{item == '' ? '不限':item}}</span>
         <!--筛选按钮-->
         <span @click="caseDate.dressingSwitch = !caseDate.dressingSwitch" class="dressingBtn">
             <img src="../../../../images/case/caseOfIllness/classflsy.png" alt="">
@@ -42,7 +40,7 @@
       </div>
 
 
-      <div  class="container">
+      <div  class="container" @scroll.stop.prevent>
         <!--内容开始-->
         <router-view></router-view>
         <!--内容结束-->

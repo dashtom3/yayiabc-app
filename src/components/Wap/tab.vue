@@ -43,7 +43,8 @@
 
 <script>
   // import Vue from 'vue'
-  import index from './index/index'
+  // import index from './index/index'
+  import index from './index/main'
   import classifyIndex from './classify/classifyIndex'
   import { GET_CAR_ROUTERSTATE } from '@vuex/types'
   // var tab03 = Vue.extend({
@@ -242,6 +243,24 @@
         that.bottomNav = 'mine'
       },
     },
+    watch: {
+      '$route' (to, from) {
+        var that = this;
+        if (to.name == 'caseOfIllness' || to.name == 'video' || to.name == 'QandAList') {
+          that.isActive1 = false;
+          that.isActive2 = false;
+          that.isActive3 = true;
+          that.isActive4 = false;
+          that.isActive5 = false;
+          that.isTouch1 = false;
+          that.isTouch2 = false;
+          that.isTouch3 = true;
+          that.isTouch4 = false;
+          that.isTouch5 = false;
+          that.bottomNav = 'caseOfIllness'
+        }
+      }
+    }
   }
 </script>
 

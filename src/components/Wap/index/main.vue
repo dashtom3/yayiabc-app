@@ -3,13 +3,12 @@
     <div class="search-box">
       <input class="search-word" type="text" @focus="searchActive" v-model="searchCargo" autocomplete="on" placeholder="请输入关键字">
       <img class="search-img" src="../../../images/index/search.png" alt="img">
-      <img class="search-qr" src="../../../images/index/qrCode.png" @click="startRecognize" alt="扫码">
+      <img class="search-qr" src="../../../images/index/qrCode.png" alt="扫码">
     </div>
     <div class="index">
       <carousel></carousel>
       <div class="tip-wrapper">
-        <img src="../../../images/index/info.png" alt="消息">
-        <span class="tip-text">【牙医abc快报】</span>
+        <span class="tip-text"><img src="../../../images/index/info.png" alt="消息"><span>【牙医abc快报】</span></span>
         <div class="contanier" ref="contanier">
           <ul class="info-wrapper" ref="wrapper" :class="{anim:animate==true}">
             <li class="info-item" v-for="(item, index) in list" :key="index">
@@ -23,7 +22,7 @@
         <div class="banner-left" @click.stop="goToPage('/inviteRegister')">
           <img src="../../../images/index/img1.png" alt="牙医注册">
         </div>
-        <div class="banner-right">
+        <div class="banner-right" @click.stop="goToPage('/inviteSaleRegister')">
           <img src="../../../images/index/img2.png" alt="牙医销售">
         </div>
       </div>
@@ -111,6 +110,7 @@ export default {
       newVer: null,
       list: [],
       animate:false,
+      intervalId: null,
     };
   },
   created () {
@@ -141,7 +141,10 @@ export default {
     that.$emit('listenToChildEvent','index')
     that.getList();
     setInterval(that.getList,3600000)
-    setInterval(that.scroll,1000)
+    that.intervalId = setInterval(that.scroll,1000)
+  },
+  destroyed () {
+    clearInterval(this.intervalId)
   },
   methods: {
     searchActive: function() {
@@ -178,16 +181,6 @@ export default {
           this.list = res.data;
         }
       })
-    },
-    // 扫码
-    startRecognize() {
-      // scan 声明在index.html
-      scan = new plus.barcode.Barcode('bcid');
-      scan.onmarked = onmarked;
-      this.startScan;
-    },
-    startScan () {
-      scan.start();
     },
     plusReady: function(){
       // 获取本地应用资源版本号
@@ -313,26 +306,47 @@ export default {
 .tip-wrapper{
   display: flex;
   align-items: center;
-  height: px2vw(88);
+  padding: px2vw(30) 0;
+  // height: px2vw(36);
   font-size: px2vw(24);
   color: rgb(51,51,51);
+  .img-wrapper{
+    display: inline-block;
+    margin-left: px2vw(21);
+    padding-top: px2vw(1);
+    width: px2vw(30);
+    height: px2vw(28);
+    line-height: px2vw(28);
+    font-size: 0;
+  }
   img{
     width: px2vw(30);
     height: px2vw(27);
+    vertical-align: top;
     margin-left: px2vw(21);
   }
   .contanier{
     display: inline-block;
+    margin-top: px2vw(4);
     width: px2vw(400);
     height: px2vw(36);
     overflow: hidden;
     transition: all 0.5s;
   }
   .tip-text{
+    display: inline-block;
+    margin-top: px2vw(4);
     font-size: px2vw(28);
+    line-height: px2vw(28);
+    height: px2vw(28);
     color: rgb(255,156,0);
+    span{
+      display: inline-block;
+    }
   }
   .tip-phone{
+    line-height: px2vw(28);
+    height: px2vw(28);
     margin-right: px2vw(10);
   }
 }

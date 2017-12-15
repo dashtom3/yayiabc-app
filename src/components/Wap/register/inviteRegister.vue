@@ -64,7 +64,7 @@ export default {
 @import "../../../common/sass/factory";
 .invite-wrapper{
   width: 100vw;
-  background: #f4f4f4;
+  background: #fff;
 }
 .invite-header{
   z-index: 2000;
@@ -144,7 +144,7 @@ export default {
 }
 .split{
   width: 100%;
-  height: px2vw(2);
+  height: px2vw(1);
   background: $borderColour;
 }
 .line{
