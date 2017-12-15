@@ -681,3 +681,7 @@ export function getYayiList(params) {
 export function getMater(params) {
   return getWithSaleTokenNull('/crawlerPages/getMater', params)
 }
+// 消息列表
+export function getTipsList(params) {
+  return geters('/userWith/withHornPrompt', params)
+}

@@ -32,7 +32,7 @@
       <div ref="scrollBox" class="Content_list" v-infinite-scroll="loadMore" infinite-scroll-immediate-check="true" >
         <div class="Content_list_div" v-for="(item,index) in productData" @click="goProductDetail(item)">
           <div>
-            <img class="product_pic" :src="item.itemDetail.itemPica +'?imageView2/1/w/400/h/400'" width="100%" height="100%" alt="">
+            <img class="product_pic" :src="item.itemDetail.itemPica +'?imageView2/1/w/300/h/300'" width="100%" height="100%" alt="">
             <!-- <img class="product_pic" v-lazy="item.itemDetail.itemPica +'?imageView2/1/w/400/h/400'" width="97%" height="97%" alt=""> -->
           </div>
           <div>

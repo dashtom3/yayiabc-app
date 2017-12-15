@@ -298,7 +298,7 @@
 .right_box {
   width: 100vw;
   -webkit-overflow-scrolling: touch;
-  min-height: 100vh;
+  height: 100vh;
 }
 .item_img {
   width: 7.46vw;

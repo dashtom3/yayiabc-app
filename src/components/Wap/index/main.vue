@@ -1,113 +1,91 @@
 <template>
-  <div class="index">
+  <div class="index-wrapper">
     <div class="search-box">
       <input class="search-word" type="text" @focus="searchActive" v-model="searchCargo" autocomplete="on" placeholder="请输入关键字">
       <img class="search-img" src="../../../images/index/search.png" alt="img">
-      <img class="search-qr" src="../../../images/index/qrCode.png" alt="扫码">
+      <img class="search-qr" src="../../../images/index/qrCode.png" @click="startRecognize" alt="扫码">
     </div>
-    <carousel></carousel>
-    <div class="tip-wrapper">
-      <img src="../../../images/index/info.png" alt="消息">
-      <span class="tip-text">【牙医abc快报】</span>
-      <div class="contanier">
-        <div class="scorll-box">
-          <ul class="info-wrapper">
-            <li class="info-item">
-              <span class="tip-phone">156****1555</span>
-              <span class="tip-info">提现了60元</span>
-            </li>
-            <li class="info-item">
-              <span class="tip-phone">156****1555</span>
-              <span class="tip-info">提现了60元</span>
-            </li>
-            <li class="info-item">
-              <span class="tip-phone">156****1555</span>
-              <span class="tip-info">提现了60元</span>
-            </li>
-          </ul>
-          <ul class="info-wrapper">
-            <li class="info-item">
-              <span class="tip-phone">156****1555</span>
-              <span class="tip-info">提现了60元</span>
-            </li>
-            <li class="info-item">
-              <span class="tip-phone">156****1555</span>
-              <span class="tip-info">提现了60元</span>
-            </li>
-            <li class="info-item">
-              <span class="tip-phone">156****1555</span>
-              <span class="tip-info">提现了60元</span>
+    <div class="index">
+      <carousel></carousel>
+      <div class="tip-wrapper">
+        <img src="../../../images/index/info.png" alt="消息">
+        <span class="tip-text">【牙医abc快报】</span>
+        <div class="contanier" ref="contanier">
+          <ul class="info-wrapper" ref="wrapper" :class="{anim:animate==true}">
+            <li class="info-item" v-for="(item, index) in list" :key="index">
+              <span class="tip-phone">{{item.phone}}</span>
+              <span class="tip-info">提现了{{item.withMoney}}元</span>
             </li>
           </ul>
         </div>
       </div>
-    </div>
-    <div class="banner-wrapper">
-      <div class="banner-left" @click.stop="goToPage('/inviteRegister')">
-        <img src="../../../images/index/img1.png" alt="牙医注册">
-      </div>
-      <div class="banner-right">
-        <img src="../../../images/index/img2.png" alt="牙医销售">
-      </div>
-    </div>
-    <div class="main-wrapper">
-      <div class="main-item" @click="goToPage('/caseOfIllness')">
-        <img class="item-icon" src="../../../images/index/case.png" alt="病例">
-        <span class="item-name">病例</span>
-      </div>
-      <div class="main-item" @click="goToPage('/video')">
-        <img class="item-icon" src="../../../images/index/video.png" alt="视频">
-        <span class="item-name">视频</span>
-      </div>
-      <div class="main-item" @click="goToPage('/productList')">
-        <img class="item-icon" src="../../../images/index/shop.png" alt="商城">
-        <span class="item-name">商城</span>
-      </div>
-      <div class="main-item" @click="goToPage('/QandAList')">
-        <img class="item-icon" src="../../../images/index/faq.png" alt="问答">
-        <span class="item-name">问答</span>
-      </div>
-      <div class="main-item" @click="goToPage('/database')">
-        <img class="item-icon" src="../../../images/index/database.png" alt="资料库">
-        <span class="item-name">资料库</span>
-      </div>
-      <div class="main-item" @click="goToPage('/enterpriseRecord')">
-        <img class="item-icon" src="../../../images/index/page.png" alt="企业录">
-        <span class="item-name">企业录</span>
-      </div>
-      <div class="main-item" @click="goToPage('/register')">
-        <img class="item-icon" src="../../../images/index/register.png" alt="注册">
-        <span class="item-name">注册</span>
-      </div>
-      <div class="main-item" @click="goToPage('/salesIndex')">
-        <img class="item-icon" src="../../../images/index/ckSale.png" alt="客服代表">
-        <span class="item-name">客服代表</span>
-      </div>
-    </div>
-    <div class="split"></div>
-    <div class="hot-wrapper">
-      <div class="hot-header">
-        <span class="hot-item" v-for="(hot, index) in hotClass" :key="index" :class="{'active': index === activeIndex}" @click.stop="refreshTo(index)">{{ hot }}</span>
-      </div>
-      <div class="hot-container" @scroll.stop.prevent>
-        <router-view></router-view>
-      </div>
-    </div>
-    <div class="redPacketWrapper" v-show="isShow2">
-      <img class="redPacket" src="../../../images/index/redPacket.png">
-      <div class="btn-use" @click.stop="useRedPacket"></div>
-      <img class="close" src="../../../images/index/close.png" @click.stop="hideRedPacket">
-    </div>
-    <div class="dialog_wrapper" v-show="isShow">
-      <div class="dialog">
-        <div class="dialog_body">
-          <h2 class="title">发现新版本</h2>
-          <span class="text">快快升级，体验我们的新版本！</span>
+      <div class="banner-wrapper">
+        <div class="banner-left" @click.stop="goToPage('/inviteRegister')">
+          <img src="../../../images/index/img1.png" alt="牙医注册">
         </div>
-        <div class="dialog_footer">
-          <span class="dialog_bottom">
-            <button type="button" class="btn button_primary" @click="downWgt"><span>立即更新</span></button>
-          </span>
+        <div class="banner-right">
+          <img src="../../../images/index/img2.png" alt="牙医销售">
+        </div>
+      </div>
+      <div class="main-wrapper">
+        <div class="main-item" @click="goToPage('/caseOfIllness')">
+          <img class="item-icon" src="../../../images/index/case.png" alt="病例">
+          <span class="item-name">病例</span>
+        </div>
+        <div class="main-item" @click="goToPage('/video')">
+          <img class="item-icon" src="../../../images/index/video.png" alt="视频">
+          <span class="item-name">视频</span>
+        </div>
+        <div class="main-item" @click="goToPage('/productList')">
+          <img class="item-icon" src="../../../images/index/shop.png" alt="商城">
+          <span class="item-name">商城</span>
+        </div>
+        <div class="main-item" @click="goToPage('/QandAList')">
+          <img class="item-icon" src="../../../images/index/faq.png" alt="问答">
+          <span class="item-name">问答</span>
+        </div>
+        <div class="main-item" @click="goToPage('')">
+          <img class="item-icon" src="../../../images/index/database.png" alt="资料库">
+          <span class="item-name">资料库</span>
+        </div>
+        <div class="main-item" @click="goToPage('/enterpriseRecord')">
+          <img class="item-icon" src="../../../images/index/page.png" alt="企业录">
+          <span class="item-name">企业录</span>
+        </div>
+        <div class="main-item" @click="goToPage('/register')">
+          <img class="item-icon" src="../../../images/index/register.png" alt="注册">
+          <span class="item-name">注册</span>
+        </div>
+        <div class="main-item" @click="goToPage('/salesIndex')">
+          <img class="item-icon" src="../../../images/index/ckSale.png" alt="客服代表">
+          <span class="item-name">客服代表</span>
+        </div>
+      </div>
+      <div class="split"></div>
+      <div class="hot-wrapper">
+        <div class="hot-header">
+          <span class="hot-item" v-for="(hot, index) in hotClass" :key="index" :class="{'active': index === activeIndex}" @click.stop="refreshTo(index)">{{ hot }}</span>
+        </div>
+        <div class="hot-container" @scroll.stop.prevent>
+          <router-view></router-view>
+        </div>
+      </div>
+      <div class="redPacketWrapper" v-show="isShow2">
+        <img class="redPacket" src="../../../images/index/redPacket.png">
+        <div class="btn-use" @click.stop="useRedPacket"></div>
+        <img class="close" src="../../../images/index/close.png" @click.stop="hideRedPacket">
+      </div>
+      <div class="dialog_wrapper" v-show="isShow">
+        <div class="dialog">
+          <div class="dialog_body">
+            <h2 class="title">发现新版本</h2>
+            <span class="text">快快升级，体验我们的新版本！</span>
+          </div>
+          <div class="dialog_footer">
+            <span class="dialog_bottom">
+              <button type="button" class="btn button_primary" @click="downWgt"><span>立即更新</span></button>
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -131,6 +109,8 @@ export default {
       isShow2: false,
       wgtVer: null,
       newVer: null,
+      list: [],
+      animate:false,
     };
   },
   created () {
@@ -142,7 +122,7 @@ export default {
       } else {
         document.addEventListener('plusready',that.plusReady,false);
       }
-    }
+    } 
     // 判断红包是否显示
     if (this.$route.params.redPacket === true) {
       this.isShow2 = true;
@@ -159,9 +139,9 @@ export default {
     };
     that.$store.dispatch('GET_CLASSIFY_QUERY')
     that.$emit('listenToChildEvent','index')
-    setTimeout(() => {
-      
-    }, 20)
+    that.getList();
+    setInterval(that.getList,3600000)
+    setInterval(that.scroll,1000)
   },
   methods: {
     searchActive: function() {
@@ -190,6 +170,24 @@ export default {
         }
       }
       this.$router.push({path: url, query: {backName: 'yayi/index'}})
+    },
+    // 得到消息列表
+    getList() {
+      this.$store.dispatch('GET_TIPS_LIST', this.listParams).then((res) => {
+        if (res.callStatus === 'SUCCEED') {
+          this.list = res.data;
+        }
+      })
+    },
+    // 扫码
+    startRecognize() {
+      // scan 声明在index.html
+      scan = new plus.barcode.Barcode('bcid');
+      scan.onmarked = onmarked;
+      this.startScan;
+    }, 
+    startScan () {
+      scan.start();
     },
     plusReady: function(){
       // 获取本地应用资源版本号
@@ -248,6 +246,15 @@ export default {
     },
     hideRedPacket() {
       this.isShow2 = false;
+    },
+    scroll(){
+      this.animate= true;
+      var that = this; 
+      setTimeout(function(){
+        that.list.push(that.list[0]);
+        that.list.shift();
+        that.animate=false;
+      },500)
     }
   }
 }
@@ -257,7 +264,8 @@ export default {
 @import "../../../common/sass/factory";
 .index {
   width: 100vw;
-  height: px2vw(1234);
+  // height: px2vw(1234);
+  height: 100vh;
   overflow: scroll;
   -webkit-overflow-scrolling: touch;
   padding-top: px2vw(88);
@@ -265,7 +273,7 @@ export default {
 .search-box {
   width: 100vw;
   height: px2vw(88);
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   z-index: 9999;
@@ -298,25 +306,9 @@ export default {
   width: px2vw(40);
   height: px2vw(40);
 }
-@keyframes rolling{
-  0% {
-    transform:translate(0,0);
-    -webkit-transform:translate(0,0);
-  }
-  100% {
-    transform:translate(0,-100%);
-    -webkit-transform:translate(0,-100%);
-  }
-}
-@-webkit-keyframes rolling{
-  0% {
-    transform:translate(0,0);
-    -webkit-transform:translate(0,0);
-  }
-  100% {
-    transform:translate(0,-100%);
-    -webkit-transform:translate(0,-100%);
-  }
+.anim{
+  transition: all 0.8s;
+  margin-top: px2vw(-36);
 }
 .tip-wrapper{
   display: flex;
@@ -331,13 +323,10 @@ export default {
   }
   .contanier{
     display: inline-block;
-    width: px2vw(300);
+    width: px2vw(400);
     height: px2vw(36);
     overflow: hidden;
-  }
-  .scorll-box{
-    animation: rolling 8s linear infinite;
-    -webkit-animation: rolling 8s linear infinite;
+    transition: all 0.5s;
   }
   .tip-text{
     font-size: px2vw(28);
@@ -350,9 +339,10 @@ export default {
 .banner-wrapper{
   display: flex;
   height: px2vw(162);
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   background: #f4f4f4;
+  padding: 0 px2vw(22);
   div{
     width: px2vw(340);
     height: px2vw(120);

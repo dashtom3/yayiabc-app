@@ -9,7 +9,9 @@
         <span @click="searchInfo">
           <img src="../../../images/salesWap/customer/search-c.png" alt="搜索">
         </span>
-        <input v-model="listParams.state" @keydown.enter="searchInfo" type="text" placeholder="请输入关键字">
+        <form @submit.prevent>
+          <input v-model="listParams.state" @keydown.enter="searchInfo" type="search" placeholder="请输入关键字">
+        </form>
         <span v-show="closeShow" class="close-wrapper" @click="closeKeyWord">
           <img class="close" src="../../../images/saleman/close.png" alt="关闭">
         </span>
@@ -98,7 +100,7 @@ export default {
       this.listParams.state = '';
       this.enterpriseList = [];
       this.listParams.currentPage = 1;
-      this.getEnterPriseData();
+      this.getYayiData();
     },
     openPicker() {
       this.$refs.cityAddressPickers.open()
@@ -107,7 +109,7 @@ export default {
       this.listParams.cityName = e.split(' ').join('/')
       this.enterpriseList = [];
       this.listParams.currentPage = 1;
-      this.getEnterPriseData();
+      this.getYayiData();
     },
   },
   watch: {

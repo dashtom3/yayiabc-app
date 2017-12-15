@@ -1458,6 +1458,16 @@ const actions = {
       }).catch((err) => {
         reject(err);
       });
+    })
+  },
+  // 获取消息列表
+  [types.GET_TIPS_LIST](context, params) {
+    return new Promise((resolve, reject) => {
+      api.getTipsList(params).then((data) => {
+        resolve(data);
+      }).catch((err) => {
+        reject(err);
+      });
     });
   },
   // 保存发现病分类筛选的值

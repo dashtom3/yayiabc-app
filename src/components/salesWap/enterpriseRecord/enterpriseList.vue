@@ -9,7 +9,10 @@
         <span @click="searchInfo">
           <img src="../../../images/salesWap/customer/search-c.png" alt="搜索">
         </span>
-        <input v-model="listParams.keyWord" @keydown.enter="searchInfo" type="text" placeholder="请输入关键字">
+        <!-- 将软键盘的换行改为搜索 -->
+        <form @submit.prevent>
+          <input v-model="listParams.keyWord" @keydown.enter="searchInfo" type="search" placeholder="请输入关键字">
+        </form>
         <span v-show="closeShow" class="close-wrapper" @click="closeKeyWord">
           <img class="close" src="../../../images/saleman/close.png" alt="关闭">
         </span>
