@@ -87,6 +87,7 @@
         shares[t.id] = t;
       }
       alert("获取分享服务列表成功");
+      alert(JSON.stringify(shares))
     }, function(e) {
       alert("获取分享服务列表失败：" + e.message);
     });

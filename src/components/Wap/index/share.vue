@@ -9,7 +9,7 @@
         </div>
         <p>微信好友</p>
       </div>
-      <div class="eachBox" @click="shareHref(WXSceneTimeline)">
+      <div class="eachBox" @click="shareHref('WXSceneTimeline')">
         <div class="imgBox">
           <img src="../../../images/case/wxCircle.png" alt="">
         </div>
@@ -98,6 +98,7 @@
 //            }
 //          }
 //        );
+        alert(JSON.stringify(ids))
         this.shareAction(ids.id, ids.ex);
       },
       shareAction(id, ex){
@@ -108,6 +109,7 @@
             break
           }
         }
+        alert(JSON.stringify(so))
         if (so.authenticated) {
           alert("---已授权---");
           this.shareMessage(so, ex);
@@ -131,6 +133,7 @@
             scene: ex
           }
         };
+        alert(JSON.stringify(msg))
         s.send(msg, function() {
           alert("分享成功!");
         }, function(e) {

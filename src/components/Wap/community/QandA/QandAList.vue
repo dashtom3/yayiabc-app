@@ -37,7 +37,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import { InfiniteScroll, LoadMore, MessageBox,Indicator } from 'mint-ui';
+  import { LoadMore, MessageBox,Indicator } from 'mint-ui';
   import {mapGetters} from 'vuex';
   import { tokenMethods } from '../../../../vuex/util'
   import topLoadMore from '../../../salesWap/index/topLoadMore.vue';
@@ -253,13 +253,13 @@
         console.log(val)
         this.$refs.topLoadMore.states(val)
       },
-      isStateB(val){
-        console.log(val)
-        this.$refs.bottomLoadMore.states(val)
-      },
       //把下拉刷新完成之后回调的mt的方法传入我的组件里
       isLoaded(){
         this.$refs.loadmore.onTopLoaded();
+      },
+      isStateB(val){
+        console.log(val)
+        this.$refs.bottomLoadMore.states(val)
       },
       isLoadedB(){
         this.$refs.loadmore.onBottomLoaded();

@@ -1,8 +1,8 @@
 <template>
 <div ref="scrollBox" class="wrap loading">
-  <mt-loadmore :top-method="loadMore" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState">
+  <mt-loadmore :top-method="loadMore" :bottom-method="getCaseListMore" :bottom-all-loaded="allLoaded" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState" v-on:bottom-status-change="isStateB">
     <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
-    <div class="scrollBox" v-infinite-scroll="getCaseListMore" infinite-scroll-immediate-check="true">
+    <div class="scrollBox">
       <div @click="goCaseDetailed(item)" v-for="(item, index) in listCaseData" class="caseBox" :key="index">
         <div class="userBox " :class="{'addChange1': item.cover !== ''}">
           <div class="userPicture">
@@ -28,6 +28,7 @@
         <p>暂无任何病例~</p>
       </div>
     </div>
+    <bottomLoadMore ref="bottomLoadMore" slot="bottom" :loading="isLoading" :loaded="isLoadedB"></bottomLoadMore>
   </mt-loadmore>
   <!--编辑按钮-->
   <!-- <div class="edit" @click="gotoPage('/newCase')" v-if="showNewCase">
@@ -38,10 +39,11 @@
 </template>
 
 <script>
-  import { InfiniteScroll, LoadMore,Toast,MessageBox } from 'mint-ui';
+  import { Indicator, LoadMore,Toast,MessageBox } from 'mint-ui';
   import Util from '../../../../vuex/util'
   import { tokenMethods } from '../../../../vuex/util'
   import topLoadMore from '../../../salesWap/index/topLoadMore.vue';
+  import bottomLoadMore from '../../../salesWap/index/bottomLoadMore.vue';
   import {mapGetters, mapMutations} from 'vuex';
   import {COLLECT_CASE} from '../../../../vuex/types'
   export default {
@@ -69,6 +71,7 @@
         },
         timeStamp: '', //时间戳
         isLoading:false,
+        allLoaded:false,
         listCaseData: [],//获取到列表的数据
         showNewCase: true,
         noData:false,         //无数据
@@ -158,7 +161,8 @@
               this.classifyCompute(res.data);
               this.listCaseData = this.listCaseData.concat(res.data);
               this.caseSearchArgs.totalPage = res.totalPage;
-              this.caseSearchArgs.currentPage = res.currentPage;
+              this.allLoaded = this.caseSearchArgs.totalPage <= this.caseSearchArgs.currentPage ? true : false;
+//              this.caseSearchArgs.currentPage = res.currentPage;
             }else {
               this.noData = true;
             }
@@ -171,7 +175,8 @@
               this.classifyCompute(res.data);
               this.listCaseData = this.listCaseData.concat(res.data);
               this.caseListArgs.totalPage = res.totalPage;
-              this.caseListArgs.currentPage = res.currentPage;
+              this.allLoaded = this.caseListArgs.totalPage <= this.caseListArgs.currentPage ? true : false;
+//              this.caseListArgs.currentPage = res.currentPage;
             }else {
               this.noData = true;
             }
@@ -185,7 +190,8 @@
               this.listCaseData = this.listCaseData.concat(res.data);
               this.caseListArgs.totalPage = res.totalPage;
               this.caseDate.totalPage = res.totalPage;
-              this.caseListArgs.currentPage = res.currentPage;
+              this.allLoaded = this.caseListArgs.totalPage <= this.caseListArgs.currentPage ? true : false;
+//              this.caseListArgs.currentPage = res.currentPage;
               this.isLoading = false;
             }
             // else {
@@ -236,11 +242,20 @@
       },
       //mt中接受的val值作为参数传入我的组件里
       isState(val){
+        console.log(val)
         this.$refs.topLoadMore.states(val)
       },
       //把下拉刷新完成之后回调的mt的方法传入我的组件里
       isLoaded(){
+        console.log(val)
         this.$refs.loadmore.onTopLoaded();
+      },
+      isStateB(val){
+        console.log(val)
+        this.$refs.bottomLoadMore.states(val)
+      },
+      isLoadedB(){
+        this.$refs.loadmore.onBottomLoaded();
       },
       dressingFunction (index){
         this.caseListArgs.currentPage = 1;
@@ -281,7 +296,7 @@
       }
     },
     components:{
-      topLoadMore
+      topLoadMore,bottomLoadMore
     }
   }
 </script>
