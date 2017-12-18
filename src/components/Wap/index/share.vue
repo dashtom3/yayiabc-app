@@ -107,7 +107,7 @@
           if (shares[i].id == id) {
             so = shares[i]
             alert("ll")
-
+            alert(id)
             alert(JSON.stringify(shares[i]))
             break
           }

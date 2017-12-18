@@ -131,7 +131,7 @@
       padding: 0 !important;
       margin: 0 !important;
       overflow: hidden !important;
-      .inputArea1{
+      .inputAreaAB{
         position: absolute !important;
       }
     }

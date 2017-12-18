@@ -8,7 +8,7 @@
         <div>发动态</div>
       </div>
     </div>
-    <div class="container"  :class="{myYayiCircle:headTitle === '我的动态'}">
+    <div class="container inputAreaAB"  :class="{myYayiCircle:headTitle === '我的动态'}">
       <mt-loadmore :top-method="loadTop" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState" class="innerContainerWrap">
         <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
         <!--有数据的状态-->
