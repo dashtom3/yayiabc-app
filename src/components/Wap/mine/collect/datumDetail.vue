@@ -52,7 +52,7 @@
 
 <script>
   import share from "../../index/share.vue";
-  import {COLLECT_MATER} from '../../../../vuex/types'
+  import {COLLECT_MATER , MATER_DETAIL} from '../../../../vuex/types'
   import { MessageBox} from 'mint-ui';
   import { tokenMethods } from '../../../../vuex/util'
 
@@ -72,13 +72,15 @@
         this.$router.push(this.$route.query.backName)
       },
       getDetail(){
-        this.$store.dispatch('', this.args).then(res=>{
+        this.$store.dispatch(MATER_DETAIL, this.args).then(res=>{
           this.dataDetail = res.data;
         })
       },
       collect(){
         if (this.pointLogin()) {
+          this.$store.dispatch(COLLECT_MATER, this.args).then(res=>{
 
+          })
         }else {
           this.isLogin();
         }

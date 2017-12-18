@@ -27,7 +27,7 @@
     </div>
 </template>
 <script>
-  import {GET_MATER_LIST} from '../../../../vuex/types'
+  import {GET_MATER_LIST,COLLECT_MATER_LIST} from '../../../../vuex/types'
 
   export default {
     data(){
@@ -85,9 +85,10 @@
             })
             break;
           case this.$router.history.current.name === 'datumcollect':
-            this.$store.dispatch(GET_MATER_LIST, this.args).then(res=>{    //要改这个接口
+            this.$store.dispatch(COLLECT_MATER_LIST, this.args).then(res=>{    //要改这个接口
               if(res.data.length > 0){
-
+                console.log(res.data);
+                this.dataList = res.data;
               }else {
                 this.noData = true;
               }

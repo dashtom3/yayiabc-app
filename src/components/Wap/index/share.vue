@@ -106,6 +106,9 @@
         for (let i = 0; i < shares.length; i++) {
           if (shares[i].id == id) {
             so = shares[i]
+            alert("ll")
+
+            alert(JSON.stringify(shares[i]))
             break
           }
         }
