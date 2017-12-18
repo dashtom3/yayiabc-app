@@ -57,7 +57,7 @@ export default {
     inits(){
       this.$store.dispatch(GET_INFO_NUM,{}).then(res =>{
         if(parseInt(tokenMethods.getInfoNum())){
-          this.myInfo = res.data.commentNumber == 0 ? parseInt(tokenMethods.getInfoNum()) : Number(res.data.commentNumber) + parseInt(tokenMethods.getInfoNum());
+          this.myInfo = res.data.commentNumber == 0 ? parseInt(tokenMethods.getInfoNum()) : Number(res.data.commentNumber);
         }else {
           this.myInfo = Number(res.data.commentNumber);
         }
@@ -65,7 +65,7 @@ export default {
       })
     },
     gotoPage(num){
-      this.$router.push({path:'/infoList',query:{type:num,backName:this.$router.history.current.name,star:this.$route.query.star}});
+      this.$router.push({path:'/infoList',query:{type:num,backName:'/infoIndex',star:this.$route.query.star}});
       this.$destroy()
     },
     goBack(){

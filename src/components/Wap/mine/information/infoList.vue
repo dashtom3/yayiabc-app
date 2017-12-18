@@ -72,7 +72,7 @@
         }
       },
       goBack(){
-        this.$router.push({path:this.$route.query.backName,query:{backName:this.$route.query.star == 1?'/yayi/mine':'/caseOfIllness', star: this.$route.query.star == 1 ? 1 : ''}});
+        this.$router.push({path:this.$route.query.backName,query:{backName:this.$route.query.star == 1?'/yayi/mine':'/caseOfIllness', star: this.$route.query.star}});
         this.$destroy()
       },
       getTheList(){

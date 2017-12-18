@@ -12,8 +12,8 @@
         <!--右上角收藏 分享收藏按钮-->
         <div class="collectBox">
           <span class="starBox" @click="collect">
-            <img class="starImg" src="../../../../images/mine/colloct/star.png" alt="img">
-            <!--<img class="starImg" src="../../../../images/mine/collectWhite.png" alt="img">-->
+            <img class="starImg" src="../../../../images/mine/colloct/star.png" alt="img" v-if="dataDetail.isCollect">
+            <img class="starImg" src="../../../../images/mine/star.png" alt="img" v-else="">
           </span>
           <span class="enjoyBox" @click="isSharing(dataDetail.id)">
             <img class="enjoyImg" src="../../../../images/mine/colloct/enjoy.png" alt="img">
@@ -30,12 +30,12 @@
         </div>
         <div class="classBox">
           <span>{{dataDetail.secondClassify}}</span>
-          <span>12人阅读</span>
+          <span>{{dataDetail.browseNumber}}人阅读</span>
         </div>
 
         <!--资料内容开始-->
         <div class="contentWrap">
-          {{dataDetail.context ? dataDetail.context : '暂无详细内容'}}
+          {{dataDetail.content ? dataDetail.content : '暂无详细内容'}}
         </div>
         <!--资料内容结束-->
 
@@ -67,6 +67,12 @@
         shareData:{},
       }
     },
+    created(){
+      this.getDetail();
+    },
+    components:{
+      share
+    },
     methods:{
       goBack(){
         this.$router.push(this.$route.query.backName)
@@ -74,12 +80,15 @@
       getDetail(){
         this.$store.dispatch(MATER_DETAIL, this.args).then(res=>{
           this.dataDetail = res.data;
+          this.dataDetail.isCollect = this.dataDetail.isCollect ? true:false;
         })
       },
       collect(){
         if (this.pointLogin()) {
           this.$store.dispatch(COLLECT_MATER, this.args).then(res=>{
-
+            if(res.callStatus === 'SUCCEED'){
+              this.dataDetail.isCollect = !this.dataDetail.isCollect
+            }
           })
         }else {
           this.isLogin();

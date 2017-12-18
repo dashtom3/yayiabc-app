@@ -34,12 +34,15 @@
                       @focus="onEditorFocusCharge($event)">
         </quill-editor>
       </div>
-      <div class="others" @click="blurClass">
+      <div class="others" @click="selectClassify(1)">
         <div class="line"  v-if="args.chargeContent" @click.stop="foucsInput()">
           <span>价格（乾币）</span>
-          <input ref="moneyInput" type="number" placeholder="请输入付费内容的价格" class="othersInput" v-model="args.chargeNumber">
+          <span class="othersSelect" >
+            <span v-html="chargeNumN?chargeNumN:'请选择价格'"></span>
+            <img src="../../../../images/mine/coin_img1.png" alt="">
+          </span>
         </div>
-        <div class="line" @click="selectClassify">
+        <div class="line" @click="selectClassify(0)">
           <span>分类</span>
           <span class="othersSelect" >
             <span v-html="classifyName?classifyName:'请选择分类'"></span>
@@ -58,6 +61,13 @@
         <span class="classPickerCancel" @click="onClassPicker(0)">取消</span>
         选择分类
         <span class="classPickerConfirm" @click="onClassPicker(1)">完成</span>
+      </div>
+    </mt-picker>
+    <mt-picker :slots="slots" @change="onChargeChange" :showToolbar="true" class="pickers" v-show="isClassPickerN">
+      <div class="classPicker">
+        <span class="classPickerCancel" @click="onClassPickerN(0)">取消</span>
+        选择价格
+        <span class="classPickerConfirm" @click="onClassPickerN(1)">完成</span>
       </div>
     </mt-picker>
     <!--一个不可见的上传图片的功能-->
@@ -137,9 +147,21 @@
             defaultIndex:2,
           }
         ],
+        sloty: [
+          {
+            flex: 1,
+            values: [ '1乾币', '2乾币', '5乾币','10乾币'],
+            className: 'slot1',
+            textAlign: 'center',
+            defaultIndex:2,
+          }
+        ],
         isClassPicker:false,
+        isClassPickerN:false,
         classify:'',
         classifyName:'',
+        chargeNum:'',
+        chargeNumN:'',
         share:false
       }
     },
@@ -237,8 +259,13 @@
         }
         Indicator.close();
       },
-      selectClassify(){
-        this.isClassPicker =true;
+      selectClassify(num){
+        this.blurClass();
+        if(num){
+          this.isClassPickerN = true;
+        }else {
+          this.isClassPicker =true;
+        }
       },
       foucsInput() {
         this.$refs.moneyInput.focus()
@@ -248,12 +275,17 @@
         this.classify = this.slots[0].values.indexOf(values[0]) + 1;
         this.classifyName = this.slots[0].values[parseInt(this.classify) - 1]
       },
+      onChargeChange(picker,values){
+        this.chargeNum = this.sloty[0].values.indexOf(values[0]);
+        this.chargeNumN = this.sloty[0].values[parseInt(this.classify)]
+      },
       getCaseData(){
         this.$store.dispatch(GET_CASE_DETAIL, {postId: this.$route.query.id}).then((res) => {
           this.args.headline = res.data.headline;
           this.args.classify = res.data.classify;
           this.args.freeContent = res.data.freeContent;
           this.args.chargeContent = res.data.chargeContent;
+          this.chargeNumN = this.args.chargeContent ? this.args.chargeContent + '乾币' :'';
           this.args.chargeNumber = res.data.chargeNumber;
           this.args.postStater = res.data.postStater;
           this.args.cover = res.data.cover;
@@ -285,6 +317,24 @@
         }
 //        console.log(this.args.classify);
         this.isClassPicker = false
+      },
+      onClassPickerN(num){
+        if(num){
+          let arr = [1,2,5,10]
+          if(this.chargeNum < 0){
+            this.args.chargeNumber = arr[this.chargeNum]
+            this.chargeNumN = this.sloty[0].values[0]
+          }else {
+            this.args.chargeNumber = arr[this.chargeNum];
+            this.chargeNumN = this.sloty[0].values[this.chargeNum]
+          }
+        }else {
+          this.chargeNum = -1;
+          this.args.chargeNumber = '';
+          this.chargeNumN = ''
+        }
+//        console.log(this.args.classify);
+        this.isClassPickerN = false
       },
       //保存和发布的方法。
       postCase(num){

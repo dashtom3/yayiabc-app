@@ -1,14 +1,14 @@
 <template>
     <div>
       <!--暂无内容图片 样式开始-->
-      <div class="none-datum">
+      <div class="none-datum" v-if="(noData && dataList.length == 0 )&&(noData && !dataList)">
         <div class="img-null">
           <img src="../../../../images/mine/colloct/noneData.png" alt="">
         </div>
         <div class="none">暂无内容</div>
       </div>
       <!--暂无内容图片 样式结束-->
-      <div class="container">
+      <mt-loadmore class="container" :bottom-method="getListMore" :bottom-all-loaded="allLoaded" :auto-fill=false ref="loadmore" v-on:bottom-status-change="isStateB">
         <!--这里 v-for -->
         <div class="list-wrap" v-for="(value,index) in dataList" @click="gotoDetail(value.id)">
           <div class="list-title">
@@ -22,12 +22,14 @@
             <span>22人阅读</span>
           </div>
         </div>
-      </div>
+        <bottomLoadMore ref="bottomLoadMore" slot="bottom" :loading="isLoading" :loaded="isLoadedB"></bottomLoadMore>
+      </mt-loadmore>
       <!--末尾-->
     </div>
 </template>
 <script>
   import {GET_MATER_LIST,COLLECT_MATER_LIST} from '../../../../vuex/types'
+  import { LoadMore, MessageBox,Indicator } from 'mint-ui';
 
   export default {
     data(){
@@ -41,6 +43,7 @@
         },
         dataList:[],
         backName:'',
+        allLoaded:false,
       }
     },
     props:{
@@ -52,6 +55,7 @@
       keyWords:{
         handler:function (val) {
           this.args.keyWord = val;
+          this.args.currentPage = 1;
           this.noData = false;
           this.loadMore();
         }
@@ -59,6 +63,9 @@
     },
     created(){
       this.timeStamp = Date.parse(new Date());
+      console.log(this.$router.history.current.name)
+      Indicator.open();
+      this.getList();
     },
     mounted(){
       console.log(this.args)
@@ -72,6 +79,7 @@
         this.getList();
       },
       getList(){
+        this.isLoading = true;
         switch (true){
           case this.$router.history.current.name === 'database':
             this.backName = '/database'
@@ -82,9 +90,14 @@
               }else {
                 this.noData = true;
               }
+              this.isAllLoaded();
+              this.isLoading = false;
+              Indicator.close();
             })
             break;
           case this.$router.history.current.name === 'datumcollect':
+            this.backName = '/collect/datumcollect'
+            console.log('k')
             this.$store.dispatch(COLLECT_MATER_LIST, this.args).then(res=>{    //要改这个接口
               if(res.data.length > 0){
                 console.log(res.data);
@@ -92,12 +105,34 @@
               }else {
                 this.noData = true;
               }
+              this.isAllLoaded();
+              this.isLoading = false;
+              Indicator.close();
             })
             break;
         }
       },
       gotoDetail(id){
-        this.$router.push({path:'',query:{backName:this.backName,id:id}})
+        this.$router.push({path:'/datumDetail',query:{backName:this.backName,id:id}})
+      },
+      getListMore(){
+        if(this.totalPage <= this.args.currentPage){
+          return
+        }else {
+          this.args.currentPage += 1;
+          this.getList();
+        }
+      },
+      isStateB(val){
+        console.log(val)
+        this.$refs.bottomLoadMore.states(val)
+      },
+      isLoadedB(){
+        this.$refs.loadmore.onBottomLoaded();
+      },
+      isAllLoaded(){
+        this.allLoaded = this.totalPage <= this.args.currentPage ? true : false;
+        console.log(this.allLoaded);
       }
     }
   }

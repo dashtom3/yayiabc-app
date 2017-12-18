@@ -186,6 +186,9 @@ import datum from '../../mine/collect/datum.vue'
     top:px2vw(198);
     left: 0;
     width: 100%;
+    height: 86vh;
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
   }
   .classifyModule{
     position: fixed;
