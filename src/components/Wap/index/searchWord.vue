@@ -165,7 +165,7 @@ input[type=search]::-webkit-search-cancel-button{
   height: 12vw;
   position: relative;
   background-color: $themeColor;
-  border-bottom: 1px solid #E5E5E5;
+  border-bottom: px2vw(1) solid #E5E5E5;
 }
 .search_word {
   width: px2vw(606);

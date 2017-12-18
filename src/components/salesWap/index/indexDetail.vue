@@ -251,7 +251,7 @@
   .kehuInfo{
     color: #999;
     height: px2vw(70);
-    border-bottom: px2vw(2) solid #E5E5E5;
+    border-bottom: px2vw(1) solid #E5E5E5;
     line-height: px2vw(70);
     padding-left: px2vw(54);
     font-size: px2vw(26);
@@ -315,7 +315,7 @@
   }
   .detail_ul>li{
     height: px2vw(160);
-    border-bottom: px2vw(2) solid #E5E5E5;
+    border-bottom: px2vw(1) solid #E5E5E5;
     padding: px2vw(15) px2vw(20);
     position: relative;
   }

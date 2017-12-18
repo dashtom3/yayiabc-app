@@ -310,13 +310,13 @@ export default {
 }
 .caseBox {
   background-color: #ffffff;
-  border-bottom: 1px solid #f4f4f4;
+  border-bottom: px2vw(1) solid #f4f4f4;
   padding: px2vw(36) px2vw(17) px2vw(35) px2vw(17);
 }
 /* 有图添加样式 */
 .addChange2 {
   display: inline-block !important;
-  float: right;
+  // float: right;
   margin-top: px2vw(10);
 }
 .addChange1 {
@@ -441,7 +441,7 @@ export default {
   width: 100vw;
   color: #999999;
   text-align: center;
-  border-bottom: 1px solid #f4f4f4;
+  border-bottom: px2vw(1) solid #f4f4f4;
 }
 
 .classBox > span {

@@ -349,7 +349,7 @@
         width: 100%;
         height: px2vw(92);
         line-height: px2vw(92);
-        border-bottom: 1px solid #e5e5e5;
+        border-bottom: pc2vw(1) solid #e5e5e5;
         /*margin-bottom: px2vw(20);*/
         background-color: #fff;
         position: relative;
@@ -380,7 +380,7 @@
         height: px2vw(160);
         line-height: px2vw(160);
         /*margin-bottom: px2vw(20);*/
-        border-bottom: 1px solid #e5e5e5;
+        border-bottom: px2vw(1) solid #e5e5e5;
         background-color: #fff;
         position: relative;
         .detailTitle{
@@ -406,7 +406,7 @@
         width: 100%;
         height: px2vw(200);
         line-height: px2vw(80);
-        border-bottom: 1px solid #e5e5e5;
+        border-bottom: px2vw(1) solid #e5e5e5;
         /*margin-bottom: px2vw(20);*/
         background-color: #fff;
         position: relative;

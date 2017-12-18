@@ -124,14 +124,14 @@
         height: px2vw(80);
         line-height: px2vw(80);
         padding-left: px2vw(20);
-        border-bottom: 1px solid $borderColor;
+        border-bottom: px2vw(1) solid $borderColor;
       }
       .account-type-item {
         position: relative;
         height: px2vw(88);
         line-height: px2vw(88);
         padding-left: px2vw(88);
-        border-bottom: 1px solid $borderColor;
+        border-bottom: px2vw(1) solid $borderColor;
         &:first-of-type {
           background: url("../../../../images/salePersonal/支付宝.png") px2vw(20) center no-repeat;
           background-size: px2vw(42) px2vw(42);

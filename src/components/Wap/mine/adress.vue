@@ -224,7 +224,7 @@
     .address-info{
       position: relative;
       padding-bottom: px2vw(39);
-      border-bottom: 1px solid $borderColor;
+      border-bottom: px2vw(1) solid $borderColor;
     }
     .title{
       margin: px2vw(30) 0 0 px2vw(25);

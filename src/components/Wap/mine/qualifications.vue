@@ -1,11 +1,11 @@
 <template>
-  <div class="personal_data">
+  <div class="personal_data" :class="{'hide': redPacket}">
     <div class="logIn_header">
       <div class="header_box" @click="back">
         <img class="header_back" src="../../../images/logIn/back.png" alt="img">
       </div>
       <span class="logWithCode">资质认证</span>
-      <span class="submit-btn" @click="savePersonInfo">提交</span>
+      <span class="submit-btn" @click="savePersonInfo" v-show="!audited_validate && !pending_validate">提交</span>
       <!-- <span class="submit-btn" v-show="!ifPass" @click="editHandler">提交</span> -->
     </div>
     <div class="tips" v-show="audited_validate || pending_validate">
@@ -23,7 +23,7 @@
           <div class="mint-cell-text">
             <span><span class="fred">*</span>类型</span>
           </div>
-          <div class="mint-cell-value">
+          <div class="mint-cell-value" :class="{'no-bg': (audited_validate || pending_validate)}">
             <span v-text="personInfo.typeText" class="unset"></span>
           </div>
         </div>
@@ -42,7 +42,7 @@
           <img v-if="personInfo.imageUrl_doctorPic" :src="personInfo.imageUrl_doctorPic" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon fl"></i>
         </el-upload>
-        <img class="goto" src="../../../images/mine/back.png" alt="">
+        <img v-show="!audited_validate && !pending_validate" class="goto" src="../../../images/mine/back.png" alt="">
       </div>
       <!--医疗机构执业许可证-->
       <div class="mint-cell-wrapper bb" v-show="personInfo.typeText === '机构'">
@@ -58,7 +58,7 @@
           <img v-if="personInfo.imageUrl_medical" :src="personInfo.imageUrl_medical" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon fl"></i>
         </el-upload>
-        <img class="goto" src="../../../images/mine/back.png" alt="">
+        <img v-show="!audited_validate && !pending_validate" class="goto" src="../../../images/mine/back.png" alt="">
       </div>
       <!--营业执照-->
       <div class="mint-cell-wrapper bb" v-show="personInfo.typeText === '机构'">
@@ -74,7 +74,7 @@
           <img v-if="personInfo.imageUrl_business" :src="personInfo.imageUrl_business" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon fl"></i>
         </el-upload>
-        <img class="goto" src="../../../images/mine/back.png" alt="">
+        <img v-show="!audited_validate && !pending_validate" class="goto" src="../../../images/mine/back.png" alt="">
       </div>
       <!--税务登记证-->
       <div class="mint-cell-wrapper bb" v-show="personInfo.typeText === '机构'">
@@ -90,7 +90,7 @@
           <img v-if="personInfo.imageUrl_tax" :src="personInfo.imageUrl_tax" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon fl"></i>
         </el-upload>
-        <img class="goto" src="../../../images/mine/back.png" alt="">
+        <img v-show="!audited_validate && !pending_validate" class="goto" src="../../../images/mine/back.png" alt="">
       </div>
       <!--开户许可证-->
       <div class="mint-cell-wrapper bb" v-show="personInfo.typeText === '机构'">
@@ -106,7 +106,7 @@
           <img v-if="personInfo.imageUrl_open_permit" :src="personInfo.imageUrl_open_permit" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon fl"></i>
         </el-upload>
-        <img class="goto" src="../../../images/mine/back.png" alt="">
+        <img v-show="!audited_validate && !pending_validate" class="goto" src="../../../images/mine/back.png" alt="">
       </div>
       <!--医师职业资格证-->
       <div class="mint-cell-wrapper bb" v-show="personInfo.typeText === '机构'">
@@ -122,7 +122,7 @@
           <img v-if="personInfo.imageUrl_doctor" :src="personInfo.imageUrl_doctor" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon fl"></i>
         </el-upload>
-        <img class="goto" src="../../../images/mine/back.png" alt="">
+        <img v-show="!audited_validate && !pending_validate" class="goto" src="../../../images/mine/back.png" alt="">
       </div>
       <!--放射诊疗许可证-->
       <div class="mint-cell-wrapper bb" v-show="personInfo.typeText === '机构'">
@@ -138,7 +138,7 @@
           <img v-if="personInfo.imageUrl_treatment" :src="personInfo.imageUrl_treatment" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon fl"></i>
         </el-upload>
-        <img class="goto" src="../../../images/mine/back.png" alt="">
+        <img v-show="!audited_validate && !pending_validate" class="goto" src="../../../images/mine/back.png" alt="">
       </div>
       <!--法人身份证（正面）-->
       <div class="mint-cell-wrapper bb" v-show="personInfo.typeText === '机构'">
@@ -154,7 +154,7 @@
           <img v-if="personInfo.imageUrl_id_front" :src="personInfo.imageUrl_id_front" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon fl"></i>
         </el-upload>
-        <img class="goto" src="../../../images/mine/back.png" alt="">
+        <img v-show="!audited_validate && !pending_validate" class="goto" src="../../../images/mine/back.png" alt="">
       </div>
       <!--法人身份证（反面）-->
       <div class="mint-cell-wrapper" v-show="personInfo.typeText === '机构'">
@@ -170,11 +170,16 @@
           <img v-if="personInfo.imageUrl_id_back" :src="personInfo.imageUrl_id_back" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon fl"></i>
         </el-upload>
-        <img class="goto" src="../../../images/mine/back.png" alt="">
+        <img v-show="!audited_validate && !pending_validate" class="goto" src="../../../images/mine/back.png" alt="">
       </div>
       <!--类型-->
     </div>
     <mt-actionsheet :actions="types" v-model="typeVisible" v-show="typeVisible && isEdit" cancel-text="取消"></mt-actionsheet>
+    <div class="redPacketWrapper" v-show="redPacket">
+      <img class="redPacket" src="../../../images/index/redPacket.png">
+      <div class="btn-use" @click.stop="useRedPacket"></div>
+      <img class="close" src="../../../images/index/close.png" @click.stop="hideRedPacket">
+    </div>
   </div>
 </template>
 <script>
@@ -247,7 +252,8 @@
         }, {
           name: '机构',
           method: this.selectOutfit
-        }]
+        }],
+        redPacket: false
       }
     },
     created() {
@@ -487,6 +493,9 @@
       ert:function(msg){
         if(this.personInfo.state===1 && (this.personInfo.judge===0 || this.personInfo.judge===null)){
           MessageBox.confirm('您的认证信息我们会尽快审核，请耐心等待~').then(action => {
+            if (this.personInfo.judge===null) {
+               this.redPacket = true;
+            }
             //提交后台改变状态
             this.personInfo.judge = 1;
             this.saveJudge();
@@ -541,6 +550,13 @@
       },
       back: function() {
         this.$router.go(-1)
+      },
+      useRedPacket() {
+        this.redPacket = false;
+        this.$router.push({path: '/productList'})
+      },
+      hideRedPacket() {
+        this.redPacket = false;
       }
     }
   }
@@ -568,6 +584,9 @@
     height: 100vh;
     background: #f4f4f4;
   }
+  .hide{
+    overflow: hidden;
+  }
   .logIn_header{
     padding-bottom: 0;
     position: fixed;
@@ -585,6 +604,9 @@
     -webkit-overflow-scrolling: touch;
     &.f_wrap_abs {
       top: px2vw(168);
+    }
+    .no-bg{
+      background: none !important;
     }
   }
   .submit-btn{
@@ -632,7 +654,7 @@
     border: 0;
   }
   .bb{
-    border-bottom: 1px solid rgb(229,229,229);
+    border-bottom: px2vw(1) solid rgb(229,229,229);
   }
   .mint-actionsheet{
     z-index: 2003;
@@ -729,5 +751,38 @@
     top: px2vw(88);
     z-index: 1;
   }
+  .redPacketWrapper{
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, .2);
+  z-index: 9999;
+  .redPacket{
+    position: absolute;
+    top: px2vw(328);
+    left: 50%;
+    transform: translateX(-50%);
+    width: px2vw(450);
+    height: px2vw(576);
+  }
+  .btn-use{
+    position: absolute;
+    top: px2vw(789);
+    left: 50%;
+    transform: translateX(-50%);
+    width: px2vw(236);
+    height: px2vw(70);
+  }
+  .close{
+    position: absolute;
+    top: px2vw(947);
+    left: 50%;
+    transform: translateX(-50%);
+    width: px2vw(60);
+    height: px2vw(60);
+  }
+}
 </style>
 

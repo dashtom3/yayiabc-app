@@ -478,7 +478,7 @@ export default {
 .spe {
   cursor: pointer;
   color: $themeColor !important;
-  border-bottom: 1px solid $themeColor;
+  border-bottom: px2vw(1) solid $themeColor;
 }
 .myOrder {
   width: 100%;
@@ -488,7 +488,7 @@ export default {
 .tab_box {
   width: 100vw;
   height: 10vw;
-  border-bottom: 1px solid $borderColor;
+  border-bottom: px2vw(1) solid $borderColor;
 }
 .tab_item {
   width: 25vw;

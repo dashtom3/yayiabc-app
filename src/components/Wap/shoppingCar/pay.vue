@@ -338,7 +338,7 @@
 
   .payZFB {
     padding: px2vw(30) px2vw(20);
-    border-bottom: 1px solid #E5E5E5;
+    border-bottom: px2vw(1) solid #E5E5E5;
     font-size: px2vw(28);
   }
 

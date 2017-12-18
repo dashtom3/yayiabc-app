@@ -229,7 +229,7 @@
   }
     .setting_ul1>li{
       width: 100%;
-      border-bottom: px2vw(2) solid #e5e5e5;
+      border-bottom: px2vw(1) solid #e5e5e5;
       height: px2vw(102);
     }
   .li_text{

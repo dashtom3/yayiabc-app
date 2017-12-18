@@ -241,7 +241,7 @@
       background-color: white;
       padding:px2vw(35) 6vw px2vw(35) 6vw;
       font-size: px2vw(32);
-      border-bottom: 1px solid $borderColor;
+      border-bottom: px2vw(1) solid $borderColor;
     }
     .coinPay:after{
       content: '';
@@ -266,7 +266,7 @@
     }
     .coinPay_box li:nth-child(2){
       border-top: 1px solid $borderColor;
-      border-bottom: 1px solid $borderColor;
+      border-bottom: px2vw(1) solid $borderColor;
       padding: px2vw(11) 6vw;
     }
     .coinPay_box li:nth-child(3){

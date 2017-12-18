@@ -312,7 +312,7 @@
     .changeColor {
       color: $themeColor;
       font-size: px2vw(30) !important;
-      border-bottom: px2vw(2) solid $themeColor;
+      border-bottom: px2vw(1) solid $themeColor;
     }
 
     .loginFont {

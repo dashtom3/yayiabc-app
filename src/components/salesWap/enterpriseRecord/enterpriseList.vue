@@ -88,9 +88,16 @@ export default {
   },
   methods: {
     getEnterPriseData() {
+      let aLists = [];
       this.$store.dispatch('GET_ENTERPRISE_DATA', this.listParams).then((res) => {
         if (res.callStatus === 'SUCCEED') {
-          this.enterpriseList = this.enterpriseList.concat(res.data);
+          aLists = res.data.map((item) => {
+            if (item.telephone != null && item.telephone.indexOf(',') != -1) {
+              item.telephone = item.telephone.split(',')[0];
+            }
+            return item
+          })
+          this.enterpriseList = this.enterpriseList.concat(aLists);
           this.totalPage = res.totalPage;
         }
       })
@@ -263,7 +270,7 @@ a{
     line-height: px2vw(80);
     font-family: 'PingFangSC-Medium' !important;
     font-size: px2vw(28);
-    border-bottom: px2vw(2) solid #fff;
+    border-bottom: px2vw(1) solid #fff;
   }
 }
 .no-result{
@@ -284,7 +291,7 @@ a{
 .enterprise-item{
   width: 100%;
   height: px2vw(167);
-  border-bottom: px2vw(2) solid $borderColor;
+  border-bottom: px2vw(1) solid $borderColor;
   // overflow: hidden;
 }
 .item-title{

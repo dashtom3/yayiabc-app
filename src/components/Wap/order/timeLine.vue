@@ -24,7 +24,7 @@
 
   .timeline-container {
     position: relative;
-    border-bottom: 1px solid $borderColor;
+    border-bottom: px2vw(1) solid $borderColor;
     margin-left: px2vw(66);
     margin-right: px2vw(24);
     &:last-child {

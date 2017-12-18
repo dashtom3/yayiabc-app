@@ -336,7 +336,7 @@
     height: px2vw(185) !important;
   }
   .dressingBox .dressingFunction>.updata:nth-child(2){
-    border-bottom: 1px solid #dcdcdc;
+    border-bottom: px2vw(1) solid #dcdcdc;
     border-top: 1px solid #dcdcdc;
   }
   .dressingBox .dressingThree>.updata:nth-child(2){

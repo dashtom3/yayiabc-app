@@ -329,7 +329,7 @@
         background-color: #fff;
         height: px2vw(206);
         padding-left: 20%;
-        border-bottom: 1px solid $borderColor;
+        border-bottom: px2vw(1) solid $borderColor;
         font-size: px2vw(24);
         .text {
           float: left;
@@ -373,7 +373,7 @@
         text-align: center;
         line-height: 1.8;
         padding-bottom: px2vw(44);
-        border-bottom: 1px solid $borderColor;
+        border-bottom: px2vw(1) solid $borderColor;
         .success-icon {
           width: px2vw(100);
           height: px2vw(100);
@@ -393,7 +393,7 @@
         color: #333;
         font-size: px2vw(30);
         line-height: px2vw(60);
-        border-bottom: 1px solid $borderColor;
+        border-bottom: px2vw(1) solid $borderColor;
       }
 
     }

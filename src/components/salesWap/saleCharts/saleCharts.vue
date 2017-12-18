@@ -386,7 +386,7 @@
     .charts_title {
       height: px2vw(75);
       line-height: px2vw(75);
-      border-bottom: 1px solid #e5e5e5;
+      border-bottom: px2vw(1) solid #e5e5e5;
     }
     .charts_info {
       height: px2vw(275);

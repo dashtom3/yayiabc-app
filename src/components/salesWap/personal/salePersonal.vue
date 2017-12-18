@@ -211,7 +211,7 @@
       .sale-item {
         height: px2vw(100);
         line-height: px2vw(100);
-        border-bottom: 1px solid $borderColor;
+        border-bottom: px2vw(1) solid $borderColor;
         padding-left: px2vw(66);
         padding-right: px2vw(28);
         .sale-item-text {

@@ -78,7 +78,7 @@
   }
   .setting-box{
     margin-bottom: px2vw(20);
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: px2vw(1) solid #e5e5e5;
   }
   .version{
     width: 100%;

@@ -731,7 +731,7 @@
     height: px2vw(100);
     /*overflow: hidden;*/
     padding: 0 px2vw(15);
-    border-bottom: px2vw(2) solid #f4f4f4;
+    border-bottom: px2vw(1) solid #f4f4f4;
     position: fixed;
     top: px2vw(88);
     right: 0;

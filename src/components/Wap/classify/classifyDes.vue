@@ -140,7 +140,7 @@
     cursor: pointer;
     box-shadow:  none;
     border-radius: 0;
-    border-bottom: 1px solid $borderColor;
+    border-bottom: px2vw(1) solid $borderColor;
     display: block;
   }
   .classfyDetail_right {
@@ -151,7 +151,7 @@
   }
   .classfyDetail .oneHover {
     background: #f4f4f4;
-    border-bottom: 1px solid $themeColor !important;
+    border-bottom: px2vw(1) solid $themeColor !important;
   }
   .classfyDetail .twoHover {
     color: #5db8e8;

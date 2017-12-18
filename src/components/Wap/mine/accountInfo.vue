@@ -29,7 +29,7 @@
       </div>
       <div class="split"></div>
       <div class="qualifications clearfix">
-        <span class="handle">资质认证</span>
+        <span class="handle">资质认证<i v-if="status==''">（完善资质，可获得60乾币）</i></span>
         <div @click="goQualifications" class="Qua-wrapper">
           <span class="status" :class="state.color">{{state.text}}</span>
           <img src="../../../images/mine/back.png">
@@ -256,6 +256,11 @@ export default {
       height: px2vw(28);
       line-height: px2vw(28);
       font-size: px2vw(30);
+      i{
+        font-size: px2vw(28);
+        font-style: normal;
+        color: rgb(216, 30, 6);
+      }
     }
     .Qua-wrapper{
       float: right;

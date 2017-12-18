@@ -225,7 +225,7 @@ export default {
 .yayi-item{
   width: 100%;
   height: px2vw(167);
-  border-bottom: px2vw(2) solid $borderColor;
+  border-bottom: px2vw(1) solid $borderColor;
 }
 .item-left{
   float: left;

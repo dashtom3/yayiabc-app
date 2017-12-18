@@ -414,7 +414,7 @@
    }
    .caseBox{
      background-color: #ffffff;
-     border-bottom: 1px solid #f4f4f4;
+     border-bottom: px2vw(1) solid #f4f4f4;
      padding: px2vw(36) px2vw(17) px2vw(35) px2vw(17);
    }
 

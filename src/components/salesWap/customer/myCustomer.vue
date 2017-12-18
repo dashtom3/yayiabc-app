@@ -346,7 +346,7 @@
 
   .ms_wrap {
     position: relative;
-    border-bottom: px2vw(2) solid $borderColor;
+    border-bottom: px2vw(1) solid $borderColor;
     background: white;
     padding: px2vw(6) px2vw(17) px2vw(4) px2vw(22);
   }

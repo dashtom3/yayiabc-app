@@ -808,12 +808,12 @@ export default {
 }
 .commentBox2 {
   padding: px2vw(48) px2vw(20) px2vw(0) px2vw(20) !important;
-  border-bottom: 1px solid #dcdcdc;
+  border-bottom: px2vw(1) solid #dcdcdc;
 }
 .commentBox {
   padding: px2vw(48) px2vw(20) px2vw(0) px2vw(20) !important;
   background-color: white;
-  border-bottom: 1px solid #dcdcdc;
+  border-bottom: px2vw(1) solid #dcdcdc;
 }
 .container {
   position: absolute;

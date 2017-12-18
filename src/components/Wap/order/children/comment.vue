@@ -88,7 +88,7 @@
         display: flex;
         height: px2vw(120);
         padding: px2vw(25) 0;
-        border-bottom: 1px solid $borderColor;
+        border-bottom: px2vw(1) solid $borderColor;
         .image {
           flex: none;
           margin: 0 px2vw(20);

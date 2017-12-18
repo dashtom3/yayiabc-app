@@ -116,7 +116,7 @@
     padding-top: px2vw(30);
     /*margin-bottom: px2vw(2);*/
     background: white;
-    border-bottom: px2vw(2) solid #f4f4f4;
+    border-bottom: px2vw(1) solid #f4f4f4;
     border-right: px2vw(7) solid #f4f4f4;
   }
 
@@ -159,7 +159,7 @@
   .next_ul {
     width: 100%;
     padding: px2vw(8) 0;
-    border-bottom: 1px solid #f4f4f4;
+    border-bottom: px2vw(1) solid #f4f4f4;
   }
 
   .next_ul li {

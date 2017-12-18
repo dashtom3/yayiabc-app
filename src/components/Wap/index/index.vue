@@ -211,7 +211,7 @@ export default {
   width: 100%;
   height: 13.866vw;
   line-height: 13.866vw;
-  border-bottom: 1px solid #e9e9e9;
+  border-bottom: px2vw(1) solid #e9e9e9;
 }
 .search_box {
   width: 100vw;

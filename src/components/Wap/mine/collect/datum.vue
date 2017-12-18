@@ -159,7 +159,7 @@
   padding: 0 px2vw(20);
 }
 .list-wrap{
-  border-bottom: 1px solid #e5e5e5;
+  border-bottom: px2vw(1) solid #e5e5e5;
   color: #333333;
 }
 .list-title{

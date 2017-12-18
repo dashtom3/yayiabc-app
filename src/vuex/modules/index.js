@@ -7,6 +7,7 @@ const state = {
   direction: 'forward',
   // baseUrl: 'http://wap.yayiabc.com:6181/api',
   baseUrl: 'http://116.62.228.3:8080/api',
+  // baseUrl: 'http://localhost:8080/api',
   // baseUrl: 'http://wap.yayiabc.com:6181/api',
   // baseUrl: 'http://wap.yayiabc.com:8080/api',
   bannerList: [],

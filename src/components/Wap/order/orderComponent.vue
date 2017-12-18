@@ -215,7 +215,7 @@
       font-size: px2vw(24);
       padding-top: px2vw(24);
       margin-bottom: px2vw(20);
-      border-bottom: 1px solid $borderColor;
+      border-bottom: px2vw(1) solid $borderColor;
       @include clearfix;
       .order-state-text {
         float: left;

@@ -253,7 +253,7 @@
     .order-info {
       background-color: #fff;
       padding: px2vw(30) px2vw(18) px2vw(16);
-      border-bottom: 1px solid $borderColor;
+      border-bottom: px2vw(1) solid $borderColor;
       .title {
         font-size: px2vw(30);
         color: #999999;
@@ -276,7 +276,7 @@
       }
       .product-container {
         padding-bottom: px2vw(40);
-        border-bottom: 1px solid $borderColor;
+        border-bottom: px2vw(1) solid $borderColor;
         .product-content {
           background-color: #f4f4f4;
           display: flex;
@@ -340,7 +340,7 @@
       .qb-info {
         box-sizing: border-box;
         height: px2vw(100);
-        border-bottom: 1px solid $borderColor;
+        border-bottom: px2vw(1) solid $borderColor;
         .qb-style {
           float: left;
           margin-left: px2vw(30);
@@ -411,7 +411,7 @@
       width: px2vw(600);
       line-height: px2vw(100);
       height: px2vw(100);
-      border-bottom: 1px solid $borderColor;
+      border-bottom: px2vw(1) solid $borderColor;
       margin-bottom: px2vw(30);
     }
     .invoice-list {

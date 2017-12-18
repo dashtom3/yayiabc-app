@@ -209,7 +209,7 @@
       height: px2vw(120);
       padding: 0 px2vw(25);
       box-shadow: 0 px2vw(5) px2vw(5) 0 rgba(0, 0, 0, 0.12);
-      border-bottom: 1px solid $borderColor;
+      border-bottom: px2vw(1) solid $borderColor;
       @at-root .walletDetail-state-container {
         position: relative;
         font-size: px2vw(24);

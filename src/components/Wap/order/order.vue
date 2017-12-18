@@ -91,7 +91,7 @@
           flex: 1;
           text-align: center;
           line-height: px2vw(80);
-          border-bottom: 1px solid $borderColor;
+          border-bottom: px2vw(1) solid $borderColor;
           font-size: px2vw(28);
           &.router-link-active {
             border-bottom-color: #005aab;

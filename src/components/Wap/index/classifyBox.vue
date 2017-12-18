@@ -118,7 +118,7 @@ export default {
   height: px2vw(140);
   margin: 0 auto;
   /*line-height: px2vw(140);*/
-  border-bottom: px2vw(2) solid white;
+  border-bottom: px2vw(1) solid white;
   text-align: center;
   color: white;
   font-size: px2vw(26);

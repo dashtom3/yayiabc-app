@@ -91,8 +91,8 @@ export default {
     height: px2vw(88);
   }
   .back-img>img{
-    width: px2vw(24);
-    height: px2vw(42);
+    width: px2vw(19);
+    // height: px2vw(19);
   }
 }
 .invite-banner{

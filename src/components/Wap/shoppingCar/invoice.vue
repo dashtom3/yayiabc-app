@@ -399,7 +399,7 @@
       height: 0;
     }
     .border_bottom {
-      border-bottom: 1px solid $borderColor;
+      border-bottom: px2vw(1) solid $borderColor;
     }
 
     .person {
