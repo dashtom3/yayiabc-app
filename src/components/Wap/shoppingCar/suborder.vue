@@ -552,7 +552,6 @@
       },
       initInvoice (){
         //调用之前传过来的值
-        console.log(this.COMPANY_INVOICE.value,'我的值12');
         //value判断是哪类发票 1为普通公司发票 2为普通个人发票 3为增值税票
         if(this.COMPANY_INVOICE.value == undefined)
         {
