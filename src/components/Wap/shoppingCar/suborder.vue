@@ -30,7 +30,7 @@
       <!-- 商品清单 开始-->
       <div class="cargo_box">
         <div class="cargo_word">商品清单</div>
-        <div class="collect" v-for="(item,index) in orderItem">
+        <div class="collect" v-for="(item,index) in orderItem" :key="index">
           <div class="collect_img">
             <img :src="item.picPath" alt="img">
             <!-- +'?imageView2/1/w/120/h/120' -->
@@ -362,8 +362,10 @@
       // 用户查询QB余额
       getQbNow: function() {
         var that = this
-        that.$store.dispatch('GET_QB_NOW').then((res) => {
-          console.log(res,'df')
+        var obj = {
+          sumItemsPrice: that.gwcTotal
+        }
+        that.$store.dispatch('GET_QB_NOW', obj).then((res) => {
           if (res.callStatus === 'SUCCEED') {
               that.allQb = res.fl;
               that.nowQb = res.fl;
@@ -515,7 +517,6 @@
           stickPhone: that.stick_phone, // 收票人手机
           stickaddress: that.stick_address, // 收票人地址
         }
-        console.log(obj,'提交订单的值')
         // console.log(this.COMPANY_INVOICE,'我的值')
         //判断有误地址存储
         if(that.addressShow)
@@ -527,7 +528,6 @@
         }
         Indicator.open()
         that.$store.dispatch('GET_SUBMIT', obj).then((res) => {
-          console.log(res,'lihui')
           if (res.data.callStatus === 'SUCCEED') {
             if (res.data.data == null) {
               Indicator.close()

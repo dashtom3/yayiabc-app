@@ -13,10 +13,10 @@
         <div class="header_coin">
           <ul class="coin_balanceBox">
             <li>
-              <div>乾币余额</div>
+              <div class="qb-title">乾币余额</div>
               <div class="qbBox">
                 <span class="qbBalance">{{qbNum.sum}}</span>
-                <!-- <span class="tiXianButton" @click="toCoinCash">提现</span> -->
+                <span class="tiXianButton" @click="toCoinCash">提现</span>
               </div>
             </li>
             <li></li>
@@ -25,7 +25,7 @@
                 <img src="../../../images/mine/coinMoneyZ.png" alt="">
               </div>
               <div>
-                {{qbNum.qbBalance}}
+                {{qbNum.qbBalance + qbNum.qbNotwtih}}
               </div>
             </li>
             <li>
@@ -69,7 +69,7 @@
       <router-view></router-view>
       </div>
       <!--末尾-->
-      <div class="moduleM" v-if="moduleShow"></div>
+      <!-- <div class="moduleM" v-if="moduleShow"></div> -->
     </div>
 </template>
 
@@ -83,6 +83,7 @@
         coinColor: 0,
         qbNum: {
           qbBalance: 0,
+          qbNotwtih: 0,
           aqb: 0,
           cqb: 0,
           sum: 0
@@ -110,7 +111,7 @@
     computed:{
       ...mapGetters([
         'saveJumpIndex',
-        'moduleShow'
+        // 'moduleShow'
       ])
     },
     methods:{
@@ -125,15 +126,17 @@
         this.$store.dispatch('GET_USERS_DATA',obj).then((res) => {
           if (!res.data.data) {
             this.qbNum.qbBalance = 0;
+            this.qbNum.qbNotwtih = 0;
             this.qbNum.aqb = 0;
             this.qbNum.cqb = 0;
-            this.qbNum.sum = this.qbNum.cqb + this.qbNum.aqb + this.qbNum.qbBalance;
+            this.qbNum.sum = this.qbNum.cqb + this.qbNum.aqb + this.qbNum.qbBalance + this.qbNum.qbNotwtih;
             tokenMethods.removeMsg()
           } else {
             this.qbNum.qbBalance = res.data.data.qbBalance;
+            this.qbNum.qbNotwtih = res.data.data.qbNotwtih;
             this.qbNum.aqb = res.data.data.cQb;
             this.qbNum.cqb = res.data.data.aQb;
-            this.qbNum.sum = this.qbNum.cqb + this.qbNum.aqb + this.qbNum.qbBalance;
+            this.qbNum.sum = this.qbNum.cqb + this.qbNum.aqb + this.qbNum.qbBalance + this.qbNum.qbNotwtih;
           }
         })
       },
@@ -213,21 +216,21 @@
       clear: both;
     }
     .coin_balanceBox li{
-      margin-left: px2vw(55);
+      margin-left: px2vw(15);
       text-align: center;
       color: white;
       float: left;
       max-width: px2vw(250);
     }
     .coin_balanceBox li:nth-child(n+3){
-      width: px2vw(110);
+      width: px2vw(140);
     }
     .coin_balanceBox li:nth-child(2){
       border-left-style:dashed;
       border-left-width: 1px;
       height: px2vw(73);
       margin-top: px2vw(12);
-      margin-left:px2vw(50);
+      margin-left:px2vw(20);
       margin-right:px2vw(16);
     }
     .coin_balanceBox li img{
@@ -289,14 +292,16 @@
     .coin_balanceBox li:nth-child(1){
       font-size: px2vw(28);
     }
-
     .tiXianButton {
+      width: px2vw(60);
+      height: px2vw(30);
+      font-size: px2vw(24);
       padding: px2vw(1) px2vw(12);
       color: white;
       border-radius: px2vw(8);
-      background-color: #329af0;
+      background-color: #3794e2;
+      margin-right: (10);
     }
-
     .qbBox {
       margin-top: px2vw(13);
     }
@@ -310,8 +315,8 @@
   }
     .qbBalance {
       display: inline-block;
-      text-align: center;
-      min-width: px2vw(108);
+      // text-align: center;
+      min-width: px2vw(90);
     }
 
     .view_box {

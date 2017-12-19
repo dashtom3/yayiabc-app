@@ -38,7 +38,7 @@
         </div>
       </div>
       <div class="header">
-        <img class="headPic" :src="userPic? userPic : require('../../../../images/case/hPic.png')" alt="">
+        <img class="headPic" :src="userPic? userPic + '?imageView2/1/w/200/h/200' : require('../../../../images/case/hPic.png')" alt="">
         <span class="headName">{{caseDetailArgs.writer}}</span>
         <span class="class">{{caseDetailArgs.classify}}</span>
         <span class="class">免费</span>

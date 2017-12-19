@@ -531,7 +531,7 @@
         margin-top: px2vw(50);
         padding-bottom: px2vw(10);
         font-size: px2vw(30);
-        border-bottom: px2vw(1) solid #ccc;
+        border-bottom: px2vw(1) solid #e5e5e5;
         &.must-fill:before {
           top: px2vw(-10);
           left: px2vw(-20);

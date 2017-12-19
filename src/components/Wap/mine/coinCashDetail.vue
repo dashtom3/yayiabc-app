@@ -18,7 +18,7 @@
       <li @click="cashBoole(false)" class="detail_ul1_li">
         <img v-if="cash" class="li_img1" src="../../../images/mine/cashDetail_img1.png" alt="">
         <img v-else class="li_img11" src="../../../images/mine/cashDetail_img2.png" alt="">
-        <span class="li_text" :class="{active_li:!cash}">提现</span>
+        <span class="li_text" :class="{active_li:!cash}">提现</span><span class="red-fz" v-if="types === 'tqbBalance'">(*仅购物成功，获得的乾币可提现！)</span>
       </li>
     </ul>
     <div v-show="!cash" class="writeNum">
@@ -41,13 +41,16 @@
           qBnum : 0,//保存可提取的数量总额
           inputNums : 0,//保存输入的总额
           type: '', //保存类型
-          qb : {}
+          qb : {},
+          types: ''
         }
       },
       created(){
         this.mBack('back');
         console.log(this.pushQbNum);
-        this.setQbNum()
+        this.setQbNum();
+        this.types = this.$route.query.falg;
+        console.log(this.types)
       },
       computed:{
         ...mapGetters([
@@ -91,7 +94,6 @@
             this.inputNums = 0
           }
         },
-
         setQbNum(){
           this.type = this.pushQbNum['type']
           this.qBnum = this.pushQbNum[this.type]
@@ -111,6 +113,15 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
     @import "../../../common/sass/factory";
+    .red-fz{
+      display: inline-block;
+      height: px2vw(40);
+      line-height: px2vw(40);
+      margin-top: px2vw(30);
+      margin-left: px2vw(20);
+      font-size: px2vw(24);
+      color: #d81e06;
+    }
     .coinCashDetail{
       width: 100vw;
     }
@@ -187,6 +198,7 @@
       width: px2vw(350);
       height: px2vw(90);
       margin-left: px2vw(72);
+      padding-left: px2vw(20);
       font-size: px2vw(32);
       vertical-align: middle;
     }

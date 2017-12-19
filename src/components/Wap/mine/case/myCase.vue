@@ -400,8 +400,8 @@ export default {
   height: px2vw(88);
 }
 .backImgBox > img {
-  width: px2vw(24);
-  height: px2vw(42);
+  width: px2vw(18);
+  // height: px2vw(42);
 }
 .title {
   display: table-cell;

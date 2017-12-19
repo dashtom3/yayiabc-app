@@ -184,7 +184,7 @@
       },
       changeActive2: function() {
         var that = this
-        that.$router.push({path: '/productList'});
+        that.$router.push({ name: 'productList', params: { oneClassify: '展会推荐' , twoClassify: ''}});
         that.isActive1 = false;
         that.isActive2 = true;
         that.isActive3 = false;
