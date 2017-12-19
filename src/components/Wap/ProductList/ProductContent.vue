@@ -13,8 +13,8 @@
         <div class="line_right"></div>
       </div>
       <ul class="content_ul">
-        <li @click="changeOrder(1)" :class="{active_li:args.rule == 1}">新品</li>
         <li @click="changeOrder(2)" :class="{active_li:args.rule == 2}">销量</li>
+        <li @click="changeOrder(1)" :class="{active_li:args.rule == 1}">新品</li>
         <li @click="changeOrder(3)" class="price_checked" :class="{active_li:args.rule == 3 || args.rule == 4 }">
           价格
           <img v-if="orderPriceUp" class="searchUP"  src="../../../images/ProductList/searchUp.png" alt="">
@@ -146,7 +146,7 @@
         args:{
           currentPage:1,
           totalPage: null,
-          rule:1,
+          rule:2,
           keyWord: this.$store.state.index.searchKeyWord,
           oneClassify:this.$store.state.index.brandAndClassify.oneClassify,
           twoClassify:this.$store.state.index.brandAndClassify.classifyTwoName,

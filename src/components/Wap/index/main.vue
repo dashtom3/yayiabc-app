@@ -1,13 +1,12 @@
 <template>
   <div>
-    <div v-show="qrShow" class="" id="bcid"></div>
-    <div v-show="!qrShow" class="index-wrapper">
+    <div class="index-wrapper">
       <div class="search-box">
         <input class="search-word" type="text" @focus="searchActive" v-model="searchCargo" autocomplete="on" placeholder="请输入关键字">
         <img class="search-img" src="../../../images/index/search.png" alt="img">
-        <span class="scan-wrapper" @click.stop="startRecognize" ref="scan" id="scan">
+        <a href="./static/barcode.html" class="scan-wrapper" ref="scan" id="scan">
           <img class="search-qr" src="../../../images/index/qrCode.png" alt="扫码">
-        </span>
+        </a>
       </div>
       <div class="index">
         <carousel></carousel>
@@ -76,39 +75,41 @@
             <router-view></router-view>
           </div>
         </div>
-        <div class="dialog_wrapper reg" v-show="isShow2">
-          <div class="dialog">
-            <div class="dialog_body">
-              <h2 class="title">注册成功</h2>
-              <span class="info">现在完善资质信息，赠您60 乾币！</span>
-              <span class="text-info"><br/>(首单满120元，可直接抵扣 60 元！)</span>
-            </div>
-            <div class="dialog_footer">
-              <span class="dialog_bottom">
-                <button @click="goToPage('/account')" type="button" class="btn-half button_primary"><span>立即认证</span></button>
-                <button @click="isShow2 = false" type="button" class="btn-half"><span>下次再说</span></button>
-              </span>
-            </div>
-          </div>
+      </div>
+    </div>
+    <div class="dialog_wrapper reg" v-show="isShow2">
+      <div class="dialog">
+        <div class="dialog_body">
+          <h2 class="title">注册成功</h2>
+          <span class="info">现在完善资质信息，赠您60 乾币！</span>
+          <span class="text-info"><br/>(首单满120元，可直接抵扣 60 元！)</span>
         </div>
-        <div class="dialog_wrapper" v-show="isShow">
-          <div class="dialog">
-            <div class="dialog_body">
-              <h2 class="title">发现新版本</h2>
-              <span class="text">快快升级，体验我们的新版本！</span>
-            </div>
-            <div class="dialog_footer">
-              <span class="dialog_bottom">
-                <button type="button" class="btn button_primary" @click="downWgt"><span>立即更新</span></button>
-              </span>
-            </div>
-          </div>
+        <div class="dialog_footer">
+          <span class="dialog_bottom">
+            <button @click="goToPage('/account')" type="button" class="btn-half button_primary"><span>立即认证</span></button>
+            <button @click="isShow2 = false" type="button" class="btn-half"><span>下次再说</span></button>
+          </span>
         </div>
-        <div class="dialog_wrapper" v-show="progressShow">
-          <mt-progress :value="0">
-            <div slot="end">{{ progress }}%</div>
-          </mt-progress>
+      </div>
+    </div>
+    <div class="dialog_wrapper" v-show="isShow">
+      <div class="dialog">
+        <div class="dialog_body">
+          <h2 class="title">发现新版本</h2>
+          <span class="text">快快升级，体验我们的新版本！</span>
         </div>
+        <div class="dialog_footer">
+          <span class="dialog_bottom">
+            <button type="button" class="btn button_primary" @click="downWgt"><span>立即更新</span></button>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="dialog_wrapper" v-show="progressShow">
+      <div class="progress-wrapper">
+        <mt-progress :value="progress">
+          <div slot="end">{{ progress }}%</div>
+        </mt-progress>
       </div>
     </div>
   </div>
@@ -249,12 +250,13 @@ export default {
         if (that.progress >= 88) {
           that.progress = 88
         }
-      },1000)
+      },400)
       plus.downloader.createDownload(wgtUrl, { filename: "_doc/update/" }, function(d, status) {
         if (status == 200) {
           that.installWgt(d.filename); // 安装wgt包
         } else {
           plus.nativeUI.alert("更新失败！");
+          that.progressShow = false;
         }
         plus.nativeUI.closeWaiting();
       })
@@ -273,6 +275,7 @@ export default {
             that.progressShow = false
           }, 200)
           plus.nativeUI.alert("应用资源更新完成！", function() {
+            that.progressShow = true;
             plus.runtime.restart();
           });
         },
@@ -293,41 +296,26 @@ export default {
       }, 500);
     },
     startRecognize() {
+      console.log('运行了startRecognize()')
       setTimeout(() => {
         this.qrShow = true;
+        console.log('运行了setTimeout()')
         scan = new plus.barcode.Barcode("bcid");
-        scan.onmarked = this.onmarked;
+        scan.onmarked = onmarked;
+        scan.onmarked();
         this.startScan();
       }, 200);
     },
     startScan() {
+      console.log('运行了scan.start()')
       scan.start();
     },
-    onmarked(type, result) {
-      var text = "未知: ";
-      switch (type) {
-        case plus.barcode.QR:
-          text = "QR: ";
-          break;
-        case plus.barcode.EAN13:
-          text = "EAN13: ";
-          break;
-        case plus.barcode.EAN8:
-          text = "EAN8: ";
-          break;
-      }
-      alert(text + result);
-    }
   }
 };
 </script>
 
 <style lang="scss" scoped>
 @import "../../../common/sass/factory";
-#bcid {
-  height:px2vw(480);
-  width:px2vw(360);
-}
 .index {
   width: 100vw;
   // height: px2vw(1234);
@@ -543,7 +531,7 @@ export default {
   left: 0;
   margin: 0;
   overflow: auto;
-  z-index: 2001;
+  z-index: 9999;
   background: rgba(0,0,0,.3);
   font-family: "SourceHanSansCN-Regular"
 }
@@ -663,5 +651,8 @@ export default {
   border-bottom-right-radius: 5px;
   text-align: center;
   color: rgb(54, 118, 182)
+}
+.progress-wrapper{
+  margin-top: px2vw(600)
 }
 </style>

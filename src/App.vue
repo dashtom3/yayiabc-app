@@ -169,7 +169,9 @@
     filter: alpha(opacity=100) !important;
     background: #eaeaea !important;
   }
-
+  .mt-progress > *{
+    color: #fff;
+  }
   .vux-pop-out-enter-active,
   .vux-pop-out-leave-active,
   .vux-pop-in-enter-active,
@@ -258,7 +260,6 @@
       }
     }
   }
-
   .logIn_header {
     width: 100vw;
     height: px2vw(88);

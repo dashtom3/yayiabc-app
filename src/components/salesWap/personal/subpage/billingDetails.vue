@@ -180,11 +180,11 @@
           height: px2vw(79);
           td{
             text-align: center;
-            border-right: px2vw(1) solid #ccc;
-            border-bottom: px2vw(1) solid #ccc;
+            border-right: px2vw(1) solid #e5e5e5;
+            border-bottom: px2vw(1) solid #e5e5e5;
           }
           td:nth-child(1){
-            border-left: px2vw(1) solid #ccc;
+            border-left: px2vw(1) solid #e5e5e5;
             text-align: right;
           }
         }

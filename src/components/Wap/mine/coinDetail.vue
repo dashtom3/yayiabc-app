@@ -28,7 +28,7 @@
     </ul>
     <!--选择钱币类型结束-->
     <!--充值个数开始-->
-    <div class="payCoins">
+    <div class="payCoins pay-one">
       <span>充值的乾币数</span>
       <input  v-model="moneyCoins" type="tel" placeholder="请输入本次充值乾币个数">
     </div>
@@ -365,13 +365,13 @@
     border-bottom: px2vw(20) solid #f4f4f4;
   }
   .coinDetail_box li{
-    padding: px2vw(30) 0;
+    padding: px2vw(26) 0;
   }
   .coinDetail_box li:nth-child(1){
     background-color: white;
   }
   .coinDetail_box li:last-child{
-    margin-bottom: px2vw(28);
+    margin-bottom: px2vw(24);
   }
   .coinClass {
     color: #d81e06;
@@ -402,11 +402,13 @@
   .selectCoin{
     background-color:#eeeeee !important;
   }
-
   .payCoins {
     font-size: 4.2666667vw;
     padding: px2vw(30) px2vw(20);
     border-bottom: px2vw(20) solid #f7f7f9;
+  }
+  .pay-one{
+    border-bottom: px2vw(1) solid #e5e5e5;
   }
   .payCoins input{
     width: 42vw;

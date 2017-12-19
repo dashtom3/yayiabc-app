@@ -119,7 +119,6 @@
       createDate() {
 //        return util.formatDate.format(new Date(this.order.created), 'yyyy-MM-dd hh:mm:ss')
         return this.order.created
-        console.log(this.payType)
       },
       receiverAddress() {
         let order = this.order

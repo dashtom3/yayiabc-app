@@ -285,7 +285,7 @@ export function queryOrderInvoice(params) {
 
 // 用户查询Qb余额
 export function getQbNow(params) {
-  return getWithToken('/userWith/showUserQbNum', params);
+  return getWithToken('/userWith/showUserQbNumPo', params);
 }
 
 // 用户Qb抵扣

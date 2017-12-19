@@ -139,7 +139,7 @@
         <span class="phone_name">手机号</span>
         <span class="phone_user">{{phone}}</span>
       </div>
-      <div v-if="already" class="coin_line"></div>
+      <div v-if="already" class="coin_line2"></div>
       <div v-if="already" class="checked_code">
         <span class="checked_code_text">验证码</span>
         <input @change="verifyYZ" v-model="verify" type="text" placeholder="请输入验证码">
@@ -165,6 +165,7 @@
           aQb: 0,
           cQb: 0,
           qbBalance: 0,
+          qbNotwtih: 0,
           verify: '',
           phone : '',
           userCount : '',
@@ -177,17 +178,20 @@
           qb: {
             taQb: 0,
             tcQb: 0,
+            tqbNotwtih: 0,
             tqbBalance: 0
           },
           qb2: {
             taQb: 0,
             tcQb: 0,
+            tqbNotwtih: 0,
             tqbBalance: 0
           },
           qb3:{
             taQb: 0,
             tcQb: 0,
             tqbBalance: 0,
+            tqbNotwtih: 0,
             allNum: 0,
             allPrice: 0
           },
@@ -220,7 +224,7 @@
           return sum
         },
         countPriceSum () {
-          let sum = Number(this.qb2.tqbBalance) + Number(this.qb2.tcQb) * 0.95 + this.qb2.taQb * 0.8
+          let sum = Number(this.qb2.tqbBalance) + Number(this.qb2.tcQb) * 0.95 + Number(this.qb2.taQb) * 0.8;
           return sum.toFixed(2)
         }
       },
@@ -237,7 +241,6 @@
               this.already = false;
               this.judgeTX = false;
               this.$store.dispatch('GET_DATA_ED',obj).then((res) => {
-                console.log(res.data.data,'哈哈哈');
                 if(res.data.callStatus === "SUCCEED")
                 {
                   let aqb = Number(res.data.data.cType) / 0.95;
@@ -360,7 +363,7 @@
         toCoinCashDetail(type){
           this.type = type;
           this.setQB();
-          this.$router.push({path:'/coinCashDetail'})
+          this.$router.push({path:'/coinCashDetail', query: {falg: type}})
         },
         back(){
           if(this.$route.query.backJudge === 'coinCash')
@@ -429,7 +432,6 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../common/sass/factory";
-
   .fontColor{
     background-color: #e5e5e5 !important;
     color: #999999 !important;
@@ -524,12 +526,18 @@
     font-size: px2vw(28);
     font-weight: 300;
     text-align: left;
-    margin: px2vw(32) px2vw(19)  0 px2vw(14);
+    margin: px2vw(32) px2vw(19)  0 px2vw(2);
     color: #999999;
   }
   .coin_line{
     width: 100%;
     height: px2vw(27);
+    background-color: #f4f4f4;
+    /*margin-top: px2vw(30);*/
+  }
+  .coin_line2{
+    width: 100%;
+    height:px2vw(2);
     background-color: #f4f4f4;
     /*margin-top: px2vw(30);*/
   }

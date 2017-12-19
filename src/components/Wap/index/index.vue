@@ -73,7 +73,7 @@ export default {
         that.plusReady();
       } else {
         document.addEventListener('plusready',that.plusReady,false);
-  //      document.addEventListener('plusready',that.checkUpdate,false);
+//      document.addEventListener('plusready',that.checkUpdate,false);
       }
     } 
     // console.log(sessionStorage.getItem("redPacket"));
