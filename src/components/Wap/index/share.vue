@@ -84,22 +84,6 @@
             id: "weixin",
             ex: ex  /*微信好友*//*微信朋友圈*/
           };
-//          bts = [{
-//            title: "发送给微信好友"
-//          }, {
-//            title: "分享到微信朋友圈"
-//          }];
-//        plus.nativeUI.actionSheet({
-//            cancel: "取消",
-//            buttons: bts
-//          },
-//          function(e) {
-//            var i = e.index;
-//            if (i > 0) {
-//
-//            }
-//          }
-//        );
         alert(JSON.stringify(ids))
         this.shareAction(ids.id, ids.ex);
       },

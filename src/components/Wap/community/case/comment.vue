@@ -820,7 +820,7 @@ export default {
   top: px2vw(88);
   width: 100vw;
   left: 0;
-  z-index: 1001;
+  z-index: 900;
 }
 .headReadPicBox {
   width: px2vw(50);
