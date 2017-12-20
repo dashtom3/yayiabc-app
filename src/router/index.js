@@ -132,6 +132,7 @@ const inviteRegister = resolve => require(['@/components/Wap/register/inviteRegi
 const inviteRegist = resolve => require(['@/components/Wap/register/inviteRegist'], resolve)
 // 客服邀请注册
 const inviteSaleRegister = resolve => require(['@/components/salesWap/register/inviteSaleRegister'], resolve)
+const saleInvite = resolve => require(['@/components/salesWap/personal/saleInvite'], resolve)
 Vue.use(Router)
 
 let router = new Router({
@@ -713,6 +714,10 @@ let router = new Router({
       name: 'inviteRegist',
       path: '/inviteRegist',
       component: inviteRegist
+    },{
+      name: 'saleInvite',
+      path: '/saleInvite',
+      component: saleInvite
     },
     // 客服代表邀请注册
     {

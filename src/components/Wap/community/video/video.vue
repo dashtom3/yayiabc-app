@@ -133,6 +133,9 @@
                   this.videoArgs[index].starNumber = Number(this.videoArgs[index].starNumber) + 1;
                   Toast({message: '收藏成功', duration: 1500})
                 }else {
+                  if(this.$router.history.current.name === 'videoCollect'){
+                    this.videoArgs.splice(index,1);
+                  }
                   this.videoArgs[index].isStar = 0;
                   this.videoArgs[index].starNumber = Number(this.videoArgs[index].starNumber) - 1;
                   Toast({message: '已取消收藏', duration: 1500})
@@ -168,6 +171,9 @@
         } else if (this.$router.history.current.name === 'videoCollect') {
           this.$store.dispatch('COLLECT', this.caseSearchArgs).then( (res) => {
             this.videoArgs = this.videoArgs.concat(res.data);
+            this.videoArgs.forEach(item =>{
+              item.isStar = 1
+            })
             this.caseSearchArgs.totalPage = res.totalPage;
             this.caseSearchArgs.currentPage = res.currentPage;
             this.isLoading = false;
@@ -238,19 +244,20 @@
           return
         }
         else {
-          this.$store.dispatch('GET_VIDEO_LIST', this.videoListArgs).then((res) => {
-            let datas = res.data.filter((item) =>{
-              if(item.vidRoute.substr(0,4) === "http")
-              {
-                return true;
-              }else{
-                return false;
-              }
-            });
-            this.videoArgs = this.videoArgs.concat(datas);
-            this.videoArgs['totalPage'] = res.totalPage;
-            this.videoArgs['currentPage'] = res.currentPage;
-          });
+          this.getVideoList();
+//          this.$store.dispatch('GET_VIDEO_LIST', this.videoListArgs).then((res) => {
+//            let datas = res.data.filter((item) =>{
+//              if(item.vidRoute.substr(0,4) === "http")
+//              {
+//                return true;
+//              }else{
+//                return false;
+//              }
+//            });
+//            this.videoArgs = this.videoArgs.concat(datas);
+//            this.videoArgs['totalPage'] = res.totalPage;
+//            this.videoArgs['currentPage'] = res.currentPage;
+//          });
         }
       },
 

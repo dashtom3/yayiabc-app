@@ -66,7 +66,7 @@
       release(){
         this.$store.dispatch(NEW_TREND,this.shareData).then(res => {
           Toast({message: '发布成功！', duration: 1500})
-          this.$router.push('/yayi/yayiCircle');
+          this.$router.push(this.$route.query.backName);
           this.$destroy()
         })
       }

@@ -49,8 +49,10 @@
     },
     created(){
       document.body.classList.add('shareBox-ggKula');
+      console.log(this.$route.path,'jkju')
     },
     mounted(){
+      this.shareData.backName = this.$route.path
       switch (true){
         case this.shareData.momentType === '病例':
           this.shareData.momentType = 3;

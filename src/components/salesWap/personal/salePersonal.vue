@@ -46,6 +46,7 @@
       <li @click="goMyCustomer" class="sale-item"><p class="sale-item-text">我的客户</p></li>
       <li class="sale-item"><p class="sale-item-text" @click="goPage('salePersonalData')">个人资料</p></li>
       <li class="sale-item"><p class="sale-item-text" @click="goPage('withdrawSetting')">提现设置</p></li>
+      <li class="sale-item"><p class="sale-item-text" @click="goPage('saleInvite')">邀请客户</p></li>
     </ul>
     <div class="logout-btn-container">
       <mu-raised-button label="退出登录" fullWidth color="#fff" backgroundColor="#3676b6" class="logout-btn"
@@ -226,8 +227,12 @@
           background: url("../../../images/salePersonal/personal.png") px2vw(20) center no-repeat;
           background-size: px2vw(36) px2vw(36);
         }
-        &:last-child {
+        &:nth-of-type(3) {
           background: url("../../../images/salePersonal/setting.png") px2vw(20) center no-repeat;
+          background-size: px2vw(36) px2vw(36);
+        }
+        &:last-child {
+          background: url("../../../images/salePersonal/invite.png") px2vw(20) center no-repeat;
           background-size: px2vw(36) px2vw(36);
         }
       }
