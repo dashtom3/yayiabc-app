@@ -23,10 +23,10 @@
             <span class="clr"></span>
           </div>
         </div>
-      </div>
-      <div class="noData" v-if="noData && questList.length == 0">
-        <img src="../../../../images/question/noQuestionList.png" alt="">
-        <p>暂无任何问题~</p>
+        <div class="noData" v-if="(noData && !questList)||(noData && questList.length == 0)">
+          <img src="../../../../images/question/noQuestionList.png" alt="">
+          <p>暂无任何问题~</p>
+        </div>
       </div>
       <bottomLoadMore ref="bottomLoadMore" slot="bottom" :loading="isLoading" :loaded="isLoadedB"></bottomLoadMore>
     </mt-loadmore>
@@ -129,7 +129,7 @@
             //发现
             this.backName = '/QandAList'
             this.$store.dispatch(FAQ_LIST, this.args).then(res=>{
-              if(res.data.length > 0){
+              if(res.data){
                 this.dataCompute(res.data)
                 this.questList = res.data.concat(this.questList);
                 this.totalPage = res.totalPage;
@@ -144,7 +144,7 @@
             break;
           case this.$router.history.current.name === 'myQuestion':
             this.$store.dispatch(MY_QUESTION, this.args).then(res=>{
-              if(res.data.length > 0){
+              if(res.data){
                 this.dataCompute(res.data)
                 this.questList = res.data.concat(this.questList);
                 this.totalPage = res.totalPage;
@@ -160,7 +160,7 @@
             break;
           case this.$router.history.current.name === 'questCollect':
             this.$store.dispatch(COLLECT, this.args).then(res=>{
-              if(res.data.length > 0){
+              if(res.data){
                 this.dataCompute(res.data)
                 this.questList = res.data.concat(this.questList);
                 this.totalPage = res.totalPage;
@@ -177,7 +177,7 @@
           case this.$router.history.current.name === 'QASearch':
             this.backName = '/communitySearch/QAndASearch'
             this.$store.dispatch(SEARCH_CASE_LIST, this.args).then(res=>{
-              if(res.data.length > 0){
+              if(res.data){
                 this.dataCompute(res.data)
                 this.questList = res.data.concat(this.questList);
                 this.totalPage = res.totalPage;

@@ -1,7 +1,7 @@
 <template>
     <div class="out">
       <!--无视频样式-->
-      <div v-if="isShow" class="noneVideo">
+      <div v-if="(isShow && !videoArgs) || (isShow && videoArgs.length == 0)" class="noneVideo">
         <div class="noneV">
           <img src="../../../../images/video/noneVideo.png" alt="">
         </div>
@@ -10,11 +10,11 @@
       <!--<mt-loadmore  :top-method="loadMore" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState">-->
       <!--<topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>-->
       <!-- v-for -->
-      <div v-infinite-scroll="getCaseListMore" infinite-scroll-immediate-check="true">
+      <div v-infinite-scroll="getCaseListMore" infinite-scroll-immediate-check="true" v-else>
         <div v-for="(item, index) in videoArgs" class="videoWrap" :key="index">
           <div class="boxBox">
             <!--这里放视频-->
-            <div class="videoBox">
+            <div class="videoBox" v-if="!videoArgs || videoArgs.length > 0">
               <video-play :isVideo="typeVideo" v-if="videoSwitch" :title="item.vidName">
                 <!--<video  src=""  controls="" x5-playsinline="" playsinline="" webkit-playsinline="" poster="" preload="auto"></video>-->
                 <!--posterSrc:视频封面地址  slot必须带class="video"-->

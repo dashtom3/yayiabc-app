@@ -3,7 +3,7 @@
     <div class="header">
       <span class="back-click-area" @click="goBack"></span>
       <div class="headerTitle">资料库</div>
-      <span class="search-click-area"></span>
+      <span class="search-click-area" @click="search"></span>
     </div>
     <div class="classify">
       <div class="classifyList">
@@ -93,12 +93,15 @@ import datum from '../../mine/collect/datum.vue'
         this.classifyShow = !this.classifyShow;
       },
       goBack(){
-        this.$router.go(-1);
+        this.$router.push("/");
       },
       dress(index,value){
         this.args.selected = index;
         this.keyWord = index > 0 ? value :'';
-      }
+      },
+      search(){
+        this.$router.push('/dataSearch')
+      },
     }
   }
 </script>

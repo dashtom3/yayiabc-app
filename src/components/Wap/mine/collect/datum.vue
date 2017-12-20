@@ -29,6 +29,7 @@
 </template>
 <script>
   import {GET_MATER_LIST,COLLECT_MATER_LIST} from '../../../../vuex/types'
+  import bottomLoadMore from '../../../salesWap/index/bottomLoadMore.vue';
   import { LoadMore, MessageBox,Indicator } from 'mint-ui';
 
   export default {
@@ -50,6 +51,9 @@
       keyWords:{
         type:String
       }
+    },
+    components:{
+      bottomLoadMore
     },
     watch:{
       keyWords:{
@@ -84,9 +88,9 @@
           case this.$router.history.current.name === 'database':
             this.backName = '/database'
             this.$store.dispatch(GET_MATER_LIST, this.args).then(res=>{
-              if(res.data.length > 0){
+              if(res.data){
                 console.log(res.data);
-                this.dataList = res.data;
+                this.dataList = res.data.concat(this.dataList);
               }else {
                 this.noData = true;
               }
@@ -99,9 +103,9 @@
             this.backName = '/collect/datumcollect'
             console.log('k')
             this.$store.dispatch(COLLECT_MATER_LIST, this.args).then(res=>{    //要改这个接口
-              if(res.data.length > 0){
+              if(res.data){
                 console.log(res.data);
-                this.dataList = res.data;
+                this.dataList = res.data.concat(this.dataList);
               }else {
                 this.noData = true;
               }

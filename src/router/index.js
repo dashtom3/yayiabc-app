@@ -97,6 +97,7 @@ const communitySearch = resolve => require(['@/components/Wap/community/communit
 const QandAList = resolve => require(['@/components/Wap/community/QandA/QandAList'], resolve)
 const QandADetail = resolve => require(['@/components/Wap/community/QandA/QandADetail'], resolve)
 const newQuest = resolve => require(['@/components/Wap/community/QandA/newQuest'], resolve)
+const dataSearch = resolve => require(['@/components/Wap/index/database/dataSearch'], resolve)
 
 //牙医圈
 const newTrend = resolve => require(['@/components/Wap/yayiCircle/newTrend'], resolve)
@@ -315,6 +316,11 @@ let router = new Router({
       name: 'datumDetail',
       path: '/datumDetail',
       component: datumDetail
+    },
+    {
+      name: 'dataSearch',
+      path: '/dataSearch',
+      component: dataSearch
     },
     {
       name: 'searchWord',

@@ -34,8 +34,8 @@
                       @focus="onEditorFocusCharge($event)">
         </quill-editor>
       </div>
-      <div class="others" @click="selectClassify(1)">
-        <div class="line"  v-if="args.chargeContent" @click.stop="foucsInput()">
+      <div class="others">
+        <div class="line"  v-if="args.chargeContent" @click="selectClassify(1)">
           <span>价格（乾币）</span>
           <span class="othersSelect" >
             <span v-html="chargeNumN?chargeNumN:'请选择价格'"></span>
@@ -63,7 +63,7 @@
         <span class="classPickerConfirm" @click="onClassPicker(1)">完成</span>
       </div>
     </mt-picker>
-    <mt-picker :slots="slots" @change="onChargeChange" :showToolbar="true" class="pickers" v-show="isClassPickerN">
+    <mt-picker :slots="sloty" @change="onChargeChange" :showToolbar="true" class="pickers" v-show="isClassPickerN">
       <div class="classPicker">
         <span class="classPickerCancel" @click="onClassPickerN(0)">取消</span>
         选择价格
@@ -262,8 +262,10 @@
       selectClassify(num){
         this.blurClass();
         if(num){
+          console.log(num)
           this.isClassPickerN = true;
         }else {
+          console.log(num)
           this.isClassPicker =true;
         }
       },

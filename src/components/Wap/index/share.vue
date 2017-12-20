@@ -102,16 +102,7 @@
         this.shareAction(ids.id, ids.ex);
       },
       shareAction(id, ex){
-        var so = null;
-        for (let i = 0; i < shares.length; i++) {
-          if (shares[i].id == id) {
-            so = shares[i]
-            alert("ll")
-            alert(id)
-            alert(JSON.stringify(shares[i]))
-            break
-          }
-        }
+        var so = shares[id];
         alert(JSON.stringify(so))
         if (so.authenticated) {
           alert("---已授权---");
