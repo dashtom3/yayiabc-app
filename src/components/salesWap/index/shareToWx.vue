@@ -23,6 +23,9 @@
 
       }
     },
+    props:{
+      userId,resType
+    },
     methods:{
       shareHref(ex){
         let ids = {
@@ -50,7 +53,7 @@
       shareMessage(s, ex){
         var msg = {
           content: '能提现的App|新上电镀金刚石车针，多种型号任你挑选。',
-          href: 'http://wap.yayiabc.com/#/inviteRegist',
+          href: 'http://wap.yayiabc.com/#/inviteRegist?userId=' + this.userId +'&type=' + this.resType,
           title: '注册牙医abc账号，领60乾币！（下单抵60元）',
           thumbs: ['../../../images/yayiCircle/noImgDefault.png'],
           pictures: ['../../../images/yayiCircle/noImgDefault.png'],

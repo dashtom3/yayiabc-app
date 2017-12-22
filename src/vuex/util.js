@@ -230,6 +230,9 @@ export const tokenMethods = {
   removeInfoList(data){
     localStorage.removeItem('infoList')
   },
+  removeInfoNum(data){
+    localStorage.removeItem('infoNum')
+  },
   setAnswerList(data) {
     localStorage.setItem('answerList', JSON.stringify(data))
   },

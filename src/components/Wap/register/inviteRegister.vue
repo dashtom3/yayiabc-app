@@ -22,7 +22,7 @@
     <div class="invite-type">
       <h2 class="title"><i class="line"></i>邀请方式<i class="line"></i></h2>
       <div class="type-box">
-        <shareToWx></shareToWx>
+        <shareToWx :userId="myUserId" :resType="1"></shareToWx>
       </div>
     </div>
     <div class="split"></div>
@@ -39,12 +39,13 @@
 
 <script>
   import shareToWx from '../../salesWap/index/shareToWx.vue'
+  import { tokenMethods } from '../../../vuex/util';
 
 export default {
   name: "inviteRegister",
   data () {
     return {
-
+      myUserId:tokenMethods.getWapUser() ? tokenMethods.getWapUser().userId:'',
     };
   },
   components:{

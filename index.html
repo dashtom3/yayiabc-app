@@ -85,10 +85,10 @@
         var t = s[i];
         shares[t.id] = t;
       }
-      alert("获取分享服务列表成功");
-      alert(JSON.stringify(shares))
+//      alert("获取分享服务列表成功");
+//      alert(JSON.stringify(shares))
     }, function(e) {
-      alert("获取分享服务列表失败：" + e.message);
+//      alert("获取分享服务列表失败：" + e.message);
     });
     if(plus.os.name == "Android") {
       Intent = plus.android.importClass("android.content.Intent");

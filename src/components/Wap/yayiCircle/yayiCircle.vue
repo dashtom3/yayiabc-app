@@ -486,8 +486,7 @@
                   height: px2vw(190);
                   overflow: hidden;
                   img{
-                    max-width: px2vw(400);
-                    max-height: px2vw(400);
+                    width: 100%;
                   }
                 }
               }

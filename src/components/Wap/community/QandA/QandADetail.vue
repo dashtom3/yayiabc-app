@@ -10,7 +10,7 @@
       <div class="eachContainer">
         <div class="headLine">
           <div class="headImg">
-            <img :src="detailData.userPic" alt="" v-if="detailData.userPic">
+            <img :src="detailData.userPic + '?imageView2/1/w/200/h/200'" alt="" v-if="detailData.userPic">
             <img src="../../../../images/mine/defaultHead.png" alt="" v-else>
           </div>
           <div class="name">
@@ -38,7 +38,7 @@
         <div class="eachAnswer" v-for="(value,index) in answerList">
           <div class="headLine">
             <div class="headImg">
-              <img :src="value.userPic" alt="" v-if="value.userPic">
+              <img :src="value.userPic + '?imageView2/1/w/200/h/200'" alt="" v-if="value.userPic">
               <img src="../../../../images/mine/defaultHead.png" alt="" v-else>
             </div>
             <div class="name">

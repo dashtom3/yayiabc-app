@@ -122,6 +122,7 @@
           postStater:1,
           cover:'',
           postId:this.$route.query.caseId,
+          userId:'',
         },
         // 头像
         userPic: ''
@@ -136,6 +137,11 @@
       this.getCaseData();
       this.getUserCoin();
       this.timeStamp = Date.parse(new Date());
+    },
+    mounted(){
+      if(this.args.userId == this.myUserId){
+        this.payRel(this.args.chargeNumber);
+      }
     },
     methods:{
       //确认支付
@@ -210,6 +216,7 @@
           this.args.chargeContent = res.data.chargeContent
           this.args.chargeNumber = res.data.chargeNumber
           this.args.cover = res.data.cover
+          this.args.userId = res.data.userId
           if (this.caseDetailArgs.classify === 1) {
             this.caseDetailArgs.classify = '口腔外科'
           } else if (this.caseDetailArgs.classify === 2) {

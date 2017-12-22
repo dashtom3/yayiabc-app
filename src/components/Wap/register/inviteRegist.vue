@@ -167,7 +167,9 @@
             pwd: strPwd,
             trueName: this.registerData.trueName,
             sex: this.registerData.sex,
-            birthday: this.registerData.birthday
+            birthday: this.registerData.birthday,
+            userType: this.$route.query.type,
+            userId:this.$route.query.userId,
           }
           params['certification.type'] = this.registerData.type;
           params['certification.companyName'] = this.registerData.companyName;
@@ -181,7 +183,9 @@
             pwd: strPwd,
             trueName: this.registerData.trueName,
             sex: this.registerData.sex,
-            birthday: this.registerData.birthday
+            birthday: this.registerData.birthday,
+            userType: this.$route.query.type,
+            userId:this.$route.query.userId,
           }
           params['certification.type'] = this.registerData.type;
           params['certification.companyName'] = this.registerData.companyName;

@@ -82,6 +82,11 @@
       goto(){
         this.$router.push('/feedback')
       },
+      clearMsg(){
+        tokenMethods.removeInfoList();
+        tokenMethods.removeAnswerList();
+        tokenMethods.removeInfoNum();
+      },
       // 登出
       logOut: function () {
         var that = this;
@@ -96,6 +101,7 @@
           }
           if (res.callStatus === 'SUCCEED') {
             tokenMethods.removeMsg()
+            that.clearMsg();
             Toast({message: '退出成功！', duration: 1500});
             this.$router.push({path: '/logIn', query: {backName: '/yayi/mine'}});
             try {

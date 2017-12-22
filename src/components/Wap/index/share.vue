@@ -84,21 +84,21 @@
             id: "weixin",
             ex: ex  /*微信好友*//*微信朋友圈*/
           };
-        alert(JSON.stringify(ids))
+//        alert(JSON.stringify(ids))
         this.shareAction(ids.id, ids.ex);
       },
       shareAction(id, ex){
         var so = shares[id];
-        alert(JSON.stringify(so))
+//        alert(JSON.stringify(so))
         if (so.authenticated) {
-          alert("---已授权---");
+//          alert("---已授权---");
           this.shareMessage(so, ex);
         } else {
-          alert("---未授权---");
+//          alert("---未授权---");
           so.authorize(function() {
             this.shareMessage(so, ex);
           }, function(e) {
-            alert("认证授权失败");
+//            alert("认证授权失败");
           });
         }
       },
@@ -115,6 +115,7 @@
         };
         alert(JSON.stringify(msg))
         s.send(msg, function() {
+          alert(msg.href)
           alert("分享成功!");
         }, function(e) {
           alert("分享失败!");

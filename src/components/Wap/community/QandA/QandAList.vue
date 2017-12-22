@@ -6,7 +6,7 @@
         <div class="eachContainer" @click="gotoDetail(value.faqQuestionId)" v-for="(value,index) in questList" v-if="questList.length > 0">
           <div class="headLine">
             <div class="headImg">
-              <img :src="value.userPic" alt="" v-if="value.userPic">
+              <img :src="value.userPic  + '?imageView2/1/w/200/h/200'" alt="" v-if="value.userPic">
               <img src="../../../../images/mine/defaultHead.png" alt="" v-else>
             </div>
             <div class="name">

@@ -262,6 +262,7 @@
             Toast({message: '登录成功', duration: 1500})
             that.mobilePhone = ''
             that.password = ''
+            that.clearMsg();
             if(this.$route.query.backName)
             {
               that.$router.push({path: this.$route.query.backName})
@@ -294,6 +295,11 @@
       register: function () {
         var that = this
         that.$router.push({path: '/register'})
+      },
+      clearMsg(){
+        tokenMethods.removeInfoList();
+        tokenMethods.removeAnswerList();
+        tokenMethods.removeInfoNum();
       }
     }
   }

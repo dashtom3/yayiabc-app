@@ -60,6 +60,7 @@
           if(!val){
             this.loaded();
           }
+          console.log(val);
         }
       }
     },

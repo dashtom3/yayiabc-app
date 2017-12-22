@@ -14,7 +14,7 @@
       </div>
       <div class="line">
         <p>- 邀请方式 -</p>
-        <shareToWx></shareToWx>
+        <shareToWx  :userId="myUserId" :resType="1"></shareToWx>
       </div>
       <div class="line">
         <p>- 我的客户 -</p>
@@ -27,11 +27,12 @@
 
 <script type="text/ecmascript-6">
   import shareToWx from '../index/shareToWx.vue'
+  import { tokenMethods } from '../../../vuex/util';
 
   export default {
     data(){
       return{
-
+        myUserId:tokenMethods.getWapUser() ? tokenMethods.getWapUser().userId:'',
       }
     },
     components:{

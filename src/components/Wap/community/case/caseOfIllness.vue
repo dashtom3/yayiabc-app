@@ -93,6 +93,7 @@
     },
     created() {
       this.getCaseList();
+      console.log(this.$router.history.current.name)
       this.timeStamp = Date.parse(new Date());
       if(this.$router.history.current.name === 'caseOfIllnessSearch'){
         // this.showNewCase = false;
@@ -153,55 +154,62 @@
           this.getCaseList();
         }
       },
-      getCaseList (more){
-        if(this.$router.history.current.name === 'caseOfIllnessSearch'){
-          this.$store.dispatch('SEARCH_CASE_LIST', this.caseSearchArgs).then( (res) => {
-            if(res.data){
-              this.time(res.data)
-              this.classifyCompute(res.data);
-              this.listCaseData = this.listCaseData.concat(res.data);
-              this.caseSearchArgs.totalPage = res.totalPage;
-              this.allLoaded = this.caseSearchArgs.totalPage <= this.caseSearchArgs.currentPage ? true : false;
+      getCaseList (){
+        this.isLoading = true;
+        switch (true){
+          case this.$router.history.current.name === 'caseOfIllnessSearch':
+            this.$store.dispatch('SEARCH_CASE_LIST', this.caseSearchArgs).then( (res) => {
+              if(res.data){
+                this.time(res.data)
+                this.classifyCompute(res.data);
+                this.listCaseData = this.listCaseData.concat(res.data);
+                this.caseSearchArgs.totalPage = res.totalPage;
+                this.isLoading = false;
+                this.allLoaded = this.caseSearchArgs.totalPage <= this.caseSearchArgs.currentPage ? true : false;
 //              this.caseSearchArgs.currentPage = res.currentPage;
-            }else {
-              this.noData = true;
-            }
-            this.isLoading = false;
-          })
-        }else if(this.$router.history.current.name === 'caseOfIllnessCollect') {
-          this.$store.dispatch('COLLECT', this.caseListArgs).then((res) => {
-            if(res.data) {
-              this.time(res.data)
-              this.classifyCompute(res.data);
-              this.listCaseData = this.listCaseData.concat(res.data);
-              this.caseListArgs.totalPage = res.totalPage;
-              this.allLoaded = this.caseListArgs.totalPage <= this.caseListArgs.currentPage ? true : false;
+              }else {
+                this.noData = true;
+                this.isLoading = false;
+              }
+            })
+            break;
+          case this.$router.history.current.name === 'caseOfIllnessCollect':
+            this.$store.dispatch('COLLECT', this.caseListArgs).then((res) => {
+              if(res.data) {
+                this.time(res.data)
+                this.classifyCompute(res.data);
+                this.listCaseData = this.listCaseData.concat(res.data);
+                this.caseListArgs.totalPage = res.totalPage;
+                this.isLoading = false;
+                this.allLoaded = this.caseListArgs.totalPage <= this.caseListArgs.currentPage ? true : false;
 //              this.caseListArgs.currentPage = res.currentPage;
-            }else {
-              this.noData = true;
-            }
-            this.isLoading = false;
-          })
-        }else {
-          this.$store.dispatch('GET_CASE_LIST', this.caseListArgs).then( (res) => {
-            if(res.data) {
-              this.time(res.data)
-              this.classifyCompute(res.data);
-              this.listCaseData = this.listCaseData.concat(res.data);
-              this.caseListArgs.totalPage = res.totalPage;
-              this.caseDate.totalPage = res.totalPage;
-              this.allLoaded = this.caseListArgs.totalPage <= this.caseListArgs.currentPage ? true : false;
+              }else {
+                this.noData = true;
+                this.isLoading = false;
+              }
+            })
+            break
+          default:
+            this.$store.dispatch('GET_CASE_LIST', this.caseListArgs).then( (res) => {
+              if(res.data) {
+                console.log(res);
+                this.time(res.data)
+                this.classifyCompute(res.data);
+                this.listCaseData = this.listCaseData.concat(res.data);
+                this.caseListArgs.totalPage = res.totalPage;
+                this.caseDate.totalPage = res.totalPage;
+                this.isLoading = false;
+                this.allLoaded = this.caseListArgs.totalPage <= this.caseListArgs.currentPage ? true : false;
 //              this.caseListArgs.currentPage = res.currentPage;
-              this.isLoading = false;
-            }
-            // else {
-            //   this.noData = false;
-            // }
-            if (this.listCaseData != null && this.listCaseData.length == 0) {
-              this.noData = true;
-            }
-            this.isLoading = false;
-          })
+              }
+              // else {
+              //   this.noData = false;
+              // }
+              else{
+                this.noData = true;
+                this.isLoading = false;
+              }
+            })
         }
       },
       classifyCompute(res){
