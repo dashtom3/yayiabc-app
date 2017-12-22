@@ -140,6 +140,7 @@
     line-height: px2vw(88);
     color: white;
     font-size: px2vw(36);
+    z-index: 999;
   }
   .back{
     position: absolute;

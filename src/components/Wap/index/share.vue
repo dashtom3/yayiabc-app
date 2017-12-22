@@ -49,7 +49,7 @@
     },
     created(){
       document.body.classList.add('shareBox-ggKula');
-      console.log(this.$route.path,'jkju')
+      console.log(window.location.href)
     },
     mounted(){
       this.shareData.backName = this.$route.path
@@ -105,7 +105,7 @@
       shareMessage(s, ex){
         var msg = {
           content: '分享牙医abc测试',
-          href: 'http://wap.yayiabc.com',
+          href: window.location.href,
           title: '分享测试',
           thumbs: ['../../../images/yayiCircle/noImgDefault.png'],
           pictures: ['../../../images/yayiCircle/noImgDefault.png'],

@@ -279,7 +279,7 @@
       },
       onChargeChange(picker,values){
         this.chargeNum = this.sloty[0].values.indexOf(values[0]);
-        this.chargeNumN = this.sloty[0].values[parseInt(this.classify)]
+        this.chargeNumN = this.sloty[0].values[parseInt(this.chargeNum)]
       },
       getCaseData(){
         this.$store.dispatch(GET_CASE_DETAIL, {postId: this.$route.query.id}).then((res) => {
@@ -360,7 +360,7 @@
             Toast({message: '请选择一个分类', duration: 1500});
             // this.args.postStater = 2;
             return
-          case this.args.chargeContent && !this.args.chargeNumber:
+          case this.args.chargeContent && !this.args.chargeNum < 0:
             Toast({message: '请输入价格', duration: 1500});
             return
         }

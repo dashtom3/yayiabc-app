@@ -24,7 +24,8 @@
     },
     methods:{
       goBack(){
-        this.$router.push({path:'/yayi/mine'})
+        this.$router.push({path:'/yayi/mine'});
+        this.$destroy();
       },
       changeClass(index){
         this.routerNum = index;
@@ -46,7 +47,27 @@
             break;
         }
       }
-    }
+    },
+    beforeRouteEnter (to, from, next) {
+      // 通过 `vm` 访问组件实例
+      next(vm => {
+//        console.log(vm.$router.history.current.name);
+        if (vm.$router.history.current.name === '/collect/goodCollect') {
+          vm.routerNum = 0
+        } else if(vm.$router.history.current.name === '/collect/caseOfIllnessCollect') {
+          vm.routerNum = 1
+        } else if(vm.$router.history.current.name === '/collect/videoCollect') {
+          vm.routerNum = 2
+        }else if(vm.$router.history.current.name === '/collect/QandAList') {
+          vm.routerNum = 3
+        }else if(vm.$router.history.current.name === '/collect/datumcollect') {
+          vm.routerNum = 4
+        }
+      })
+    },
+//    created(){
+//      this.changeClass(this.routerNum);
+//    }
   }
 </script>
 

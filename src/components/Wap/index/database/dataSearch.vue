@@ -83,11 +83,13 @@
               userHistoryData.push(this.userHistory[i])
             }
           }
-          this.userHistory = userHistoryData
+          this.userHistory = userHistoryData;
         }
-        tokenMethods.setDataHistory(this.userHistory)
+        tokenMethods.setDataHistory(this.userHistory);
+        this.searching = false;
       },
       searchActive: function () {
+        this.searching = true;
       },
       // 删除历史搜索
       deleteHistory: function () {

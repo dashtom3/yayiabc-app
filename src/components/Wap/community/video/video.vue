@@ -133,12 +133,14 @@
                   this.videoArgs[index].starNumber = Number(this.videoArgs[index].starNumber) + 1;
                   Toast({message: '收藏成功', duration: 1500})
                 }else {
-                  if(this.$router.history.current.name === 'videoCollect'){
-                    this.videoArgs.splice(index,1);
-                  }
-                  this.videoArgs[index].isStar = 0;
-                  this.videoArgs[index].starNumber = Number(this.videoArgs[index].starNumber) - 1;
-                  Toast({message: '已取消收藏', duration: 1500})
+                  MessageBox.confirm('确定取消收藏?').then(action => {
+                    if(this.$router.history.current.name === 'videoCollect'){
+                      this.videoArgs.splice(index,1);
+                    }
+                    this.videoArgs[index].isStar = 0;
+                    this.videoArgs[index].starNumber = Number(this.videoArgs[index].starNumber) - 1;
+                    Toast({message: '已取消收藏', duration: 1500})
+                  }).catch(reject =>{});
                 }
               }else {
                 Toast({message: '收藏失败', duration: 1500})

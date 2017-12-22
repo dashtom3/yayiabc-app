@@ -131,7 +131,7 @@
             this.$store.dispatch(FAQ_LIST, this.args).then(res=>{
               if(res.data){
                 this.dataCompute(res.data)
-                this.questList = res.data.concat(this.questList);
+                this.questList = this.questList.concat(res.data);
                 this.totalPage = res.totalPage;
                 this.isLoading = false;
                 this.isAllLoaded();
@@ -146,7 +146,7 @@
             this.$store.dispatch(MY_QUESTION, this.args).then(res=>{
               if(res.data){
                 this.dataCompute(res.data)
-                this.questList = res.data.concat(this.questList);
+                this.questList = this.questList.concat(res.data);
                 this.totalPage = res.totalPage;
                 this.isLoading = false;
                 this.isAllLoaded();
@@ -162,7 +162,7 @@
             this.$store.dispatch(COLLECT, this.args).then(res=>{
               if(res.data){
                 this.dataCompute(res.data)
-                this.questList = res.data.concat(this.questList);
+                this.questList = this.questList.concat(res.data);
                 this.totalPage = res.totalPage;
                 this.isLoading = false;
                 this.isAllLoaded();
@@ -179,7 +179,7 @@
             this.$store.dispatch(SEARCH_CASE_LIST, this.args).then(res=>{
               if(res.data){
                 this.dataCompute(res.data)
-                this.questList = res.data.concat(this.questList);
+                this.questList = this.questList.concat(res.data);
                 this.totalPage = res.totalPage;
                 this.isLoading = false;
                 this.isAllLoaded();

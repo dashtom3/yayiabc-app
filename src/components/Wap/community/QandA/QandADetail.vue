@@ -30,7 +30,7 @@
         </div>
         <div class="other">
           <span class="classify">{{detailData.faqQuestionType}}</span>
-          <span class="num"><span>{{detailData.faqAnswerNum}}</span>评论</span>
+          <span class="num"><span>{{detailData.faqAnswerNum}}</span>个回答</span>
           <span class="clr"></span>
         </div>
       </div>
@@ -325,7 +325,7 @@
       border-bottom: px2vw(20) solid #f4f4f4;
       .headLine{
         width: 100%;
-        height: px2vw(120);
+        height: px2vw(140);
         float: left;
         .headImg{
           display: inline-block;

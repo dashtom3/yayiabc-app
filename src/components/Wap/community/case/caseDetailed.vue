@@ -243,6 +243,7 @@
       },
       back (){
         this.$router.push({path: this.$route.query.backLocal})
+        this.$destroy();
       },
       //子组件返回按钮
       backChild(){

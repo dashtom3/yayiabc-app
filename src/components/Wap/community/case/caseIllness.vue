@@ -99,12 +99,15 @@
         if(newVal === 0)
         {
           this.caseDate.updataTime = ['最新发布', '最多评论','最多赞'];
+          this.dressingFunction(0);
         }else if(newVal === 1)
         {
           this.caseDate.updataTime = ['最多播放', '最多评论'];
+          this.dressingFunction(0);
         }else if(newVal === 2)
         {
           this.caseDate.updataTime = ['最新发布', '最多回答'];
+          this.dressingFunction(0);
         }
         this.caseDate.dressingSwitch = false;
       }

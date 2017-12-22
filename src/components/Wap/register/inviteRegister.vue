@@ -22,14 +22,7 @@
     <div class="invite-type">
       <h2 class="title"><i class="line"></i>邀请方式<i class="line"></i></h2>
       <div class="type-box">
-        <div class="box">
-          <img src="../../../images/logIn/weixin.png" alt="牙医邀请">
-          <span>微信好友</span>
-        </div>
-        <div class="box">
-          <img src="../../../images/logIn/pengyouquan.png" alt="牙医邀请">
-          <span>朋友圈</span>
-        </div>
+        <shareToWx></shareToWx>
       </div>
     </div>
     <div class="split"></div>
@@ -45,12 +38,17 @@
 </template>
 
 <script>
+  import shareToWx from '../../salesWap/index/shareToWx.vue'
+
 export default {
   name: "inviteRegister",
   data () {
     return {
-      
+
     };
+  },
+  components:{
+    shareToWx
   },
   methods: {
     goBack() {
@@ -99,7 +97,7 @@ export default {
   padding: px2vw(88) 0 0 0;
   height: px2vw(468);
   img{
-    width: 100%;  
+    width: 100%;
   }
 }
 .info-wrapper{

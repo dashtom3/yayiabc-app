@@ -9,10 +9,10 @@
       </div>
     </div>
     <div class="container inputAreaAB"  :class="{myYayiCircle:headTitle === '我的动态'}">
-      <mt-loadmore :top-method="loadTop" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState" class="innerContainerWrap">
+      <mt-loadmore :top-method="getYayiCircle" :bottom-method="loadMore" :bottom-all-loaded="allLoaded" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState" v-on:bottom-status-change="isStateB" class="innerContainerWrap">
         <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
         <!--有数据的状态-->
-        <div v-infinite-scroll="loadMore" infinite-scroll-immediate-check="true" class="innerContainer" :infinite-scroll-disabled="isLoading">
+        <div class="innerContainer">
           <div v-for="(item,index) in yayiCircleData" class="eachContainer" :key="index">
             <div class="headerImgBox">
               <div class="imgBox">
@@ -85,6 +85,7 @@
           <img src="../../../images/yayiCircle/new.png" alt="">
           <p><span @click="newTrend">立即发布新动态~</span></p>
         </div>
+        <bottomLoadMore ref="bottomLoadMore" slot="bottom" :loading="isLoading" :loaded="isLoadedB"></bottomLoadMore>
       </mt-loadmore>
     </div>
     <doComment v-if="isComment" :args="commentInfo" v-on:commentRes="isCommentRes" v-on:cancelComment="isComment = false"></doComment>
@@ -94,6 +95,7 @@
 
 <script type="text/ecmascript-6">
   import topLoadMore from '../../salesWap/index/topLoadMore.vue'
+  import bottomLoadMore from '../../salesWap/index/bottomLoadMore.vue';
   import {YAYI_CIRCLE, DELETE_TREND, ADD_COMMENT, LIKE, DELETE_COMMENT, MY_YAYI_CIRCLE, ONE_YAYI_CIRCLE} from '../../../vuex/types'
   import Util from '../../../vuex/util'
   import { tokenMethods } from '../../../vuex/util'
@@ -106,6 +108,7 @@
       return{
         headTitle:'',         //标题
         isLoading:false,      //判断是否在加载中
+        allLoaded:false,
         args:{                //请求牙医圈列表接口参数
           currentPage:1,
         },
@@ -130,10 +133,12 @@
     },
     components:{
       topLoadMore,
+      bottomLoadMore,
       doComment,
       seeImg
     },
     created(){
+      Indicator.open();
       this.timeStamp = Date.parse(new Date());
       this.getYayiCircle();
     },
@@ -160,6 +165,8 @@
             this.dataCompute(res.data);
             this.isLoading = false;
             this.totalPage = res.totalPage
+            this.isAllLoaded();
+            Indicator.close();
           })
         }
         else if(this.$router.history.current.name === 'yayiCircle'){
@@ -168,6 +175,8 @@
             this.dataCompute(res.data);
             this.isLoading = false;
             this.totalPage = res.totalPage
+            this.isAllLoaded();
+            Indicator.close();
           })
         }
 //        this.$store.dispatch(ONE_YAYI_CIRCLE, {momentId:this.$route.query.momentId}).then(res =>{
@@ -198,7 +207,8 @@
               //几分钟前
               case this.timeStamp - item.momentTime < 3600000:
 //                console.log(this.timeStamp - item.momentTime)
-                item.momentTime = Math.ceil((this.timeStamp - item.momentTime) / 1000 / 60) + '分钟前';
+                let tmp = Math.ceil((this.timeStamp - item.momentTime) / 1000 / 60)
+                item.momentTime = tmp == 0 ? 1 : tmp + '分钟前';
                 break;
               //几小时前
               case this.timeStamp - item.momentTime >= 3600000 && this.timeStamp - item.momentTime < 86400000:
@@ -241,7 +251,7 @@
           return
         }
         console.log(userId,commentUserId)
-        if(userId && commentUserId && userId == commentUserId){
+        if(this.myUserId && commentUserId && this.myUserId == commentUserId){
           return
         }
         this.isComment = true;
@@ -343,6 +353,17 @@
       displayOrFold(){
         this.isDisplayOrFold = !this.isDisplayOrFold
       },
+      isStateB(val){
+        console.log(val)
+        this.$refs.bottomLoadMore.states(val)
+      },
+      isLoadedB(){
+        this.$refs.loadmore.onBottomLoaded();
+      },
+      isAllLoaded(){
+        this.allLoaded = this.totalPage <= this.args.currentPage ? true : false;
+        console.log(this.allLoaded);
+      }
     },
   }
 </script>

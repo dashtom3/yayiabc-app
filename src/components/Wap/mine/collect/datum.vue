@@ -19,7 +19,7 @@
           </div>
           <div class="list-class-box">
             <span>{{value.secondClassify}}</span>
-            <span>22人阅读</span>
+            <span>{{value.browseNumber}}人阅读</span>
           </div>
         </div>
         <bottomLoadMore ref="bottomLoadMore" slot="bottom" :loading="isLoading" :loaded="isLoadedB"></bottomLoadMore>
@@ -89,8 +89,8 @@
             this.backName = '/database'
             this.$store.dispatch(GET_MATER_LIST, this.args).then(res=>{
               if(res.data){
-                console.log(res.data);
-                this.dataList = res.data.concat(this.dataList);
+                this.dataList = this.dataList.concat(res.data);
+                console.log(this.dataList);
               }else {
                 this.noData = true;
               }
@@ -104,8 +104,8 @@
             console.log('k')
             this.$store.dispatch(COLLECT_MATER_LIST, this.args).then(res=>{    //要改这个接口
               if(res.data){
-                console.log(res.data);
-                this.dataList = res.data.concat(this.dataList);
+                this.dataList = this.dataList.concat(res.data);
+                console.log(this.dataList);
               }else {
                 this.noData = true;
               }

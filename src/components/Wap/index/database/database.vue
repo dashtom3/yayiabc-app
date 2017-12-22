@@ -62,19 +62,17 @@ import datum from '../../mine/collect/datum.vue'
     watch:{
       isSelect:{
         handler:function (val) {
-          let long = 0;
-          for(let i = 0;i < val.length;i++){
-            long += val[i].length;
-          }
-          console.log(long)
-          document.getElementById('classifyWrap').style.width = 4 * long + 3.2 * val.length + 'vw';
+          this.lengthCompute(val);
         }
       },
       deep:true
     },
     components:{datum},
     created(){
-      console.log(this.$router.history.current.name)
+      console.log(this.$router.history.current.name);
+    },
+    mounted(){
+      this.lengthCompute(this.isSelect)
     },
     methods:{
       addClassify(index){
@@ -94,6 +92,7 @@ import datum from '../../mine/collect/datum.vue'
       },
       goBack(){
         this.$router.push("/");
+        this.$destroy();
       },
       dress(index,value){
         this.args.selected = index;
@@ -102,6 +101,14 @@ import datum from '../../mine/collect/datum.vue'
       search(){
         this.$router.push('/dataSearch')
       },
+      lengthCompute(val){
+        let long = 0;
+        for(let i = 0;i < val.length;i++){
+          long += val[i].length;
+        }
+        console.log(long)
+        document.getElementById('classifyWrap').style.width = 4 * long + 3.2 * val.length + 'vw';
+      }
     }
   }
 </script>

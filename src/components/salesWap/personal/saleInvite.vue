@@ -76,7 +76,7 @@
     bottom: 0;
     overflow: scroll;
     width: 100%;
-    height: 86vh;
+    height: 94vh;
     -webkit-overflow-scrolling: touch;
     background-color: #fff;
     .imgs{

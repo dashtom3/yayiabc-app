@@ -41,6 +41,17 @@
         imageUrl:[],
       };
     },
+    watch:{
+      imageUrl:{
+        handler:function (val) {
+          if(val){
+            if(val.length >=9){
+              Toast({message: '最多可以上传9张图哦', duration: 1500})
+            }
+          }
+        }
+      }
+    },
     methods: {
       handleRemove(file, fileList) {
         let r = this.imageUrl.indexOf(file.response.key);

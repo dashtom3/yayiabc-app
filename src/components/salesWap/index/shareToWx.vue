@@ -49,9 +49,9 @@
       },
       shareMessage(s, ex){
         var msg = {
-          content: '分享牙医abc测试',
-          href: 'http://wap.yayiabc.com',
-          title: '分享测试',
+          content: '能提现的App|新上电镀金刚石车针，多种型号任你挑选。',
+          href: 'http://wap.yayiabc.com/#/inviteRegist',
+          title: '注册牙医abc账号，领60乾币！（下单抵60元）',
           thumbs: ['../../../images/yayiCircle/noImgDefault.png'],
           pictures: ['../../../images/yayiCircle/noImgDefault.png'],
           extra: {

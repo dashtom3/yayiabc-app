@@ -740,7 +740,7 @@ export default {
   bottom: 0;
   left: 0;
   border-top: 1px solid #eeeeee;
-  z-index: 9999;
+  z-index: 900;
 }
 .writeCommentBoxSecond span:nth-child(2) {
   font-size: px2vw(24);
@@ -979,6 +979,7 @@ export default {
 //   margin-bottom: px2vw(476);
 // }
 .doComment {
+
   position: relative !important;
   z-index: 20000 !important;
 }
