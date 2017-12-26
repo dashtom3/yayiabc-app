@@ -12,7 +12,7 @@ const HOST = 'http://116.62.228.3:8080/api';
   //  const HOST = 'http://wap.yayiabc.com:8080/api';
 // const HOST = 'http://123.56.220.72:8089/api'; //测试端口
 // const HOST = 'http://47.93.48.111:6181/api';  //正式数据端口
-axios.defaults.timeout = 20000;
+axios.defaults.timeout = 15000;
 export default function (url, params = {}) {
   return new Promise((resolve, reject) => {
     Indicator.open();
@@ -33,7 +33,7 @@ export function get(url, params = {}) {
     axios.get(HOST + url, {params})
       .then((res) => {
         console.log('get请求:'+res)
-        if (res.status === 500 || res.status === 503 || res.status === 504 || res.status === 404) {
+        if (res.status === 500 || res.status === 503 || res.status === 504 || res.status === 404 || res.status === 502) {
           Indicator.close();
           ServerError();
           return
@@ -67,7 +67,7 @@ function ServerError(){
       axios.get(HOST + url, {params})
         .then((res) => {
           console.log('getNoLoading请求:'+res)
-          if (res.status === 500 || res.status === 503 || res.status === 504 || res.status === 404) {
+          if (res.status === 500 || res.status === 503 || res.status === 504 || res.status === 404 || res.status === 502) {
             ServerError();
             return
           }
@@ -90,7 +90,7 @@ export function geters(url, params = {}) {
     axios.get(HOST + url, {params})
       .then((res) => {
         console.log('geters请求:'+res)
-        if (res.status === 500 || res.status === 503 || res.status === 504 || res.status === 404) {
+        if (res.status === 500 || res.status === 503 || res.status === 504 || res.status === 404 || res.status === 502) {
           Indicator.close();
           ServerError();
           return
@@ -236,7 +236,7 @@ export function post(url, params) {
     axios.post(HOST + url, temp)
       .then((res) => {
         console.log("post请求:"+res)
-        if (res.status === 500 || res.status === 503 || res.status === 504 || res.status === 404) {
+        if (res.status === 500 || res.status === 503 || res.status === 504 || res.status === 404 || res.status === 502) {
           Indicator.close();
           ServerError();
           return
@@ -268,6 +268,11 @@ export function posts(url, params) {
     axios.post(HOST + url, temp)
       .then((res) => {
         console.log("posts请求:"+res)
+        if (res.status === 500 || res.status === 503 || res.status === 504 || res.status === 404 || res.status === 502) {
+          Indicator.close();
+          ServerError();
+          return
+        }
         if (res.data.callStatus === 'SUCCEED') {
           resolve(res.data);
           Indicator.close();
@@ -276,10 +281,10 @@ export function posts(url, params) {
           Indicator.close();
         }
       }).catch((err) => {
+        console.log("posts请求Error:"+res)
+        ServerError();
+        Indicator.close();
       reject('网络请求错误');
-      console.log("posts请求Error:"+res)
-      ServerError();
-      Indicator.close();
     });
   });
 }
@@ -291,6 +296,11 @@ export function getWithToken(url, params = {}) {
     axios.get(HOST + url, {params})
       .then((res) => {
         console.log("getWithToken请求:"+res)
+        if (res.status === 500 || res.status === 503 || res.status === 504 || res.status === 404 || res.status === 502) {
+          Indicator.close();
+          ServerError();
+          return
+        }
         if (res.data.callStatus === 'SUCCEED') {
           Indicator.close();
           resolve(res.data);
@@ -310,10 +320,11 @@ export function getWithToken(url, params = {}) {
           return false
         }
       }).catch((err) => {
-      reject('网络请求错误');
-      console.log("getWithToken请求Error:"+res)
-      ServerError();
-      Indicator.close();
+        console.log("getWithToken请求Error:"+res)
+        ServerError();
+        Indicator.close();
+       reject('网络请求错误');
+
     });
   });
 }
@@ -324,6 +335,10 @@ export function getWithTokenNoLoading(url, params = {}) {
     axios.get(HOST + url, {params})
       .then((res) => {
         console.log("getWithTokenNoLoading请求:"+res)
+        if (res.status === 500 || res.status === 503 || res.status === 504 || res.status === 404 || res.status === 502) {
+          ServerError();
+          return
+        }
         if (res.data.callStatus === 'SUCCEED') {
           resolve(res.data);
           return false
@@ -341,10 +356,9 @@ export function getWithTokenNoLoading(url, params = {}) {
           return false
         }
       }).catch((err) => {
-      // console.log(JSON.stringify(err), 'base>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..')
-      reject('网络请求错误');
       console.log("getWithTokenNoLoading请求Error:"+res)
       ServerError();
+      reject('网络请求错误');
     });
   });
 }
@@ -362,6 +376,11 @@ export function postWithToken(url, params) {
     axios.post(HOST + url, formData)
       .then((res) => {
         console.log("postWithToken请求:"+res)
+        if (res.status === 500 || res.status === 503 || res.status === 504 || res.status === 404 || res.status === 502) {
+          Indicator.close();
+          ServerError();
+          return
+        }
         if (res.data.callStatus === 'SUCCEED') {
           Indicator.close();
           resolve(res);
@@ -380,10 +399,10 @@ export function postWithToken(url, params) {
           return false
         }
       }).catch(() => {
-        reject('网络请求错误');
         console.log("postWithToken请求Error:"+res)
         ServerError();
         Indicator.close();
+          reject('网络请求错误');
     });
   });
 }
@@ -396,7 +415,11 @@ export function getWithSaleToken(url, params = {}) {
     axios.defaults.headers['saleToken'] = tokenMethods.getSalesToken()
     axios.get(HOST + url, {params})
       .then((res) => {
-        Indicator.close()
+        if (res.status === 500 || res.status === 503 || res.status === 504 || res.status === 404 || res.status === 502) {
+          Indicator.close();
+          ServerError();
+          return
+        }
         //鉴权判断
         if (res.data.errorCode === 'RE_LOGIN_SALE') {
           router.push({path: '/salesLogin'})
@@ -445,6 +468,11 @@ export function postWithSaleToken(url, params) {
     axios.post(HOST + url, formData)
       .then((res) => {
         Indicator.close()
+        if (res.status === 500 || res.status === 503 || res.status === 504 || res.status === 404 || res.status === 502) {
+          Indicator.close();
+          ServerError();
+          return
+        }
         if (res.data.errorCode === 'RE_LOGIN_SALE') {
           router.push({path: '/salesLogin'})
           Toast({message: '登录过期，请重新登录！', duration: 1500})

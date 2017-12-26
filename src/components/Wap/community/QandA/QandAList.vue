@@ -1,7 +1,7 @@
 <template>
   <div class="FAQContainer" ref="scrollBox">
     <mt-loadmore :top-method="loadMore" :bottom-method="getQuestListMore" :bottom-all-loaded="allLoaded" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState" v-on:bottom-status-change="isStateB" class="loadMore">
-      <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
+      <topLoadMore ref="topLoadMore" slot="top" :loading="topLoading" :loaded="isLoaded"></topLoadMore>
       <div class="scrollBox">
         <div class="eachContainer" @click="gotoDetail(value.faqQuestionId)" v-for="(value,index) in questList" v-if="questList.length > 0">
           <div class="headLine">
@@ -23,12 +23,15 @@
             <span class="clr"></span>
           </div>
         </div>
+        <div v-if="questList.length != 0 && args.currentPage == totalPage" class="noMoreData">
+          - End -
+        </div>
         <div class="noData" v-if="(noData && !questList)||(noData && questList.length == 0)">
           <img src="../../../../images/question/noQuestionList.png" alt="">
           <p>暂无任何问题~</p>
         </div>
       </div>
-      <bottomLoadMore ref="bottomLoadMore" slot="bottom" :loading="isLoading" :loaded="isLoadedB"></bottomLoadMore>
+      <bottomLoadMore ref="bottomLoadMore" slot="bottom" :loading="bottomLoading" :loaded="isLoadedB"></bottomLoadMore>
     </mt-loadmore>
     <!-- <div class="edit" @click="gotoPage('/newQuest')" v-if="showNewQuest">
       <img src="../../../../images/question/newQuestion.png" alt="">
@@ -48,7 +51,8 @@
   export default {
     data(){
       return{
-        isLoading:false,
+        topLoading:false,
+        bottomLoading:false,
         allLoaded:false,
         args:{
           currentPage:1,
@@ -92,14 +96,7 @@
           Indicator.open();
           this.loadMore();
         }
-      },
-//      saveCaseSearching: {
-//        handler: function (val) {
-//          this.args.keyWord = val;
-//          this.type = this.args.keyWord ? 3 : 4;
-//          this.loadMore();
-//        }
-//      }
+      }
     },
     created(){
       this.timeStamp = Date.parse(new Date());
@@ -118,11 +115,15 @@
         this.args.currentPage = 1;
         this.totalPage = 0;
         this.questList = [];
+        this.topLoading = true;
 //        this.$refs.scrollBox.scrollTop = 0;
         this.getQuestList();
       },
+      closeTopBottomLoading(){
+        this.topLoading = false;
+        this.bottomLoading = false;
+      },
       getQuestList(){
-        this.isLoading = true;
         switch (true){
           case this.$router.history.current.name === 'QandAList':
             // this.showNewQuest =true;
@@ -133,7 +134,7 @@
                 this.dataCompute(res.data)
                 this.questList = this.questList.concat(res.data);
                 this.totalPage = res.totalPage;
-                this.isLoading = false;
+                this.closeTopBottomLoading();
                 this.isAllLoaded();
                 Indicator.close();
                 console.log(res,1)
@@ -148,7 +149,7 @@
                 this.dataCompute(res.data)
                 this.questList = this.questList.concat(res.data);
                 this.totalPage = res.totalPage;
-                this.isLoading = false;
+                this.closeTopBottomLoading();
                 this.isAllLoaded();
                 Indicator.close();
                 console.log(res,2)
@@ -164,7 +165,7 @@
                 this.dataCompute(res.data)
                 this.questList = this.questList.concat(res.data);
                 this.totalPage = res.totalPage;
-                this.isLoading = false;
+                this.closeTopBottomLoading();
                 this.isAllLoaded();
                 Indicator.close();
                 console.log(res,3)
@@ -181,7 +182,7 @@
                 this.dataCompute(res.data)
                 this.questList = this.questList.concat(res.data);
                 this.totalPage = res.totalPage;
-                this.isLoading = false;
+                this.closeTopBottomLoading();
                 this.isAllLoaded();
                 Indicator.close();
                 console.log(res,3)
@@ -198,6 +199,7 @@
           return
         }else {
           this.args.currentPage += 1;
+          this.bottomLoading = true;
           this.getQuestList();
         }
       },
@@ -376,6 +378,16 @@
       img{
         width: 100%;
       }
+    }
+    .noMoreData{
+      margin-top: px2vw(-1);
+      background-color: #fff;
+      width: 100%;
+      height: px2vw(80);
+      font-size: px2vw(26);
+      color: #999;
+      text-align: center;
+      line-height: px2vw(80);
     }
   }
 </style>

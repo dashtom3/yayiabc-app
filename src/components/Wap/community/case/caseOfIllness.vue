@@ -23,6 +23,9 @@
           <span v-if="item.chargeNumber" class="coin"> {{item.chargeNumber}}乾币</span>
         </div>
       </div>
+      <div v-if="listCaseData.length != 0 && caseDate.currentPage == caseDate.totalPage" class="noMoreData">
+        - End -
+      </div>
       <div v-if="listCaseData.length == 0" class="noTrend">
         <img src="../../../../images/case/myCase/fabu.png" alt="">
         <p>暂无任何病例~</p>
@@ -50,23 +53,20 @@
     data (){
       return{
         caseDate: {
-          totalPage: 1
+          totalPage: -1,
+          currentPage:1
         },
         caseListArgs: {
           classify: null,
-          currentPage: 1,
           numberPerPage: 10,
           order: 0,
-          totalPage: -1,
           postStater:1,
-          type:1,
+          type:1, //1 病例列表 2 我的病例列表
         },
         caseSearchArgs:{
           keyWord:'',
           type:1,
           classify:'',
-          currentPage:1,
-          totalPage: -1,
           numberPerPage:10
         },
         timeStamp: '', //时间戳
@@ -126,69 +126,54 @@
       }),
       goCaseDetailed(item){
         this.saveCaseIllness(item)
-        this.$router.push({path: '/caseDetailed', query:{'id': item.postId, backLocal: this.$route.fullPath}})
+        this.$router.push({path: '/caseDetailed', query:{'id': item.postId, backName: this.$route.fullPath}})
       },
       getCaseListMore (){
-        if(this.caseDate.totalPage <= this.caseListArgs.currentPage)
-        {
-          return
-        }
-        else if(this.$router.history.current.name === 'caseOfIllnessSearch' && this.caseSearchArgs.totalPage < this.caseSearchArgs.currentPage){
-          return
-        }
-        else {
-          this.caseListArgs.currentPage = Number(this.caseListArgs.currentPage) + 1;
+          this.caseDate.currentPage = Number(this.caseDate.currentPage) + 1;
           this.bottomLoading = true;
           this.getCaseList();
-        }
       },
       closeTopBottomLoading(){
         this.topLoading = false;
         this.bottomLoading = false;
       },
+      operateDate(res) {
+        this.time(res.data)
+        this.classifyCompute(res.data);
+        this.listCaseData = res.currentPage == 1 ? res.data : this.listCaseData.concat(res.data);
+        this.caseDate.totalPage = res.totalPage;
+        this.caseDate.currentPage = res.currentPage;
+        this.closeTopBottomLoading();
+        this.allLoaded = this.caseDate.totalPage == this.caseDate.currentPage ? true : false;
+      },
       getCaseList (){
         var self = this
         switch (true){
           case this.$router.history.current.name === 'caseOfIllnessSearch':
+            this.caseSearchArgs.currentPage = this.caseDate.currentPage;
             this.$store.dispatch('SEARCH_CASE_LIST', this.caseSearchArgs).then( (res) => {
               if(res.data){
-                this.time(res.data)
-                this.classifyCompute(res.data);
-                this.listCaseData = res.currentPage == 1 ? res.data : this.listCaseData.concat(res.data);
-                this.caseSearchArgs.totalPage = res.totalPage;
-                self.closeTopBottomLoading();
-                this.allLoaded = this.caseSearchArgs.totalPage <= this.caseSearchArgs.currentPage ? true : false;
+                this.operateDate(res)
               }else {
                 this.listCaseData = [];
               }
             })
             break;
           case this.$router.history.current.name === 'caseOfIllnessCollect':
+            this.caseListArgs.currentPage = this.caseDate.currentPage;
             this.$store.dispatch('COLLECT', this.caseListArgs).then((res) => {
               if(res.data) {
-                this.time(res.data)
-                this.classifyCompute(res.data);
-                this.listCaseData = res.currentPage == 1 ? res.data : this.listCaseData.concat(res.data);
-                this.caseListArgs.totalPage = res.totalPage;
-                self.closeTopBottomLoading();
-                this.allLoaded = this.caseListArgs.totalPage <= this.caseListArgs.currentPage ? true : false;
-//              this.caseListArgs.currentPage = res.currentPage;
+                this.operateDate(res)
               }else {
                 this.listCaseData = [];
               }
             })
             break
           default:
+            this.caseListArgs.currentPage = this.caseDate.currentPage;
             this.$store.dispatch('GET_CASE_LIST', this.caseListArgs).then( (res) => {
               if(res.data) {
-                console.log(res);
-                this.time(res.data)
-                this.classifyCompute(res.data);
-                this.listCaseData = res.currentPage == 1 ? res.data : this.listCaseData.concat(res.data);
-                this.caseListArgs.totalPage = res.totalPage;
-                this.caseDate.totalPage = res.totalPage;
-                self.closeTopBottomLoading();
-                this.allLoaded = this.caseListArgs.totalPage <= this.caseListArgs.currentPage ? true : false;
+                this.operateDate(res)
               } else {
                 this.listCaseData = [];
               }
@@ -411,5 +396,14 @@
    .fade-enter, .fade-leave-to /* .fade-leave-active in below version 2.1.8 */ {
       opacity: 0
     }
-
+    .noMoreData{
+      margin-top: px2vw(-1);
+      background-color: #fff;
+      width: 100%;
+      height: px2vw(80);
+      font-size: px2vw(26);
+      color: #999;
+      text-align: center;
+      line-height: px2vw(80);
+    }
 </style>

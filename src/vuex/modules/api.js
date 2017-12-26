@@ -397,7 +397,7 @@ export function deleteTrend(params) {
 
 //发布评论
 export function addComment(params) {
-  return getWithToken('/comment/addCom', params);
+  return postWithToken('/comment/addCom', params);
 }
 
 //删除评论
@@ -417,13 +417,13 @@ export function getInfoDetail(params) {
 
 //获取消息列表数
 export function getInfoNum(params) {
-  return getWithToken('/message/getNumber', params);
+  return getWithTokenNoLoading('/message/getNumber', params);
 }
 
 
 //获取病例列表
 export function searchCaseList(params) {
-  return getWithTokenNoLoading('/search/findList', params);
+  return getWithToken('/search/findList', params);
 }
 /*
 wx_绑定用户&扫码绑定销售的接口
@@ -629,7 +629,7 @@ export function getCaseList(params) {
 }
 // 获取发现病例详情信息
 export function getCaseDetail(params) {
-  return geters('/cottoms/cottomsDetail', params)
+  return getWithToken('/cottoms/cottomsDetail', params)
 }
 // 获取发现病例评论信息
 export function getCaseComment(params) {

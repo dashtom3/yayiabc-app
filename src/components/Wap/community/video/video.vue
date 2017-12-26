@@ -26,7 +26,7 @@
             <!--这里放视频-->
             <!--底部开始-->
             <div class="bottomBox">
-              <span class="nameBox" v-if="item.itemInfo != null">
+              <span class="nameBox" v-if="item.itemInfo != null" @click = "toProductDetail(item.itemInfo)">
                 <img class="prcImg" src="../../../../images/video/prc.png" alt="">
                 <span>{{item.itemInfo.itemName}}</span>
               </span>
@@ -46,6 +46,9 @@
             </div>
             <!--底部结束-->
           </div>
+        </div>
+        <div v-if="videoArgs.length != 0 && caseListArgs.currentPage == totalPage" class="noMoreData">
+          - End -
         </div>
       </div>
       <!--</mt-loadmore>-->
@@ -81,6 +84,10 @@
           currentPage:1,
           totalPage: 1,
           numberPerPage:10
+        },
+        pageAll:{
+          totalPage:-1,
+          currentPage:1
         },
         isShow: false,
         videoArgs:[],
@@ -150,12 +157,16 @@
           this.isLogin();
         }
       },
+      toProductDetail(itemInfo) {
+        sessionStorage.setItem('backJudgeSL', 'video');
+        this.$router.push({path: '/details/'+itemInfo.itemId, query: {name:itemInfo.itemName,itemId:itemInfo.itemId,backJudge:'video'}});
+      },
       getVideoList(){
         this.isLoading = true
         if(this.$router.history.current.name === 'videoSearch'){
           this.$store.dispatch('SEARCH_CASE_LIST', this.caseSearchArgs).then((res) => {
             this.videoArgs = this.videoArgs.concat(res.data);
-            this.caseSearchArgs.totalPage = res.totalPage;
+            this.totalPage = res.totalPage;
             this.caseSearchArgs.currentPage = res.currentPage;
             this.isLoading = false;
             this.videoArgs = this.videoArgs.filter((item) =>{
@@ -176,7 +187,7 @@
             this.videoArgs.forEach(item =>{
               item.isStar = 1
             })
-            this.caseSearchArgs.totalPage = res.totalPage;
+            this.totalPage = res.totalPage;
             this.caseSearchArgs.currentPage = res.currentPage;
             this.isLoading = false;
             this.videoArgs = this.videoArgs.filter((item) =>{
@@ -238,14 +249,8 @@
       //无限滚动
       getCaseListMore (){
         this.videoListArgs.currentPage++;
-        if(this.videoArgs.totalPage < this.videoListArgs.currentPage)
-        {
-          return
-        }
-        else if(this.caseSearchArgs.totalPage < this.caseSearchArgs.currentPage){
-          return
-        }
-        else {
+
+
           this.getVideoList();
 //          this.$store.dispatch('GET_VIDEO_LIST', this.videoListArgs).then((res) => {
 //            let datas = res.data.filter((item) =>{
@@ -278,7 +283,7 @@
         this.$refs.topLoadMore.states(val)
       },
       toVideo(id){
-        this.$router.push({path:'/videoDetailed',query:{id: id}});
+        this.$router.push({path:'/videoDetailed',query:{id: id,backName:'video'}});
       },
       //判断是否登录
       pointLogin(){
@@ -288,7 +293,7 @@
       //提示需要登录
       isLogin() {
         MessageBox.confirm('请先登录!').then(action => {
-          this.$router.push({path: '/logIn'})
+          this.$router.push({path: '/logIn',query:{backName:'video'}})
         }).catch(function (error) {
           return '';
         });
@@ -400,4 +405,3 @@
   font-size: 0;
 }
 </style>
-

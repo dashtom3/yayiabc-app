@@ -103,6 +103,7 @@
     created(){
       this.timeStamp = Date.parse(new Date());
       this.getdetail();
+      this.mBack('goBack');
     },
     methods:{
       getdetail(){

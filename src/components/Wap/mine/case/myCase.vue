@@ -214,17 +214,17 @@ export default {
         //草稿
         this.$router.push({
           path: "/caseDetailed",
-          query: { id: postId, draft: 1, backLocal: '/myCase'}
+          query: { id: postId, draft: 1, backName: '/myCase'}
         });
       } else if (this.change === 1) {
         //发布
         this.$router.push({
           path: "/caseDetailed",
-          query: { id: postId, myCase: 1, backLocal: '/myCase' }
+          query: { id: postId, myCase: 1, backName: '/myCase' }
         });
       } else {
         //已购买
-        this.$router.push({ path: "/caseDetailed", query: { id: postId, backLocal: '/myCase' } });
+        this.$router.push({ path: "/caseDetailed", query: { id: postId, backName: '/myCase' } });
       }
     },
     //下拉刷新
@@ -474,4 +474,3 @@ export default {
   margin-left: px2vw(2) !important;
 }
 </style>
-

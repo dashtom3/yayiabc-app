@@ -137,6 +137,7 @@
       this.getCaseData();
       this.getUserCoin();
       this.timeStamp = Date.parse(new Date());
+      this.mBack('back')
     },
     mounted(){
       if(this.args.userId == this.myUserId){
@@ -249,7 +250,7 @@
         }
       },
       back (){
-        this.$router.push({path: this.$route.query.backLocal})
+        this.$router.push({path: this.$route.query.backName})
         this.$destroy();
       },
       //子组件返回按钮
@@ -723,4 +724,3 @@
     height: px2vw(40);
   }
 </style>
-

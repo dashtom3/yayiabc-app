@@ -173,7 +173,7 @@
       gotoPage2(router){
         if(!tokenMethods.getWapToken()){
           MessageBox.confirm('请先登录!').then(action => {
-            this.$router.push({path: '/logIn', query: {backName: '/yayiCircle'}});
+            this.$router.push({path: '/logIn', query: {backName: '/QandAList'}});
           })
           return
         }
@@ -384,16 +384,19 @@
   }
   .dressingBox{
     position: fixed;
-    top:px2vh(88);
+    top:px2vw(88);
+    // top:px2vh(88);
     width: 100vw;
-    height: px2vh(64);
+    height:px2vw(90);
+    // height: px2vh(64);
     font-size: px2vw(30);
     background-color: #ffffff;
     z-index: 10;
     span{
       display: table-cell;
       width: px2vw(106);
-      height: px2vh(64);
+      height: px2vw(90);
+      // height: px2vh(64);
       vertical-align: middle;
       text-align: center;
     }

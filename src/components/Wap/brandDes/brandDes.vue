@@ -267,11 +267,11 @@ export default {
           });  
         });  
       }  else if (plus.os.name == "Android") {
-          // plus.runtime.openURL("mqqwpa://im/chat?chat_type=wpa&uin=2966679536", 
+          // plus.runtime.openURL("mqqwpa://im/chat?chat_type=wpa&uin=2966679536",
           // ,function (e) {
           //   alert('请下载腾讯QQ')
           // }, "com.tencent.mobileqq");
-          // ApplicationInfo info = context.getPackageManager().getApplicationInfo(packageName, PackageManager.GET_UNINSTALLED_PACKAGES); 
+          // ApplicationInfo info = context.getPackageManager().getApplicationInfo(packageName, PackageManager.GET_UNINSTALLED_PACKAGES);
           let main = plus.android.runtimeMainActivity();
           // let packageManager = main.getPackageManager() ;
           // let packageName = "com.tencent.mobileqq";
@@ -369,6 +369,7 @@ export default {
 
     back: function() {
       let judge = sessionStorage.getItem('backJudgeSL')
+      console.log(judge)
       if (judge === 'collect') {
         this.$router.push({path: '/collect'});
         sessionStorage.removeItem('backJudgeSL')
@@ -380,6 +381,9 @@ export default {
         sessionStorage.removeItem('backJudgeSL')
       } else if (judge === 'order') {
         this.$router.push({name: 'orderDetail'})
+        sessionStorage.removeItem('backJudgeSL')
+      } else if (judge === 'video') {
+        this.$router.push({name: 'video'})
         sessionStorage.removeItem('backJudgeSL')
       } else {
         this.$router.push({path:'/productList',query:{ListBack: 'detail'}});
@@ -605,4 +609,3 @@ export default {
   background-color: rgb(189, 189, 189)!important;
 }
 </style>
-
