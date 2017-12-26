@@ -50,7 +50,7 @@ export default {
           Indicator.close()
           let nowGoodDetails = res.data.data;
           that.itemDetail = nowGoodDetails.itemDetail;
-          if (that.itemDetail.video == null) {
+          if (that.itemDetail.video == null || that.itemDetail.video == "") {
             that.isActive = false
           } else {
             that.isActive = true
@@ -100,4 +100,3 @@ export default {
   width: 100%;
 }
 </style>
-

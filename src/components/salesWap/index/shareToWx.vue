@@ -23,9 +23,9 @@
 
       }
     },
-    props:{
-      userId,resType
-    },
+    props:[
+      'userId','resType'
+    ],
     methods:{
       shareHref(ex){
         let ids = {
@@ -88,7 +88,7 @@
       color: #666;
       .imgBox{
         display: inline-block;
-        width: px2vw(110);
+        width: px2vw(120);
         height: px2vw(110);
         img{
           width: 100%;

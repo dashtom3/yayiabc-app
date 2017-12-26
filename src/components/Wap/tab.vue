@@ -1,28 +1,5 @@
 <template>
   <div class="tab">
-<!--     <div class="big_box">
-      <div class="left_item" :class="{spe: isActive1}" @click="changeActive1()">
-        <img v-if="isTouch1" class="item_img speImg" src="../../images/index/home_blue.png" alt="img">
-        <img v-else class="item_img" src="../../images/index/home.png" alt="img">
-        <p class="item_word">首页</p>
-      </div>
-      <div class="left_item" :class="{spe: isActive2}" @click="changeActive2()">
-        <img v-if="isTouch2" class="item_img speImg" src="../../images/index/classify_blue.png" alt="img">
-        <img v-else class="item_img" src="../../images/index/classify.png" alt="img">
-        <p class="item_word">分类</p>
-      </div>
-      <div class="left_item" :class="{spe: isActive3}" @click="changeActive3()">
-        <img v-if="isTouch3" class="item_img speImg" src="../../images/index/shoppingCar_blue.png" alt="img">
-        <img v-else class="item_img" src="../../images/index/shoppingCar.png" alt="img">
-        <p class="item_word">购物车</p>
-      </div>
-      <div class="left_item" :class="{spe: isActive4}" @click="changeActive4()">
-        <img v-if="isTouch4" class="item_img speImg" src="../../images/index/personal_blue.png" alt="img">
-        <img v-else class="item_img" src="../../images/index/personal.png" alt="img">
-        <p class="item_word">我的</p>
-      </div>
-      <div class="clearfix"></div>
-    </div> -->
     <div class="right_box">
       <!-- 点击导航后要切换的内容 -->
 <!--       <transition name="component-fade" mode="out-in"> -->
@@ -56,16 +33,6 @@
       return {
         tabSwitch: true,
         selected: '',
-        isActive1: true,
-        isActive2: false,
-        isActive3: false,
-        isActive4: false,
-        isActive5: false,
-        isTouch1: true,
-        isTouch2: false,
-        isTouch3: false,
-        isTouch4: false,
-        isTouch5: false,
         bottomNav: 'index'
       }
     },
@@ -74,64 +41,7 @@
       // 通过 `vm` 访问组件实例
       next(vm => {
         var that = vm;
-        if (that.$router.history.current.path == '/main/caseOfIllness') {
-          that.isActive1 = true;
-          that.isActive2 = false;
-          that.isActive3 = false;
-          that.isActive4 = false;
-          that.isActive5 = false;
-          that.isTouch1 = true;
-          that.isTouch2 = false;
-          that.isTouch3 = false;
-          that.isTouch4 = false;
-          that.isTouch5 = false;
-        } else if(that.$router.history.current.name == 'classifyIndex'){
-          that.isActive1 = false;
-          that.isActive2 = true;
-          that.isActive3 = false;
-          that.isActive4 = false;
-          that.isActive5 = false;
-          that.isTouch1 = false;
-          that.isTouch2 = true;
-          that.isTouch3 = false;
-          that.isTouch4 = false;
-          that.isTouch5 = false;
-        } else if(that.$router.history.current.name == 'caseOfIllness' || that.$router.history.current.name == 'video' || that.$router.history.current.name == 'QandAList'){
-          that.isActive1 = false;
-          that.isActive2 = false;
-          that.isActive3 = true;
-          that.isActive4 = false;
-          that.isActive5 = false;
-          that.isTouch1 = false;
-          that.isTouch2 = false;
-          that.isTouch3 = true;
-          that.isTouch4 = false;
-          that.isTouch5 = false;
-          that.bottomNav = 'caseOfIllness'
-        } else if(that.$router.history.current.name == 'yayiCircle'){
-          that.isActive1 = false;
-          that.isActive2 = false;
-          that.isActive3 = false;
-          that.isActive4 = true;
-          that.isActive5 = false;
-          that.isTouch1 = false;
-          that.isTouch2 = false;
-          that.isTouch3 = false;
-          that.isTouch4 = true;
-          that.isTouch5 = false;
-          that.bottomNav = 'yayiCircle'
-        } else if(that.$router.history.current.name == 'mine'){
-          that.isActive1 = false;
-          that.isActive2 = false;
-          that.isActive3 = false;
-          that.isActive4 = false;
-          that.isActive5 = true;
-          that.isTouch1 = false;
-          that.isTouch2 = false;
-          that.isTouch3 = false;
-          that.isTouch4 = false;
-          that.isTouch5 = true;
-        }
+        console.log('这个vm什么鬼'+vm)
       })
     },
     created: function() {
@@ -139,124 +49,31 @@
     },
     methods: {
       handleChange (val) {
+        this.bottomNav = val
+        this.goToPage(val)
+      },
+      goToPage (val) {
         var that = this
         if (val == 'index') {
-          that.changeActive1()
+          that.$router.push({path: '/yayi/index'});
         } else if (val == 'classify') {
-          that.changeActive2()
+          that.$router.push({ name: 'productList', params: { oneClassify: '展会推荐' , twoClassify: ''}});
         } else if (val == 'caseOfIllness') {
-          that.changeActive3()
+          that.$router.push({path: '/yayi/find'});
         } else if (val == 'yayiCircle') {
-          that.changeActive4()
+          that.$router.push({path: '/yayi/yayiCircle'});
         } else if (val == 'mine') {
-          that.changeActive5()
-        }
-        that.bottomNav = val
-      },
-      MsgFromChild: function(data) {
-        var that = this
-        if (data == 'index') {
-          that.changeActive1()
-        } else if (data == 'classify') {
-          that.changeActive2()
-        } else if (data == 'caseOfIllness') {
-          that.changeActive3()
-        } else if (data == 'yayiCircle') {
-          that.changeActive4()
-        } else if (data == 'mine') {
-          that.changeActive5()
+          that.$router.push({path: '/yayi/mine'});
         }
       },
-      changeActive1: function() {
-        var that = this
-        that.$router.push({path: '/yayi/index'});
-        that.isActive1 = true;
-        that.isActive2 = false;
-        that.isActive3 = false;
-        that.isActive4 = false;
-        that.isActive5 = false;
-        that.isTouch1 = true;
-        that.isTouch2 = false;
-        that.isTouch3 = false;
-        that.isTouch4 = false;
-        that.isTouch5 = false;
-        that.bottomNav = 'index'
-      },
-      changeActive2: function() {
-        var that = this
-        that.$router.push({ name: 'productList', params: { oneClassify: '展会推荐' , twoClassify: ''}});
-        that.isActive1 = false;
-        that.isActive2 = true;
-        that.isActive3 = false;
-        that.isActive4 = false;
-        that.isActive5 = false;
-        that.isTouch1 = false;
-        that.isTouch2 = true;
-        that.isTouch3 = false;
-        that.isTouch4 = false;
-        that.isTouch5 = false;
-        that.bottomNav = 'classify'
-      },
-      changeActive3: function() {
-        var that = this
-        that.$router.push({path: '/yayi/find'});
-        that.isActive1 = false;
-        that.isActive2 = false;
-        that.isActive3 = true;
-        that.isActive4 = false;
-        that.isActive5 = false;
-        that.isTouch1 = false;
-        that.isTouch2 = false;
-        that.isTouch3 = true;
-        that.isTouch4 = false;
-        that.isTouch5 = false;
-        that.bottomNav = 'caseOfIllness'
-      },
-      changeActive4: function() {
-        var that = this
-        that.$router.push({path: '/yayi/yayiCircle'});
-        that.isActive1 = false;
-        that.isActive2 = false;
-        that.isActive3 = false;
-        that.isActive4 = true;
-        that.isActive5 = false;
-        that.isTouch1 = false;
-        that.isTouch2 = false;
-        that.isTouch3 = false;
-        that.isTouch4 = true;
-        that.isTouch5 = false;
-        that.bottomNav = 'yayiCircle'
-      },
-      changeActive5: function() {
-        var that = this
-        that.$router.push({path: '/yayi/mine'});
-        that.isActive1 = false;
-        that.isActive2 = false;
-        that.isActive3 = false;
-        that.isActive4 = false;
-        that.isActive5 = true;
-        that.isTouch1 = false;
-        that.isTouch2 = false;
-        that.isTouch3 = false;
-        that.isTouch4 = false;
-        that.isTouch5 = true;
-        that.bottomNav = 'mine'
+      MsgFromChild (data) {
+        this.goToPage(data)
       },
     },
     watch: {
       '$route' (to, from) {
         var that = this;
         if (to.name == 'caseOfIllness' || to.name == 'video' || to.name == 'QandAList') {
-          that.isActive1 = false;
-          that.isActive2 = false;
-          that.isActive3 = true;
-          that.isActive4 = false;
-          that.isActive5 = false;
-          that.isTouch1 = false;
-          that.isTouch2 = false;
-          that.isTouch3 = true;
-          that.isTouch4 = false;
-          that.isTouch5 = false;
           that.bottomNav = 'caseOfIllness'
         }
       }
@@ -296,7 +113,7 @@
 }
 .big_box {
   width: 100vw;
-  height: 13vw;
+  height: px2vh(100);
   background-color: #fff;
   position: fixed;
   left: 0;

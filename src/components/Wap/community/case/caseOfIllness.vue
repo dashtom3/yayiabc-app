@@ -75,20 +75,6 @@
         listCaseData: [],//获取到列表的数据
         showNewCase: true,
         noData:false,         //无数据
-//        listCaseData: {
-//          totalPage: null,
-//          totalNumber: null,
-//          headPic : null,
-//          charge_Number: 5,   // 乾币数
-//          classify: "外科",
-//          cover: "img" null,
-//          headline: "标题",
-//          post_favour: 12 点赞,
-//          post_id: 1 病例详情id,
-//          post_time: 5分钟之前,
-//          read_number: 12,
-//          writer: "用户名",
-//        }
       }
     },
     created() {
@@ -198,16 +184,12 @@
                 this.listCaseData = this.listCaseData.concat(res.data);
                 this.caseListArgs.totalPage = res.totalPage;
                 this.caseDate.totalPage = res.totalPage;
-                this.isLoading = false;
+                // this.isLoading = false;
                 this.allLoaded = this.caseListArgs.totalPage <= this.caseListArgs.currentPage ? true : false;
-//              this.caseListArgs.currentPage = res.currentPage;
               }
-              // else {
-              //   this.noData = false;
-              // }
               else{
                 this.noData = true;
-                this.isLoading = false;
+                // this.isLoading = false;
               }
             })
         }
@@ -254,7 +236,7 @@
         this.$refs.topLoadMore.states(val)
       },
       //把下拉刷新完成之后回调的mt的方法传入我的组件里
-      isLoaded(){
+      isLoaded(val){
         console.log(val)
         this.$refs.loadmore.onTopLoaded();
       },
@@ -312,7 +294,11 @@
 <style lang="scss" rel="stylesheet/scss">
   @import "../../../../common/sass/factory";
   .loading .mint-loadmore{
-    min-height:px2vw(100);
+    // min-height:px2vw(100);
+    // height: 100%;
+    // height: 100%;
+    // -webkit-overflow-scrolling: touch;
+    // overflow: scroll;
   }
 </style>
 
@@ -435,4 +421,3 @@
     }
 
 </style>
-
