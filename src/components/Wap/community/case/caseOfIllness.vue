@@ -1,7 +1,7 @@
 <template>
 <div ref="scrollBox" class="wrap loading">
   <mt-loadmore :top-method="loadMore" :bottom-method="getCaseListMore" :bottom-all-loaded="allLoaded" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState" v-on:bottom-status-change="isStateB">
-    <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
+    <topLoadMore ref="topLoadMore" slot="top" :loading="topLoading" :loaded="isLoaded"></topLoadMore>
     <div class="scrollBox">
       <div @click="goCaseDetailed(item)" v-for="(item, index) in listCaseData" class="caseBox" :key="index">
         <div class="userBox " :class="{'addChange1': item.cover !== ''}">
@@ -23,12 +23,12 @@
           <span v-if="item.chargeNumber" class="coin"> {{item.chargeNumber}}乾币</span>
         </div>
       </div>
-      <div v-if="(noData && listCaseData.length == 0) || (noData && !listCaseData) " class="noTrend">
+      <div v-if="listCaseData.length == 0" class="noTrend">
         <img src="../../../../images/case/myCase/fabu.png" alt="">
         <p>暂无任何病例~</p>
       </div>
     </div>
-    <bottomLoadMore ref="bottomLoadMore" slot="bottom" :loading="isLoading" :loaded="isLoadedB"></bottomLoadMore>
+    <bottomLoadMore ref="bottomLoadMore" slot="bottom" :loading="bottomLoading" :loaded="isLoadedB"></bottomLoadMore>
   </mt-loadmore>
   <!--编辑按钮-->
   <!-- <div class="edit" @click="gotoPage('/newCase')" v-if="showNewCase">
@@ -70,25 +70,12 @@
           numberPerPage:10
         },
         timeStamp: '', //时间戳
-        isLoading:false,
+        topLoading:false,
+        bottomLoading:false,
         allLoaded:false,
         listCaseData: [],//获取到列表的数据
         showNewCase: true,
         noData:false,         //无数据
-//        listCaseData: {
-//          totalPage: null,
-//          totalNumber: null,
-//          headPic : null,
-//          charge_Number: 5,   // 乾币数
-//          classify: "外科",
-//          cover: "img" null,
-//          headline: "标题",
-//          post_favour: 12 点赞,
-//          post_id: 1 病例详情id,
-//          post_time: 5分钟之前,
-//          read_number: 12,
-//          writer: "用户名",
-//        }
       }
     },
     created() {
@@ -151,25 +138,28 @@
         }
         else {
           this.caseListArgs.currentPage = Number(this.caseListArgs.currentPage) + 1;
+          this.bottomLoading = true;
           this.getCaseList();
         }
       },
+      closeTopBottomLoading(){
+        this.topLoading = false;
+        this.bottomLoading = false;
+      },
       getCaseList (){
-        this.isLoading = true;
+        var self = this
         switch (true){
           case this.$router.history.current.name === 'caseOfIllnessSearch':
             this.$store.dispatch('SEARCH_CASE_LIST', this.caseSearchArgs).then( (res) => {
               if(res.data){
                 this.time(res.data)
                 this.classifyCompute(res.data);
-                this.listCaseData = this.listCaseData.concat(res.data);
+                this.listCaseData = res.currentPage == 1 ? res.data : this.listCaseData.concat(res.data);
                 this.caseSearchArgs.totalPage = res.totalPage;
-                this.isLoading = false;
+                self.closeTopBottomLoading();
                 this.allLoaded = this.caseSearchArgs.totalPage <= this.caseSearchArgs.currentPage ? true : false;
-//              this.caseSearchArgs.currentPage = res.currentPage;
               }else {
-                this.noData = true;
-                this.isLoading = false;
+                this.listCaseData = [];
               }
             })
             break;
@@ -178,14 +168,13 @@
               if(res.data) {
                 this.time(res.data)
                 this.classifyCompute(res.data);
-                this.listCaseData = this.listCaseData.concat(res.data);
+                this.listCaseData = res.currentPage == 1 ? res.data : this.listCaseData.concat(res.data);
                 this.caseListArgs.totalPage = res.totalPage;
-                this.isLoading = false;
+                self.closeTopBottomLoading();
                 this.allLoaded = this.caseListArgs.totalPage <= this.caseListArgs.currentPage ? true : false;
 //              this.caseListArgs.currentPage = res.currentPage;
               }else {
-                this.noData = true;
-                this.isLoading = false;
+                this.listCaseData = [];
               }
             })
             break
@@ -195,19 +184,13 @@
                 console.log(res);
                 this.time(res.data)
                 this.classifyCompute(res.data);
-                this.listCaseData = this.listCaseData.concat(res.data);
+                this.listCaseData = res.currentPage == 1 ? res.data : this.listCaseData.concat(res.data);
                 this.caseListArgs.totalPage = res.totalPage;
                 this.caseDate.totalPage = res.totalPage;
-                this.isLoading = false;
+                self.closeTopBottomLoading();
                 this.allLoaded = this.caseListArgs.totalPage <= this.caseListArgs.currentPage ? true : false;
-//              this.caseListArgs.currentPage = res.currentPage;
-              }
-              // else {
-              //   this.noData = false;
-              // }
-              else{
-                this.noData = true;
-                this.isLoading = false;
+              } else {
+                this.listCaseData = [];
               }
             })
         }
@@ -238,15 +221,9 @@
         this.$refs.scrollBox.scrollTop = 0;
         this.caseListArgs.currentPage = 1;
         this.caseSearchArgs.currentPage = 1;
-        this.listCaseData = [];
         this.caseDate.dressingSwitch = false;
-        this.isLoading = true;
+        this.topLoading = true;
         this.getCaseList();
-//        this.$store.dispatch('GET_CASE_LIST', this.caseListArgs).then( (res) => {
-//          this.listCaseData = res.data;
-//          this.caseDate.totalPage = res.totalPage;
-//          this.caseListArgs.currentPage += 1;
-//        })
       },
       //mt中接受的val值作为参数传入我的组件里
       isState(val){
@@ -254,13 +231,13 @@
         this.$refs.topLoadMore.states(val)
       },
       //把下拉刷新完成之后回调的mt的方法传入我的组件里
-      isLoaded(){
+      isLoaded(val){
         console.log(val)
         this.$refs.loadmore.onTopLoaded();
       },
       isStateB(val){
         console.log(val)
-        this.$refs.bottomLoadMore.states(val)
+        // this.$refs.bottomLoadMore.states(val)
       },
       isLoadedB(){
         this.$refs.loadmore.onBottomLoaded();
@@ -270,7 +247,6 @@
         this.caseListArgs.order = index;
         this.caseDate.totalPage = 1;
         this.caseDate.dressingSwitch = false;
-        this.listCaseData = [];
         this.getCaseList();
       },
       //上部筛选功能栏
@@ -283,14 +259,12 @@
           this.caseListArgs.classify = item;
         }
         this.caseDate.totalPage = 1;
-        this.listCaseData = [];
         this.getCaseList();
       },
       searching(val){
         this.caseSearchArgs.currentPage = 1;
         this.caseSearchArgs.keyWord = val;
         this.caseDate.totalPage = 1;
-        this.listCaseData = [];
         this.getCaseList();
       },
       gotoPage(page){
@@ -312,7 +286,11 @@
 <style lang="scss" rel="stylesheet/scss">
   @import "../../../../common/sass/factory";
   .loading .mint-loadmore{
-    min-height:px2vw(100);
+    // min-height:px2vw(100);
+    // height: 100%;
+    // height: 100%;
+    // -webkit-overflow-scrolling: touch;
+    // overflow: scroll;
   }
 </style>
 
@@ -435,4 +413,3 @@
     }
 
 </style>
-

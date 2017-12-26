@@ -24,9 +24,6 @@
         pullText: '下拉刷新',
         dropText: '释放刷新',
         loadingText: '加载中...',
-//        pullImg: true,
-//        dropImg: false,
-//        loadingImg: false,
         text:'',
       }
     },
@@ -35,21 +32,12 @@
         switch (val) {
           case 'pull':
             this.text = this.pullText;
-//            this.pullImg = true;
-//            this.dropImg = false;
-//            this.loadingImg = false;
             break;
           case 'drop':
             this.text = this.dropText;
-//            this.pullImg = false;
-//            this.dropImg = true;
-//            this.loadingImg = false;
             break;
           case 'loading':
             this.text = this.loadingText;
-//            this.pullImg = false;
-//            this.dropImg = false;
-//            this.loadingImg = true;
             break;
         }
       }
@@ -57,10 +45,10 @@
     watch:{
       loading:{
         handler:function (val) {
+          console.log(val+"121212")
           if(!val){
             this.loaded();
           }
-          console.log(val);
         }
       }
     },
@@ -75,9 +63,9 @@
 
 <style lang="scss" rel="stylesheet/scss">
   @import "../../../common/sass/factory";
-  .myCreLoad{
-    margin-top:0;
-  }
+  // .myCreLoad{
+  //   margin-top:0;
+  // }
 </style>
 
 <style scoped lang="scss" rel="stylesheet/scss">
@@ -85,10 +73,10 @@
   .wrap{
     z-index: 15;
   }
-  .upDown{
-    margin-top: px2vw(30);
-    height: px2vw(30);
-  }
+  // .upDown{
+  //   margin-top: px2vw(30);
+  //   height: px2vw(30);
+  // }
   .text{
     display: inline-block;
     height: 100%;

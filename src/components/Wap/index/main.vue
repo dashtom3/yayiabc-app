@@ -13,12 +13,12 @@
         <div class="tip-wrapper">
           <span class="tip-text"><img src="../../../images/index/info.png" alt="消息"><span>【牙医abc快报】</span></span>
           <div class="contanier" ref="contanier">
-            <ul 
+            <ul
               class="info-wrapper"
               ref="wrapper"
               :class="{anim:animate==true}">
               <li class="info-item" v-for="(item, index) in list" :key="index">
-                <span class="tip-phone">{{ item.phone }}</span>
+                <span class="tip-phone">{{ item.phone.substring(0,3)}}****{{item.phone.substring(7,11)}}</span>
                 <span class="tip-info">提现了{{ item.withMoney }}元</span>
               </li>
             </ul>
@@ -28,7 +28,7 @@
           <div class="banner-left" @click.stop="goToPage('/inviteRegister')">
             <img src="../../../images/index/img1.png" alt="牙医注册">
           </div>
-          <div class="banner-right" @click.stop="goToPage('/inviteSaleRegister')">
+          <div class="banner-right" @click.stop="goToPage('/salesRegister')">
             <img src="../../../images/index/img2.png" alt="牙医销售">
           </div>
         </div>
@@ -133,7 +133,7 @@ export default {
       isShow2: false,
       wgtVer: null,
       newVer: null,
-      list: [],
+      list: [],   //消息列表
       animate: false,
       intervalId: null,
       qrShow: false,
@@ -168,11 +168,11 @@ export default {
       });
       return false;
     };
-    that.$store.dispatch("GET_CLASSIFY_QUERY");
+    //  that.$store.dispatch("GET_CLASSIFY_QUERY");
     that.$emit("listenToChildEvent", "index");
     that.getList();
     setInterval(that.getList, 3600000);
-    that.intervalId = setInterval(that.scroll, 1000);
+    that.intervalId = setInterval(that.scroll, 2000);
   },
   destroyed() {
     clearInterval(this.intervalId);
@@ -211,10 +211,10 @@ export default {
     },
     // 得到消息列表
     getList() {
-      this.$store.dispatch("GET_TIPS_LIST", this.listParams).then(res => {
-        if (res.callStatus === "SUCCEED") {
-          this.list = res.data;
-        }
+      var self = this;
+      this.$store.dispatch("GET_TIPS_LIST").then(res => {
+          console.log(res)
+          self.list = res;
       });
     },
     plusReady: function() {
@@ -293,7 +293,7 @@ export default {
         that.list.push(that.list[0]);
         that.list.shift();
         that.animate = false;
-      }, 500);
+      }, 1000);
     },
     startRecognize() {
       console.log('运行了startRecognize()')
@@ -322,7 +322,7 @@ export default {
   height: 100vh;
   overflow: scroll;
   -webkit-overflow-scrolling: touch;
-  padding-top: px2vw(88);
+  margin-top: px2vw(88);
 }
 .search-box {
   width: 100vw;

@@ -159,7 +159,7 @@
         isClassPicker:false,
         isClassPickerN:false,
         classify:'',
-        classifyName:'',
+        classifyName:null,
         chargeNum:'',
         chargeNumN:'',
         share:false
@@ -285,6 +285,8 @@
         this.$store.dispatch(GET_CASE_DETAIL, {postId: this.$route.query.id}).then((res) => {
           this.args.headline = res.data.headline;
           this.args.classify = res.data.classify;
+          this.classify = res.data.classify;
+          this.classifyName = this.slots[0].values[parseInt(this.classify) - 1]
           this.args.freeContent = res.data.freeContent;
           this.args.chargeContent = res.data.chargeContent;
           this.chargeNumN = this.args.chargeContent ? this.args.chargeContent + '乾币' :'';

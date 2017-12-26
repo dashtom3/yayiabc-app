@@ -1,5 +1,6 @@
 $font-size-base: 75;
 $design-width: 750;
+$design-height: 1334;
 
 //color variable
 $themeColor: #3676B5;
@@ -25,6 +26,9 @@ $font-size-base
 @function px2vw($px) {
   @return $px/$design-width * 100vw;
 }
+@function px2vh($px) {
+  @return $px/$design-height * 100vh;
+}
 
 //mixin
 @mixin clearfix() {
@@ -37,5 +41,3 @@ $font-size-base
     clear: both;
   }
 }
-
-

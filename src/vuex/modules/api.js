@@ -20,7 +20,7 @@ import {
 
 // 获取轮播图
 export function getCarousel(params) {
-  return get('/adv/showAdv', params);
+  return getNoLoading('/adv/showAdv', params);
 }
 
 // 获取所有品牌
@@ -698,5 +698,6 @@ export function getYayiList(params) {
 }
 // 消息列表
 export function getTipsList(params) {
-  return geters('/userWith/withHornPrompt', params)
+  // return geters('/userWith/withHornPrompt', params)
+  return getNoLoading('/userWith/withHornPrompt', params)
 }

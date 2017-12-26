@@ -12,7 +12,7 @@ const HOST = 'http://116.62.228.3:8080/api';
   //  const HOST = 'http://wap.yayiabc.com:8080/api';
 // const HOST = 'http://123.56.220.72:8089/api'; //测试端口
 // const HOST = 'http://47.93.48.111:6181/api';  //正式数据端口
-
+axios.defaults.timeout = 20000;
 export default function (url, params = {}) {
   return new Promise((resolve, reject) => {
     Indicator.open();
@@ -32,15 +32,10 @@ export function get(url, params = {}) {
     Indicator.open();
     axios.get(HOST + url, {params})
       .then((res) => {
+        console.log('get请求:'+res)
         if (res.status === 500 || res.status === 503 || res.status === 504 || res.status === 404) {
           Indicator.close();
-          Indicator.open({
-            text: '服务器出小差了',
-            spinnerType: 'fading-circle'
-          });
-          setTimeout(() => {
-            Indicator.close();
-          }, 2000)
+          ServerError();
           return
         }
         if (res.data.callStatus === 'SUCCEED') {
@@ -49,23 +44,31 @@ export function get(url, params = {}) {
           if (res.data.data) resolve(res.data);
         }
         Indicator.close();
-      }).catch(err => reject(err));
+      }).catch(err => {
+        console.log('getError:'+err)
+        Indicator.close();
+        ServerError();
+        reject(err)
+      });
   });
 }
-
+function ServerError(){
+  Indicator.open({
+    text: '服务器出小差了',
+    spinnerType: 'fading-circle'
+  });
+  setTimeout(() => {
+    Indicator.close();
+  }, 2000)
+}
 
   export function getNoLoading(url, params = {}) {
     return new Promise((resolve, reject) => {
       axios.get(HOST + url, {params})
         .then((res) => {
+          console.log('getNoLoading请求:'+res)
           if (res.status === 500 || res.status === 503 || res.status === 504 || res.status === 404) {
-            Indicator.close();
-            Indicator.open({
-              text: '服务器出小差了',
-              spinnerType: 'fading-circle'
-            });
-            setTimeout(() => {
-            }, 2000)
+            ServerError();
             return
           }
           if (res.data.callStatus === 'SUCCEED') {
@@ -73,7 +76,11 @@ export function get(url, params = {}) {
           } else {
             if (res.data.data) resolve(res.data);
           }
-        }).catch(err => reject(err));
+        }).catch(err => {
+          console.log('getNoLoadingError:'+err)
+          ServerError();
+          reject(err)
+        });
     });
   }
 
@@ -82,6 +89,12 @@ export function geters(url, params = {}) {
     Indicator.open();
     axios.get(HOST + url, {params})
       .then((res) => {
+        console.log('geters请求:'+res)
+        if (res.status === 500 || res.status === 503 || res.status === 504 || res.status === 404) {
+          Indicator.close();
+          ServerError();
+          return
+        }
         if (res.data.callStatus === 'SUCCEED') {
           resolve(res.data);
           Indicator.close();
@@ -89,7 +102,12 @@ export function geters(url, params = {}) {
           if (res.data) resolve(res.data);
           Indicator.close();
         }
-      }).catch(err => reject(err));
+      }).catch(err => {
+        console.log('getersError:'+err)
+        Indicator.close();
+        ServerError();
+        reject(err)
+      });
   });
 }
 
@@ -100,6 +118,7 @@ export function getWithVerfiCode(url, params = {}) {
     Indicator.open();
     axios.get(HOST + url, {params})
       .then((res) => {
+        console.log('getWithVerfiCode请求:'+res)
         if (res.data.callStatus === 'SUCCEED') {
           resolve(res.data);
           Indicator.close();
@@ -107,7 +126,12 @@ export function getWithVerfiCode(url, params = {}) {
           resolve(res.data);
           Indicator.close();
         }
-      }).catch(err => reject(err));
+      }).catch(err => {
+        console.log('getWithVerfiCodeError:'+err)
+        Indicator.close();
+        ServerError();
+        reject(err)
+      });
   });
 }
 export function noErrorGet(url, params = {}) {
@@ -211,16 +235,10 @@ export function post(url, params) {
     });
     axios.post(HOST + url, temp)
       .then((res) => {
-        // console.log(JSON.stringify(res), 'base>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..')
+        console.log("post请求:"+res)
         if (res.status === 500 || res.status === 503 || res.status === 504 || res.status === 404) {
           Indicator.close();
-          Indicator.open({
-            text: '服务器出小差了',
-            spinnerType: 'fading-circle'
-          });
-          setTimeout(() => {
-            Indicator.close();
-          }, 2000)
+          ServerError();
           return
         }
         if (res.data.callStatus === 'SUCCEED') {
@@ -230,10 +248,10 @@ export function post(url, params) {
         }
         Indicator.close();
       }).catch((err) => {
-      // console.log(JSON.stringify(err), 'base>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..')
-      reject('网络请求错误');
-      Toast({message: '服务器出小差了!', duration: 3000})
-      Indicator.close();
+        reject('网络请求错误');
+        console.log("post请求Error:"+res)
+        ServerError();
+        Indicator.close();
     });
   });
 }
@@ -249,7 +267,7 @@ export function posts(url, params) {
     });
     axios.post(HOST + url, temp)
       .then((res) => {
-        // console.log(JSON.stringify(res), 'base>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..')
+        console.log("posts请求:"+res)
         if (res.data.callStatus === 'SUCCEED') {
           resolve(res.data);
           Indicator.close();
@@ -258,9 +276,9 @@ export function posts(url, params) {
           Indicator.close();
         }
       }).catch((err) => {
-      // console.log(JSON.stringify(err), 'base>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..')
       reject('网络请求错误');
-      Toast({message: '服务器出小差了!', duration: 3000})
+      console.log("posts请求Error:"+res)
+      ServerError();
       Indicator.close();
     });
   });
@@ -272,13 +290,13 @@ export function getWithToken(url, params = {}) {
     axios.defaults.headers['token'] = tokenMethods.getWapToken()
     axios.get(HOST + url, {params})
       .then((res) => {
+        console.log("getWithToken请求:"+res)
         if (res.data.callStatus === 'SUCCEED') {
           Indicator.close();
           resolve(res.data);
           return false
         }
         if (res.data.errorCode === 'RE_LOGIN') {
-          // console.log(res.data.errorCode)
           Indicator.close();
           tokenMethods.removeMsg()
           resolve(res.data);
@@ -292,10 +310,10 @@ export function getWithToken(url, params = {}) {
           return false
         }
       }).catch((err) => {
-      // console.log(JSON.stringify(err), 'base>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..')
       reject('网络请求错误');
+      console.log("getWithToken请求Error:"+res)
+      ServerError();
       Indicator.close();
-      Toast({message: '服务器出小差了!', duration: 3000})
     });
   });
 }
@@ -305,13 +323,13 @@ export function getWithTokenNoLoading(url, params = {}) {
     axios.defaults.headers['token'] = tokenMethods.getWapToken()
     axios.get(HOST + url, {params})
       .then((res) => {
+        console.log("getWithTokenNoLoading请求:"+res)
         if (res.data.callStatus === 'SUCCEED') {
           resolve(res.data);
           return false
         }
         if (res.data.errorCode === 'RE_LOGIN') {
           // console.log(res.data.errorCode)
-          Indicator.close();
           tokenMethods.removeMsg()
           resolve(res.data);
           // router.push({path: '/logIn'})
@@ -319,14 +337,14 @@ export function getWithTokenNoLoading(url, params = {}) {
           return false
         }
         if (res.data.callStatus === 'FAILED') {
-          Indicator.close();
           resolve(res.data);
           return false
         }
       }).catch((err) => {
       // console.log(JSON.stringify(err), 'base>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..')
       reject('网络请求错误');
-      Toast({message: '服务器出小差了!', duration: 3000})
+      console.log("getWithTokenNoLoading请求Error:"+res)
+      ServerError();
     });
   });
 }
@@ -343,6 +361,7 @@ export function postWithToken(url, params) {
     axios.defaults.headers['token'] = tokenMethods.getWapToken()
     axios.post(HOST + url, formData)
       .then((res) => {
+        console.log("postWithToken请求:"+res)
         if (res.data.callStatus === 'SUCCEED') {
           Indicator.close();
           resolve(res);
@@ -361,9 +380,10 @@ export function postWithToken(url, params) {
           return false
         }
       }).catch(() => {
-      reject('网络请求错误');
-      Indicator.close();
-      Toast({message: '服务器出小差了!', duration: 3000})
+        reject('网络请求错误');
+        console.log("postWithToken请求Error:"+res)
+        ServerError();
+        Indicator.close();
     });
   });
 }

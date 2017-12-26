@@ -312,11 +312,11 @@ const actions = {
             var obj = {
               oneClassify: state.classifyList[i].oneClassify,
             };
-            api.getItemQuery(obj).then((res) => {
-              state.classifyList[index].classifyTwoList = res.data.data
-            }).catch((err) => {
-              reject(err);
-            });
+            // api.getItemQuery(obj).then((res) => {
+            //   state.classifyList[index].classifyTwoList = res.data.data
+            // }).catch((err) => {
+            //   reject(err);
+            // });
           }
         }, function (value) {
           // 不会被调用

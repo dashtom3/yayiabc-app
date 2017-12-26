@@ -237,7 +237,7 @@
   .tsImgBox{
     position: relative;
     display: inline-block;
-    height:px2vw(88);
+    // height:px2vw(88);
     padding-right: px2vw(33);
     padding-left: px2vw(20);
     vertical-align: top;
@@ -250,7 +250,7 @@
   }
   .classBox{
     display: inline-block;
-    height: px2vw(88);
+    // height: px2vh(88);
     font-size: px2vw(36);
     color: #cccccc;
     vertical-align: top;
@@ -258,7 +258,7 @@
   }
   .classBox span{
     display: inline-block;
-    height: px2vw(88);
+    height: px2vh(88);
     padding-top: px2vw(22);
     width: px2vw(100);
     text-align: center;
@@ -272,7 +272,7 @@
   }
   .searchImgBox{
     display: inline-block;
-    height: px2vw(88);
+    // height: px2vw(88);
     padding-left: px2vw(20);
     padding-right: px2vw(20);
     img{
@@ -285,7 +285,7 @@
     position: fixed;
     top:0;
     width: 100vw;
-    height: px2vw(88);
+    height: px2vh(88);
     background-color: $themeColor;
     z-index: 100;
   }
@@ -300,13 +300,14 @@
   }
   .container{
     position: fixed;
-    top:px2vw(0);
-    padding-top: px2vw(186);
+    top:px2vh(164);
+    // padding-top: px2vw(186);
     left: 0;
     width: 100%;
     -webkit-overflow-scrolling: touch;
     overflow: scroll;
-    max-height: 93vh;
+    height: px2vh(1070);
+    // max-height: 93vh;
   }
   .dressingBox>.dressingBtn{
     z-index: 1100;
@@ -383,16 +384,16 @@
   }
   .dressingBox{
     position: fixed;
-    top:px2vw(88);
+    top:px2vh(88);
     width: 100vw;
-    height: px2vw(90);
+    height: px2vh(64);
     font-size: px2vw(30);
     background-color: #ffffff;
     z-index: 10;
     span{
       display: table-cell;
       width: px2vw(106);
-      height: px2vw(90);
+      height: px2vh(64);
       vertical-align: middle;
       text-align: center;
     }
@@ -428,4 +429,3 @@
      }
   }
 </style>
-

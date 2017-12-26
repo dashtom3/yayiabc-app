@@ -1,3 +1,4 @@
+<!-- 废弃 -->
 <template>
     <div>
       <div class="wrapBCG"></div>
