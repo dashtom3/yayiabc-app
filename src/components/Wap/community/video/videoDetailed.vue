@@ -40,7 +40,9 @@
         </div>
         <!--相关产品结束-->
         <div>
-          <comment :types="'视频'"></comment>
+          <comment :types="'视频'">
+            aaa
+          </comment>
         </div>
       </div>
       <!--结尾-->

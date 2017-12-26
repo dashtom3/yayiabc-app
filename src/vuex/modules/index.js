@@ -862,6 +862,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       api.publishCommit(params).then((data) => {
         resolve(data);
+        console.log(data);
       }).catch((err) => {
         reject(err);
       });
@@ -1194,6 +1195,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       api.getOrderInvoice(params).then((data) => {
         resolve(data);
+        // console.log(data)
       }).catch((err) => {
         reject(err);
       });

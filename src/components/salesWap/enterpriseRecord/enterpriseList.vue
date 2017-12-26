@@ -13,6 +13,7 @@
         <form @submit.prevent>
           <input v-model="listParams.keyWord" @keydown.enter="searchInfo" type="search" placeholder="请输入关键字">
         </form>
+        <!-- 清空搜索 -->
         <span v-show="closeShow" class="close-wrapper" @click="closeKeyWord">
           <img class="close" src="../../../images/saleman/close.png" alt="关闭">
         </span>

@@ -1,7 +1,7 @@
 <template>
     <div class="out">
       <!--无视频样式-->
-      <div v-if="(isShow && !videoArgs) || (isShow && videoArgs.length == 0)" class="noneVideo">
+      <div v-if="videoArgs.length == 0" class="noneVideo">
         <div class="noneV">
           <img src="../../../../images/video/noneVideo.png" alt="">
         </div>

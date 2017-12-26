@@ -124,24 +124,6 @@
       getQuestList(){
         this.isLoading = true;
         switch (true){
-          case this.$router.history.current.name === 'QandAList':
-            // this.showNewQuest =true;
-            //发现
-            this.backName = '/QandAList'
-            this.$store.dispatch(FAQ_LIST, this.args).then(res=>{
-              if(res.data){
-                this.dataCompute(res.data)
-                this.questList = this.questList.concat(res.data);
-                this.totalPage = res.totalPage;
-                this.isLoading = false;
-                this.isAllLoaded();
-                Indicator.close();
-                console.log(res,1)
-              }else {
-                this.noData = true;
-              }
-            });
-            break;
           case this.$router.history.current.name === 'myQuestion':
             this.$store.dispatch(MY_QUESTION, this.args).then(res=>{
               if(res.data){
@@ -190,6 +172,24 @@
               }
             });
             //搜索
+            break;
+          default:
+            // this.showNewQuest =true;
+            //发现
+            this.backName = '/QandAList'
+            this.$store.dispatch(FAQ_LIST, this.args).then(res=>{
+              if(res.data){
+                this.dataCompute(res.data)
+                this.questList = this.questList.concat(res.data);
+                this.totalPage = res.totalPage;
+                this.isLoading = false;
+                this.isAllLoaded();
+                Indicator.close();
+                console.log(res,1)
+              }else {
+                this.noData = true;
+              }
+            });
             break;
         }
       },

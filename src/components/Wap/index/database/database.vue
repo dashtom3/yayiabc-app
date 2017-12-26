@@ -134,7 +134,7 @@ import datum from '../../mine/collect/datum.vue'
       height: 100%;
       left: 0;
       width: px2vw(150);
-      background: url("../../../../images/logIn/back.png") px2vw(20) center no-repeat;
+      background: url("../../../../images/logIn/back3.png") px2vw(20) center no-repeat;
       background-size: px2vw(18) px2vw(29);
     }
     .search-click-area {

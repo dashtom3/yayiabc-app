@@ -3,8 +3,12 @@
     <div class="search_box">
       <!-- 原来的地址 http://47.93.48.111:6181/api/item/itemSearch-->
       <form action="http://116.62.228.3:8080/api/item/itemSearch" method="post" enctype="multipart/form-data" v-on:submit.prevent="search_cargo">
-        <input class="search_word" type="search" name="keyWord" @focus="searchActive()" v-focus autofocus="autofocus" @keyup.enter="search_cargo" v-model="searchCargo" autocomplete="on" placeholder="请输入关键字" >
+        <input class="search_word" type="search" name="keyWord" @focus="searchActive()" v-focus autofocus="autofocus" @keyup.enter="search_cargo" v-model="listParams.keyWord" autocomplete="on" placeholder="请输入关键字" >
       </form>
+      <!-- 清空搜索 -->
+      <span v-show="closeShow" class="close-wrapper" @click="closeKeyWord">
+          <img class="close" src="../../../images/saleman/close.png" alt="关闭">
+      </span>
       <img class="search_img" src="../../../images/index/search.png" alt="img">
       <div class="cancel_btn" @click="cancelSearch">取消</div>
     </div>
@@ -38,10 +42,16 @@ export default {
   data () {
     return {
       popupVisible: false,
-      searchCargo: '',
       userHistory: [],
       autofocus: true,
-    }
+      listParams: {
+        cityName: '北京市',
+        keyWord: '',
+        currentPage: 1,
+        numberPerPage: 10,
+      },
+      closeShow: false
+    };
   },
   components: {
   },
@@ -64,6 +74,11 @@ export default {
     }
   },
   methods: {
+    closeKeyWord() {
+      this.listParams.keyWord = '';
+      this.enterpriseList = [];
+      this.listParams.currentPage = 1;
+    },
     //搜索框
     search_cargo: function(item,index) {
       var that = this;
@@ -144,7 +159,18 @@ export default {
         that.$router.go(-1);
         window.clearTimeout(timer1);
       },350)
-    },
+    }
+  },
+   watch: {
+    'listParams.keyWord': {
+      handler: function (val) {
+        if (val == '') {
+          this.closeShow = false
+        } else {
+          this.closeShow = true
+        }
+      }
+    }
   }
 }
 </script>
@@ -166,6 +192,17 @@ input[type=search]::-webkit-search-cancel-button{
   position: relative;
   background-color: $themeColor;
   border-bottom: px2vw(1) solid #E5E5E5;
+   .close-wrapper{
+      position: absolute;
+      top: px2vw(28);
+      right: px2vw(130);
+      width:px2vw(30);
+      height: px2vw(30);
+       .close{
+          width:px2vw(30);
+          height: px2vw(30);
+       }
+    }
 }
 .search_word {
   width: px2vw(606);

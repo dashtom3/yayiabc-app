@@ -45,7 +45,7 @@ export default {
   name: "inviteRegister",
   data () {
     return {
-      myUserId:tokenMethods.getWapUser() ? tokenMethods.getWapUser().userId:'',
+      myUserId:tokenMethods.getWapUser() ? tokenMethods.getWapUser().userId : '',
     };
   },
   components:{
