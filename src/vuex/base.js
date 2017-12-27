@@ -249,7 +249,7 @@ export function post(url, params) {
         Indicator.close();
       }).catch((err) => {
         reject('网络请求错误');
-        console.log("post请求Error:"+res)
+        console.log("post请求Error:"+err)
         ServerError();
         Indicator.close();
     });
@@ -281,7 +281,7 @@ export function posts(url, params) {
           Indicator.close();
         }
       }).catch((err) => {
-        console.log("posts请求Error:"+res)
+        console.log("posts请求Error:"+err)
         ServerError();
         Indicator.close();
       reject('网络请求错误');
@@ -320,7 +320,7 @@ export function getWithToken(url, params = {}) {
           return false
         }
       }).catch((err) => {
-        console.log("getWithToken请求Error:"+res)
+        console.log("getWithToken请求Error:"+err)
         ServerError();
         Indicator.close();
        reject('网络请求错误');
@@ -356,13 +356,49 @@ export function getWithTokenNoLoading(url, params = {}) {
           return false
         }
       }).catch((err) => {
-      console.log("getWithTokenNoLoading请求Error:"+res)
+      console.log("getWithTokenNoLoading请求Error:"+err)
       ServerError();
       reject('网络请求错误');
     });
   });
 }
-
+export function postWithTokenNoLoading(url, params) {
+  return new Promise((resolve, reject) => {
+    var formData = new FormData()
+    for (let i in params) {
+      if (params[i] != null) {
+        formData.append(i, params[i])
+      }
+    }
+    axios.defaults.headers['token'] = tokenMethods.getWapToken()
+    axios.post(HOST + url, formData)
+      .then((res) => {
+        console.log("postWithTokenNoLoading请求:"+res)
+        if (res.status === 500 || res.status === 503 || res.status === 504 || res.status === 404 || res.status === 502) {
+          ServerError();
+          return
+        }
+        if (res.data.callStatus === 'SUCCEED') {
+          resolve(res);
+          return false
+        }
+        if (res.data.errorCode === 'RE_LOGIN') {
+          resolve(res)
+          // router.push({path: '/logIn'})
+          // Toast({message: '登录过期，请重新登录！', duration: 1500})
+          return false
+        }
+        if (res.data.callStatus === 'FAILED') {
+          resolve(res);
+          return false
+        }
+      }).catch(() => {
+        console.log("postWithTokenNoLoading请求Error:"+res)
+        ServerError();
+          reject('网络请求错误');
+    });
+  });
+}
 export function postWithToken(url, params) {
   return new Promise((resolve, reject) => {
     Indicator.open();

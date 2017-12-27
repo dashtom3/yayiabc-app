@@ -10,6 +10,7 @@ import {
   post,
   posts,
   postWithToken,
+  postWithTokenNoLoading,
   postWithSaleToken,
   wx_get,
   noErrorPost,
@@ -397,7 +398,7 @@ export function deleteTrend(params) {
 
 //发布评论
 export function addComment(params) {
-  return postWithToken('/comment/addCom', params);
+  return postWithTokenNoLoading('/comment/addCom', params);
 }
 
 //删除评论

@@ -250,6 +250,7 @@
       },
       back (){
         this.$router.push({path: this.$route.query.backName})
+        // this.$router.go(-1);
         this.$destroy();
       },
       //子组件返回按钮

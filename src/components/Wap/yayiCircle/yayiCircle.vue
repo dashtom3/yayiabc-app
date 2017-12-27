@@ -10,7 +10,7 @@
     </div>
     <div class="container inputAreaAB"  :class="{myYayiCircle:headTitle === '我的动态'}">
       <mt-loadmore :top-method="getYayiCircle" :bottom-method="loadMore" :bottom-all-loaded="allLoaded" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState" v-on:bottom-status-change="isStateB" class="innerContainerWrap">
-        <topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>
+        <topLoadMore ref="topLoadMore" slot="top" :loading="topLoading" :loaded="isLoaded"></topLoadMore>
         <!--有数据的状态-->
         <div class="innerContainer">
           <div v-for="(item,index) in yayiCircleData" class="eachContainer" :key="index">
@@ -85,7 +85,7 @@
           <img src="../../../images/yayiCircle/new.png" alt="">
           <p><span @click="newTrend">立即发布新动态~</span></p>
         </div>
-        <bottomLoadMore ref="bottomLoadMore" slot="bottom" :loading="isLoading" :loaded="isLoadedB"></bottomLoadMore>
+        <bottomLoadMore ref="bottomLoadMore" slot="bottom" :loading="bottomLoading" :loaded="isLoadedB"></bottomLoadMore>
       </mt-loadmore>
     </div>
     <doComment v-if="isComment" :args="commentInfo" v-on:commentRes="isCommentRes" v-on:cancelComment="isComment = false"></doComment>
@@ -107,7 +107,8 @@
     data(){
       return{
         headTitle:'',         //标题
-        isLoading:false,      //判断是否在加载中
+        topLoading:false,      //判断是否在加载中
+        bottomLoading:false,
         allLoaded:false,
         args:{                //请求牙医圈列表接口参数
           currentPage:1,
@@ -158,12 +159,12 @@
         this.$destroy()
       },
       getYayiCircle(){
-        this.isLoading = true;
         if(this.$router.history.current.name === 'myYayiCircle'){
           this.headTitle = '我的动态';
           this.$store.dispatch(MY_YAYI_CIRCLE, this.args).then(res =>{
             this.dataCompute(res.data);
-            this.isLoading = false;
+            this.topLoading = false;
+            this.bottomLoading = false;
             this.totalPage = res.totalPage
             this.isAllLoaded();
             Indicator.close();
@@ -173,18 +174,13 @@
           this.headTitle = '牙医圈';
           this.$store.dispatch(YAYI_CIRCLE, this.args).then(res =>{
             this.dataCompute(res.data);
-            this.isLoading = false;
+            this.topLoading = false;
+            this.bottomLoading = false;
             this.totalPage = res.totalPage
             this.isAllLoaded();
             Indicator.close();
           })
         }
-//        this.$store.dispatch(ONE_YAYI_CIRCLE, {momentId:this.$route.query.momentId}).then(res =>{
-//          console.log(res.data);
-//          let tmpArr = [res.data];
-//          this.dataCompute(tmpArr);
-//          this.isLoading = false;
-//        })
       },
       dataCompute(res){
         if(res) {
@@ -324,8 +320,9 @@
         }
       },
       loadMore(){
+        this.bottomLoading = true
         if(this.args.currentPage >= this.totalPage){
-          if(!this.isLoading){
+          if(!this.bottomLoading){
             this.noMoreData = true;
           }
         }else {
@@ -339,6 +336,7 @@
         this.args.currentPage = 1;
         this.timeStamp = Date.parse(new Date());
         this.yayiCircleData = [];
+        this.topLoading = true;
         this.getYayiCircle();
         //把所有参数回归为初始值，并且重新获得时间戳
       },

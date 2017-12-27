@@ -56,6 +56,7 @@ const state = {
   saveCaseSearching:'',
   caseOfIllness: {},
   saveDatumDressing: null, // 保存资料库筛选的值
+  video: null, //视频播放唯一性
 }
 
 const getters = {
@@ -108,7 +109,16 @@ const mutations = {
   [types.UPDATE_DIRECTION](state,payload) {
     state.direction = payload.direction
   },
-
+  [types.VIDEO_PLAY](state,payload) {
+    if(state.video != null && payload != state.video) {
+      state.video.centerPlayImg = true;
+      state.video.controlShow = false;
+      state.video.currentTime = state.video.video.currentTime
+      state.video.video.load();
+      state.video.videoState = 1;
+    }
+    state.video = payload
+  },
   [types.SAVE_CASE_ORDER](state,all) {
     state.saveCaseOrder = all
   },

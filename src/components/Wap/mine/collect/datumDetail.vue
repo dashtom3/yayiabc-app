@@ -38,7 +38,9 @@
           {{dataDetail.content ? dataDetail.content : '暂无详细内容'}}
         </div>
         <!--资料内容结束-->
-
+        <div class="noMoreData">
+          - End -
+        </div>
       </div>
 
       <share v-if="isShareShow" v-on:cancelShare="isShareShow = false" :shareData="shareData"></share>
@@ -215,5 +217,14 @@
   .contentWrap{
     margin-top: px2vw(50);
   }
+  .noMoreData{
+    margin-top: px2vw(-1);
+    background-color: #fff;
+    width: 100%;
+    height: px2vw(80);
+    font-size: px2vw(26);
+    color: #999;
+    text-align: center;
+    line-height: px2vw(80);
+  }
 </style>
-

@@ -13,13 +13,17 @@
         <div class="video-mask" v-show="videos.centerPlayImg">
           <h2 class="video-title">{{ title }}</h2>
         </div>
-        <img v-show="videos.centerPlayImg" class="vplay" src="../../../../images/video/play.png"/>
+        <div class="video-image">
+        <img v-show="videos.centerPlayImg && videos.videoState == 1" class="vplay" src="../../../../images/video/play.png"/>
+        <img v-show="videos.centerPlayImg && videos.videoState == 0" class="vplay2" src="../../../../images/video/wait.png"/>
+        <img v-show="videos.centerPlayImg && videos.videoState == 2" class="vplay3" src="../../../../images/video/load.png"/>
+        </div>
         <transition name="fade">
           <!--视频控制条开始-->
           <div v-show="videos.controlShow" class="controls">
-            <span class="playImgBox">
+            <!-- <span class="playImgBox">
               <img src="../../../../images/video/playRight.png" alt="">
-            </span>
+            </span> -->
             <span>
               {{videos.currPlayTime}}
             </span>
@@ -34,11 +38,9 @@
               <!--总时长-->
               {{videos.allTime}}
             </span>
-            <span class="playCount">
-              2.6万播放
-            </span>
             <span  class="allVideo">
-              全屏
+              <img src="../../../../images/video/fullScreen.png" alt="" v-if="!full">
+              <img src="../../../../images/video/smallScreen.png" alt="" v-if="full">
             </span>
           </div>
         </transition>
@@ -68,12 +70,16 @@
           allTime: '00:00:00', //总时长
           currPlayTime: '00:00:00', //当前播放时间
           controlShow: false,  //显示视频下部控件开关
+          video: null,
+          currentTime: null,
+          videoState: 1,
         },
+        //暂停 播放按钮
         full: false,  //全屏
       }
     },
-    created(){
 
+    created(){
     },
     mounted(){
       let timer;
@@ -81,52 +87,64 @@
       //当视频可播放的时候
       let controls = this.$el.querySelector('.controls'); //控件的最高级父级节点
       let video = this.$el.querySelector('.video');
+      let videoMask = this.$el.querySelector('.video-mask');
       let progress = this.$el.querySelector('.progressBlue'); //进度条
       let proCircle = this.$el.querySelector('.proCircle'); //进度条 圆
       let progressBox = this.$el.querySelector('.progressBox'); //进度条父级BOX
       let expand = this.$el.querySelector('.allVideo'); //全屏按钮
-      let playImgBox = this.$el.querySelector('.playImgBox'); //控件左下角的播放按钮
+      // let playImgBox = this.$el.querySelector('.playImgBox'); //控件左下角的播放按钮
       let vplay = this.$el.querySelector('.vplay'); //中间的播放按钮
+      let vplay2 = this.$el.querySelector('.vplay2'); //中间的播放按钮
       let videoElWith = this.$el.querySelector('.videoEl').offsetLeft; //最外边边框宽度
-//      let backgroundEl = this.$el.querySelector('.backgroundEl'); //封面背景
-//      console.log(video.getAttribute("posterSrc"));
-//      let poster = video.getAttribute("posterSrc");
-//      backgroundEl.style.backgroundImage="url("+ poster + ")"; //设置封面
-//      backgroundEl.style.backgroundSize="100% 100%"; //设置封面
+      _this.videos.video = video
       video.controls=false; //隐藏原有控件
-      //控件左下角的播放按钮
-      playImgBox.addEventListener('click',function () {
-        if(video.paused) {
-          video.play();
-          _this.videos.controlShow = true;
-          _this.videos.centerPlayImg = false;
-          timerFuc();
-        } else {
-          video.pause();
-          _this.videos.centerPlayImg = true;
-          timerFuc();
-        }
-      },false);
-      //中间的播放按钮
       vplay.addEventListener('click',function () {
-        video.play();
+        _this.videos.videoState = 0;
+        _this.videos.centerPlayImg = true;
         _this.videos.controlShow = true;
+          video.play();
+          if(_this.videos.currentTime != null) {
+            video.currentTime = _this.videos.currentTime;
+            _this.videos.currentTime = null;
+          }
+          _this.$store.commit('VIDEO_PLAY',_this.videos)
+      },false);
+      vplay2.addEventListener('click',function () {
+        _this.videos.videoState = 1;
+        video.pause();
+          _this.videos.centerPlayImg = true;
+          _this.videos.controlShow = true;
+          timerFuc();
+      },false);
+      videoMask.addEventListener('click', function () {
+        _this.videos.controlShow = false;
         _this.videos.centerPlayImg = false;
-        timerFuc();
       },false);
       video.addEventListener('click', function () {
-        _this.videos.controlShow = !_this.videos.controlShow;
-        if(_this.videos.controlShow)
-        {
-          timerFuc();
-        }
+        _this.videos.controlShow = true;
+        _this.videos.centerPlayImg = true;
+        timerFuc();
       },false);
       //计时隐藏控制条
       function timerFuc() {
         window.clearTimeout(timer);
         timer = window.setTimeout(function () {
           _this.videos.controlShow = false;
+          _this.videos.centerPlayImg = false;
+          _this.videos.videoState = true;
         },4500)
+      }
+      // video.onloadstart = function () {
+      //   console.log(123);
+      // };
+      // video.onloadeddata = function(){
+      //   console.log(1231);
+      // };
+      video.onwaiting = function(){
+        _this.videos.videoState = 2;
+      };
+      video.onplaying = function(){
+        _this.videos.videoState = 0;
       }
       video.oncanplay = function(){
         //显示视频总时长
@@ -135,6 +153,10 @@
           let time = video.duration;
           _this.videos.allTime =  getFormatTime(time);
         }
+      };
+      video.onended = function(){
+        _this.videos.controlShow = true;
+        _this.videos.centerPlayImg = true;
       };
       //进度计算
       video.ontimeupdate = function(){
@@ -170,6 +192,7 @@
           proCircle.style.left = (proPre * 100) + '%'; //圆圈进度
           let duration = video.duration;
           //改变播放时间
+          _this.videos.videoState = 2;
           video.currentTime = (distance / progressBoxWith) * duration;
         }else {
           //计算拖动距离
@@ -187,6 +210,7 @@
           proCircle.style.left = (proPre * 100) + '%'; //圆圈进度
           let duration = video.duration;
           //改变播放时间
+          _this.videos.videoState = 2;
           video.currentTime = (distance / progressBoxWith) * duration;
         }
       });
@@ -245,6 +269,7 @@
         }else {  //视频详情
           if(_this.full)  //全屏的时候
           {
+            video.style.height = '100%';
             Screen.style.width = conH + "px";
             Screen.style.height = conW + "px";
             Screen.style.transformOrigin = "center center";
@@ -253,6 +278,7 @@
             Screen.style.left = 0;
             plus.navigator.setFullscreen(true);
           }else {  //非全屏
+            video.style.height = '56.533vw';
             Screen.style.width = W + "px";
             Screen.style.height = "auto";
             video.style.width = "100% !import";
@@ -270,9 +296,7 @@
 //      progressBox.addEventListener('touchmove',function (event) {
 //        if(event.targetTouches.length > 1 || event.scale && event.scale !== 1) return;
 //        let touch = event.targetTouches[0].target;
-//
 //        event.preventDefault(); //阻止触摸事件的默认行为，即阻止滚屏
-//
 //        //计算拖动距离
 //
 //
@@ -295,6 +319,7 @@
       //点击跳跃播放
       progressBox.onclick = function (e) {
         let event = e || window.event;
+        _this.videos.videoState = 2;
         video.currentTime = (event.offsetX / this.offsetWidth) * video.duration;
         timerFuc();
       };
@@ -307,7 +332,7 @@
         h = h < 10 ? "0"+h : h;
         m = m < 10 ? "0"+m : m;
         s = s < 10 ? "0"+s : s;
-        return h+":"+m+":"+s;
+        return h == "00" ? m+":"+s : h+":"+m+":"+s;
       }
     },
     computed:{
@@ -333,13 +358,17 @@
       bottom: 0;
       left: 0;
       right: 0;
-      background: rgba(0, 0, 0, .5);
+      background: rgba(0, 0, 0, .1);
+      box-shadow:0 0 px2vw(140) black inset;
+      -webkit-box-shadow:0 0 px2vw(140) black inset;
+      -moz-box-shadow:0 0 px2vw(140) black inset;
+      -o-box-shadow:0 0 px2vw(140) black inset;
       color: #fff;
     }
     .video-mask h2{
       margin: px2vw(29) 0 0 px2vw(19);
-      line-height: px2vw(34);
-      font-size: px2vw(36);
+      line-height: px2vw(28);
+      font-size: px2vw(30);
       font-weight: normal;
     }
     video{
@@ -365,7 +394,7 @@
     }
     .progressBox{
       z-index: 999;
-      width: 30%;
+      width: 65%;
       height: 100%;
       position: relative;
     }
@@ -402,7 +431,12 @@
 
     .allVideo{
       margin-right: px2vw(20);
+      img {
+        height: px2vw(24);
+        // width: px2vw(20);
+      }
     }
+
     .playCount{
       display: inline-block;
       width: px2vw(100);
@@ -415,23 +449,50 @@
       width: 100%;
       height: px2vw(424);
     }
+    // .video-image {
+    //   text-align: center;
+    // }
     .videoBox .vplay{
       position: absolute;
-      width: px2vw(70);
-      height: px2vw(70);
+      width: px2vw(65);
+      height: px2vw(65);
       z-index: 999;
       top: 50%;
       left: 50%;
-      -webkit-transform: translate(-50%, -50%);
-      transform: translate(-50%, -50%);
+      margin-left: px2vw(-32);margin-top: px2vw(-32);
+      // -webkit-transform: translate(-50%, -50%);
+      // transform: translate(-50%, -50%);
+    }
+    .videoBox .vplay2{
+      position: absolute;
+      width: px2vw(65);
+      height: px2vw(65);
+      z-index: 999;
+      top: 50%;
+      left: 50%;
+      margin-left: px2vw(-32);margin-top: px2vw(-32);
+      // -webkit-transform: translate(-50%, -50%);
+      // transform: translate(-50%, -50%);
+    }
+    .videoBox .vplay3{
+      position: absolute;
+      width: px2vw(65);
+      height: px2vw(65);
+      z-index: 999;
+      top: 50%;
+      left: 50%;
+      margin-left: px2vw(-32);margin-top: px2vw(-32);
+      // -webkit-transform: translate(-50%, -50%);
+      // transform: translate(-50%, -50%);
+      animation:rotating 1.2s linear infinite;
     }
     .videoBox .controls{
       position: absolute;
       bottom: 0;
       left: 0;
       width: 100%;
-      height: px2vw(50);
-      background-color: rgba(0,0,0,0.4);
+      height: px2vw(60);
+      // background-color: rgba(0,0,0,0.4);
       display: flex;
       display: -webkit-flex;
       font-size: px2vw(20);
@@ -439,6 +500,8 @@
       justify-content: space-between;
       align-items: center;
       z-index: 10;
+      padding-left: px2vw(12);
+
     }
 
     .fullScreen{

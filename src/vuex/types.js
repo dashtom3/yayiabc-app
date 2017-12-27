@@ -197,7 +197,7 @@ export const GET_PLAY_VIDEOS = 'GET_PLAY_VIDEOS';                         //视�
 export const GET_VIDEO_LIST = 'GET_VIDEO_LIST';                           //获取视频列表播放
 export const GET_VIDEOS_DETAIL = 'GET_VIDEOS_DETAIL';                           //获取视频详情
 export const SAVE_COLLECT = 'SAVE_COLLECT';                           //获取视频收藏
-
+export const VIDEO_PLAY = 'VIDEO_PLAY';
 
 export const GET_MY_CASE = 'GET_MY_CASE';                           //我的病例
 export const GET_PAY_CASE = 'GET_PAY_CASE';                           //我的病例

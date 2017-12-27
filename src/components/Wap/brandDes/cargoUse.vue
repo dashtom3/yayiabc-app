@@ -1,13 +1,13 @@
 <template>
   <div class="cargoUse">
     <!-- v-html="itemDetail.itemUse" -->
-    <div v-if="isActive" class="instruction">
-      <!-- <video-play :isVideo="typeVideo" ref="videoPlay"  v-if="videoSwitch">
-        <video slot="video" webkit-playsinline="true" playsinline="true" class="video">
-          <source slot="sourceSrc" type="video/mp4"></source>
+    <div v-if="itemDetail.vidManage != null" class="instruction">
+      <!-- <video class="video-play" webkit-playsinline controls :src="itemDetail.video" preload="none"></video> -->
+      <video-play :isVideo="typeVideo" ref="videoPlay">
+        <video :poster="itemDetail.vidManage.vedioPic" slot="video" webkit-playsinline="true" playsinline="true" class="video" preload="none">
+          <source slot="sourceSrc" :src="itemDetail.vidManage.vidRoute" type="video/mp4"></source>
         </video>
-      </video-play> -->
-      <video class="video-play" webkit-playsinline controls :src="itemDetail.video"></video>
+      </video-play>
     </div>
     <div class="noInfo" v-else>
       <img class="useInfo_img" src="../../../images/details/useInfo.png" alt="img">
@@ -19,6 +19,7 @@
 
 <script>
 import {Indicator} from 'mint-ui'
+import videoPlay from './../community/video/videoPlay.vue'
 // import videoPlay from '@/components/Wap/community/video/videoPlay.vue'
 export default {
   name: 'cargoUse',
@@ -31,7 +32,7 @@ export default {
     }
   },
   components: {
-    // videoPlay
+    videoPlay
   },
   created: function() {
     var that = this
@@ -50,11 +51,6 @@ export default {
           Indicator.close()
           let nowGoodDetails = res.data.data;
           that.itemDetail = nowGoodDetails.itemDetail;
-          if (that.itemDetail.video == null || that.itemDetail.video == "") {
-            that.isActive = false
-          } else {
-            that.isActive = true
-          }
         }
       })
     },

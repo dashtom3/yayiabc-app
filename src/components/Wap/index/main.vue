@@ -186,6 +186,7 @@ export default {
       var that = this;
     },
     refreshTo(index) {
+      console.log("11111")
       this.activeIndex = index;
       if (index === 0) {
         this.$router.push({ path: "/main/caseOfIllness" });

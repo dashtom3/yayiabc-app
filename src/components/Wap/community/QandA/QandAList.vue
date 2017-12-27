@@ -124,6 +124,7 @@
         this.bottomLoading = false;
       },
       getQuestList(){
+        console.log(this.$router.history.current.name)
         switch (true){
           case this.$router.history.current.name === 'QandAList':
             // this.showNewQuest =true;

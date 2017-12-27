@@ -300,7 +300,7 @@
   }
   .container{
     position: fixed;
-    top:px2vh(164);
+    top:px2vh(179);
     // padding-top: px2vw(186);
     left: 0;
     width: 100%;
@@ -384,10 +384,10 @@
   }
   .dressingBox{
     position: fixed;
-    top:px2vw(88);
+    top:px2vh(88);
     // top:px2vh(88);
     width: 100vw;
-    height:px2vw(90);
+    height:px2vh(90);
     // height: px2vh(64);
     font-size: px2vw(30);
     background-color: #ffffff;

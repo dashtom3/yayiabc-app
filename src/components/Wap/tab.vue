@@ -41,10 +41,13 @@
       // 通过 `vm` 访问组件实例
       next(vm => {
         var that = vm;
+        console.log("触发vm:"+that.$router.history.current.name);
         if(that.$router.history.current.name == 'caseOfIllness' || that.$router.history.current.name == 'video' || that.$router.history.current.name == 'QandAList'){
           that.bottomNav = 'caseOfIllness'
         } else if(that.$router.history.current.name == 'yayiCircle'){
           that.bottomNav = 'yayiCircle'
+        } else if(that.$router.history.current.name == 'mine'){
+          that.bottomNav = 'mine'
         }
       })
     },

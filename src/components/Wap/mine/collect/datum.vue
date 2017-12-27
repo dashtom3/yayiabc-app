@@ -84,7 +84,6 @@
         this.getList();
       },
       getList(){
-        this.isLoading = true;
         switch (true){
           case this.$router.history.current.name === 'database':
             this.backName = '/database'
@@ -121,6 +120,7 @@
         this.$router.push({path:'/datumDetail',query:{backName:this.backName,id:id}})
       },
       getListMore(){
+        this.isLoading = true;
         if(this.totalPage <= this.args.currentPage){
           return
         }else {
@@ -191,4 +191,3 @@
   color: #999999;
 }
 </style>
-

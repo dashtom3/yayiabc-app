@@ -18,8 +18,8 @@
         <div class="readeBox">
           <span class="readeClass">{{item.classify}}</span>
           <span class="readeNum">{{item.readNumber==null?0: item.readNumber}} 阅读</span>
-          <span class="readeNum2">· {{item.commentNumber}}评论</span>
-          <span class="readeNum2">· {{item.postFavour}}赞</span>
+          <span class="readeNum2">· {{item.commentNum}}评论</span>
+          <span class="readeNum2">· {{item.zanNum}}赞</span>
           <span v-if="item.chargeNumber" class="coin"> {{item.chargeNumber}}乾币</span>
         </div>
       </div>
@@ -80,7 +80,6 @@
     },
     created() {
       this.getCaseList();
-      console.log(this.$router.history.current.name)
       this.timeStamp = Date.parse(new Date());
       if(this.$router.history.current.name === 'caseOfIllnessSearch'){
         // this.showNewCase = false;
@@ -147,6 +146,7 @@
         this.allLoaded = this.caseDate.totalPage == this.caseDate.currentPage ? true : false;
       },
       getCaseList (){
+        console.log(this.$router.history.current.name)
         var self = this
         switch (true){
           case this.$router.history.current.name === 'caseOfIllnessSearch':
@@ -169,8 +169,12 @@
               }
             })
             break
+
           default:
             this.caseListArgs.currentPage = this.caseDate.currentPage;
+            if(this.$router.history.current.name === "caseOfIllnessIndex") {
+              this.caseListArgs.order = 1;
+            }
             this.$store.dispatch('GET_CASE_LIST', this.caseListArgs).then( (res) => {
               if(res.data) {
                 this.operateDate(res)

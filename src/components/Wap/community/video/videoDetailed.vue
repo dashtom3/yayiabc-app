@@ -9,7 +9,7 @@
       </div>
       <div class="container">
         <video-play :isVideo="typeVideo" ref="videoPlay"  v-if="videoSwitch">
-          <video :poster="videoArgs.vedioPic" slot="video" webkit-playsinline="true" playsinline="true" class="video">
+          <video :poster="videoArgs.vedioPic" slot="video" webkit-playsinline="true" playsinline="true" class="video" preload="none">
             <source slot="sourceSrc" :src="videoArgs.vidRoute" type="video/mp4"></source>
           </video>
         </video-play>
@@ -74,7 +74,8 @@
       },
       goBack(){
         if(this.$route.query.backName){
-          this.$router.push(this.$route.query.backName)
+          console.log(this.$route.query.backName)
+          this.$router.push({path:this.$route.query.backName})
         }else {
           this.$router.go(-1);
         }
@@ -214,9 +215,9 @@
     .fade-enter, .fade-leave-to  {
       opacity: 0
     }
-    // .container video{
-    //   height: 56.533vw;
-    // }
+    .container video{
+      height: 56.533vw;
+    }
 
 
 

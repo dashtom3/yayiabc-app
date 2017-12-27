@@ -18,7 +18,7 @@
               <video-play :isVideo="typeVideo" v-if="videoSwitch" :title="item.vidName">
                 <!--<video  src=""  controls="" x5-playsinline="" playsinline="" webkit-playsinline="" poster="" preload="auto"></video>-->
                 <!--posterSrc:视频封面地址  slot必须带class="video"-->
-                <video  webkit-playsinline :src="item.vidRoute" :poster="item.vedioPic"  slot="video"  class="video">
+                <video  webkit-playsinline :src="item.vidRoute" :poster="item.vedioPic"  slot="video"  class="video" preload="none">
                 <!--<source slot="sourceSrc"  type="video/mp4"></source>-->
                 </video>
               </video-play>
@@ -204,6 +204,9 @@
           })
         } else {
           this.videoListArgs.currentPage = this.pageAll.currentPage
+          if (this.$router.history.current.name === 'videoIndex') {
+            this.videoListArgs.rule = 2
+          }
           this.$store.dispatch('GET_VIDEO_LIST', this.videoListArgs).then((res) => {
             this.videoSwitch = false;
             this.$nextTick( ()=>{
@@ -237,7 +240,6 @@
       getCaseListMore (){
         if(this.pageAll.currentPage < this.pageAll.totalPage || this.pageAll.totalPage == -1){
           this.pageAll.currentPage++;
-          console.log('ddd'+this.pageAll.currentPage)
             this.getVideoList();
         }
       },
@@ -257,7 +259,7 @@
         this.$refs.topLoadMore.states(val)
       },
       toVideo(id){
-        this.$router.push({path:'/videoDetailed',query:{id: id,backName:'video'}});
+        this.$router.push({path:'/videoDetailed',query:{id: id,backName:this.$router.history.current.fullPath}});
       },
       //判断是否登录
       pointLogin(){
