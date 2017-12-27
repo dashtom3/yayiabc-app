@@ -26,13 +26,14 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import shareToWx from '../index/shareToWx.vue'
+  import shareToWx from '../index/shareToWx.vue';
   import { tokenMethods } from '../../../vuex/util';
 
   export default {
+    name: "saleinvite",
     data(){
       return{
-        myUserId:tokenMethods.getWapUser() ? tokenMethods.getWapUser().userId:'',
+        myUserId:tokenMethods.getWapUser() ? tokenMethods.getWapUser().userId:''
       }
     },
     components:{

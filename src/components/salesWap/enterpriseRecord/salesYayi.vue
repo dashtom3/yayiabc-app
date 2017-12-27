@@ -100,7 +100,6 @@ export default {
       this.listParams.state = '';
       this.enterpriseList = [];
       this.listParams.currentPage = 1;
-      this.getYayiData();
     },
     openPicker() {
       this.$refs.cityAddressPickers.open()

@@ -10,7 +10,7 @@
       <!--<mt-loadmore  :top-method="loadMore" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState">-->
       <!--<topLoadMore ref="topLoadMore" slot="top" :loading="isLoading" :loaded="isLoaded"></topLoadMore>-->
       <!-- v-for -->
-      <div v-infinite-scroll="getCaseListMore" infinite-scroll-immediate-check="true" v-else>
+      <div v-infinite-scroll="getCaseListMore" infinite-scroll-immediate-check="false"  v-else>
         <div v-for="(item, index) in videoArgs" class="videoWrap" :key="index">
           <div class="boxBox">
             <!--这里放视频-->
@@ -47,7 +47,7 @@
             <!--底部结束-->
           </div>
         </div>
-        <div v-if="videoArgs.length != 0 && caseListArgs.currentPage == totalPage" class="noMoreData">
+        <div v-if="videoArgs.length != 0 && pageAll.currentPage == pageAll.totalPage" class="noMoreData">
           - End -
         </div>
       </div>
@@ -69,11 +69,10 @@
         //获取当前登录账号的userID
         myUserId:tokenMethods.getWapUser() ? tokenMethods.getWapUser().userId:'',
         videoSwitch: true,
-        isLoading:false,
+        isLoading:true,
         videoListArgs:{
           rule: '',         //1,最多播放2.最多评论3.时间倒叙  (非必须)
-          videoCategory: '', //视频分类:1.外科2.内科3.修复4.种植5.正畸6全部 (非必须)
-          currentPage: 1,  //当前第几页
+          videoCategory: '', //视频分类:1.外科2.内科3.修复4.种植5.正畸6全部 (非必须)  //当前第几页
           numberPerPage:10, //每页显示多少条视频
           type:2
         },
@@ -82,7 +81,6 @@
           type:2,
           classify:'',
           currentPage:1,
-          totalPage: 1,
           numberPerPage:10
         },
         pageAll:{
@@ -103,14 +101,14 @@
     watch:{
       saveCaseDressing: function (newVal,oldVal) {
         this.videoListArgs.videoCategory = this.saveCaseDressing;
-        this.videoListArgs.currentPage = 1;
+        this.pageAll.currentPage = 1;
         this.videoArgs = [];
         this.isShow = false;
         this.getVideoList();
       },
       saveCaseOrder: function (newVal,oldVal) {
         this.videoListArgs.rule = this.saveCaseOrder;
-        this.videoListArgs.currentPage = 1;
+        this.pageAll.currentPage = 1;
         this.videoArgs = [];
         this.isShow = false;
         this.getVideoList();
@@ -164,10 +162,11 @@
       getVideoList(){
         this.isLoading = true
         if(this.$router.history.current.name === 'videoSearch'){
+          this.caseSearchArgs.currentPage = this.pageAll.currentPage
           this.$store.dispatch('SEARCH_CASE_LIST', this.caseSearchArgs).then((res) => {
             this.videoArgs = this.videoArgs.concat(res.data);
-            this.totalPage = res.totalPage;
-            this.caseSearchArgs.currentPage = res.currentPage;
+            this.pageAll.totalPage = res.totalPage;
+            this.pageAll.currentPage = res.currentPage;
             this.isLoading = false;
             this.videoArgs = this.videoArgs.filter((item) =>{
               if(item.vidRoute.substr(0,4) === "http")
@@ -182,13 +181,14 @@
             }
           })
         } else if (this.$router.history.current.name === 'videoCollect') {
+          this.caseSearchArgs.currentPage = this.pageAll.currentPage
           this.$store.dispatch('COLLECT', this.caseSearchArgs).then( (res) => {
             this.videoArgs = this.videoArgs.concat(res.data);
             this.videoArgs.forEach(item =>{
               item.isStar = 1
             })
-            this.totalPage = res.totalPage;
-            this.caseSearchArgs.currentPage = res.currentPage;
+            this.pageAll.totalPage = res.totalPage;
+            this.pageAll.currentPage = res.currentPage;
             this.isLoading = false;
             this.videoArgs = this.videoArgs.filter((item) =>{
               if(item.vidRoute.substr(0,4) === "http")
@@ -203,6 +203,7 @@
             }
           })
         } else {
+          this.videoListArgs.currentPage = this.pageAll.currentPage
           this.$store.dispatch('GET_VIDEO_LIST', this.videoListArgs).then((res) => {
             this.videoSwitch = false;
             this.$nextTick( ()=>{
@@ -211,8 +212,10 @@
             if(res.data.length > 0)
             {
               console.log(res.data)
-              this.videoArgs = res.data;
-              this.videoArgs['totalPage'] = res.totalPage;
+              this.videoArgs = this.videoArgs.concat(res.data);
+              this.pageAll.totalPage = res.totalPage;
+              this.pageAll.currentPage = res.currentPage;
+              // this.videoArgs['totalPage'] = res.totalPage;
               this.isLoading = false;
               this.videoArgs = this.videoArgs.filter((item) =>{
                 if(item.vidRoute.substr(0,4) === "http")
@@ -230,47 +233,18 @@
           });
         }
       },
-//      getChangeList(){
-//        this.$store.dispatch('GET_VIDEO_LIST', this.videoListArgs).then((res) => {
-//          this.videoArgs = res.data;
-//          this.videoArgs['totalPage'] = res.totalPage;
-//          this.videoArgs['currentPage'] = res.currentPage;
-//          this.videoArgs = this.videoArgs.filter((item) =>{
-//            if(item.vidRoute.substr(0,4) === "http")
-//            {
-//              return true;
-//            }else{
-//              return false;
-//            }
-//          });
-//          this.isLoaded();
-//        });
-//      },
       //无限滚动
       getCaseListMore (){
-        this.videoListArgs.currentPage++;
-
-
-          this.getVideoList();
-//          this.$store.dispatch('GET_VIDEO_LIST', this.videoListArgs).then((res) => {
-//            let datas = res.data.filter((item) =>{
-//              if(item.vidRoute.substr(0,4) === "http")
-//              {
-//                return true;
-//              }else{
-//                return false;
-//              }
-//            });
-//            this.videoArgs = this.videoArgs.concat(datas);
-//            this.videoArgs['totalPage'] = res.totalPage;
-//            this.videoArgs['currentPage'] = res.currentPage;
-//          });
+        if(this.pageAll.currentPage < this.pageAll.totalPage || this.pageAll.totalPage == -1){
+          this.pageAll.currentPage++;
+          console.log('ddd'+this.pageAll.currentPage)
+            this.getVideoList();
         }
       },
 
       //下拉刷新
       loadMore (id){
-        this.videoListArgs.currentPage = 1;
+        this.pageAll.currentPage = 1;
         this.getChangeList();
       },
       //把下拉刷新完成之后回调的mt的方法传入我的组件里
@@ -299,8 +273,11 @@
         });
       },
     },
-    components:{videoPlay,topLoadMore}
-  }
+    components:{
+      videoPlay,topLoadMore
+    }
+}
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -403,5 +380,15 @@
   height: px2vw(88);
   line-height: px2vw(88);
   font-size: 0;
+}
+.noMoreData{
+  margin-top: px2vw(-1);
+  background-color: #fff;
+  width: 100%;
+  height: px2vw(80);
+  font-size: px2vw(26);
+  color: #999;
+  text-align: center;
+  line-height: px2vw(80);
 }
 </style>

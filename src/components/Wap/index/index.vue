@@ -45,6 +45,7 @@ import classifyBox from './classifyBox'
 import Brand from './brand'
 import Classify from './classify'
 import * as api from '../../../vuex/modules/api';
+// import 'material-design-icnos.css'
 export default {
   name: 'index',
   data () {

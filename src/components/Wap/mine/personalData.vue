@@ -2,7 +2,7 @@
   <div class="personal_data">
     <div class="logIn_header">
       <div class="header_box" @click="back">
-        <img class="header_back" src="../../../images/logIn/back.png" alt="img">
+        <img class="header_back" src="../../../images/logIn/back3.png" alt="img">
       </div>
       <span class="logWithCode">个人资料</span>
       <span class="submit-btn" @click="savePersonInfo">保存</span>
@@ -316,7 +316,7 @@
       width: px2vw(70);
       height: px2vw(70);
       top: px2vw(25);
-      right: px2vw(62);
+      right: px2vw(65);
       font-size: 0;
       border-radius: 50%;
       overflow: hidden;

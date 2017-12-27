@@ -307,10 +307,6 @@ let router = new Router({
           path: '/collect/datumcollect',
           component: datum
         },
-
-
-
-
       ]
     },
     {

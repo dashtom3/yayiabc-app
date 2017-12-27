@@ -207,8 +207,8 @@
               //几分钟前
               case this.timeStamp - item.momentTime < 3600000:
 //                console.log(this.timeStamp - item.momentTime)
-                let tmp = Math.ceil((this.timeStamp - item.momentTime) / 1000 / 60)
-                item.momentTime = tmp == 0 ? 1 : tmp + '分钟前';
+                let tmp = Math.ceil((this.timeStamp - item.momentTime) / 1000 / 60) < 1 ? 1 :Math.ceil((this.timeStamp - item.momentTime) / 1000 / 60)
+                item.momentTime = tmp + '分钟前';
                 break;
               //几小时前
               case this.timeStamp - item.momentTime >= 3600000 && this.timeStamp - item.momentTime < 86400000:

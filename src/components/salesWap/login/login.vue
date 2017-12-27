@@ -2,7 +2,7 @@
   <div class="logIn">
     <div class="logIn_header">
       <div class="header_box" @click="back">
-        <img class="header_back" src="../../../images/logIn/back.png" alt="img">
+        <img class="header_back" src="../../../images/logIn/back3.png" alt="img">
       </div>
       <span class="logWithCode">客服代表登录</span>
     </div>

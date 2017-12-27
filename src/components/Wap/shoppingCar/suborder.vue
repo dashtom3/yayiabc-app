@@ -5,6 +5,7 @@
         <img class="header_back" src="../../../images/logIn/back.png" alt="img">
       </div>
       <span class="logWithCode">确认订单</span>
+
     </div>
     <div class="list_sub">
       <!--选择收货地址 开始-->
@@ -29,7 +30,7 @@
       <!--默认地址显示结束-->
       <!-- 商品清单 开始-->
       <div class="cargo_box">
-        <div class="cargo_word">商品清单</div>
+        <div class="cargo_word">商品清单{{ token }}</div>
         <div class="collect" v-for="(item,index) in orderItem" :key="index">
           <div class="collect_img">
             <img :src="item.picPath" alt="img">
@@ -160,6 +161,7 @@
     name: 'suborder',
     data () {
       return {
+        token:'',
         fromGwc: '',
       	orderItem: '',
         gwcTotal: '',
@@ -323,6 +325,7 @@
           return false
         }
         Indicator.open()
+        var self = this;
         window.setTimeout(function(){
         if (that.qianbi_des !== '') {
           if (that.qianbi_des > that.nowQb) {
@@ -336,6 +339,8 @@
             token: tokenMethods.getWapToken(),
             qbnum: parseInt(that.qianbi_des),
           }
+          //查看token是否传入
+          self.token = obj.token;
           that.$store.dispatch('GET_QB_DK', obj).then((res) => {
             if (res.callStatus === 'SUCCEED') {
               if (res.msg == '余额充足') {
@@ -458,6 +463,9 @@
       },
       // 提交订单
       submitOrder: function() {
+
+
+
         var that = this
         if (that.receiverId == '') {
           Toast({message: '请选择一个收货地址！', duration: 1500})

@@ -569,7 +569,7 @@
     font-size: px2vw(30);
   }
   .picker-selected{
-    color: $themeColor!important;
+    color: $themeColor ;
   }
   .ql-toolbar.ql-snow .ql-formats{
     margin-right: 0;
