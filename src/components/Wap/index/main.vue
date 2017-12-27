@@ -28,7 +28,7 @@
           <div class="banner-left" @click.stop="goToPage('/inviteRegister')">
             <img src="../../../images/index/img1.png" alt="牙医注册">
           </div>
-          <div class="banner-right" @click.stop="goToPage('/salesRegister')">
+          <div class="banner-right" @click.stop="goToPage('/inviteSaleRegister')">
             <img src="../../../images/index/img2.png" alt="牙医销售">
           </div>
         </div>

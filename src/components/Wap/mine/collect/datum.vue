@@ -1,7 +1,8 @@
 <template>
     <div>
       <!--暂无内容图片 样式开始-->
-      <div class="none-datum" v-if="(noData && dataList.length == 0 )&&(noData && !dataList)">
+      <!-- <div class="none-datum" v-if="(noData && dataList.length == 0 )&&(noData && !dataList)"> -->
+      <div class="none-datum" v-if="dataList.length == 0">
         <div class="img-null">
           <img src="../../../../images/mine/colloct/noneData.png" alt="">
         </div>

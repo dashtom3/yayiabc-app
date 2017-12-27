@@ -55,14 +55,14 @@
     text-align: center;
     background-color: $themeColor;
     color: #fff;
-    font-size: px2vw(36);
+    font-size: px2vw(34);
     .back-click-area {
       position: absolute;
       top: 0;
       height: 100%;
       left: 0;
       width: px2vw(150);
-      background: url("../../../../images/logIn/back.png") px2vw(20) center no-repeat;
+      background: url("../../../../images/logIn/back3.png") px2vw(20) center no-repeat;
       background-size: px2vw(18) px2vw(29);
     }
   }
@@ -75,12 +75,13 @@
     line-height: px2vw(90);
     border-bottom: px2vw(1) solid #e5e5e5;
     width: 100%;
-    div{
-      width: px2vw(90);
+    span{
+      width: px2vw(128);
       height: px2vw(90);
       line-height: px2vw(86);
-      font-size: px2vw(36);
+      font-size: px2vw(30);
       color: #999;
+      text-align: center;
     }
     .isCheckDiv{
       color: $themeColor;

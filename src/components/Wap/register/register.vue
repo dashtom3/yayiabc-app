@@ -390,7 +390,16 @@
         this.$store.dispatch('REGISTER_MSG', params).then(res => {
           Indicator.close()
           if (res.data.callStatus === 'SUCCEED') {
-            Toast('恭喜您，注册成功')
+            // MessageBox({
+            //   title:'注册成功',
+            //   message:'现在完善资质信息，赠您60乾币！(首单满120元)，可直接抵扣60元',
+            //   confirmButtonText:"立即认证",
+            //   cancelButtonText:"下次再说",
+            //   showCancelButton: true
+            // });
+            MessageBox.confirm("现在完善资质信息，赠您60乾币！(首单满120元)，可直接抵扣60元,是否前往？",'注册成功').then(action => {
+                 window.location.href = "#/account/qualifications";
+            })
             Indicator.close();
             try{
               tokenMethods.setWapToken(res.data.token)
