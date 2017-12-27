@@ -1,4 +1,4 @@
-<template>
+  <template>
   <div>
     <div class="header">
       <span class="back-click-area" @click="goBack"></span>
@@ -336,7 +336,7 @@
           vertical-align: middle;
           img{
             width: 100%;
-            line-height: px2vw(60);
+            line-height: px2vw(50);
           }
         }
         .name{

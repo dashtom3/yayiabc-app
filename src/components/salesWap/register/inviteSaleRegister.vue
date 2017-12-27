@@ -169,15 +169,15 @@
           case !this.registerData.trueName:
             Toast({message: '请填写您的真实姓名', duration: 4000});
             return
-          case !(this.registerData.idCard && idCardReg.test(this.registerData.idCard)):
-            Toast({message: '请输入正确的身份证号码', duration: 4000});
-            return
-          case !this.registerData.workUnit:
-            Toast({message: '请填写您的单位名称', duration: 4000});
-            return
-          case !this.registerData.workPosition:
-            Toast({message: '请填写您的工作职位', duration: 4000});
-            return
+          // case !(this.registerData.idCard && idCardReg.test(this.registerData.idCard)):
+          //   Toast({message: '请输入正确的身份证号码', duration: 4000});
+          //   return
+          // case !this.registerData.workUnit:
+          //   Toast({message: '请填写您的单位名称', duration: 4000});
+          //   return
+          // case !this.registerData.workPosition:
+          //   Toast({message: '请填写您的工作职位', duration: 4000});
+          //   return
           case !this.registerData.part:
             Toast({message: '请选择您的单位所在地', duration: 4000});
             return

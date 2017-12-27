@@ -89,7 +89,7 @@
         this.isLoading = true;
         Indicator.open();
         var obj = {
-          phone: tokenMethods.getWapUser().phone,
+          // phone: tokenMethods.getWapUser().phone,
           token: tokenMethods.getWapToken()
         }
         //获取收藏商品的信息

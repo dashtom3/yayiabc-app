@@ -22,7 +22,7 @@
           </div>
           <div class="other">
             <span class="classify">{{value.classify}}</span>
-            <span class="num"><span>{{value.commentNum}}</span>评论</span>
+            <span class="num">已有<span>{{value.commentNum}}</span>人回答</span>
             <span class="clr"></span>
           </div>
         </div>
@@ -174,7 +174,7 @@
       width: 100%;
       height: 100%;
       .eachContainer{
-        padding: px2vw(20) px2vw(20) 0;
+        padding: px2vw(0) px2vw(20) 0;
         width: 100%;
         .headLine{
           width: 100%;
@@ -189,6 +189,7 @@
             vertical-align: middle;
             img{
               width: 100%;
+              height: 100%;
               line-height: px2vw(60);
             }
           }

@@ -14,7 +14,7 @@ import MuseUI from 'muse-ui'
 import 'muse-ui/dist/muse-ui.css'
 import VueLazyload from 'vue-lazyload'
 import VueQuillEditor from 'vue-quill-editor'
-import 'material-design-icons/iconfont/material-icons.css'
+// import 'material-design-icons/iconfont/material-icons.css'
 // const FastClick = require('fastclick')
 import Filter from './filter'
 Object.keys(Filter).forEach(key => Vue.filter(key, Filter[key]));

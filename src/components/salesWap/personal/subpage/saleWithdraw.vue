@@ -21,7 +21,7 @@
         </div>
       </div>
       <div class="withdraw-none" @click="goPage('withdrawSetting')" v-else>
-        请先完善提现的账户信息>
+        请先完善提现的账户信息 >
       </div>
       <div class="sale-confirm-container">
         <mt-field label="客服代表手机号" placeholder="请输入客服代表手机号" v-model="submitWitParams.phone"

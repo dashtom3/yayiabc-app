@@ -19,7 +19,7 @@
           </div>
           <div class="other">
             <span class="classify">{{value.faqQuestionType}}</span>
-            <span class="num"><span>{{value.faqAnswerNum}}</span>个回答</span>
+            <span class="num">已有<span>{{value.faqAnswerNum}}</span>人回答</span>
             <span class="clr"></span>
           </div>
         </div>
@@ -286,25 +286,24 @@
         width: 100%;
         height: 100%;
         .eachContainer{
-          background-color: #fff;
-          padding: px2vw(20) px2vw(20) 0;
+        padding: px2vw(0) px2vw(20) 0;
+        width: 100%;
+        .headLine{
           width: 100%;
-          .headLine{
-            width: 100%;
-            height: px2vw(120);
-            float: left;
-            .headImg{
-              display: inline-block;
-              width: px2vw(60);
-              height: px2vw(60);
-              border-radius: 50%;
-              overflow: hidden;
-              vertical-align: middle;
-              img{
-                width: 100%;
-                line-height: px2vw(60);
-              }
+          height: px2vw(120);
+          float: left;
+          .headImg{
+            display: inline-block;
+            width: px2vw(60);
+            height: px2vw(60);
+            border-radius: 50%;
+            overflow: hidden;
+            vertical-align: middle;
+            img{
+              width: 100%;
+              line-height: px2vw(60);
             }
+          }
             .name{
               line-height: px2vw(120);
               display: inline-block;
