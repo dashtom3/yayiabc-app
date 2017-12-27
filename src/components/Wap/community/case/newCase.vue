@@ -150,10 +150,10 @@
         sloty: [
           {
             flex: 1,
-            values: [ '1乾币', '2乾币', '5乾币','10乾币'],
+            values: [ '请选择','1乾币', '2乾币', '5乾币','10乾币'],
             className: 'slot1',
             textAlign: 'center',
-            defaultIndex:2,
+            defaultIndex:0,
           }
         ],
         isClassPicker:false,

@@ -2,7 +2,7 @@
   <div>
     <div class="header">
       <span class="back-click-area" @click="goBack"></span>
-      <div class="headerTitle">我的问答</div>
+      <div class="headerTitle">我的问答{{a}}</div>
     </div>
     <div class="firstClassifyName">
       <span @click="changeClass(0)" :class="{isCheckDiv:caseClassNum === 0}">我的提问</span>
@@ -20,11 +20,14 @@
     data(){
       return{
         caseClassNum : 0,
+        a : this.$route.fullPath,
+        b : this.$route.fullPath
       }
     },
     methods:{
       changeClass(index){
         this.caseClassNum = index;
+        console.log(this.$route)
         if(index === 0)
         {
           this.$router.push({path:'/myQandA/myQuestion'});
@@ -36,8 +39,8 @@
       goBack(){
         this.$router.push('/yayi/mine');
         this.$destroy()
-      },
-    }
+      }
+    },
   }
 </script>
 
