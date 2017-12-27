@@ -75,7 +75,8 @@
           }
 //        console.log(obj,'obj')
           this.$store.dispatch(ADD_COMMENT, obj).then(res=>{
-            if(res.callStatus === 'SUCCEED'){
+            console.log(res)
+            if(res.data.callStatus === 'SUCCEED'){
 //            console.log(res)
               Toast({message: '发布成功！', duration: 1500});
               let timer1=window.setTimeout(() => {

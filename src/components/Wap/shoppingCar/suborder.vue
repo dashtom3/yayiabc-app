@@ -379,6 +379,15 @@
               if (that.allQb >= total) {
                 that.nowQb = total
               }
+              //用户首单
+              if(res.msg == "0") {
+                MessageBox({message:'首单满120元(不含运费),可使用60乾币(注册赠送所得)!',title:'温馨提示',cancelButtonText:'不需优惠',confirmButtonText:'立即凑单',showCancelButton: true}).then(action => {
+                  // this.$router.push({path: '/logIn', query: {backName: '/productList'}});
+                  if(action == "confirm"){
+                    this.$router.push({path: '/productList'})
+                  }
+                })
+              }
           }
           that.qbDed();
         })

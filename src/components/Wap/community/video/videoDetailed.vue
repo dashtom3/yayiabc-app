@@ -214,7 +214,9 @@
     .fade-enter, .fade-leave-to  {
       opacity: 0
     }
-
+    // .container video{
+    //   height: 56.533vw;
+    // }
 
 
 

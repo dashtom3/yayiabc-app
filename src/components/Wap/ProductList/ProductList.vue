@@ -22,7 +22,6 @@
     <div class="clr"></div>
     <!--<ProductModule></ProductModule>-->
 
-
   </div>
 </template>
 

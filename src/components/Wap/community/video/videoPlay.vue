@@ -218,7 +218,8 @@
         {
           if(_this.full)  //全屏的时候
           {
-            video.style.height = 'auto';
+            // video.style.height = 'auto';
+            video.style.height = '100%';
             cc.style.display = "none";
             console.log(container);
             container.style.zIndex = "9999";
@@ -232,11 +233,11 @@
             plus.navigator.setFullscreen(true);
           }else {  //非全屏
             video.style.height = '56.533vw';
+            // video.style.width = "100% !import";
             cc.style.display = "block";
             container.style.zIndex = "0";
             Screen.style.width = W + "px";
             Screen.style.height = "auto";
-            video.style.width = "100% !import";
             Screen.style.transform = "rotate(0deg) translate(0,0)";
             container.style.overflow = "scroll";
             plus.navigator.setFullscreen(false);
@@ -454,4 +455,3 @@
       left:-39%;*/
     }
 </style>
-

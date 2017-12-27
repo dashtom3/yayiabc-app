@@ -452,6 +452,7 @@ export default {
     //评论子组件品论完回调
     //发布按钮
     isCommentRes(res) {
+      console.log("fdsfsd"+res)
       this.writeSwitch = true;
       this.isComment = false;
       window.scroll(0, this.containerScrollTop);
@@ -984,4 +985,3 @@ export default {
   z-index: 20000 !important;
 }
 </style>
-
