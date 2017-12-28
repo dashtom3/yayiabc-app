@@ -144,7 +144,7 @@
             values: [ '口腔外科', '口腔内科', '口腔修复','口腔种植', '口腔正畸'],
             className: 'slot1',
             textAlign: 'center',
-            defaultIndex:2,
+            defaultIndex:0,
           }
         ],
         sloty: [
@@ -153,7 +153,7 @@
             values: [ '请选择','1乾币', '2乾币', '5乾币','10乾币'],
             className: 'slot1',
             textAlign: 'center',
-            defaultIndex:0,
+            defaultIndex: 0
           }
         ],
         isClassPicker:false,

@@ -83,14 +83,14 @@ export default {
     search_cargo: function(item,index) {
       var that = this;
       if (typeof(item) !== 'object') {
-        that.searchCargo = item
+        that.listParams.keyWord= item
       }
-      if (that.searchCargo == '') {
+      if (that.listParams.keyWord == '') {
         Toast({message: '请输入查询条件！', duration: 1500})
         return false
       }
       var obj = {
-        keyWord: that.searchCargo,
+        keyWord: that.listParams.keyWord,
       }
       that.$store.dispatch('SEARCH_WORD', obj).then((res) => {
         if (res.data.callStatus === 'SUCCEED') {
@@ -98,10 +98,10 @@ export default {
           if (res.data.data.length !== 0) {
             if (JSON.parse(tokenMethods.getHistory()) == null) {
               that.userHistory = []
-              that.userHistory.push(that.searchCargo)
+              that.userHistory.push(that.listParams.keyWord)
             } else {
               that.userHistory = JSON.parse(tokenMethods.getHistory())
-              that.userHistory.push(that.searchCargo)
+              that.userHistory.push(that.listParams.keyWord)
               var userHistoryData = []
               for (var i = 0; i < that.userHistory.length; i++) {
                 if (userHistoryData.indexOf(that.userHistory[i]) == -1) {
@@ -117,7 +117,7 @@ export default {
           data1.numberPerPage = res.data.numberPerPage;
           data1.totalNumber = res.data.totalNumber;
           data1.totalPage = res.data.totalPage;
-          var search_word = that.searchCargo;
+          var search_word = that.listParams.keyWord;
           this.$store.commit(SAVE_SEARCH_WORD,search_word)
           that.$router.push({ name: 'productList'});
           window.scroll(0,0);

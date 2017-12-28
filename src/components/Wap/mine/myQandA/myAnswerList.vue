@@ -26,8 +26,12 @@
             <span class="clr"></span>
           </div>
         </div>
+        <div v-if="answerList.length != 0" class="noMoreData">
+          - End -
+        </div>
       </div>
-      <div class="noData" v-if="(noData && !answerList) || (noData && answerList.length == 0)">
+      <!-- <div class="noData" v-if="(noData && !answerList) || (noData && answerList.length == 0)"> -->
+      <div class="noData" v-if=" answerList.length == 0">
         <img src="../../../../images/question/noAnswerList.png" alt="">
         <p>暂无任何回答~</p>
       </div>
@@ -246,6 +250,16 @@
           }
         }
       }
+    }
+    .noMoreData{
+      margin-top: px2vw(-1);
+      background-color: #fff;
+      margin: px2vw(2) auto;
+      height: px2vw(80);
+      font-size: px2vw(26);
+      color: #999;
+      text-align: center;
+      line-height: px2vw(80);
     }
     .noData{
       width: 100%;

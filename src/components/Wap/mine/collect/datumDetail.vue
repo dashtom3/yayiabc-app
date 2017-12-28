@@ -3,7 +3,6 @@
       <!--头部开始-->
       <div class="titleWrap">
         资料详情
-
         <!--左上角 返回按钮-->
         <div class="back" @click="goBack">
           <img src="../../../../images/mine/colloct/back.png" alt="img">

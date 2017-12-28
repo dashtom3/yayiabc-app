@@ -81,7 +81,8 @@
           - End -
         </div>
         <!--请求完毕后，无数据显示状态-->
-        <div class="noTrend" v-if="(noData && yayiCircleData.length == 0) ||(noData && !yayiCircleData)">
+        <!-- <div class="noTrend" v-if="(noData && yayiCircleData.length == 0) ||(noData && !yayiCircleData)"> -->
+        <div class="noTrend" v-if="yayiCircleData.length == 0 || !yayiCircleData">
           <img src="../../../images/yayiCircle/new.png" alt="">
           <p><span @click="newTrend">立即发布新动态~</span></p>
         </div>

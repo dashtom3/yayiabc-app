@@ -88,7 +88,7 @@
       postQuest(){
         console.log(this.args)
         switch (true){
-          case !this.args.faqQuestionType || this.args.faqQuestionType < 0 || this.args.faqQuestionType > 4:
+          case !this.args.faqQuestionType || this.args.faqQuestionType < 0 || this.args.faqQuestionType > 5:
             Toast({message: '请选择一个分类', duration: 1500});
             return
           case !this.args.faqQuestionTitle:

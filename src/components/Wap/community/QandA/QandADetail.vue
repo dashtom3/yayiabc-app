@@ -30,7 +30,7 @@
         </div>
         <div class="other">
           <span class="classify">{{detailData.faqQuestionType}}</span>
-          <span class="num"><span>{{detailData.faqAnswerNum}}</span>个回答</span>
+          <span class="num">已有<span>{{detailData.faqAnswerNum}}</span>人回答</span>
           <span class="clr"></span>
         </div>
       </div>
@@ -321,12 +321,12 @@
     width: 100%;
     -webkit-overflow-scrolling: touch;
     .eachContainer{
-      padding: px2vw(20) px2vw(20) 0;
+      padding: px2vw(15) px2vw(20) 0;
       width: 100%;
       border-bottom: px2vw(20) solid #f4f4f4;
       .headLine{
         width: 100%;
-        height: px2vw(140);
+        height: px2vw(110);
         float: left;
         .headImg{
           display: inline-block;
@@ -341,7 +341,7 @@
           }
         }
         .name{
-          line-height: px2vw(120);
+          line-height: px2vw(110);
           display: inline-block;
           font-size: px2vw(26);
           color: #333;
@@ -349,7 +349,7 @@
           margin-left: px2vw(10);
         }
         .time{
-          line-height: px2vw(120);
+          line-height: px2vw(110);
           display: inline-block;
           font-size: px2vw(24);
           color: #999;
@@ -386,11 +386,15 @@
         padding-bottom: px2vw(30);
         height: px2vw(70);
         .classify{
-          font-size: px2vw(22);
-          border: px2vw(1) solid $themeColor;
-          color: $themeColor;
-          border-radius: px2vw(5);
-          float: left;
+         width: px2vw(98);
+         height: px2vw(26);
+         border: 1px solid #3676b6;
+         text-align: center;
+         color: #3676b6;
+         line-height: 0;
+         padding: 0 px2vw(4);
+         border-radius: px2vw(8);
+         font-size: px2vw(24);
         }
         .num{
           float: right;
@@ -408,12 +412,12 @@
     .answerList{
       margin-bottom: px2vw(120);
       .eachAnswer{
-        padding: px2vw(20) px2vw(20) px2vw(20);
+        padding: px2vw(15) px2vw(20) px2vw(6);
         width: 100%;
         border-bottom: px2vw(1) solid #e5e5e5;
         .headLine{
           width: 100%;
-          height: px2vw(120);
+          height: px2vw(110);
           float: left;
           .headImg{
             display: inline-block;
@@ -429,14 +433,14 @@
           }
           .name{
             font-weight: bold;
-            line-height: px2vw(120);
+            line-height: px2vw(110);
             display: inline-block;
             font-size: px2vw(26);
             color: #333;
             margin-left: px2vw(10);
           }
           .time{
-            line-height: px2vw(120);
+            line-height: px2vw(110);
             display: inline-block;
             font-size: px2vw(24);
             color: #999;

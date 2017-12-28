@@ -26,7 +26,8 @@
         <div v-if="questList.length != 0 && args.currentPage == totalPage" class="noMoreData">
           - End -
         </div>
-        <div class="noData" v-if="(noData && !questList)||(noData && questList.length == 0)">
+        <!-- <div class="noData" v-if="(noData && !questList)||(noData && questList.length == 0)"> -->
+        <div class="noData" v-if="questList.length == 0">
           <img src="../../../../images/question/noQuestionList.png" alt="">
           <p>暂无任何问题~</p>
         </div>
@@ -300,12 +301,14 @@
     width: 100%;
     height: 100%;
     min-height: 79vh;
+    background-color: #ffffff;
     .loadMore{
       min-height: 79vh;
       .scrollBox{
         min-height: 79vh;
         width: 100%;
         height: 100%;
+        background-color: #ffffff;
         .eachContainer{
         padding: px2vw(0) px2vw(20) 0;
         width: 100%;
@@ -342,21 +345,25 @@
           }
           .title{
             width: 100%;
-            font-size: px2vw(30);
+            font-size: px2vw(32);
             color: #333;
-            margin-bottom: px2vw(20);
-            font-weight: bold;
+            margin-bottom: px2vw(30);
+            // font-weight: bold;
           }
           .other{
             padding-bottom: px2vw(30);
             border-bottom: px2vw(1) solid #e5e5e5;
             height: px2vw(70);
             .classify{
-              font-size: px2vw(22);
-              border: px2vw(1) solid $themeColor;
-              color: $themeColor;
-              border-radius: px2vw(5);
-              float: left;
+               width: px2vw(98);
+               height: px2vw(26);
+               border: 1px solid #3676b6;
+               text-align: center;
+               color: #3676b6;
+               line-height: 0;
+               padding: 0 px2vw(4);
+               border-radius: px2vw(8);
+               font-size: px2vw(24);
             }
             .num{
               float: right;
@@ -400,12 +407,13 @@
     .noMoreData{
       margin-top: px2vw(-1);
       background-color: #fff;
-      width: 100%;
+      margin: px2vw(2) auto;
       height: px2vw(80);
       font-size: px2vw(26);
       color: #999;
       text-align: center;
       line-height: px2vw(80);
+    
     }
   }
 </style>

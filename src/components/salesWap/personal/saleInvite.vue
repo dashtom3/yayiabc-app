@@ -16,9 +16,8 @@
         <p>- 邀请方式 -</p>
         <shareToWx  :userId="myUserId" :resType="1"></shareToWx>
       </div>
-      <div class="line">
+      <div class="line lines">
         <p>- 我的客户 -</p>
-
       </div>
     </div>
 
@@ -102,13 +101,16 @@
       }
     }
     .line{
-      border-bottom: px2vw(1) solid #e5e5e5;
       p{
         font-size: px2vw(36);
         color: $themeColor;
         text-align: center;
         line-height: px2vw(100);
       }
+    }
+    .lines{
+        border-top: px2vw(1) solid #e5e5e5;
+        box-sizing: border-box;
     }
   }
 </style>

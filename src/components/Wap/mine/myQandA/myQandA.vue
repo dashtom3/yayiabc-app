@@ -2,7 +2,7 @@
   <div>
     <div class="header">
       <span class="back-click-area" @click="goBack"></span>
-      <div class="headerTitle">我的问答{{a}}</div>
+      <div class="headerTitle">我的问答</div>
     </div>
     <div class="firstClassifyName">
       <span @click="changeClass(0)" :class="{isCheckDiv:caseClassNum === 0}">我的提问</span>

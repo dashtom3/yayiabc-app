@@ -44,8 +44,13 @@
                   <span v-if="item.chargeNumber" class="coin"> {{item.chargeNumber}}乾币</span>
                 </div>
               </div>
-            </div>
+            </div> 
           </div>
+
+        <!-- 没有更多数据显示end -->
+         <div v-if="noMoreData" class="noMoreData">
+          - End -
+        </div>
         <!-- </mt-loadmore> -->
         <div v-if="change == 0 && myCaseList.length == 0" class="spaceImgBox">
           <img class="spaceImgFont" src="../../../../images/case/myCase/caogao.png" alt="">
@@ -80,6 +85,7 @@ export default {
       allLoaded: false,
       isLoading: false,
       classArgs: ["草稿箱", "已发布", "已购买"],
+      noMoreData:false,     //没有更多数据
       myCase: {
         //'草稿箱''已发布' 请求的数据
         currentPage: 1,
@@ -177,8 +183,12 @@ export default {
     getListMore (){
       if (this.totalPage <= this.myCase.currentPage){
         // this.endShow = true
+      if(!this.isLoading){
+          this.noMoreData = true;
+          }
       } else {
         this.myCase.currentPage = Number(this.myCase.currentPage) + 1;
+        this.noMoreData = false;
         this.getCaseList();
       }
     },
