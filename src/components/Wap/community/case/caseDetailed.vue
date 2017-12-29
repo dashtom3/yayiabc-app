@@ -60,7 +60,7 @@
           </span>
         </div>
       </div>
-      <comment v-if="$route.query.draft != 1" :types="'病例'"></comment>
+      <comment v-if="$route.query.draft != 1" :types="'病例'" v-on:refreshDetail="refreshData"></comment>
       <div class="bottomWrite" v-else-if="$route.query.draft == 1">
         <div class="bottomLeft" @click="releaseCase(1)">
           <span>
@@ -106,7 +106,7 @@
     data(){
       return{
         editSwitch: false,
-        caseDetailArgs: [], //病例详情的内容数据
+        caseDetailArgs: {}, //病例详情的内容数据
         payNow: false,
         userCoins: 0,
         timeStamp: '', //时间戳
@@ -162,6 +162,9 @@
           }
         });
       },
+      refreshData() {
+        this.getCaseData();
+      },
       closePay(){
         this.payNow = false;
       },
@@ -201,8 +204,8 @@
       },
       //获取用户的乾币数量
       getUserCoin(){
-        this.$store.dispatch('GET_USER_PAY', {qbnum: 0}).then((res) => {
-          this.userCoins = res.data;
+        this.$store.dispatch('GET_USERS_DATA', {qbnum: 0}).then((res) => {
+          this.userCoins = res.data.fl;
         })
       },
       //获取病例数据

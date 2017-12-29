@@ -119,7 +119,7 @@ Vue.filter('time', function (item) {
       return  Math.floor(  (tempDate - item.commentTime) / 1000 / 60 / 60  ) + "小时前";
     } else if (tempDate - item.commentTime >= 86400000){
     //日期
-      console.log(Util.formatDate.format(new Date(item.commentTime), "yy.MM.dd hh:mm").substring(2));
+      // console.log(Util.formatDate.format(new Date(item.commentTime), "yy.MM.dd hh:mm").substring(2));
       return  Util.formatDate.format(new Date(item.commentTime), "yy.MM.dd hh:mm").substring(2);
     }
 })

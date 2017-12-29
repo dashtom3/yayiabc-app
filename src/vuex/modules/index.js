@@ -56,7 +56,11 @@ const state = {
   saveCaseSearching:'',
   caseOfIllness: {},
   saveDatumDressing: null, // 保存资料库筛选的值
+
+  //社区
   video: null, //视频播放唯一性
+  casedetail: null,
+  videodetail: null
 }
 
 const getters = {
@@ -107,6 +111,9 @@ const getters = {
 const mutations = {
   // 更新路由方向
   [types.UPDATE_DIRECTION](state,payload) {
+    state.direction = payload.direction
+  },
+  [types.SET](state,payload) {
     state.direction = payload.direction
   },
   [types.VIDEO_PLAY](state,payload) {

@@ -168,6 +168,7 @@
             <div class="tabButtonBox" @click="likeThisCase">
               <div>
                 <img class="img2" src="../../../../images/case/caseOfIllness/like.png" alt="">
+                <!-- <img :src="item.isZan == 1? require('../../../../images/case/iszan.png'):require('../../../../images/case/caseOfIllness/like.png')" alt="" class="img2"> -->
               </div>
               <div>赞</div>
             </div>
@@ -307,6 +308,7 @@ export default {
     },
     //赞  -----------------------
     like(type, index, commentId) {
+
       if (this.pointLogin()) {
         if (type === "one") {
           let obj = {
@@ -411,8 +413,8 @@ export default {
     },
     likeThisCase(){
       if (this.pointLogin()) {
-        this.$store.dispatch("LIKE", {type:2,typeId:this.$route.query.id}).then(res => {
-
+        this.$store.dispatch("LIKE", {type:this.types,typeId:this.$route.query.id}).then(res => {
+          console.log(res)
         })
       }else {
         this.isLogin();
@@ -465,6 +467,7 @@ export default {
         ].unshift(res);
       } else {
         //一级评论
+        this.$emit('refreshDetail');
         res.subCommentList = [];
         this.detailedCommentArgs.data.unshift(res);
       }
