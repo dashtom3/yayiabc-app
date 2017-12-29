@@ -385,8 +385,10 @@ export default {
       } else if (judge === 'video') {
         this.$router.push({name: 'video'})
         sessionStorage.removeItem('backJudgeSL')
-      } else {
+      } else if (judge === 'productList'){
         this.$router.push({path:'/productList',query:{ListBack: 'detail'}});
+      } else { // 视频详情页面
+        this.$router.push({path:judge})
       }
     },
 

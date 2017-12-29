@@ -52,10 +52,10 @@
           }
           this.$store.dispatch(ADD_ANSWER, obj).then(res=>{
             if(res.callStatus === 'SUCCEED'){
-//            console.log(res)
+           console.log(res)
               Toast({message: '发布成功！', duration: 1500});
               let timer1=window.setTimeout(() => {
-                this.$emit('commentRes',res.data);
+                this.$emit('commentRes',res.data.data);
                 this.commentContent = ''
                 document.body.classList.remove('full-body-commentArea')
                 window.clearTimeout(timer1);
@@ -80,7 +80,7 @@
 //            console.log(res)
               Toast({message: '发布成功！', duration: 1500});
               let timer1=window.setTimeout(() => {
-                this.$emit('commentRes',res.data);
+                this.$emit('commentRes',res.data.data);
                 this.commentContent = ''
                 document.body.classList.remove('full-body-commentArea')
                 window.clearTimeout(timer1);
