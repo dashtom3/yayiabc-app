@@ -15,6 +15,7 @@ import 'muse-ui/dist/muse-ui.css'
 import VueLazyload from 'vue-lazyload'
 import VueQuillEditor from 'vue-quill-editor'
 import 'material-design-icons/iconfont/material-icons.css'
+import Util from "./vuex/util";
 // const FastClick = require('fastclick')
 import Filter from './filter'
 Object.keys(Filter).forEach(key => Vue.filter(key, Filter[key]));
@@ -106,7 +107,22 @@ if (!String.prototype.padStart) {
     }
   };
 }
-
+Vue.filter('time', function (item) {
+  var tempDate = Date.parse(new Date());
+  // console.log(Util.formatDate.format(new Date(item.commentTime), "yy.MM.dd hh:mm").substring(2))
+  // console.log(tempDate - item.commentTime )
+  if (tempDate - item.commentTime < 3600000){
+      //                console.log(this.timeStamp - item.commentTime)
+      return  Math.ceil((tempDate - item.commentTime) / 1000 / 60) +  "分钟前";
+    } else if((tempDate - item.commentTime >= 3600000) && (tempDate - item.commentTime < 86400000)){
+    //几小时前
+      return  Math.floor(  (tempDate - item.commentTime) / 1000 / 60 / 60  ) + "小时前";
+    } else if (tempDate - item.commentTime >= 86400000){
+    //日期
+      console.log(Util.formatDate.format(new Date(item.commentTime), "yy.MM.dd hh:mm").substring(2));
+      return  Util.formatDate.format(new Date(item.commentTime), "yy.MM.dd hh:mm").substring(2);
+    }
+})
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

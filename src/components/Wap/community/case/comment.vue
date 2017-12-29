@@ -20,7 +20,7 @@
               <div class="clearFix">
                 <div class="nameWrap">
                   <div class="userRightName">{{commentChild.comment.userName}}</div>
-                  <div class="rightTime">{{commentChild.comment.commentTime}}</div>
+                  <div class="rightTime">{{commentChild.comment | time}}</div>
                 </div>
 
                 <div @click="like('three','','')" class="likeBox">
@@ -56,7 +56,7 @@
               <div class="clearFix">
                 <div class="nameWrap">
                   <div class="userRightName">{{item.userName}}</div>
-                  <div class="rightTime">{{item.commentTime}}</div>
+                  <div class="rightTime">{{item | time}}</div>
                 </div>
                 <div class="likeBox">
                   <div v-if="item.userId != myUserId" @click="write('two',item.userName)" class="replyBox">
@@ -100,7 +100,7 @@
             <img src="../../../../images/case/myCase/sarfa.png" alt="">
           </div>
           <div class="sofaText">
-            <span>暂无评论,&nbsp;&nbsp;快来<span class="knock">抢沙发</span>吧~</span>
+            <span>暂无评论,&nbsp;&nbsp;快来<span class="knock" @click="write('one')">抢沙发</span>吧~</span>
           </div>
         </div>
         <div v-for="(item, index) in detailedCommentArgs.data" class="comments" :key="index">
@@ -112,7 +112,7 @@
             <div class="clearFix">
               <div class="nameWrap">
                 <div class="userRightName">{{item.userName}}</div>
-                <div class="rightTime">{{item.commentTime}}</div>
+                <div class="rightTime">{{item | time}}</div>
               </div>
               <div class="likeBox">
                 <div v-if="item.userId != myUserId" @click="write('three','',index)" class="likeBox">
@@ -294,7 +294,8 @@ export default {
     //收藏按钮
     collect() {
       if (this.pointLogin()) {
-        this.$store.dispatch("CASE_COLLECT", { postId: this.$route.query.id }).then(res => {
+        console.log(this.$route.query.id);
+        this.$store.dispatch("CASE_COLLECT", { postId: this.$route.query.id}).then(res => {
             if (res.callStatus === "SUCCEED") {
               Toast({ message: "收藏成功", duration: 1500 });
             }
@@ -452,7 +453,7 @@ export default {
     //评论子组件品论完回调
     //发布按钮
     isCommentRes(res) {
-      console.log("fdsfsd"+res)
+      console.log(res)
       this.writeSwitch = true;
       this.isComment = false;
       window.scroll(0, this.containerScrollTop);
@@ -512,13 +513,13 @@ export default {
     },
     //获取病例评论数据
     getCaseComment() {
-      this.timeStamp = Date.parse(new Date());
+      // this.timeStamp = Date.parse(new Date());
       this.$store
         .dispatch("GET_CASE_COMMENT", this.detailedCommentParameter)
         .then(res => {
           console.log(res.data,'comment')
           this.detailedCommentArgs = res;
-          this.time(this.detailedCommentArgs.data);
+          // this.time(this.detailedCommentArgs.data);
         });
     },
     //子组件 跳转二级评论

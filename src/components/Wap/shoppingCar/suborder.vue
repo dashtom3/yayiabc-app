@@ -72,9 +72,9 @@
       </a>
       <div class="mint-cell-wrapper sex" v-show="qb_input">
         <div class="mint-cell-title">
-         <input type="text" placeholder="请输入本次使用的乾币数" v-model="qianbi_des" @input="changeQb" @blur="qbDed">
-         <span class="qb_attention" v-if="!hasCount">（最多可使用{{nowQb}}乾币）</span>
-         <span class="already_dk" v-else>已抵扣<span style="color: #d81e06;">{{qianbi_des}}</span>元</span>
+         <input type="text" placeholder="请输入本次使用的乾币数" v-model="qianbi_des" @blur="qbDed">
+         <span class="qb_attention">（最多可使用{{nowQb}}乾币）</span>
+         <!-- <span class="already_dk" v-else>已抵扣<span style="color: #d81e06;">{{qianbi_des}}</span>元</span> -->
         </div>
       </div>
 <!--       <div class="mint-cell mint-field">
@@ -130,7 +130,7 @@
       </div>
       <div>
         <span>乾币抵扣</span>
-        <span class="color_blue">-¥ {{qbdk}}</span>
+        <span class="color_blue">-¥ {{qianbi_des}}</span>
       </div>
       <div>
         <span>乾币赠送</span>
@@ -142,7 +142,7 @@
     <div class="submit_order">
       <div class="price_box">
         <span>实付款:</span>
-        <span class="color_margin">¥{{gwcTotal+freight-qbdk}}</span>
+        <span class="color_margin">¥{{gwcTotal+freight-qianbi_des}}</span>
       </div>
 <!--       <mu-raised-button label="提交订单" class="submit_button" @click="submitOrder"/> -->
       <div class="submit_button" @click="submitOrder">
@@ -169,7 +169,7 @@
         leave_des: '', //买家留言
         leave_word: 0, //产品注册证
         freight: 0, //运费
-        qbdk: 0,  //乾币抵扣
+
         canHasCoin: 0, //可赠送乾币
         invoice_style: '',  //发票类型 普通发票为1，增值税发票为2
         invoice_state: '',  //发票性质 普通发票个人为0 普通发票公司为1 增值税为''
@@ -193,8 +193,7 @@
         // qb_input: false,
         allQb: '', //用户QB总额
         nowQb: '',
-        qianbi_des: '', //用户输入的乾币
-        hasCount: false,
+        qianbi_des: '', //用户输入的乾币 //乾币抵扣
         value: '默认文字',
         judge: '', //跳转判断
         invoiceText: '不开发票',
@@ -262,8 +261,6 @@
         if (that.qianbi_des > that.nowQb) {
           Toast({message: '本单最多只可使用' + that.nowQb + '乾币！', duration: 1500})
           that.qianbi_des = that.nowQb
-        } else if (that.qianbi_des == '') {
-          that.hasCount = false
         }
       },
        //发票信息
@@ -309,60 +306,24 @@
       ]),
     },
     methods: {
-      changeQb: function() {
-        var that = this;
-        that.hasCount = false;
-      },
       toInvoice(){
         this.$router.push({path:'/invoice'});
       },
       //失去焦点时
       qbDed: function() {
-        var that = this;
+        var self = this;
         var r = /^\+?[1-9][0-9]*$/　　//正整数
-        if (!r.test(that.qianbi_des)) {
+        if (!r.test(self.qianbi_des)) {
           Toast({message: '请输入整数！', duration: 1500})
+          self.qianbi_des = self.nowQb
           return false
         }
-        Indicator.open()
-        var self = this;
-        window.setTimeout(function(){
-        if (that.qianbi_des !== '') {
-          if (that.qianbi_des > that.nowQb) {
+        if (that.qianbi_des > that.nowQb) {
             Toast({message: '本单最多只可使用' + that.nowQb + '乾币！', duration: 1500})
-            that.hasCount = false
-            that.qbdk = 0
+            // that.qbdk = 0
             that.qianbi_des = that.nowQb
             return false
-          }
-          var obj = {
-            token: tokenMethods.getWapToken(),
-            qbnum: parseInt(that.qianbi_des),
-          }
-          //查看token是否传入
-          self.token = obj.token;
-          that.$store.dispatch('GET_QB_DK', obj).then((res) => {
-            if (res.callStatus === 'SUCCEED') {
-              if (res.msg == '余额充足') {
-                that.hasCount = true
-                that.qbdk = that.qianbi_des
-                window.sessionStorage.setItem('qbCount', that.qbdk)
-                Indicator.close()
-              } else {
-                Toast({message: '乾币余额不足！', duration: 1500})
-                that.hasCount = false
-                Indicator.close()
-              }
-            }
-          })
-        } else {
-          that.checked2 = false
-          that.hasCount = false
-          Indicator.close()
-          that.qbdk = 0
-          Toast({message: '请输入乾币数！', duration: 1500})
         }
-        },1000)
       },
       // 用户查询QB余额
       getQbNow: function() {
@@ -462,9 +423,7 @@
             var qbCount = window.sessionStorage.getItem('qbCount')
             if (qbCount) {
               that.selectUse()
-              that.qbdk = qbCount
-              that.hasCount = true
-              that.qianbi_des = that.qbdk
+              that.qianbi_des = qbCount
               // console.log(qbCount,that.nowQb,'qbcount')
             }
           }
@@ -472,9 +431,6 @@
       },
       // 提交订单
       submitOrder: function() {
-
-
-
         var that = this
         if (that.receiverId == '') {
           Toast({message: '请选择一个收货地址！', duration: 1500})
@@ -516,9 +472,9 @@
           // token: that.global.getToken(),
           // invoiceHand: that.tax_des, //发票抬头
           receiverId: parseInt(that.addressData.receiverId), //收货地址id
-          postFee: that.freight,
+          postFee: '1',//不需要 运费
           isRegister: that.leave_word, //是否需要产品注册证
-          qbDed: that.qbdk, //钱币抵扣
+          qbDed: that.qianbi_des, //钱币抵扣
           buyerMessage: that.leave_des, //买家留言
           orderItem: orderItem, //JSON数组
           invoiceStyle: that.invoice_style, // 发票类型 普通发票为1，增值税发票为2
@@ -697,7 +653,7 @@
         this.data.qb = '0';
         this.data.qbText = '不使用';
         this.qb_input = false;
-        this.qbdk = 0;
+        this.qianbi_des = 0;
         window.sessionStorage.removeItem('qbCount')
       },
       selectWx: function () {

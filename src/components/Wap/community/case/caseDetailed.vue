@@ -44,7 +44,7 @@
         <span class="class">免费</span>
       </div>
       <div class="read">
-        <span class="readS">{{caseDetailArgs.readNumber}}阅读</span><span class="drop">&nbsp;·</span><span class="readS">&nbsp;{{caseOfIllness.commentNumber}}评论&nbsp;</span><span class="drop">·</span><span class="readS">&nbsp;{{caseOfIllness.postFavour}}赞</span>
+        <span class="readS">{{caseDetailArgs.readNumber}}阅读</span><span class="drop">&nbsp;·</span><span class="readS">&nbsp;{{caseOfIllness.commentNum}}评论&nbsp;</span><span class="drop">·</span><span class="readS">&nbsp;{{caseOfIllness.zanNum}}赞</span>
         <span class="readTime">{{caseDetailArgs.postTime}}</span>
       </div>
       <!--病历内容-->

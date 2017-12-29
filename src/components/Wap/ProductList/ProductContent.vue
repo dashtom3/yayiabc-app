@@ -408,6 +408,7 @@
 //        this.keepAlived = true;
 //        this.$emit('child-keepAlive',this.keepAlived);
 //        this.$route.meta.keepAlive = true;
+        sessionStorage.setItem('backJudgeSL', 'productList')
         this.$router.push({path: '/details/' + item.itemId, query: {name: item.itemName, itemId: item.itemId, backJudge: 'productList'}});
       },
 

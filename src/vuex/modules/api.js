@@ -611,7 +611,7 @@ export function getMyCustomer(params) {
 
 //获取发票信息
 export function getOrderInvoice(params) {
-  return geters('/po/queryLastInvoice', params)
+  return getWithTokenNoLoading('/po/queryLastInvoice', params)
 }
 
 
