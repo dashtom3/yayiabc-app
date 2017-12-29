@@ -128,7 +128,7 @@
     display: block;
     width: 100%;
     font-size: px2vw(24);
-    line-height: px2vw(25);
+    line-height: px2vw(20);
   }
 
   .detail_list > div:nth-child(2) {
@@ -178,6 +178,7 @@
 
   .right_box{
     width: px2vw(495);
+    padding-top: px2vw(20);
   }
   .box_H3 {
     display: inline-block;

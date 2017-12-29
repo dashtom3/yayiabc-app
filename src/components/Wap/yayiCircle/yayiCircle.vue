@@ -77,7 +77,7 @@
           </div>
         </div>
           <!--数据到底-->
-        <div v-if="noMoreData" class="noMoreData">
+        <div v-if="yayiCircleData.length !=0 && allLoaded" class="noMoreData">
           - End -
         </div>
         <!--请求完毕后，无数据显示状态-->
@@ -417,12 +417,13 @@
     width: 100%;
     height: 86vh;
     -webkit-overflow-scrolling: touch;
-    padding-top: px2vw(20);
-    background-color: #fff;
+    padding-top: px2vw(0);
+    background-color: #f4f4f4;
     .innerContainerWrap{
       min-height: px2vw(100);
       .innerContainer{
         width: 100%;
+        background-color: #fff;
         .eachContainer{
           width:100%;
           padding: 0 px2vw(20) px2vw(30) 0;
@@ -579,9 +580,11 @@
         width: 100%;
         height: px2vw(80);
         font-size: px2vw(26);
+        margin-bottom: px2vw(12);
         color: #999;
         text-align: center;
         line-height: px2vw(80);
+        background-color: #f4f4f4;
       }
       .noTrend{
         width: 100%;

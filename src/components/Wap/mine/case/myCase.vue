@@ -25,7 +25,7 @@
               <div @click="toGoCase(item.postId)"  v-if="myCaseList" class="caseBox">
                 <div class="userBox " :class="{'addChange1': item.cover}">
                   <div class="userPicture">
-                    <img v-if="change == 2" :src=" item.printUrl == null? require('../../../../images/mine/zhifubao.png') : item.printUrl" alt="">
+                    <img v-if="change == 2" :src="item.user == undefined ? require('../../../../images/mine/zhifubao.png') : item.user.userPic + '?imageView2/1/w/200/h/200' " alt="">
                     <span v-if="change == 2" class="userName" :class="{'userWrite': change != 2}">{{item.writer}}</span>
                     <span class="userName userTime"><span v-if="change != 2">更新于</span>{{item.postTime}}</span>
                   </div>
@@ -46,9 +46,8 @@
               </div>
             </div> 
           </div>
-
         <!-- 没有更多数据显示end -->
-         <div v-if="noMoreData" class="noMoreData">
+         <div v-if="myCaseList != 0" class="noMoreData">
           - End -
         </div>
         <!-- </mt-loadmore> -->
@@ -181,10 +180,11 @@ export default {
         });
     },
     getListMore (){
-      if (this.totalPage <= this.myCase.currentPage){
+      if (this.totalPage >= this.myCase.currentPage){
+       
         // this.endShow = true
       if(!this.isLoading){
-          this.noMoreData = true;
+           this.noMoreData = true;
           }
       } else {
         this.myCase.currentPage = Number(this.myCase.currentPage) + 1;
@@ -321,7 +321,8 @@ export default {
 .caseBox {
   background-color: #ffffff;
   border-bottom: px2vw(1) solid #f4f4f4;
-  padding: px2vw(36) px2vw(17) px2vw(35) px2vw(17);
+  padding: px2vw(18) px2vw(17) px2vw(35) px2vw(17);
+  position: relative;
 }
 /* 有图添加样式 */
 .addChange2 {
@@ -357,7 +358,9 @@ export default {
 .userImgBox{
   width: px2vw(160);
   height: px2vw(160);
-  overflow: hidden;
+ position: absolute;
+ top: px2vw(20);
+ right: px2vw(20);
 }
 .userImgBox > img {
   width: 100%;
@@ -370,6 +373,7 @@ export default {
   width: px2vw(98);
   height: px2vw(26);
   border: 1px solid #3676b6;
+  font-size: px2vw(24);
   text-align: center;
   color: #3676b6;
   line-height: 0;
@@ -378,10 +382,12 @@ export default {
 }
 .readeNum {
   margin-left: px2vw(18);
+  font-size: px2vw(24);
   color: #999999;
 }
 .readeNum2 {
   margin-left: px2vw(8);
+    font-size: px2vw(24);
   color: #999999;
 }
 .coin {
@@ -482,5 +488,17 @@ export default {
 }
 .userWrite {
   margin-left: px2vw(2) !important;
+}
+.noMoreData{
+      margin-top: px2vw(-1);
+      background-color: #f4f4f4;
+      width: 100%;
+      height: px2vw(80);
+      font-size: px2vw(26);
+      color: #999;
+      text-align: center;
+      line-height: px2vw(80);
+      margin-bottom:  px2vw(20);
+      // border-top: px2vw(1) solid  #e5e5e5;
 }
 </style>

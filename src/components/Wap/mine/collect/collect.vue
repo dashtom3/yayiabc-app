@@ -125,6 +125,7 @@
     overflow: scroll;
     width: 100%;
     -webkit-overflow-scrolling: touch;
+    background-color: #f4f4f4;
     z-index: -1;
   }
 </style>

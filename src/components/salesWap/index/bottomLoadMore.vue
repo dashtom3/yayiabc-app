@@ -67,6 +67,7 @@
   @import "../../../common/sass/factory";
   .wrap{
     z-index: 15;
+    background-color: #f4f4f4;
   }
   .upDown{
     margin-top: px2vw(30);

@@ -1,10 +1,10 @@
-<template>
+  <template>
 <div ref="scrollBox" class="wrap loading">
   <mt-loadmore :top-method="loadMore" :bottom-method="getCaseListMore" :bottom-all-loaded="allLoaded" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState" v-on:bottom-status-change="isStateB">
     <topLoadMore ref="topLoadMore" slot="top" :loading="topLoading" :loaded="isLoaded"></topLoadMore>
     <div class="scrollBox">
       <div @click="goCaseDetailed(item)" v-for="(item, index) in listCaseData" class="caseBox" :key="index">
-        <div class="userBox " :class="{'addChange1': item.cover !== ''}">
+        <div class="userBox" :class="{'addChange1': item.cover !== ''}">
           <div class="userPicture">
             <img :src="item.user != undefined ? item.user.userPic + '?imageView2/1/w/200/h/200' : require('../../../../images/case/hPic.png')" alt="">
             <span class="userName">{{item.writer}}</span>
@@ -18,14 +18,15 @@
         <div class="readeBox">
           <span class="readeClass">{{item.classify}}</span>
           <span class="readeNum">{{item.readNumber==null?0: item.readNumber}} 阅读</span>
-          <span class="readeNum2">· {{item.commentNum}}评论</span>
-          <span class="readeNum2">· {{item.zanNum}}赞</span>
+          <span class="readeNum2">· {{item.commentNum}} 评论</span>
+          <span class="readeNum2">· {{item.zanNum}} 赞</span>
           <span v-if="item.chargeNumber" class="coin"> {{item.chargeNumber}}乾币</span>
         </div>
       </div>
       <div v-if="listCaseData.length != 0 && caseDate.currentPage == caseDate.totalPage" class="noMoreData">
         - End -
       </div>
+      <div v-if="listCaseData.length != 0 && caseDate.currentPage == caseDate.totalPage" class="noMoreData2"></div>
       <div v-if="listCaseData.length == 0" class="noTrend">
         <img src="../../../../images/case/myCase/fabu.png" alt="">
         <p>暂无任何病例~</p>
@@ -334,6 +335,7 @@
    }
    .scrollBox{
      min-height: px2vw(1052);
+     background-color: #f4f4f4;
    }
    .userImgBox>img{
      width: px2vw(160);
@@ -355,6 +357,7 @@
    }
    .readeBox{
      margin-top: px2vw(28);
+     font-size: px2vw(24);
    }
    .readeClass{
      width: px2vw(98);
@@ -362,6 +365,7 @@
      border: 1px solid #3676b6;
      text-align: center;
      color: #3676b6;
+     font-size: px2vw(24);
      line-height: 0;
      padding: 0 px2vw(4);
      border-radius: px2vw(8);
@@ -389,7 +393,7 @@
    }
    .caseBox{
      background-color: #ffffff;
-     border-bottom: px2vw(1) solid #f4f4f4;
+     border-bottom: px2vw(1) solid #e5e5e5;
      padding: px2vw(36) px2vw(17) px2vw(35) px2vw(17);
    }
 
@@ -402,12 +406,18 @@
     }
     .noMoreData{
       margin-top: px2vw(-1);
-      background-color: #fff;
+      background-color: #f4f4f4;
       width: 100%;
       height: px2vw(80);
       font-size: px2vw(26);
       color: #999;
       text-align: center;
       line-height: px2vw(80);
+      padding-bottom:  px2vw(20);
     }
+     .noMoreData2{
+      width: 100%;
+      height: px2vw(20);  
+      background-color: #f4f4f4
+     }
 </style>

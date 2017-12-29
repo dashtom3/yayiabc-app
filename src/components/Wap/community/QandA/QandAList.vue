@@ -59,7 +59,7 @@
           currentPage:1,
           faqQuestionType:null,
           keyWord:'',
-          order:0,
+          order:1,
           type:4,
           numberPerPage:10
         },
@@ -301,16 +301,17 @@
     width: 100%;
     height: 100%;
     min-height: 79vh;
-    background-color: #ffffff;
+    background-color: #f4f4f4;
     .loadMore{
       min-height: 79vh;
       .scrollBox{
         min-height: 79vh;
         width: 100%;
         height: 100%;
-        background-color: #ffffff;
+        background-color: #f4f4f4;
         .eachContainer{
         padding: px2vw(0) px2vw(20) 0;
+        background-color: #fff;
         width: 100%;
         .headLine{
           width: 100%;
@@ -406,13 +407,14 @@
     }
     .noMoreData{
       margin-top: px2vw(-1);
-      background-color: #fff;
+      background-color: #f4f4f4;
       margin: px2vw(2) auto;
       height: px2vw(80);
       font-size: px2vw(26);
       color: #999;
       text-align: center;
       line-height: px2vw(80);
+      margin-bottom:  px2vw(20);
     
     }
   }

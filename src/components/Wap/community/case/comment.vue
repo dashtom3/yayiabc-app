@@ -145,6 +145,7 @@
         </div>
         <div v-if="detailedCommentArgs.data.length != 0" class="endFonts">-End-</div>
       </div>
+      
       <doComment class="doComment" v-if="isComment" :args="commentInfo" v-on:commentRes="isCommentRes" v-on:cancelComment="escBtn"></doComment>
       <!--下部导航栏-->
       <div v-show="writeSwitch"  class="tabDevBox">
@@ -971,7 +972,7 @@ export default {
   height: px2vw(42);
 }
 .commentBoxOnce {
-  padding: px2vw(36) px2vw(25) px2vw(45) px2vw(17);
+  padding: px2vw(36) px2vw(25) px2vw(185) px2vw(17);
   border-top: px2vw(20) solid #f4f4f4;
   background-color: white;
   margin-bottom: px2vw(88);

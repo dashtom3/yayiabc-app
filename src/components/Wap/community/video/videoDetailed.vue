@@ -92,6 +92,10 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss" rel="stylesheet/scss">
     @import "../../../../common/sass/factory";
+    .commentBoxOnce{
+      padding-bottom: px2vw(200);
+      background-color: #fff;
+    }
     .boxBox{
       min-height: px2vw(422);
       transition: all 0.5s;

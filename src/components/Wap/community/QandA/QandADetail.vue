@@ -187,7 +187,7 @@
         }
       },
       goBack(){
-        if(this.$route.query.backName){
+        if(this.$route.query.collectType){
           this.$router.push(this.$route.query.backName)
         }else {
           this.$router.go(-1);
@@ -282,7 +282,7 @@
       height: 100%;
       left: 0;
       width: px2vw(150);
-      background: url("../../../../images/logIn/back.png") px2vw(20) center no-repeat;
+      background: url("../../../../images/logIn/back3.png") px2vw(20) center no-repeat;
       background-size: px2vw(18) px2vw(29);
     }
     .share {

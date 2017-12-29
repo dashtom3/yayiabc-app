@@ -5,8 +5,8 @@
       <div class="headerTitle">我的问答</div>
     </div>
     <div class="firstClassifyName">
-      <span @click="changeClass(0)" :class="{isCheckDiv:caseClassNum === 0}">我的提问</span>
-      <span @click="changeClass(1)" :class="{isCheckDiv:caseClassNum === 1}">我的回答</span>
+      <span @click="changeClass(0)" :class="{isCheckDiv:caseClassNum === 0}"> 我的提问 </span>
+      <span @click="changeClass(1)" :class="{isCheckDiv:caseClassNum === 1}"> 我的回答 </span>
     </div>
     <div class="searchRes">
       <router-view></router-view>
@@ -20,21 +20,20 @@
     data(){
       return{
         caseClassNum : 0,
-        a : this.$route.fullPath,
-        b : this.$route.fullPath
       }
     },
     methods:{
       changeClass(index){
         this.caseClassNum = index;
         console.log(this.$route)
-        if(index === 0)
-        {
-          this.$router.push({path:'/myQandA/myQuestion'});
-        }else if(index === 1)
-        {
-          this.$router.push({path:'/myQandA/myAnswer'});
-        }
+        switch (true){
+          case index === 0:
+            this.$router.push({path:'/myQandA/myQuestion',query:{collectType:index}});
+            break;
+          case index === 1:
+            this.$router.push({path:'/myQandA/myAnswer',query:{collectType:index}});
+            break;  
+         }
       },
       goBack(){
         this.$router.push('/yayi/mine');

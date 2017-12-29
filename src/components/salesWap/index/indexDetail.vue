@@ -3,7 +3,7 @@
     <!--头部-->
     <div class="header_top">
       <div class="header_btn" @click="back">
-        <img class="header_img" src="../../../images/logIn/back.png" alt="back">
+        <img class="header_img" src="../../../images/logIn/back3.png" alt="back">
       </div>
       <div class="header">
         业绩详情

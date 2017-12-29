@@ -54,7 +54,7 @@
           <el-checkbox @change="isShare" fill="'#3676B5'" class="needclick"></el-checkbox><span @click.stop="labelFor"> 分享到牙医圈</span>
         </div>
       </div>
-      <!--<div class="blur" @click="blurClass"></div>-->
+      <!-- <div class="blur" @click="blurClass"></div> -->
     </div>
     <mt-picker :slots="slots" @change="onValuesChange" :showToolbar="true" class="pickers" v-show="isClassPicker">
       <div class="classPicker">
@@ -153,7 +153,7 @@
             values: [ '请选择','1乾币', '2乾币', '5乾币','10乾币'],
             className: 'slot1',
             textAlign: 'center',
-            defaultIndex: 0
+            defaultIndex: 0,
           }
         ],
         isClassPicker:false,
@@ -526,7 +526,7 @@
       }
     }
   }
-  .pickers{
+   .pickers{
     position: fixed;
     bottom: 0;
     left: 0;
@@ -549,6 +549,14 @@
         width: px2vw(150);
       }
     }
+  }
+  .blur{
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
   }
   .blur{
     width: 100vw;
@@ -584,6 +592,7 @@
     border: none;
     background-color: #fff;
     border-top: px2vw(1) solid #ddd;
+    border-bottom: px2vw(1) solid #ddd ;
   }
   .ql-container.ql-snow{
     border: none;

@@ -19,6 +19,10 @@
       <div class="line lines">
         <p>- 我的客户 -</p>
       </div>
+
+      <div  class="customer">
+          <p v-for></p>
+      </div>
     </div>
 
   </div>
@@ -27,20 +31,43 @@
 <script type="text/ecmascript-6">
   import shareToWx from '../index/shareToWx.vue';
   import { tokenMethods } from '../../../vuex/util';
+  import axios from 'axios'
 
   export default {
     name: "saleinvite",
     data(){
       return{
-        myUserId:tokenMethods.getWapUser() ? tokenMethods.getWapUser().userId:''
+        myUserId:tokenMethods.getWapUser() ? tokenMethods.getWapUser().userId:'',
+        token:"3d864092-f5e6-452b-ad8b-8d3c32b3c867",
+        userType:2,
+        currentPage:1,
+        numberPerPage:10
       }
     },
     components:{
       shareToWx
     },
+    created:function(){
+         this.my_costomer();
+    },
     methods:{
       goBack(){
         this.$router.go(-1)
+      },
+      my_costomer(){
+         let obj = {
+         tokens : "3d864092-f5e6-452b-ad8b-8d3c32b3c867",
+         userTypes :  this.userType,
+         currentPages : this.currentPage,
+         numberPerPages: this.numberPerPage,
+         };
+        let url ="https://116.62.228.3:8080/api/user/inviteChart";
+         axios.post(url,obj
+         ).then((res) => {
+         console.log(res.data)
+         }).catch((error)=>{
+         console.log(error)
+         })
       }
     }
   }

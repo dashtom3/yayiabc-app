@@ -608,7 +608,7 @@
     border-radius: px2vw(6);
     padding-left: px2vw(4);
     padding-right: px2vw(4);
-    margin-top: px2vw(10);
+    margin-top: px2vw(4);
     margin-left: px2vw(18);
   }
   .headName{

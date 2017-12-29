@@ -174,11 +174,15 @@
     width: 100%;
     height: 100%;
     min-height: 30vh;
+    background-color: #f4f4f4;
     .scrollBox {
       width: 100%;
       height: 100%;
+      background-color: #f4f4f4;
+      min-height: 79vh;
       .eachContainer{
         padding: px2vw(0) px2vw(20) 0;
+        background-color: #fff;
         width: 100%;
         .headLine{
           width: 100%;
@@ -253,7 +257,7 @@
     }
     .noMoreData{
       margin-top: px2vw(-1);
-      background-color: #fff;
+      background-color: #f4f4f4;
       margin: px2vw(2) auto;
       height: px2vw(80);
       font-size: px2vw(26);

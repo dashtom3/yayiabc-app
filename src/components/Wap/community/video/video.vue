@@ -392,5 +392,8 @@
   color: #999;
   text-align: center;
   line-height: px2vw(80);
+  margin-bottom: px2vw(20);
+  background-color: #f4f4f4;
 }
+
 </style>

@@ -320,9 +320,18 @@
           }
         },
         getVerify(){
+        var  self = this ;
           let obj = {
             phone : this.phone
           };
+          if(self.countQbSum == 0 ){
+          Toast({message: '请您选择提现数额', duration: 1500})
+          console.log(11)
+            return;
+          }else if( this.userCount === ""){
+            Toast({message: '请您选择提现方式', duration: 1500});
+            return;
+          }
           this.$store.dispatch('GET_VERIFY',obj).then(res => {
               if(res.data.callStatus === "SUCCEED")
               {
@@ -733,6 +742,8 @@
 
   .top_top{
     margin-top: px2vw(73);
+    padding-bottom: px2vw(200);
+    background-color: #f4f4f4;
   }
   .coin_ul1_li>.alreadyImg {
     width: px2vw(50);
