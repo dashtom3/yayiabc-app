@@ -1,6 +1,10 @@
 <template>
+<div>
+  <div class="header">
+      <span class="back-click-area" @click="goBack"></span>
+      <div class="headerTitle">钱包明细</div>
+    </div>
   <div class="wallet-container">
-    <sales-header headerText="我的钱包"></sales-header>
     <div class="wallet-info">
       <div class="avatar-content">
         <img class="avatar" v-if="!saleInfo.salePic " src="../../../../images/salePersonal/avatar.jpg" alt=""
@@ -18,6 +22,7 @@
       <li class="sale-item" @click="goPage('walletDetail')"><p class="sale-item-text">钱包明细</p></li>
     </ul>
   </div>
+</div>
 </template>
 
 <script type="text/ecmascript-6">
@@ -27,7 +32,6 @@
   export default {
     name: 'saleWallet',
     components: {
-      salesHeader
     },
     computed: {
       ...mapState('sale', {
@@ -35,6 +39,9 @@
       })
     },
     methods: {
+     goBack(){
+          this.$router.go(-1)
+        },
       goPage(name) {
         this.$router.push({name})
       }
@@ -44,6 +51,28 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../../common/sass/factory";
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: px2vw(88);
+    z-index: 999;
+    line-height: px2vw(88);
+    text-align: center;
+    background-color: $themeColor;
+    color: #fff;
+    font-size: px2vw(36);
+    .back-click-area {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      left: 0;
+      width: px2vw(150);
+      background: url("../../../../images/logIn/back3.png") px2vw(20) center no-repeat;
+      background-size: px2vw(18) px2vw(29);
+    }
+  }
 
   .wallet-container {
     background-color: #e5e5e5;

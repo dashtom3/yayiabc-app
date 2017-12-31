@@ -37,7 +37,7 @@
   export default {
     data(){
       return{
-        headerText:this.$route.query.type === 1 ? '评论列表' : '我的问答',
+        headerText:this.$route.query.type === 1 ? '评论列表' : '回答列表',
         isLoading:false,
         list:[],
         args:{

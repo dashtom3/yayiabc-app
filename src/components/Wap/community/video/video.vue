@@ -1,7 +1,7 @@
 <template>
     <div class="out">
       <!--无视频样式-->
-      <div v-if="(isShow && !videoArgs) || (isShow && videoArgs.length == 0)" class="noneVideo">
+      <div v-if=" videoArgs.length == 0" class="noneVideo">
         <div class="noneV">
           <img src="../../../../images/video/noneVideo.png" alt="">
         </div>
@@ -357,7 +357,7 @@
 .commentNum{
   display: inline-block;
   margin-left: px2vw(9);
-  font-size: px2vw(30);
+  font-size: px2vw(26);
 }
 .bottom-right>span img,.bottom-right>span>span{
   vertical-align: middle;
@@ -371,14 +371,18 @@
   margin-left: px2vw(20);
 }
 .collectionBox{
-  float: right;
+  position: absolute;
+  top:px2vw(1);
+  left: px2vw(-215);
   line-height: px2vw(88);
   height: px2vw(88);
   margin-right: px2vw(20);
   font-size: px2vw(0);
 }
 .commentBox{
-  float: right;
+  position: absolute;
+  top:px2vw(1);
+  left: px2vw(-95);
   height: px2vw(88);
   line-height: px2vw(88);
   font-size: 0;

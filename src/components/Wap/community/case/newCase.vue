@@ -88,7 +88,7 @@
   import { quillEditor } from 'vue-quill-editor'
   import {GET_UPLOAD_TOKEN, UPLOAD_CASE, NEW_TREND , GET_CASE_DETAIL} from '../../../../vuex/types'
   import {mapState} from 'vuex'
-  import {Indicator, Picker, Toast, MessageBox  } from 'mint-ui'
+  import {Indicator, Picker, Toast, MessageBox} from 'mint-ui'
 
   export default {
     data(){
@@ -141,19 +141,19 @@
         slots: [
           {
             flex: 1,
-            values: [ '口腔外科', '口腔内科', '口腔修复','口腔种植', '口腔正畸'],
+            values: ['口腔外科','口腔内科','口腔修复','口腔种植','口腔正畸'],
             className: 'slot1',
+             defaultIndex:0,
             textAlign: 'center',
-            defaultIndex:0,
           }
         ],
         sloty: [
           {
             flex: 1,
-            values: [ '请选择','1乾币', '2乾币', '5乾币','10乾币'],
+            values: ['请选择','1乾币','2乾币','5乾币','10乾币'],
             className: 'slot1',
-            textAlign: 'center',
             defaultIndex: 0,
+            textAlign: 'center',
           }
         ],
         isClassPicker:false,
@@ -532,12 +532,15 @@
     left: 0;
     width: 100%;
     z-index: 101;
+    overflow: hidden;
     .classPicker{
       text-align: center;
       color: #000;
       font-size: px2vw(32);
       height: px2vw(90);
       line-height: px2vw(90);
+      border-bottom: px2vw(1) solid #f4f4f4;
+      box-sizing: border-box;
       .classPickerCancel{
         color: $themeColor;
         float: left;

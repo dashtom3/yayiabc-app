@@ -85,8 +85,10 @@
             </div>
             <div style="clear: both"></div>
           </div>
-          <div class="e ndFonts">-End-</div>
         </div>
+        <div v-if="detailedCommentArgs.data.length != 0 " class="noMoreData">
+        - End -
+      </div>
       </div>
       <!--二级评论结束-->
       <!--一级评论-->
@@ -143,9 +145,7 @@
           </div>
           <div style="clear: both"></div>
         </div>
-        <div v-if="detailedCommentArgs.data.length != 0" class="endFonts">-End-</div>
       </div>
-      
       <doComment class="doComment" v-if="isComment" :args="commentInfo" v-on:commentRes="isCommentRes" v-on:cancelComment="escBtn"></doComment>
       <!--下部导航栏-->
       <div v-show="writeSwitch"  class="tabDevBox">
@@ -190,7 +190,6 @@
       <share v-if="isShareShow" v-on:cancelShare="isShareShow = false" :shareData="shareData"></share>
     </div>
 </template>
-
 <script>
 import doComment from "../../index/doComment.vue";
 import { tokenMethods } from "../../../../vuex/util";
@@ -648,6 +647,7 @@ export default {
 }
 .comments {
   padding-top: px2vw(36);
+  border-bottom: px2vw(1) solid #f4f4f4;
 }
 .comments:after {
   content: "";
@@ -734,11 +734,16 @@ export default {
   width: px2vw(638);
 }
 
-.endFonts {
-  font-size: px2vw(20);
-  color: #999999;
-  text-align: center;
-  margin-top: px2vw(35);
+.noMoreData{
+      margin-top: px2vw(-1);
+      background-color: #ffffff;
+      width: 100%;
+      height: px2vw(80);
+      font-size: px2vw(26);
+      color: #999;
+      text-align: center;
+      line-height: px2vw(80);
+      padding-bottom:  px2vw(250);
 }
 .tabDevBox {
   position: fixed;
@@ -938,13 +943,6 @@ export default {
   font-size: px2vw(28);
   color: #333333;
 }
-.endFonts {
-  font-size: px2vw(20);
-  color: #999999;
-  text-align: center;
-  margin-top: px2vw(35);
-}
-
 .wrapTop {
   z-index: 2000;
   position: fixed;
@@ -976,10 +974,9 @@ export default {
   height: px2vw(42);
 }
 .commentBoxOnce {
-  padding: px2vw(36) px2vw(25) px2vw(185) px2vw(17);
+  padding: px2vw(36) px2vw(25) px2vw(200) px2vw(17);
   border-top: px2vw(20) solid #f4f4f4;
   background-color: white;
-  margin-bottom: px2vw(88);
 }
 // .mb {
 //   margin-bottom: px2vw(476);

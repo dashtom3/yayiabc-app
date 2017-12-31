@@ -26,12 +26,13 @@
     methods: {
       goBack() {
         if (!this.backTo) {
-             this.$router.go(-1)
-          } else if (this.backTo == '/appSetting') {
-          this.$router.go(-1)
-
+             this.$router.push({path: '/yayi/index'})
+          } else if (this.$route.fullPath == '/appSetting') {
+           this.$router.push({path: '/yayi/mine'})
+        }else if(this.backTo == ""){
+           this.$router.go(-1)
         }
-       
+        
       }
     }
   }

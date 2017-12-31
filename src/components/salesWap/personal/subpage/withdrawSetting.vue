@@ -1,6 +1,10 @@
 <template>
+<div>
+    <div class="header">
+      <span class="back-click-area" @click="goBack"></span>
+      <div class="headerTitle">提现设置</div>
+    </div>
   <div class="withdrawSetting">
-    <sales-header headerText="提现设置"></sales-header>
     <dl class="account-type-list">
       <dt class="account-type-title">选择账户类型</dt>
       <dd @click="changePostalType('支付宝')" :class="['account-type-item',{active:params.postalType === '支付宝'}]">
@@ -20,14 +24,13 @@
       <mt-field label="支付宝账号" placeholder="请输入支付宝账号" v-model="params.accountNumber"></mt-field>
     </div>
     <div class="logout-btn-container">
-      <mu-raised-button label="保存" fullWidth color="#fff" backgroundColor="#3676b6" class="logout-btn"
-                        @click="updatePostal"/>
+      <mu-raised-button label="保存" fullWidth color="#fff" backgroundColor="#3676b6" class="logout-btn" @click="updatePostal"/>
     </div>
   </div>
+</div>
 </template>
 
 <script type="text/ecmascript-6">
-  import salesHeader from '../../salesHeader.vue'
   import {SALE_UPDATE_POSTAL} from '@vuex/types'
   import {Toast, Indicator, MessageBox} from 'mint-ui'
   import {mapActions} from 'vuex'
@@ -35,7 +38,6 @@
   export default {
     name: 'withdrawSetting',
     components: {
-      salesHeader
     },
     data() {
       return {
@@ -48,6 +50,9 @@
       }
     },
     methods: {
+      goBack(){
+          this.$router.go(-1)
+        },
       ...mapActions({
         updatePostalAction: `sale/${SALE_UPDATE_POSTAL}`
       }),
@@ -109,7 +114,28 @@
 
 <style lang="scss" rel="stylesheet/scss">
   @import "../../../../common/sass/factory";
-
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: px2vw(88);
+    z-index: 999;
+    line-height: px2vw(88);
+    text-align: center;
+    background-color: $themeColor;
+    color: #fff;
+    font-size: px2vw(36);
+    .back-click-area {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      left: 0;
+      width: px2vw(150);
+      background: url("../../../../images/logIn/back.png") px2vw(20) center no-repeat;
+      background-size: px2vw(18) px2vw(29);
+    }
+  }
   .withdrawSetting {
     padding-top: px2vw(88);
     background-color: #e5e5e5;

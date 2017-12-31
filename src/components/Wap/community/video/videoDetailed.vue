@@ -17,18 +17,18 @@
         <div  class="titleBox">{{ videoArgs.vidName }}</div>
         <!--标题内容结束-->
         <!--相关产品开始-->
-        <div class="productBox" v-if='videoArgs.itemInfo != null' @click=toProductDetail>
+        <div class="productBox" v-if='videoArgs.itemInfo != null'>
           <div class="productTitle">相关产品</div>
           <div class="productContent">
             <!--左-->
             <span class="productImgBox">
-              <img :src="videoArgs.itemInfo.itemDetail.itemPica" alt="">
+              <img src="" alt="">
             </span>
             <!--右-->
             <div class="productNameBox">
               <div class="productName">{{videoArgs.itemInfo.itemName}}</div>
               <div class="classBox">
-                <span>{{videoArgs.itemInfo.itemBrand.itemBrandName}}</span>
+                <span>{{videoArgs.itemInfo.itemBrand}}</span>
                 <span>销量:{{videoArgs.itemInfo.sales != null ? videoArgs.itemInfo.sales : 0}}</span>
               </div>
               <div class="productPrice">
@@ -72,11 +72,6 @@
           this.videoSwitch = true
         });
       },
-      toProductDetail(){
-        console.log(this.$router.history.current.fullPath)
-        sessionStorage.setItem('backJudgeSL', this.$router.history.current.fullPath)
-        this.$router.push({path: '/details/' + this.videoArgs.itemInfo.itemId, query: {name: this.videoArgs.itemInfo.itemName, itemId: this.videoArgs.itemInfo.itemId, backJudge: 'videoDetailed'}});
-      },
       goBack(){
         if(this.$route.query.backName){
           console.log(this.$route.query.backName)
@@ -97,10 +92,6 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss" rel="stylesheet/scss">
     @import "../../../../common/sass/factory";
-    .commentBoxOnce{
-      padding-bottom: px2vw(200);
-      background-color: #fff;
-    }
     .boxBox{
       min-height: px2vw(422);
       transition: all 0.5s;
@@ -170,7 +161,7 @@
     display: inline-block;
     width: px2vw(171);
     height: px2vw(175);
-    // border: 1px solid black;
+    border: 1px solid black;
     vertical-align: middle;
   }
   .productImgBox img{

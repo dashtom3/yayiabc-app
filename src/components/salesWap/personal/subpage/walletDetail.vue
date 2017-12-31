@@ -1,7 +1,11 @@
 <template>
+<div>
+ <div class="header">
+      <span class="back-click-area" @click="goBack"></span>
+      <div class="headerTitle">我的钱包</div>
+  </div>
   <!--<div :class="['walletDetail-container',{'no-wallet-info':!walletDetail.length}]">-->
   <div :class="['walletDetail-container',{'no-wallet-info':!walletDetail.length}]">
-    <sales-header headerText="钱包明细" component="walletdetails"></sales-header>
     <div class="walletDetail-picker-container">
       <div class="walletDetail-state-container">
         <p class="current-state" @click="(model  = true ) && (stateChange = true)">
@@ -50,6 +54,7 @@
     <div class="model" v-show="model" @click="!(model  = false ) && !(stateChange = false)"></div>
     <data-picker ref="datePicker" @datechange="changeDate"></data-picker>
   </div>
+</div>  
 </template>
 
 <script type="text/ecmascript-6">
@@ -107,8 +112,11 @@
         })
       }
     },
-    components: {salesHeader, dataPicker},
+    components: {dataPicker},
     methods: {
+     goBack(){
+          this.$router.go(-1)
+      },
       ...mapActions('sale', {
         GET_WALLET_DETAIL
       }),
@@ -191,6 +199,28 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../../common/sass/factory";
+   .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: px2vw(88);
+    z-index: 999;
+    line-height: px2vw(88);
+    text-align: center;
+    background-color: $themeColor;
+    color: #fff;
+    font-size: px2vw(36);
+    .back-click-area {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      left: 0;
+      width: px2vw(150);
+      background: url("../../../../images/logIn/back3.png") px2vw(20) center no-repeat;
+      background-size: px2vw(18) px2vw(29);
+    }
+  }
 
   .walletDetail-container {
     background-color: #e5e5e5;

@@ -64,7 +64,7 @@
             values: [ '口腔外科', '口腔内科', '口腔修复','口腔种植', '口腔正畸'],
             className: 'slot1',
             textAlign: 'center',
-            defaultIndex:2,
+            defaultIndex:0,
           }
         ],
         args:{

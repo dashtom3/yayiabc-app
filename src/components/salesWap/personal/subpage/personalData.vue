@@ -20,38 +20,38 @@
           </div>
         </div>
         <div class="thin-height">
-          <p class="detailTitle">真实姓名*</p>
+          <p class="detailTitle">真实姓名<span class="mustWrite">*</span></p>
           <p class="detail" v-if="saleInfo.trueName">{{saleInfo.trueName}}</p>
           <p class="detail" v-else>未设置</p>
         </div>
         <div class="thin-height">
-          <p class="detailTitle">性别*</p>
+          <p class="detailTitle">性别<span class="mustWrite">*</span></p>
           <p class="detail" v-if="saleInfo.sex == 1">男</p>
           <p class="detail" v-else-if="saleInfo.sex == 2">女</p>
           <p class="detail" v-else>未设置</p>
         </div>
         <div class="thin-height">
-          <p class="detailTitle">身份证号*</p>
+          <p class="detailTitle">身份证号<span class="mustWrite">*</span></p>
           <p class="detail" v-if="saleInfo.idCard">{{saleInfo.idCard}}</p>
           <p class="detail" v-else>未设置</p>
         </div>
         <div class="thin-height">
-          <p class="detailTitle">工作单位*</p>
+          <p class="detailTitle">工作单位<span class="mustWrite">*</span></p>
           <p class="detail" v-if="saleInfo.workUnit">{{saleInfo.workUnit}}</p>
           <p class="detail" v-else>未设置</p>
         </div>
         <div class="thin-height">
-          <p class="detailTitle">工作职位*</p>
+          <p class="detailTitle">工作职位<span class="mustWrite">*</span></p>
           <p class="detail" v-if="saleInfo.workPosition">{{saleInfo.workPosition}}</p>
           <p class="detail" v-else>未设置</p>
         </div>
         <div class="thin-height">
-          <p class="detailTitle">单位所在地*</p>
+          <p class="detailTitle">单位所在地<span class="mustWrite">*</span></p>
           <p class="detail" v-if="saleInfo.part">{{saleInfo.part}}</p>
           <p class="detail" v-else>未设置</p>
         </div>
         <div class="wide-height">
-          <p class="detailTitle">详细地址*</p>
+          <p class="detailTitle">详细地址<span class="mustWrite">*</span></p>
           <div class="detailAddr">
             <p class="detail" v-if="saleInfo.address">{{saleInfo.address}}</p>
             <p class="detail" v-else>未设置</p>
@@ -99,11 +99,11 @@
             </el-upload>
         </div>
         <div class="thin-height">
-          <label for="name" class="detailTitle">真实姓名*</label>
+          <label for="name" class="detailTitle">真实姓名<span class="mustWrite">*</span></label>
           <input id="name" class="detail" type="text" placeholder="请输入您的姓名" v-model="saleInfo.trueName">
         </div>
         <div class="thin-height">
-          <label @click="selectSex" class="detailTitle">性别*</label>
+          <label @click="selectSex" class="detailTitle">性别<span class="mustWrite">*</span></label>
           <div @click="sexVisible = true">
             <p class="detail" v-if="saleInfo.sex == 1">男 ></p>
             <p class="detail" v-else-if="saleInfo.sex == 2">女 > </p>
@@ -111,26 +111,26 @@
           </div>
         </div>
         <div class="thin-height">
-          <label for="idCard" class="detailTitle">身份证号*</label>
+          <label for="idCard" class="detailTitle">身份证号<span class="mustWrite">*</span></label>
           <input id="idCard" class="detail" type="text" placeholder="请输入您的身份证号" v-model="saleInfo.idCard">
         </div>
         <div class="thin-height">
-          <label for="workUnit" class="detailTitle">工作单位*</label>
+          <label for="workUnit" class="detailTitle">工作单位<span class="mustWrite">*</span></label>
           <input id="workUnit" class="detail" type="text" placeholder="请输入工作单位" v-model="saleInfo.workUnit">
         </div>
         <div class="thin-height">
-          <label for="workPosition" class="detailTitle">工作职位*</label>
+          <label for="workPosition" class="detailTitle">工作职位<span class="mustWrite">*</span></label>
           <input id="workPosition" class="detail" type="text" placeholder="请输入您的职位" v-model="saleInfo.workPosition">
         </div>
         <div class="thin-height">
-          <label @click="openPicker('cityAddressPicker')" class="detailTitle">单位所在地*</label>
+          <label @click="openPicker('cityAddressPicker')" class="detailTitle">单位所在地<span class="mustWrite">*</span></label>
           <div @click="openPicker('cityAddressPicker')">
             <p class="detail" v-if="saleInfo.part">{{saleInfo.part}} ></p>
             <p class="detail" v-else>请选择 ></p>
           </div>
         </div>
         <div class="wide-height">
-          <label for="address" class="detailTitle">详细地址*</label>
+          <label for="address" class="detailTitle">详细地址<span class="mustWrite">*</span></label>
           <div class="detailAddr">
             <input id="address" type="text" class="detail" placeholder="请输入您的详细地址" v-model="saleInfo.address">
           </div>
@@ -349,13 +349,24 @@
         width: 100%;
         height: px2vw(92);
         line-height: px2vw(92);
-        border-bottom: pc2vw(1) solid #e5e5e5;
+        border-bottom: px2vw(1) solid  #e5e5e5;
+        overflow: hidden;
         /*margin-bottom: px2vw(20);*/
         background-color: #fff;
+        box-sizing: border-box;
         position: relative;
+        .mustWrite{
+          color: red;
+          text-align: center;
+          display: inline-block;
+          width: px2vw(30);
+          height:100%;
+          vertical-align: center;
+        }
         .detailTitle{
           position: absolute;
           left: px2vw(20);
+          font-size: px2vw(30);
           right: 0;
           top:0;
         }
@@ -410,6 +421,14 @@
         /*margin-bottom: px2vw(20);*/
         background-color: #fff;
         position: relative;
+         .mustWrite{
+          color: red;
+          text-align: center;
+          display: inline-block;
+          width: px2vw(30);
+          height:100%;
+          vertical-align: center;
+        }
         .detailTitle{
           position: absolute;
           left: px2vw(20);

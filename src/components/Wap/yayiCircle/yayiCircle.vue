@@ -52,12 +52,12 @@
                 <span>{{item.momentTime}}</span>
                 <span v-if="myUserId == item.userId" class="deleteBtn" @click="deleteTrend(item.momentId,index)">删除</span>
                 <span class="commentAndLike" @click="likeThisTrend(index,item.momentId)">
-                  <img src="../../../images/yayiCircle/dislike.png" alt="" v-if="item.isZan === 0">
-                  <img src="../../../images/yayiCircle/like.png" alt="" v-else>
+                  <img src="../../../images/yayiCircle/dislike2.png" alt="" v-if="item.isZan === 0">
+                  <img src="../../../images/yayiCircle/like2.png" alt="" v-else>
                   {{item.zanNumber}}
                 </span>
                 <span class="commentAndLike" @click.stop="commenting(index,item.momentId)">
-                  <img src="../../../images/yayiCircle/comment.png" alt="">
+                  <img src="../../../images/yayiCircle/comment2.png" alt="">
                   {{item.subCommentList.length}}
                 </span>
               </div>

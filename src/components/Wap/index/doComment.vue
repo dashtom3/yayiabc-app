@@ -79,6 +79,7 @@
             if(res.data.callStatus === 'SUCCEED'){
 //            console.log(res)
               Toast({message: '发布成功！', duration: 1500});
+              this.$destroy()
               let timer1=window.setTimeout(() => {
                 this.$emit('commentRes',res.data.data);
                 this.commentContent = ''
