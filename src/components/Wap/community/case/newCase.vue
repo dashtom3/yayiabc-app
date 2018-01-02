@@ -1,4 +1,5 @@
 <template>
+
   <div class="new-case-wrapper">
     <div class="header" @click="blurClass">
       <div class="backIco" @click="closePage"></div>
@@ -14,7 +15,9 @@
         </div>
       </div>
     </div>
-    <div class="newCaseWrap">
+    <div class="newCaseWrap" >
+     
+    <div :class="{bgc : changes}"></div>
       <div class="inputTitle" @click="blurClass">
         <input class="textArea"  v-model="args.headline" placeholder="请输入标题">
       </div>
@@ -71,6 +74,8 @@
       </div>
     </mt-picker>
     <!--一个不可见的上传图片的功能-->
+
+
     <el-upload
       class="avatar-uploader needclick"
       style="display: none;"
@@ -82,6 +87,7 @@
       :on-progress="upLoading"
     ></el-upload>
   </div>
+</div> 
 </template>
 
 <script type="text/ecmascript-6">
@@ -93,6 +99,7 @@
   export default {
     data(){
       return{
+        changes: false,
         inputTitle:'',
         editorOptionFee: {                    //富文本编辑器设置
           // something config
@@ -260,6 +267,7 @@
         Indicator.close();
       },
       selectClassify(num){
+      this.changes = true;
         this.blurClass();
         if(num){
           console.log(num)
@@ -306,6 +314,7 @@
       },
       //病例选择的确定&取消时的方法，0取消，1确定
       onClassPicker(num){
+      this.changes = false;
         if(num){
           if(this.classify < 1){
             this.args.classify = 2
@@ -323,6 +332,7 @@
         this.isClassPicker = false
       },
       onClassPickerN(num){
+       this.changes = false;
         if(num){
           let arr = [1,2,5,10]
           if(this.chargeNum < 0){
@@ -432,6 +442,15 @@
   .new-case-wrapper{
     height: 100vh;
   }
+  .bgc{
+   position: absolute;
+   top: 0px;
+   left: 0px;
+    width: 100%;
+    height: 80vh;
+    z-index: 1000;
+    background-color: rgba(0,0,0,0.4)!important;
+  }
   .header {
     position: absolute;
     top: 0;
@@ -473,6 +492,7 @@
     }
   }
   .newCaseWrap{
+    overflow: hidden;
     position: fixed;
     top: px2vw(88);
     bottom: 0;

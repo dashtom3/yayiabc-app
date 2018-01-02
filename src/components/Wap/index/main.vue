@@ -41,7 +41,7 @@
             <span class="item-img"><img class="item-icon" src="../../../images/index/video.png" alt="视频"></span>
             <span class="item-name">视频</span>
           </div>
-          <div class="main-item" @click="goToPage('/productList')">
+          <div class="main-item" @click="back">
             <span class="item-img"><img class="item-icon" src="../../../images/index/shop.png" alt="商城"></span>
             <span class="item-name">商城</span>
           </div>
@@ -144,6 +144,7 @@ export default {
   },
   created() {
     var that = this;
+    console.log(tokenMethods.getWapToken())
     // 检查更新的弹框是否显示
     if (sessionStorage.getItem("isShow") === null) {
       if (window.plus) {
@@ -178,6 +179,9 @@ export default {
     clearInterval(this.intervalId);
   },
   methods: {
+    back(){
+      this.$router.push({ name: 'productList', params: { oneClassify: '展会推荐' , twoClassify: ''}});
+    },
     searchActive: function() {
       this.$router.push({ path: "/searchWord", query: { data: "focus" } });
     },
@@ -339,7 +343,8 @@ export default {
   height: px2vw(64);
   line-height: px2vw(64);
   margin: 0 auto;
-  border: 1px solid #e9e9e9;
+  border: px2vw(1) solid #e9e9e9;
+  box-sizing: border-box;
   border-radius: px2vw(28);
   background-color: #fff;
   outline: medium;

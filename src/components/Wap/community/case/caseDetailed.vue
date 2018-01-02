@@ -32,6 +32,10 @@
       </span>
     </div>
     <div class="container">
+    <!-- 遮罩层 -->
+    <div :class="{bgc : changes}"></div>
+
+
       <div class="titleContainer">
         <div class="titleContent">
           {{caseDetailArgs.headline}}
@@ -105,6 +109,7 @@
   export default {
     data(){
       return{
+        changes: false,
         editSwitch: false,
         caseDetailArgs: {}, //病例详情的内容数据
         payNow: false,
@@ -236,6 +241,9 @@
       },
       time(item){
         item.postTime = Util.formatDate.format(new Date(item.postTime),'yyyy-MM-dd hh:mm').substring(0);
+      },
+      writeComment(){
+        
       },
       releaseCase(type){
         if(type){
@@ -576,6 +584,15 @@
     width: 100%;
     min-height: px2vw(1206);
     -webkit-overflow-scrolling: touch;
+      .bgc{
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 100%;
+      height: 80vh;
+      z-index: 1000;
+      background-color: rgba(0,0,0,0.4)!important;
+    }
   }
   .titleContainer{
     background-color: white;

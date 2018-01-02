@@ -6,6 +6,8 @@
 </template>
 
 <script type="text/ecmascript-6">
+import EXIF  from  "../../../common/exif/exif"
+
   export default {
     props:{
       url:{
@@ -17,8 +19,8 @@
         this.$emit('closeImgHolder',false)
         this.$destroy()
       }
-    }
-  }
+     }
+ }
 </script>
 
 <style lang="scss" rel="stylesheet/scss">

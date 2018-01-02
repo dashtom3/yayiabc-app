@@ -37,10 +37,11 @@
   export default {
     data(){
       return{
-        headerText:this.$route.query.type === 1 ? '评论列表' : '回答列表',
+        headerText:this.$route.query.type === '评论' ? '评论列表' : '回答列表',
         isLoading:false,
         list:[],
         args:{
+          token : tokenMethods.getWapToken(),
           type : this.$route.query.type,
           numberPerPage : 15,
           currentPage:1,
@@ -64,10 +65,10 @@
     methods:{
       inits(){
         switch (true){
-          case this.$route.query.type === 1:
+          case this.$route.query.type === '评论':
             this.list = JSON.parse(tokenMethods.getInfoList()) ? JSON.parse(tokenMethods.getInfoList()) : [];
             break;
-          case this.$route.query.type === 2:
+          case this.$route.query.type === '问答':
             this.list = JSON.parse(tokenMethods.getAnswerList()) ? JSON.parse(tokenMethods.getAnswerList()) : [];
         }
       },
@@ -90,11 +91,11 @@
       },
       setList(val){
         switch (true) {
-          case this.$route.query.type === 1:
+          case this.$route.query.type === '评论':
             tokenMethods.setInfoList(val)
             tokenMethods.setInfoNum(val.length);
             break;
-          case this.$route.query.type === 2:
+          case this.$route.query.type === '问答':
             tokenMethods.setAnswerList(val)
             tokenMethods.setAnswerNum(val.length);
             break;
@@ -102,7 +103,7 @@
       },
       goPage(item,key,type){
         //这个是需要传一个obj的。
-        if(this.$route.query.type === 1) {
+        if(this.$route.query.type === '评论') {
           let obj = {
             momentId: item.typeId,
             type:type,
@@ -113,11 +114,11 @@
             this.setList(this.list);
           }else {
             switch (true) {
-              case this.$route.query.type === 1:
+              case this.$route.query.type === '评论':
                 tokenMethods.removeInfoList(val)
                 tokenMethods.setInfoNum(0);
                 break;
-              case this.$route.query.type === 2:
+              case this.$route.query.type === '问答':
                 tokenMethods.removeAnswerList(val)
                 tokenMethods.setAnswerNum(0);
                 break;
@@ -126,7 +127,7 @@
           this.$router.push({path: '/infoDetail', query: obj})
 //        this.$destroy()
         }
-        else if(this.$route.query.type === 2){
+        else if(this.$route.query.type === '问答'){
 
         }
       },

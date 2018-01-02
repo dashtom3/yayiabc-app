@@ -51,7 +51,7 @@
           </div>
         </div>
       </div>
-      <div class="noAnswer" v-else-if="!isLoading">
+      <div class="noAnswer" v-else-if="!isLoading"> 
         <img src="../../../../images/question/noAnswer.png" alt="">
         <div>
           <p>还没有人回答</p>
@@ -320,10 +320,12 @@
     overflow: scroll;
     width: 100%;
     -webkit-overflow-scrolling: touch;
+    background-color: #f4f4f4;
     .eachContainer{
       padding: px2vw(15) px2vw(20) 0;
       width: 100%;
       border-bottom: px2vw(20) solid #f4f4f4;
+      background-color: #fff;
       .headLine{
         width: 100%;
         height: px2vw(110);
@@ -411,6 +413,7 @@
     }
     .answerList{
       margin-bottom: px2vw(120);
+      background-color: #fff;
       .eachAnswer{
         padding: px2vw(15) px2vw(20) px2vw(6);
         width: 100%;

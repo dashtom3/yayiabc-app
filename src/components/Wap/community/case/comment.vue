@@ -146,7 +146,7 @@
           <div style="clear: both"></div>
         </div>
       </div>
-      <doComment class="doComment" v-if="isComment" :args="commentInfo" v-on:commentRes="isCommentRes" v-on:cancelComment="escBtn"></doComment>
+      <doComment class="doComment" v-if="isComment" :args="commentInfo" v-on:commentRes="isCommentRes" v-on:cancelComment="escBtn" ></doComment>
       <!--下部导航栏-->
       <div v-show="writeSwitch"  class="tabDevBox">
         <div>  <!--开关-->
@@ -201,7 +201,7 @@ export default {
   props: {
     types: {
       type: String,
-      default: ""
+      default: "",
     }
   },
   data() {

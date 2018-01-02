@@ -7,6 +7,9 @@
       </div>
     </div>
     <div class="container" @click.stop="blurFocus">
+    <!-- 灰色遮罩层 -->
+      <div :class="{bgc : changes}"></div>
+
       <div class="line"  @click.stop="blurFocus">
         <span>分类</span>
         <span class="othersSelect" >
@@ -55,6 +58,7 @@
   export default {
     data(){
       return{
+        changes: false,
         isClassPicker:false,
         classify:'',
         classifyName:'',
@@ -103,6 +107,7 @@
         })
       },
       selectClassify(){
+        this.changes = true;
         this.isClassPicker =true;
       },
       focusDetail(num){
@@ -118,10 +123,12 @@
         this.showUploadIco = false;
       },
       onValuesChange(picker, values) {
+      
         console.log(this.slots[0].values.indexOf(values[0]));
         this.classify = this.slots[0].values.indexOf(values[0]) + 1;
       },
       onClassPicker(num){
+      this.changes = false;
         if(num){
           if(this.classify < 1){
             this.args.faqQuestionType = 2
@@ -188,6 +195,7 @@
       background: url("../../../../images/case/close.png") px2vw(20) center no-repeat;
       background-size: px2vw(30) px2vw(30);
     }
+
     .release{
       line-height: px2vw(88);
       font-size: px2vw(32);
@@ -202,7 +210,17 @@
     bottom: 0;
     overflow: scroll;
     width: 100%;
+    height: 100%;
     -webkit-overflow-scrolling: touch;
+     .bgc{
+    position:absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: px2vw(845);
+    z-index: 100;
+    background-color: rgba(0,0,0,0.4)!important;
+   }
     .line{
       width: 100%;
       padding: 0 3%;
@@ -272,12 +290,15 @@
     bottom: 0;
     left: 0;
     width: 100%;
+    z-index: 101;
     .classPicker{
       text-align: center;
       color: #000;
       font-size: px2vw(32);
       height: 40px;
       line-height: 40px;
+      border-bottom: px2vw(1) solid #f4f4f4;
+      box-sizing: border-box;
       .classPickerCancel{
         color: $themeColor;
         float: left;

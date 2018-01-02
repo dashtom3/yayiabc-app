@@ -5,7 +5,7 @@
       消息中心
     </div>
     <div class="container">
-      <div class="line" @click="gotoPage(1)">
+      <div class="line" @click="gotoPage('评论')">
         <div class="logoImg">
           <img src="../../../../images/mine/commentInfo.png" alt="">
         </div>
@@ -18,7 +18,7 @@
         </div>
         <div class="clr"></div>
       </div>
-      <div  class="line" @click="gotoPage(2)">
+      <div  class="line" @click="gotoPage('问答')">
         <div  class="logoImg">
           <img src="../../../../images/mine/answerInfo.png" alt="">
         </div>
@@ -45,6 +45,10 @@ export default {
     return{
       myInfo:'',
       myAnswer:'',
+      args:{
+        token : tokenMethods.getWapToken(),
+        type:"问答",
+      }
     }
   },
   components:{
@@ -55,7 +59,7 @@ export default {
   },
   methods:{
     inits(){
-      this.$store.dispatch(GET_INFO_NUM,{}).then(res =>{
+      this.$store.dispatch(GET_INFO_NUM,this.args).then(res =>{
         if(parseInt(tokenMethods.getInfoNum())){
           this.myInfo = res.data.commentNumber == 0 ? parseInt(tokenMethods.getInfoNum()) : Number(res.data.commentNumber);
         }else {
@@ -64,8 +68,8 @@ export default {
         tokenMethods.setInfoNum(this.myInfo);
       })
     },
-    gotoPage(num){
-      this.$router.push({path:'/infoList',query:{type:num,backName:'/infoIndex',star:this.$route.query.star}});
+    gotoPage(str){
+      this.$router.push({path:'/infoList',query:{type:str,backName:'/infoIndex',star:this.$route.query.star}});
       this.$destroy()
     },
     goBack(){

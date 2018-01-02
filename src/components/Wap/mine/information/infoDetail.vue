@@ -114,6 +114,7 @@
       this.timeStamp = Date.parse(new Date());
       console.log(this.$router.history.current.name)
       this.getOneTrend();
+      console.log(this.yayiCircleData)
     },
     methods:{
       getOneTrend(){
@@ -424,7 +425,7 @@
                 }
                 float: right;
                 display: inline-block;
-                width: px2vw(100);
+                width: px2vw(80);
                 text-align: right;
               }
             }

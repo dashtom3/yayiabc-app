@@ -188,7 +188,8 @@ input[type=search]::-webkit-search-cancel-button{
 }
 .search_box {
   width: 100vw;
-  height: 12vw;
+  height: px2vw(88);
+  z-index: 2000;
   position: relative;
   background-color: $themeColor;
   border-bottom: px2vw(1) solid #E5E5E5;

@@ -1,5 +1,6 @@
 <template>
   <div>
+  <div :class = "{ bgc : changes}" @click.stop="cancelComment"></div>
     <div class="holder" @click.stop="cancelComment"></div>
     <div class="inputArea1">
       <textarea name="" id="" cols="30" rows="10" :placeholder="placeHolder" v-model="commentContent" @focus="writeComment" class="textArea"></textarea>
@@ -20,6 +21,7 @@
       return{
         commentContent:'',
         placeHolder:'',
+        changes :  true,
       }
     },
     props:{
@@ -56,10 +58,10 @@
               Toast({message: '发布成功！', duration: 1500});
               let timer1=window.setTimeout(() => {
                 this.$emit('commentRes',res.data.data);
-                this.commentContent = ''
+                this.commentContent = '';
                 document.body.classList.remove('full-body-commentArea')
                 window.clearTimeout(timer1);
-              },350)
+              },350) 
             }
             else {
               Toast({message: '发布失败！请重试', duration: 1500});
@@ -79,7 +81,8 @@
             if(res.data.callStatus === 'SUCCEED'){
 //            console.log(res)
               Toast({message: '发布成功！', duration: 1500});
-              this.$destroy()
+              this.$destroy();
+              this.cancelComment();
               let timer1=window.setTimeout(() => {
                 this.$emit('commentRes',res.data.data);
                 this.commentContent = ''
@@ -95,7 +98,6 @@
 
       },
       writeComment(){
-
       },
       cancelComment(){
         let timer1=window.setTimeout(() => {
@@ -142,6 +144,15 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../common/sass/factory";
+  .bgc{
+     position: absolute;
+     top: -1000px;
+     left: 0px;
+     background-color: rgba(0,0,0,0.5);
+     z-index: 1000;
+     height:1000px;
+     width: 100%;
+  }
   .holder{
     background-color: rgba(0,0,0,0.5);
     position: absolute;

@@ -7,11 +7,11 @@
       <span class="logWithCode">个人资料</span>
     </div>
     <!--点击切换展示和更改页面按钮-->
-    <div class="edit-button" @click="edit" v-show="!isEditing">编辑</div>
+    <!-- <div class="edit-button" @click="edit" v-show="!isEditing">编辑</div> -->
     <div class="edit-button" @click="saveEdit" v-show="isEditing">保存</div>
     <div class="personal-container">
       <!--个人资料展示-->
-      <div class="showPage" v-show="!isEditing">
+<!--       <div class="showPage" v-show="!isEditing">
         <div class="headPhoto-container">
           <p class="detailTitle">头像</p>
           <div class="headPhoto">
@@ -82,10 +82,11 @@
           <p class="detail" v-if="saleInfo.email">{{saleInfo.email}}</p>
           <p class="detail" v-else>未设置</p>
         </div>
-      </div>
+      </div> -->
       <!--个人资料更改-->
       <div class="showPage" v-show="isEditing">
-        <div class="headPhoto-container">
+        <div class="headPhoto-container backImg2">
+        <span class="mustWrite"></span>
           <p class="detailTitle">头像</p>
             <el-upload class="headPhoto needclick"
               :disabled="ifPass"
@@ -99,34 +100,34 @@
             </el-upload>
         </div>
         <div class="thin-height">
-          <label for="name" class="detailTitle">真实姓名<span class="mustWrite">*</span></label>
+          <label for="name" class="detailTitle"><span class="mustWrite">*</span>真实姓名</label>
           <input id="name" class="detail" type="text" placeholder="请输入您的姓名" v-model="saleInfo.trueName">
         </div>
-        <div class="thin-height">
-          <label @click="selectSex" class="detailTitle">性别<span class="mustWrite">*</span></label>
+        <div class="thin-height backImg">
+          <label @click="selectSex" class="detailTitle"><span class="mustWrite">*</span>性别</label>
           <div @click="sexVisible = true">
-            <p class="detail" v-if="saleInfo.sex == 1">男 ></p>
-            <p class="detail" v-else-if="saleInfo.sex == 2">女 > </p>
-            <p class="detail" v-else>未设置 > </p>
+            <p class="detail space" v-if="saleInfo.sex == 1">男</p>
+            <p class="detail space" v-else-if="saleInfo.sex == 2">女</p>
+            <p class="detail space" v-else>未设置</p>
           </div>
         </div>
         <div class="thin-height">
-          <label for="idCard" class="detailTitle">身份证号<span class="mustWrite">*</span></label>
+          <label for="idCard" class="detailTitle"><span class="mustWrite"></span>身份证号</label>
           <input id="idCard" class="detail" type="text" placeholder="请输入您的身份证号" v-model="saleInfo.idCard">
         </div>
         <div class="thin-height">
-          <label for="workUnit" class="detailTitle">工作单位<span class="mustWrite">*</span></label>
+          <label for="workUnit" class="detailTitle"><span class="mustWrite">*</span>工作单位</label>
           <input id="workUnit" class="detail" type="text" placeholder="请输入工作单位" v-model="saleInfo.workUnit">
         </div>
         <div class="thin-height">
-          <label for="workPosition" class="detailTitle">工作职位<span class="mustWrite">*</span></label>
+          <label for="workPosition" class="detailTitle"><span class="mustWrite">*</span>工作职位</label>
           <input id="workPosition" class="detail" type="text" placeholder="请输入您的职位" v-model="saleInfo.workPosition">
         </div>
-        <div class="thin-height">
-          <label @click="openPicker('cityAddressPicker')" class="detailTitle">单位所在地<span class="mustWrite">*</span></label>
+        <div class="thin-height backImg">
+          <label @click="openPicker('cityAddressPicker')" class="detailTitle"><span class="mustWrite">*</span>单位所在地</label>
           <div @click="openPicker('cityAddressPicker')">
-            <p class="detail" v-if="saleInfo.part">{{saleInfo.part}} ></p>
-            <p class="detail" v-else>请选择 ></p>
+            <p class="detail space" v-if="saleInfo.part">{{saleInfo.part}}</p>
+            <p class="detail space" v-else>请选择</p>
           </div>
         </div>
         <div class="wide-height">
@@ -139,11 +140,11 @@
           <label for="referrals" class="detailTitle">推荐人姓名</label>
           <input id="referrals" class="detail" type="text" placeholder="请输入您的推荐人姓名" v-model="saleInfo.referrals">
         </div>
-        <div class="thin-height">
+        <div class="thin-height backImg">
           <label @click="openPicker('birthDatePicker')" class="detailTitle">出生日期</label>
           <div @click="openPicker('birthDatePicker')">
-            <p class="detail" v-if="saleInfo.birthday">{{saleInfo.birthday}} ></p>
-            <p class="detail" v-else>请选择 ></p>
+            <p class="detail space" v-if="saleInfo.birthday">{{saleInfo.birthday}}</p>
+            <p class="detail space" v-else>请选择</p>
           </div>
         </div>
         <div class="thin-height">
@@ -189,9 +190,10 @@
     name: 'salePersonalData',
     data() {
       return {
+        save: true,
         qiNiuToken: {},
         ifPass: false,
-        isEditing : false,
+        isEditing : true,
         sexVisible: false,
         sexs: [{
           name: '男',
@@ -261,10 +263,10 @@
           case !this.saleInfo.sex:
             Toast({message: '请选择您的性别', duration: 4000});
             return
-          case !(this.saleInfo.idCard && idCardReg.test(this.saleInfo.idCard)):
+          //case !(this.saleInfo.idCard && idCardReg.test(this.saleInfo.idCard)):
             Toast({message: '请输入正确的身份证号码', duration: 4000});
             return
-          case !this.saleInfo.workUnit:
+          //case !this.saleInfo.workUnit:
             Toast({message: '请填写您的单位名称', duration: 4000});
             return
           case !this.saleInfo.workPosition:
@@ -279,12 +281,11 @@
           default:
             break
         }
-
+        this.save = false;
         this.$store.dispatch('sale/POST_EDIT_SALEINFO', params).then(res => {
           this.ifPass = true;
           console.log(res)
         })
-        this.isEditing = !this.isEditing;
       },
       openPicker(name) {
         this.$refs[name].open()
@@ -309,15 +310,25 @@
         this.saleInfo.salePic = this.qiNiuConfig.ShUrl + file.response.key
       },
       back() {
-        this.$router.go(-1)
+      if(this.save){
+          MessageBox.confirm('信息未保存，确认返回？').then(action => {
+              this.$router.go(-1)
+      });
+      }else{
+         this.$router.go(-1)
       }
+    }
     }
   }
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../../common/sass/factory";
-
+  .backImg{
+      background: url(../../../../images/mine/back.png) no-repeat;
+      background-size: px2vw(20) px2vw(30);
+      background-position:  px2vw(710)  px2vw(30)
+   }
   .logIn_header{
     padding-bottom: 0;
     position: fixed;
@@ -380,10 +391,18 @@
           font-size: px2vw(28);
           right: px2vw(20);
           top:0;
+             // .space{
+             //    display: inline-block;
+             //    width: px2vw(50);
+             //    height: 100%;
+             // }
         }
         .detail::placeholder{
           text-align: right;
           color: #999999;
+        }
+        .space{
+            padding-right: px2vw(30)
         }
       }
       .headPhoto-container{
