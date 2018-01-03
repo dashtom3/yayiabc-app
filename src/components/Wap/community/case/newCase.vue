@@ -150,7 +150,7 @@
             flex: 1,
             values: ['口腔外科','口腔内科','口腔修复','口腔种植','口腔正畸'],
             className: 'slot1',
-             defaultIndex:0,
+             defaultIndex : 0,
             textAlign: 'center',
           }
         ],
@@ -548,6 +548,7 @@
   }
    .pickers{
     position: fixed;
+    height: px2vw(450);
     bottom: 0;
     left: 0;
     width: 100%;

@@ -280,7 +280,7 @@
 
   export default {
     name: 'mine',
-    data() {
+    data(){
       return {
         qbBalance: '',
         phone: '',
@@ -308,14 +308,15 @@
       that.init();
       that.gBack();
       that.getMsg();
+      console.log(tokenMethods.getWapToken());
     },
     methods: {
       getMsg(){
-        this.$store.dispatch('GET_INFO_NUM', {}).then( (res)=>{
+        this.$store.dispatch('GET_INFO_NUM',{type:null,token:tokenMethods.getWapToken()}).then((res)=>{
           if(parseInt(tokenMethods.getInfoNum()))
           {
             console.log(res.data)
-            this.msgNum = res.data.commentNumber == 0 ? parseInt(tokenMethods.getInfoNum()) : Number(res.data.commentNumber);
+            this.msgNum = res.data.commentNumber == 0? parseInt(tokenMethods.getInfoNum()) : Number(res.data.commentNumber);
           }else {
             this.msgNum = Number(res.data.commentNumber);
           }

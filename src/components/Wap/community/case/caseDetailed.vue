@@ -584,15 +584,6 @@
     width: 100%;
     min-height: px2vw(1206);
     -webkit-overflow-scrolling: touch;
-      .bgc{
-      position: absolute;
-      top: 0px;
-      left: 0px;
-      width: 100%;
-      height: 80vh;
-      z-index: 1000;
-      background-color: rgba(0,0,0,0.4)!important;
-    }
   }
   .titleContainer{
     background-color: white;

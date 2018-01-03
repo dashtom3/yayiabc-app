@@ -81,6 +81,7 @@
         this.isLoading =true;
         this.$store.dispatch(GET_INFO_DETAIL, this.args).then(res =>{
           if(res.data){
+            console.log(res.data);
             this.list = res.data.concat(this.list);
             this.setList(this.list);
             this.args.currentPage = res.currentPage;
@@ -128,7 +129,28 @@
 //        this.$destroy()
         }
         else if(this.$route.query.type === '问答'){
-
+           let obj = {
+            momentId: item.typeId,
+            type:type,
+            backName:'/infoList',
+          }
+          this.list.splice(key, 1)
+          if(this.list) {
+            this.setList(this.list);
+          }else {
+            switch (true) {
+              case this.$route.query.type === '问答':
+                tokenMethods.removeInfoList(val)
+                tokenMethods.setInfoNum(0);
+                break;
+              case this.$route.query.type === '评论':
+                tokenMethods.removeAnswerList(val)
+                tokenMethods.setAnswerNum(0);
+                break;
+            }
+          }
+          this.$router.push({path: '/infoDetail', query: obj})
+//        this.$destroy()
         }
       },
       loadMore(){

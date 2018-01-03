@@ -114,7 +114,7 @@
     },
     methods: {
       getMsg(){
-        this.$store.dispatch('GET_INFO_NUM', {}).then( (res)=>{
+        this.$store.dispatch('GET_INFO_NUM', {type:null,token:tokenMethods.getWapToken()}).then( (res)=>{
           if(parseInt(tokenMethods.getInfoNum()))
           {
             this.msgNum = res.data.commentNumber == 0 ? parseInt(tokenMethods.getInfoNum()) : Number(res.data.commentNumber);

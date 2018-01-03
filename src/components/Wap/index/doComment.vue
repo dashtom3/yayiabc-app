@@ -146,11 +146,11 @@
   @import "../../../common/sass/factory";
   .bgc{
      position: absolute;
-     top: -1000px;
+     top: -2200px;
      left: 0px;
      background-color: rgba(0,0,0,0.5);
-     z-index: 1000;
-     height:1000px;
+     z-index: 1500;
+     height:2100px;
      width: 100%;
   }
   .holder{

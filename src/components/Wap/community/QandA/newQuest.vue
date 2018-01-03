@@ -225,6 +225,7 @@
       width: 100%;
       padding: 0 3%;
       height: px2vw(90);
+      font-size: px2vw(28);
       line-height: px2vw(90);
       border-bottom: px2vw(1) solid #ddd;
       .othersInput{

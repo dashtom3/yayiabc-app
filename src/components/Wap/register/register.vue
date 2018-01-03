@@ -295,7 +295,7 @@
     },
     methods: {
       focus(event) {
-        let target = ''
+        let target = '';
         if (event.target.className === 'mint-cell-wrapper') {
           target = event.target
           // console.log(event.target)

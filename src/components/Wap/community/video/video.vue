@@ -340,25 +340,6 @@
   width: px2vw(32);
   height: px2vw(32);
 }
-.collectionImg{
-  width: px2vw(32);
-  height: px2vw(30);
-}
-.collection-text{
-  display: inline-block;
-  width: px2vw(78);
-  margin-left: px2vw(10);
-  font-size: px2vw(26);
-}
-.commentImg{
-  width: px2vw(32);
-  height: px2vw(29);
-}
-.commentNum{
-  display: inline-block;
-  margin-left: px2vw(9);
-  font-size: px2vw(26);
-}
 .bottom-right>span img,.bottom-right>span>span{
   vertical-align: middle;
 }
@@ -378,6 +359,22 @@
   height: px2vw(88);
   margin-right: px2vw(20);
   font-size: px2vw(0);
+   .collectionImg{
+  width: px2vw(32);
+  height: px2vw(30);
+  position: absolute;
+  top:px2vw(28);
+  right: px2vw(-8);
+ }
+  .collection-text{
+  display: inline-block;
+  width: px2vw(80);
+  text-align: center;
+  font-size: px2vw(26);
+  position: absolute;
+  top:px2vw(2);
+  right: px2vw(-80);
+ }
 }
 .commentBox{
   position: absolute;
@@ -386,6 +383,21 @@
   height: px2vw(88);
   line-height: px2vw(88);
   font-size: 0;
+  .commentImg{
+  width: px2vw(32);
+  height: px2vw(29);
+  position: absolute;
+  top:px2vw(30);
+  right: px2vw(-8);
+  }
+  .commentNum{
+  display: inline-block;
+  width: px2vw(5);
+  font-size: px2vw(26);
+  position: absolute;
+  top:px2vw(1);
+  right: px2vw(-20);
+  }
 }
 .noMoreData{
   margin-top: px2vw(-1);

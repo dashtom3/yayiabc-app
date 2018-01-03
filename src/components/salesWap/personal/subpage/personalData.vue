@@ -111,30 +111,30 @@
             <p class="detail space" v-else>未设置</p>
           </div>
         </div>
-        <div class="thin-height">
-          <label for="idCard" class="detailTitle"><span class="mustWrite"></span>身份证号</label>
-          <input id="idCard" class="detail" type="text" placeholder="请输入您的身份证号" v-model="saleInfo.idCard">
-        </div>
-        <div class="thin-height">
-          <label for="workUnit" class="detailTitle"><span class="mustWrite">*</span>工作单位</label>
-          <input id="workUnit" class="detail" type="text" placeholder="请输入工作单位" v-model="saleInfo.workUnit">
-        </div>
-        <div class="thin-height">
-          <label for="workPosition" class="detailTitle"><span class="mustWrite">*</span>工作职位</label>
-          <input id="workPosition" class="detail" type="text" placeholder="请输入您的职位" v-model="saleInfo.workPosition">
-        </div>
-        <div class="thin-height backImg">
-          <label @click="openPicker('cityAddressPicker')" class="detailTitle"><span class="mustWrite">*</span>单位所在地</label>
-          <div @click="openPicker('cityAddressPicker')">
-            <p class="detail space" v-if="saleInfo.part">{{saleInfo.part}}</p>
-            <p class="detail space" v-else>请选择</p>
-          </div>
-        </div>
-        <div class="wide-height">
-          <label for="address" class="detailTitle">详细地址<span class="mustWrite">*</span></label>
+          <div class="wide-height">
+          <label for="address" class="detailTitle"><span class="mustWrite">*</span>详细地址</label>
           <div class="detailAddr">
             <input id="address" type="text" class="detail" placeholder="请输入您的详细地址" v-model="saleInfo.address">
           </div>
+        </div>
+          <div class="thin-height backImg">
+            <label @click="openPicker('cityAddressPicker')" class="detailTitle">单位所在地</label>
+            <div @click="openPicker('cityAddressPicker')">
+              <p class="detail space" v-if="saleInfo.part">{{saleInfo.part}}</p>
+              <p class="detail space" v-else>请选择</p>
+          </div>
+        </div>
+        <div class="thin-height">
+          <label for="idCard" class="detailTitle">身份证号</label>
+          <input id="idCard" class="detail" type="text" placeholder="请输入您的身份证号" v-model="saleInfo.idCard">
+        </div>
+        <div class="thin-height">
+          <label for="workUnit" class="detailTitle">工作单位</label>
+          <input id="workUnit" class="detail" type="text" placeholder="请输入工作单位" v-model="saleInfo.workUnit">
+        </div>
+        <div class="thin-height">
+          <label for="workPosition" class="detailTitle">工作职位</label>
+          <input id="workPosition" class="detail" type="text" placeholder="请输入您的职位" v-model="saleInfo.workPosition">
         </div>
         <div class="thin-height">
           <label for="referrals" class="detailTitle">推荐人姓名</label>
@@ -264,17 +264,17 @@
             Toast({message: '请选择您的性别', duration: 4000});
             return
           //case !(this.saleInfo.idCard && idCardReg.test(this.saleInfo.idCard)):
-            Toast({message: '请输入正确的身份证号码', duration: 4000});
-            return
+           // Toast({message: '请输入正确的身份证号码', duration: 4000});
+            //return
           //case !this.saleInfo.workUnit:
-            Toast({message: '请填写您的单位名称', duration: 4000});
-            return
-          case !this.saleInfo.workPosition:
-            Toast({message: '请填写您的工作职位', duration: 4000});
-            return
-          case !this.saleInfo.part:
-            Toast({message: '请选择您的单位所在地', duration: 4000});
-            return
+           // Toast({message: '请填写您的单位名称', duration: 4000});
+           // return
+          //case !this.saleInfo.workPosition:
+           // Toast({message: '请填写您的工作职位', duration: 4000});
+           // return
+          //case !this.saleInfo.part:
+           // Toast({message: '请选择您的单位所在地', duration: 4000});
+           // return
           case !this.saleInfo.address:
             Toast({message: '请填写您的单位详细地址', duration: 4000});
             return
@@ -286,6 +286,7 @@
           this.ifPass = true;
           console.log(res)
         })
+        Toast({message: '信息保存成功', duration: 2000});
       },
       openPicker(name) {
         this.$refs[name].open()
@@ -406,13 +407,17 @@
         }
       }
       .headPhoto-container{
+        padding-right: px2vw(30);
         width: 100%;
         height: px2vw(160);
         line-height: px2vw(160);
         /*margin-bottom: px2vw(20);*/
         border-bottom: px2vw(1) solid #e5e5e5;
         background-color: #fff;
-        position: relative;
+        position: relati ve;
+        background: url(../../../../images/mine/back.png) no-repeat;
+        background-size: px2vw(20) px2vw(30);
+        background-position:  px2vw(710)  px2vw(70);
         .detailTitle{
           position: absolute;
           left: px2vw(20);

@@ -4,7 +4,7 @@
       <div class="wrapTop">
         <span class="title">视频详情</span>
         <span @click="goBack()" class="backImgBox">
-          <img src="../../../../images/case/backer.png" alt="">
+          <img src="../../../../images/logIn/back3.png"alt="">
         </span>
       </div>
       <div class="container">
@@ -138,8 +138,8 @@
       height: px2vw(88);
     }
     .backImgBox>img{
-      width: px2vw(24);
-      height: px2vw(42);
+      width: px2vw(21);
+      height: px2vw(39);
     }
     .backgroundImg{
       position: fixed;

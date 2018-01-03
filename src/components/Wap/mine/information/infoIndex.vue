@@ -45,10 +45,14 @@ export default {
     return{
       myInfo:'',
       myAnswer:'',
-      args:{
-        token : tokenMethods.getWapToken(),
+      args_info:{
+        type:"评论",
+        token : tokenMethods.getWapToken(),    
+      },
+      args_answer:{
         type:"问答",
-      }
+        token : tokenMethods.getWapToken(),
+      },
     }
   },
   components:{
@@ -56,16 +60,27 @@ export default {
   },
   created(){
     this.inits();
+    this.getAnswer();
   },
   methods:{
     inits(){
-      this.$store.dispatch(GET_INFO_NUM,this.args).then(res =>{
+      this.$store.dispatch(GET_INFO_NUM,this.args_info).then(res =>{
         if(parseInt(tokenMethods.getInfoNum())){
-          this.myInfo = res.data.commentNumber == 0 ? parseInt(tokenMethods.getInfoNum()) : Number(res.data.commentNumber);
+          this.myInfo = res.data.commentNumber === 0 ? "": Number(res.data.commentNumber);
         }else {
           this.myInfo = Number(res.data.commentNumber);
         }
         tokenMethods.setInfoNum(this.myInfo);
+      })
+    },
+    getAnswer(){
+         this.$store.dispatch(GET_INFO_NUM,this.args_answer).then(res =>{
+        if(parseInt(tokenMethods.getInfoNum())){
+          this.myAnswer = res.data.commentNumber === 0 ? "" : Number(res.data.commentNumber);
+        }else {
+          this.myAnswer= Number(res.data.commentNumber);
+        }
+        tokenMethods.setInfoNum(this.myAnswer);
       })
     },
     gotoPage(str){
