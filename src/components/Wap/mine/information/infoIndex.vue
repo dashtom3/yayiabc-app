@@ -88,6 +88,7 @@ export default {
       this.$destroy()
     },
     goBack(){
+      console.log(this.$route.query.backName);
       this.$router.push(this.$route.query.backName)
       this.$destroy()
     }

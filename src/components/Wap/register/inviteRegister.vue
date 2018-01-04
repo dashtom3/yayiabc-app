@@ -29,9 +29,16 @@
     <div class="invite-footer">
       <h2 class="title"><i class="line"></i>我邀请的好友<i class="line"></i></h2>
       <div class="friend-box">
-        <p class="friend-info"><span class="friend-name">真实姓名</span><span class="friend-phone">151****0809</span></p>
-        <p class="friend-info"><span class="friend-name">真实姓名</span><span class="friend-phone">151****0809</span></p>
-        <p class="friend-info"><span class="friend-name">真实姓名</span><span class="friend-phone">151****0809</span></p>
+        <p class="friend-info" v-for="item in userList">
+          <span class="friend-name" >{{item.trueName}}</span>
+          <span class="friend-phone">{{item.phone.substring(0,3)}}****{{item.phone.substring(7,11)}}</span>
+          <div class="noMoreData" v-if="userList.length != 0">
+            - End -
+          </div>
+        </p>
+        <p v-if="userList.length == 0" class="friend-info">
+          暂无客户～
+        </p>
       </div>
     </div>
   </div>
@@ -46,14 +53,32 @@ export default {
   data () {
     return {
       myUserId:tokenMethods.getWapUser() ? tokenMethods.getWapUser().userId : '',
+      args: {
+        userType: 1,
+        currentPage: 1,
+        numberPerPage: 20,
+        totalPage: -1
+      },
+      userList:[]
     };
   },
   components:{
     shareToWx
   },
+  created() {
+    this.getUserWithList();
+  },
   methods: {
     goBack() {
       this.$router.go(-1)
+    },
+    getUserWithList(){
+      var self = this
+      this.$store.dispatch('GET_USER_INVITELIST', this.args).then((res) => {
+        self.userList = res.data.data;
+        self.totalPage = res.data.totalPage;
+        self.currentPage = res.data.currentPage;
+      })
     }
   }
 }
@@ -200,9 +225,26 @@ export default {
   text-align: center;
   font-size: px2vw(26);
   color: rgb(51,51,51);
+
   .friend-name{
     display: inline-block;
-    margin-right: px2vw(70);
+    margin-right: px2vw(30);
+    width: 80px;
   }
+}
+.friend-box {
+    margin-bottom: 20px;
+}
+.noMoreData{
+  margin-top: px2vw(-1);
+  background-color: #fff;
+  width: 100%;
+  height: px2vw(80);
+  font-size: px2vw(26);
+  color: #999;
+  text-align: center;
+  line-height: px2vw(80);
+  margin-bottom: px2vw(20);
+  background-color: #f4f4f4;
 }
 </style>

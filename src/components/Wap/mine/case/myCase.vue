@@ -1,5 +1,5 @@
 <template>
-    <div class="case-wrapper">
+    <div class="case-wrapper" >
       <div class="backgroundImg"></div>
       <div class="wrapTop">
         <span class="title">我的病例</span>
@@ -28,6 +28,7 @@
                     <img v-if="change == 2" :src="item.user == undefined ? require('../../../../images/mine/zhifubao.png') : item.user.userPic + '?imageView2/1/w/200/h/200' " alt="">
                     <span v-if="change == 2" class="userName" :class="{'userWrite': change != 2}">{{item.writer}}</span>
                     <span class="userName userTime"><span v-if="change != 2">更新于</span>{{item.postTime}}</span>
+                    <span class="userName userTime" v-if="item.postStater!= null && (item.postStater == 0 || item.postStater == 1 || item.postStater == 4)">{{item.postStater | stateFilter}}</span>
                   </div>
                   <div class="caseContent">
                     {{item.headline}}
@@ -39,12 +40,12 @@
                 <div class="readeBox">
                   <span class="readeClass">{{item.classify}}</span>
                   <span v-if="change != 0" class="readeNum">{{item.readNumber}} 阅读</span>
-                  <span v-if="change != 0" class="readeNum2">· {{item.commentNumber}}评论</span>
-                  <span v-if="change != 0" class="readeNum2">· {{item.postFavour}}赞</span>
+                  <span v-if="change != 0" class="readeNum2">· {{item.commentNum}}评论</span>
+                  <span v-if="change != 0" class="readeNum2">· {{item.zanNum}}赞</span>
                   <span v-if="item.chargeNumber" class="coin"> {{item.chargeNumber}}乾币</span>
                 </div>
               </div>
-            </div> 
+            </div>
           </div>
         <!-- 没有更多数据显示end -->
          <div v-if="myCaseList != 0" class="noMoreData">
@@ -149,7 +150,7 @@ export default {
       if (this.change == 0) {
         params.postStater = 2
       } else if (this.change == 1) {
-        params.postStater = 1
+        params.postStater = 5
       }
       this.$store
         .dispatch("GET_MY_CASE", params)
@@ -181,7 +182,7 @@ export default {
     },
     getListMore (){
       if (this.totalPage >= this.myCase.currentPage){
-       
+
         // this.endShow = true
       if(!this.isLoading){
            this.noMoreData = true;
@@ -247,7 +248,7 @@ export default {
       } else if (this.change === 1) {
         //发布
         this.myCase.currentPage = 1;
-        this.myCase.postStater = 1;
+        this.myCase.postStater = 5;
         this.getCaseList();
       } else {
         //已购买

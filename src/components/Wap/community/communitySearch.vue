@@ -122,6 +122,7 @@
       //搜索框
       search_cargo: function(item,index) {
         var that = this;
+        console.log(item);
         if (typeof(item) !== 'object') {
           that.searchCargo = item
         }

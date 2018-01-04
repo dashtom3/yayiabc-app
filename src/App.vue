@@ -1,7 +1,7 @@
 <template>
   <div id="app">
      <!--<transition :name="'vux-pop-' + ($store.state.index.direction === 'forward' ? 'in' : 'out')">-->
-      <keep-alive :include="['register', 'salesRegister', 'wxlogIn', 'productList']">
+      <keep-alive :include="['register', 'salesRegister', 'wxlogIn', 'productList', 'video' , 'caseOfIllness','QandAList']">
         <router-view></router-view>
       </keep-alive>
     <!--<keep-alive>-->
@@ -35,11 +35,23 @@
 //        });
 //        return false;
 //      }
+
+        var originalHeight=document.documentElement.clientHeight || document.body.clientHeight;
+console.log("app.vue"+originalHeight);
+        window.onresize=function(){
+          console.log(document);
+//软键盘弹起与隐藏  都会引起窗口的高度发生变化
+var  resizeHeight=document.documentElement.clientHeight || document.body.clientHeight;
+    console.log(originalHeight,resizeHeight);
+    if(resizeHeight*1<originalHeight*1){ //resizeHeight<originalHeight证明窗口被挤压了
+      
+    plus.webview.currentWebview().setStyle({
+        height:originalHeight
+    });
+      }
+    }
     },
     computed: {
-//      direction() {
-//        return this.$store.state.index.direction
-//      }
     },
   }
 </script>

@@ -619,6 +619,9 @@ export function getOrderInvoice(params) {
 export function getCustomerDetail(params) {
   return get('/userManageList/detail', params)
 }
+export function getUserInviteList(params) {
+  return postWithToken('/user/inviteChart', params)
+}
 
 //修改个人资料
 export function postEditSaleinfo(params) {

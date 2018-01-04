@@ -22,6 +22,12 @@
         caseClassNum : 0,
       }
     },
+    created(){
+      // console.log(this.$router.history)
+      if(this.$router.history.current.path == '/myQandA/myAnswer') {
+        this.caseClassNum = 1;
+      }
+    },
     methods:{
       changeClass(index){
         this.caseClassNum = index;
@@ -32,9 +38,10 @@
             break;
           case index === 1:
             this.$router.push({path:'/myQandA/myAnswer',query:{collectType:index}});
-            break;  
+            break;
          }
       },
+
       goBack(){
         this.$router.push('/yayi/mine');
         this.$destroy()

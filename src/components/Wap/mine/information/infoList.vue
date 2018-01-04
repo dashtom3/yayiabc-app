@@ -107,6 +107,7 @@
         if(this.$route.query.type === '评论') {
           let obj = {
             momentId: item.typeId,
+            momentName: item.type,
             type:type,
             backName:'/infoList',
           }
@@ -125,7 +126,14 @@
                 break;
             }
           }
-          this.$router.push({path: '/infoDetail', query: obj})
+          if(item.type == "病例"){
+            this.$router.push({path: '/caseDetailed', query:{'id': item.typeId, backName: this.$route.fullPath}})
+          } else if(item.type == "视频"){
+            this.$router.push({path: '/videoDetailed', query:{'id': item.typeId, backName: this.$route.fullPath}})
+          } else {
+            this.$router.push({path: '/infoDetail', query: obj})
+          }
+
 //        this.$destroy()
         }
         else if(this.$route.query.type === '问答'){

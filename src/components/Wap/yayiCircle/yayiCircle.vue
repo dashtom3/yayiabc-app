@@ -160,25 +160,28 @@
         this.$destroy()
       },
       getYayiCircle(){
+        var self = this;
         if(this.$router.history.current.name === 'myYayiCircle'){
           this.headTitle = '我的动态';
           this.$store.dispatch(MY_YAYI_CIRCLE, this.args).then(res =>{
-            this.dataCompute(res.data);
-            this.topLoading = false;
-            this.bottomLoading = false;
-            this.totalPage = res.totalPage
-            this.isAllLoaded();
+            self.dataCompute(res.data);
+            console.log(11)
+            self.topLoading = false;
+            self.bottomLoading = false;
+            self.totalPage = res.totalPage
+            self.isAllLoaded();
             Indicator.close();
           })
         }
         else if(this.$router.history.current.name === 'yayiCircle'){
           this.headTitle = '牙医圈';
           this.$store.dispatch(YAYI_CIRCLE, this.args).then(res =>{
-            this.dataCompute(res.data);
-            this.topLoading = false;
-            this.bottomLoading = false;
-            this.totalPage = res.totalPage
-            this.isAllLoaded();
+            console.log(11)
+            self.dataCompute(res.data);
+            self.topLoading = false;
+            self.bottomLoading = false;
+            self.totalPage = res.totalPage
+            self.isAllLoaded();
             Indicator.close();
           })
         }
@@ -247,7 +250,7 @@
           })
           return
         }
-        console.log(userId,commentUserId)
+        // console.log(userId,commentUserId)
         if(this.myUserId && commentUserId && this.myUserId == commentUserId){
           return
         }

@@ -60,7 +60,10 @@ const state = {
   //社区
   video: null, //视频播放唯一性
   casedetail: null,
-  videodetail: null
+  videodetail: null,
+
+  //资料库关键词
+  databaseKeyword: null
 }
 
 const getters = {
@@ -113,9 +116,9 @@ const mutations = {
   [types.UPDATE_DIRECTION](state,payload) {
     state.direction = payload.direction
   },
-  [types.SET](state,payload) {
-    state.direction = payload.direction
-  },
+  // [types.SET](state,payload) {
+  //   state.direction = payload.direction
+  // },
   [types.VIDEO_PLAY](state,payload) {
     if(state.video != null && payload != state.video) {
       state.video.centerPlayImg = true;
@@ -125,6 +128,9 @@ const mutations = {
       state.video.videoState = 1;
     }
     state.video = payload
+  },
+  [types.SAVE_DATABASE_KEYWORD](state,all) {
+    state.databaseKeyword = all
   },
   [types.SAVE_CASE_ORDER](state,all) {
     state.saveCaseOrder = all
@@ -600,6 +606,15 @@ const actions = {
   [types.UPDATE_USER_INFO](context, params) {
     return new Promise((resolve, reject) => {
       api.updateUserInfo(params).then((data) => {
+        resolve(data);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  },
+  [types.GET_USER_INVITELIST](context, params) {
+    return new Promise((resolve, reject) => {
+      api.getUserInviteList(params).then((data) => {
         resolve(data);
       }).catch((err) => {
         reject(err);

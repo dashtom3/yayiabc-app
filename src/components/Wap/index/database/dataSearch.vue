@@ -70,7 +70,7 @@
           Toast({message: '请输入查询条件！', duration: 1500})
           return false
         }
-        this.keyWord = this.searchCargo;
+        this.$store.commit('SAVE_DATABASE_KEYWORD',this.searchCargo);
         if (JSON.parse(tokenMethods.getDataHistory()) == null) {
           this.userHistory = []
           this.userHistory.push(this.searchCargo)
@@ -102,6 +102,7 @@
       // 取消搜索
       cancelSearch: function () {
         let that = this
+        this.$store.commit('SAVE_DATABASE_KEYWORD',null);
         let timer1 = window.setTimeout(function () {
           that.$router.go(-1);
           window.clearTimeout(timer1);
@@ -194,4 +195,3 @@
     }
   }
 </style>
-

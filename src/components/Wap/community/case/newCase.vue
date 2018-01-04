@@ -4,7 +4,7 @@
     <div class="header" @click="blurClass">
       <div class="backIco" @click="closePage"></div>
       <div class="saveAndRelease">
-        <div class="release" @click="postCase(1)">
+        <div class="release" @click="postCase(0)">
           <img src="../../../../images/case/release.png" alt="">
           发布
         </div>
@@ -16,7 +16,7 @@
       </div>
     </div>
     <div class="newCaseWrap" >
-     
+
     <div :class="{bgc : changes}"></div>
       <div class="inputTitle" @click="blurClass">
         <input class="textArea"  v-model="args.headline" placeholder="请输入标题">
@@ -87,7 +87,7 @@
       :on-progress="upLoading"
     ></el-upload>
   </div>
-</div> 
+</div>
 </template>
 
 <script type="text/ecmascript-6">
@@ -290,14 +290,14 @@
         this.chargeNumN = this.sloty[0].values[parseInt(this.chargeNum)]
       },
       getCaseData(){
-        this.$store.dispatch(GET_CASE_DETAIL, {postId: this.$route.query.id}).then((res) => {
+        this.$store.dispatch('GET_CASE_DETAIL', {postId: this.$route.query.id}).then((res) => {
           this.args.headline = res.data.headline;
           this.args.classify = res.data.classify;
           this.classify = res.data.classify;
           this.classifyName = this.slots[0].values[parseInt(this.classify) - 1]
           this.args.freeContent = res.data.freeContent;
           this.args.chargeContent = res.data.chargeContent;
-          this.chargeNumN = this.args.chargeContent ? this.args.chargeContent + '乾币' :'';
+          this.chargeNumN = res.data.chargeNumber ? res.data.chargeNumber + '乾币' :'';
           this.args.chargeNumber = res.data.chargeNumber;
           this.args.postStater = res.data.postStater;
           this.args.cover = res.data.cover;

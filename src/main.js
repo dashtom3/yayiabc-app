@@ -123,6 +123,26 @@ Vue.filter('time', function (item) {
       return  Util.formatDate.format(new Date(item.commentTime), "yy.MM.dd hh:mm").substring(2);
     }
 })
+Vue.filter('stateFilter', function (item) {
+  switch(item) {
+    case 0:
+      return '待审核';
+      break;
+    case 1:
+      return '已发布';
+      break;
+    case 2:
+      return '草稿';
+      break;
+    case 3:
+      return '已删除';
+      break;
+    case 4:
+      return '审核失败';
+      break;
+  }
+
+})
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

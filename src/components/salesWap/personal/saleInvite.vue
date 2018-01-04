@@ -20,8 +20,17 @@
         <p>- 我的客户 -</p>
       </div>
 
-      <div  class="customer">
-          <p v-for></p>
+      <div class="friend-box">
+        <p class="friend-info" v-for="item in userList">
+          <span class="friend-name" >{{item.trueName}}</span>
+          <span class="friend-phone">{{item.phone.substring(0,3)}}****{{item.phone.substring(7,11)}}</span>
+          <div class="noMoreData" v-if="userList.length != 0">
+            - End -
+          </div>
+        </p>
+        <p v-if="userList.length == 0" class="friend-info">
+          暂无客户～
+        </p>
       </div>
     </div>
 
@@ -38,36 +47,32 @@
     data(){
       return{
         myUserId:tokenMethods.getWapUser() ? tokenMethods.getWapUser().userId:'',
-        token:"3d864092-f5e6-452b-ad8b-8d3c32b3c867",
-        userType:2,
-        currentPage:1,
-        numberPerPage:10
+        args: {
+          userType: 2,
+          currentPage: 1,
+          numberPerPage: 20,
+          totalPage: -1
+        },
+        userList:[]
       }
     },
     components:{
       shareToWx
     },
-    created:function(){
-         this.my_costomer();
+    created() {
+      this.getUserWithList();
     },
-    methods:{
-      goBack(){
+    methods: {
+      goBack() {
         this.$router.go(-1)
       },
-      my_costomer(){
-         let obj = {
-         tokens : "3d864092-f5e6-452b-ad8b-8d3c32b3c867",
-         userTypes :  this.userType,
-         currentPages : this.currentPage,
-         numberPerPages: this.numberPerPage,
-         };
-        let url ="https://116.62.228.3:8080/api/user/inviteChart";
-         axios.post(url,obj
-         ).then((res) => {
-         console.log(res.data)
-         }).catch((error)=>{
-         console.log(error)
-         })
+      getUserWithList(){
+        var self = this
+        this.$store.dispatch('GET_USER_INVITELIST', this.args).then((res) => {
+          self.userList = res.data.data;
+          self.totalPage = res.data.totalPage;
+          self.currentPage = res.data.currentPage;
+        })
       }
     }
   }
@@ -138,6 +143,33 @@
     .lines{
         border-top: px2vw(1) solid #e5e5e5;
         box-sizing: border-box;
+    }
+    .friend-info{
+      padding: px2vw(18) px2vw(10);
+      text-align: center;
+      font-size: px2vw(26);
+      color: rgb(51,51,51);
+
+      .friend-name{
+        display: inline-block;
+        margin-right: px2vw(30);
+        width: 80px;
+      }
+    }
+    .friend-box {
+        margin-bottom: 20px;
+    }
+    .noMoreData{
+      margin-top: px2vw(-1);
+      background-color: #fff;
+      width: 100%;
+      height: px2vw(80);
+      font-size: px2vw(26);
+      color: #999;
+      text-align: center;
+      line-height: px2vw(80);
+      margin-bottom: px2vw(20);
+      background-color: #f4f4f4;
     }
   }
 </style>

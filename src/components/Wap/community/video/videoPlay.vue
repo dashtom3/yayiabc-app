@@ -117,8 +117,10 @@
           timerFuc();
       },false);
       videoMask.addEventListener('click', function () {
-        _this.videos.controlShow = false;
-        _this.videos.centerPlayImg = false;
+        if(_this.videos.controlShow == true) {
+          _this.videos.controlShow = false;
+          _this.videos.centerPlayImg = false;
+        }
       },false);
       video.addEventListener('click', function () {
         _this.videos.controlShow = true;

@@ -12,7 +12,7 @@
           </div>
           <div class="caseContent">{{item.headline}}</div>
         </div>
-        <div v-if="item.cover !== ''" class="userImgBox" :class="{'addChange2': item.cover !== ''}">
+        <div v-if="item.cover !== '' && item.cover != null" class="userImgBox" :class="{'addChange2': item.cover !== ''}">
           <img :src="item.cover" alt="">
         </div>
         <div class="readeBox">
@@ -20,7 +20,8 @@
           <span class="readeNum">{{item.readNumber==null?0: item.readNumber}} 阅读</span>
           <span class="readeNum2">· {{item.commentNum}} 评论</span>
           <span class="readeNum2">· {{item.zanNum}} 赞</span>
-          <span v-if="item.chargeNumber" class="coin"> {{item.chargeNumber}}乾币</span>
+          <span v-if="item.chargeNumber && item.userToPost == null" class="coin"> {{item.chargeNumber}}乾币</span>
+          <span v-if="item.userToPost != null" class="coin2"> 已购买</span>
         </div>
       </div>
       <div v-if="listCaseData.length != 0 && caseDate.currentPage == caseDate.totalPage" class="noMoreData">
@@ -347,6 +348,11 @@
      font-size: px2vw(24);
      color: #d81e06;
    }
+   .coin2{
+     float: right;
+     font-size: px2vw(24);
+     color: #999999;
+   }
    .readeNum{
      margin-left: px2vw(18);
      color: #999999;
@@ -417,7 +423,7 @@
     }
      .noMoreData2{
       width: 100%;
-      height: px2vw(20);  
+      height: px2vw(20);
       background-color: #f4f4f4
      }
 </style>

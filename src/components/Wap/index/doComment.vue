@@ -41,6 +41,8 @@
     },
     methods:{
       releaseComment(){
+        console.log(document.documentElement.clientHeight || document.body.clientHeight);
+        console.log(window.screen.height);
         if(!this.commentContent){
           Toast({message: '请输入内容！', duration: 1500});
           return
@@ -54,14 +56,16 @@
           }
           this.$store.dispatch(ADD_ANSWER, obj).then(res=>{
             if(res.callStatus === 'SUCCEED'){
-           console.log(res)
+              // console.log(res)
               Toast({message: '发布成功！', duration: 1500});
               let timer1=window.setTimeout(() => {
-                this.$emit('commentRes',res.data.data);
+                console.log(res.data)
+                this.$emit('commentRes',res.data);
                 this.commentContent = '';
+
                 document.body.classList.remove('full-body-commentArea')
                 window.clearTimeout(timer1);
-              },350) 
+              },350)
             }
             else {
               Toast({message: '发布失败！请重试', duration: 1500});
@@ -75,20 +79,21 @@
             commentContent:this.commentContent,
             parentId:this.args.parentId ? this.args.parentId : '',
           }
-//        console.log(obj,'obj')
+          console.log(obj,'obj')
           this.$store.dispatch(ADD_COMMENT, obj).then(res=>{
-            console.log(res)
+            // console.log(res)
             if(res.data.callStatus === 'SUCCEED'){
-//            console.log(res)
+           console.log(res.data.data)
               Toast({message: '发布成功！', duration: 1500});
-              this.$destroy();
-              this.cancelComment();
+
+              // this.cancelComment();
               let timer1=window.setTimeout(() => {
                 this.$emit('commentRes',res.data.data);
                 this.commentContent = ''
                 document.body.classList.remove('full-body-commentArea')
                 window.clearTimeout(timer1);
               },350)
+              // this.$destroy();
             }
             else {
               Toast({message: '发布失败！请重试', duration: 1500});
@@ -98,6 +103,11 @@
 
       },
       writeComment(){
+
+        // console.log(document.documentElement.clientHeight || document.body.clientHeight);
+        // console.log(window.screen.height);
+        // console.log(document.body.clientHeight + ";" + document.body.offsetHeight + ";" + document.body.clientTop + ";" + document.body.scrollTop);
+        // console.log(window.screen.availHeight);
       },
       cancelComment(){
         let timer1=window.setTimeout(() => {

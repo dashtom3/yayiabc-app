@@ -44,14 +44,14 @@
             <div class="name">
               {{value.userName}}
             </div>
-            <div class="time">{{value.faqAnswerTime}}</div>
+            <div class="time" v-if="value.faqAnswerTime != null">{{value.faqAnswerTime}}</div>
           </div>
           <div class="answer">
             {{value.faqAnswerContent}}
           </div>
         </div>
       </div>
-      <div class="noAnswer" v-else-if="!isLoading"> 
+      <div class="noAnswer" v-else-if="!isLoading">
         <img src="../../../../images/question/noAnswer.png" alt="">
         <div>
           <p>还没有人回答</p>
@@ -104,6 +104,7 @@
       this.timeStamp = Date.parse(new Date());
       this.getdetail();
       this.mBack('goBack');
+
     },
     methods:{
       getdetail(){
@@ -121,19 +122,21 @@
             }
           }
           res.data.faqAnswerList.forEach(item =>{
-            switch (true){
-              //几分钟前
-              case this.timeStamp - item.faqAnswerTime < 3600000:
-                item.faqAnswerTime = Math.ceil((this.timeStamp - item.faqAnswerTime) / 1000 / 60) + '分钟前';
-                break;
-              //几小时前
-              case this.timeStamp - item.faqAnswerTime >= 3600000 && this.timeStamp - item.faqAnswerTime < 86400000:
-                item.faqAnswerTime = Math.floor((this.timeStamp - item.faqAnswerTime) / 1000 / 60 / 60) + '小时前';
-                break;
-              //日期
-              case this.timeStamp - item.faqAnswerTime >= 86400000:
-                item.faqAnswerTime = Util.formatDate.format(new Date(item.faqAnswerTime),'yy.MM.dd hh:mm').substring(2);
-                break;
+            if(item.faqAnswerTime!= null) {
+              switch (true){
+                //几分钟前
+                case this.timeStamp - item.faqAnswerTime < 3600000:
+                  item.faqAnswerTime = Math.ceil((this.timeStamp - item.faqAnswerTime) / 1000 / 60) + '分钟前';
+                  break;
+                //几小时前
+                case this.timeStamp - item.faqAnswerTime >= 3600000 && this.timeStamp - item.faqAnswerTime < 86400000:
+                  item.faqAnswerTime = Math.floor((this.timeStamp - item.faqAnswerTime) / 1000 / 60 / 60) + '小时前';
+                  break;
+                //日期
+                case this.timeStamp - item.faqAnswerTime >= 86400000:
+                  item.faqAnswerTime = Util.formatDate.format(new Date(item.faqAnswerTime),'yy.MM.dd hh:mm').substring(2);
+                  break;
+              }
             }
           });
           if(this.myUserId != res.data.userId){
@@ -218,7 +221,7 @@
       },
       isCommentRes(res){
 //        res.faqAnswerTime = Math.ceil((this.timeStamp - res.faqAnswerTime) / 1000 / 60) + '分钟前';
-        res.faqAnswerTime = '1分钟前';
+        // res.faqAnswerTime = '1分钟前';
         this.answerList.unshift(res);
         this.isComment = false;
       },

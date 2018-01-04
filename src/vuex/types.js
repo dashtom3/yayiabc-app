@@ -107,10 +107,10 @@ export const WX_SALE_REGISTER = 'SALE_REGISTER'                   // 创客用�
 export const QUERY_SALE_NAME = 'QUERY_SALE_NAME'                  // 查询销售名字
 export const BIND_SALE = 'BIND_SALE'                              // 绑定销售
 export const WX_SCAN_QRCODE = 'WX_SCAN_QRCODE'                    // 微信扫码登录
-
+export const GET_USER_INVITELIST = 'GET_USER_INVITELIST'
 
 export const UPLOAD_CASE = 'UPLOAD_CASE'                          //上传病例
-
+export const SAVE_DATABASE_KEYWORD = 'SAVE_DATABASE_KEYWORD'   //资料库搜索
 export const GET_ALL_CLASSIFY_AND_BRAND = 'GET_ALL_CLASSIFY_AND_BRAND'                    // 获取所有商品分类和品牌列表
 export const QUERY_ITEM_SEARCH = 'QUERY_ITEM_SEARCH'                                      // 商品根据分类和品牌以及排序查询
 export const SAVE_CLASSIFY_AND_BRAND_INFO = 'SAVE_CLASSIFY_AND_BRAND_INFO'                // 保存分类和商标的请求信息

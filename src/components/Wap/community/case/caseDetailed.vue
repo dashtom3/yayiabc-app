@@ -45,10 +45,11 @@
         <img class="headPic" :src="userPic? userPic + '?imageView2/1/w/200/h/200' : require('../../../../images/case/hPic.png')" alt="">
         <span class="headName">{{caseDetailArgs.writer}}</span>
         <span class="class">{{caseDetailArgs.classify}}</span>
-        <span class="class">免费</span>
+        <span class="class" v-if="caseDetailArgs.chargeNumber == null">免费</span>
+        <span class="class1" v-if="caseDetailArgs.chargeNumber != null">{{caseDetailArgs.chargeNumber}}乾币</span>
       </div>
       <div class="read">
-        <span class="readS">{{caseDetailArgs.readNumber}}阅读</span><span class="drop">&nbsp;·</span><span class="readS">&nbsp;{{caseOfIllness.commentNum}}评论&nbsp;</span><span class="drop">·</span><span class="readS">&nbsp;{{caseOfIllness.zanNum}}赞</span>
+        <span class="readS">{{caseDetailArgs.readNumber}}阅读</span><span class="drop">&nbsp;·</span><span class="readS">&nbsp;{{caseDetailArgs.commentNum}}评论&nbsp;</span><span class="drop">·</span><span class="readS">&nbsp;{{caseDetailArgs.zanNum}}赞</span>
         <span class="readTime">{{caseDetailArgs.postTime}}</span>
       </div>
       <!--病历内容-->
@@ -124,9 +125,9 @@
           freeContent:'',
           chargeContent:'',
           chargeNumber:'',
-          postStater:1,
+          postStater:0,
           cover:'',
-          postId:this.$route.query.caseId,
+          postId:this.$route.query.id,
           userId:'',
         },
         // 头像
@@ -243,7 +244,7 @@
         item.postTime = Util.formatDate.format(new Date(item.postTime),'yyyy-MM-dd hh:mm').substring(0);
       },
       writeComment(){
-        
+
       },
       releaseCase(type){
         if(type){
@@ -616,6 +617,21 @@
     font-size: px2vw(24);
     color: #3676b6;
     border: 1px solid #3676b6;
+    border-radius: px2vw(6);
+    padding-left: px2vw(4);
+    padding-right: px2vw(4);
+    margin-top: px2vw(4);
+    margin-left: px2vw(18);
+  }
+  .class1{
+    display: inline-block;
+    height: px2vw(40);
+    vertical-align: middle;
+    text-align: center;
+    line-height: px2vw(40);
+    font-size: px2vw(24);
+    color: #d81e06;
+    border: 1px solid #d81e06;
     border-radius: px2vw(6);
     padding-left: px2vw(4);
     padding-right: px2vw(4);

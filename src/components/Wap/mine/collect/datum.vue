@@ -41,7 +41,7 @@
         noData:false,
         args:{
           currentPage:1,
-          keyWord:''
+          keyWord:this.$store.state.index.databaseKeyword
         },
         dataList:[],
         backName:'',
@@ -57,18 +57,19 @@
       bottomLoadMore
     },
     watch:{
-      keyWords:{
-        handler:function (val) {
-          this.args.keyWord = val;
-          this.args.currentPage = 1;
-          this.noData = false;
-          this.loadMore();
-        }
-      }
+      // keyWords:{
+      //   handler:function (val) {
+      //     this.args.keyWord = val;
+      //     console.log("key:"+keyWords);
+      //     this.args.currentPage = 1;
+      //     this.noData = false;
+      //     this.loadMore();
+      //   }
+      // }
     },
     created(){
       this.timeStamp = Date.parse(new Date());
-      console.log(this.$router.history.current.name)
+      console.log(this.$store.state.index.databaseKeyword)
       Indicator.open();
       this.getList();
     },
@@ -87,6 +88,21 @@
         switch (true){
           case this.$router.history.current.name === 'database':
             this.backName = '/database'
+            this.$store.dispatch(GET_MATER_LIST, this.args).then(res=>{
+              if(res.data){
+                this.dataList = this.dataList.concat(res.data);
+                console.log(this.dataList);
+              }else {
+                this.noData = true;
+              }
+              this.isAllLoaded();
+              this.isLoading = false;
+              Indicator.close();
+            })
+            break;
+          case this.$router.history.current.name === 'dataSearch':
+            this.backName = '/dataSearch'
+            console.log(this.args)
             this.$store.dispatch(GET_MATER_LIST, this.args).then(res=>{
               if(res.data){
                 this.dataList = this.dataList.concat(res.data);
