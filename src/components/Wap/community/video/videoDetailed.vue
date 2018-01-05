@@ -69,7 +69,8 @@
       getVideosDetail(){
         this.$store.dispatch('GET_VIDEOS_DETAIL', {viId: this.$route.query.id}).then((res)=>{
           this.videoArgs = res.data;
-          this.videoSwitch = true
+          this.videoSwitch = true;
+          this.$store.commit('SAVE_SHARE_DATA',{title:this.videoArgs.vidName,desc:null,link:window.location.href,imgUrl:this.videoArgs.vedioPic,momentContentId:this.$route.query.id,momentName:'视频'});
         });
       },
       goBack(){

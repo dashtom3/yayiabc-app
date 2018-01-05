@@ -195,6 +195,9 @@
             }
             //分享内容转换
             if (!item.momentContent) {
+              if (item.momentType == 4) {
+                item.momentContent = item.momentContent ? item.momentContent : '分享了问答'
+              }
               if (item.momentType == 3) {
                 item.momentContent = item.momentContent ? item.momentContent : '分享了病例'
               }

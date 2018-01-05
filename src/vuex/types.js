@@ -129,7 +129,7 @@ export const LIKE = 'LIKE'                                                      
 export const DELETE_COMMENT = 'DELETE_COMMENT'                                      //删除评论
 export const GET_INFO_DETAIL = 'GET_INFO_DETAIL'                                    //获取消息列表
 export const GET_INFO_NUM = 'GET_INFO_NUM'                                           //获取消息列表数
-
+export const SAVE_SHARE_DATA = 'SAVE_SHARE_DATA'
 /*
 * 创客系统管理模块
 * */

@@ -120,6 +120,7 @@
                 this.showFoldSwitch = true
               }
             }
+            this.$store.commit('SAVE_SHARE_DATA',{title:this.detailData.faqQuestionTitle,desc:null,link:window.location.href,imgUrl:null,momentContentId:this.$route.query.faqQuestionId,momentName:'问答'});
           }
           res.data.faqAnswerList.forEach(item =>{
             if(item.faqAnswerTime!= null) {

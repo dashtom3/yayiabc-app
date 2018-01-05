@@ -39,39 +39,43 @@
   export default {
     data(){
       return{
-
-      }
-    },
-    props:{
-      shareData:{
-        type:Object
+        shareData:this.$store.state.index.shareData
       }
     },
     created(){
       document.body.classList.add('shareBox-ggKula');
-      console.log(window.location.href)
+      // console.log(window.location.href)
     },
     mounted(){
-      this.shareData.backName = this.$route.path
+      console.log(this.$router)
+      this.shareData.backName = this.$router.history.current.fullPath
       switch (true){
-        case this.shareData.momentType === '病例':
+        case this.shareData.momentName === '病例':
           this.shareData.momentType = 3;
           break;
-        case this.shareData.momentType === '问答':
+        case this.shareData.momentName === '问答':
           this.shareData.momentType = 4;
           break;
-        case this.shareData.momentType === '视频':
+        case this.shareData.momentName === '视频':
           this.shareData.momentType = 2;
           break;
-        case this.shareData.momentType === '牙医圈':
+        case this.shareData.momentName === '牙医圈':
           this.shareData.momentType = 1;
           break;
       }
-      console.log(this.shareData,'ll')
+      // console.log(this.shareData,'ll')
     },
     methods:{
       shareYayiCircle(){
-        this.$router.push({path:'/shareToYayiCircle',query:this.shareData})
+        // console.log(this.$store.state.index.shareData)
+        let obj = {
+          momentType:this.shareData.momentType,
+          momentContent:null,
+          momentPicture:this.shareData.imgUrl,
+          momentContentId:this.shareData.momentContentId,
+          backName:this.shareData.backName
+        }
+        this.$router.push({path:'/shareToYayiCircle',query:obj})
         this.$emit('cancelShare',false)
       },
       cancelShare(){

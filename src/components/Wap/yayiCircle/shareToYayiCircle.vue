@@ -10,8 +10,8 @@
         <textarea name="" id="" cols="30" rows="10" placeholder="分享我的想法" v-model="shareData.momentContent"></textarea>
       </div>
       <div class="casePreview">
-        <div class="coverImg" v-if="caseDetailArgs.cover">
-          <img :src="caseDetailArgs.cover" alt="" v-if="caseDetailArgs.cover">
+        <div class="coverImg">
+          <img :src="caseDetailArgs.cover" alt="" v-if="caseDetailArgs.cover != null && caseDetailArgs.cover != ''">
           <img src="../../../images/yayiCircle/noImgDefault.png" alt="" v-else>
         </div>
         <div class="caseTitle">
@@ -52,9 +52,14 @@
         case this.shareData.momentType == 3:
           this.$store.dispatch('GET_CASE_DETAIL', {postId: this.shareData.momentContentId}).then((res) => {
             this.caseDetailArgs = res.data;
+            console.log(this.caseDetailArgs)
           });
           break;
         case this.shareData.momentType == 2:
+        this.$store.dispatch('GET_VIDEOS_DETAIL', {viId: this.shareData.momentContentId}).then((res)=>{
+          this.caseDetailArgs.headline = res.data.vidName;
+          this.caseDetailArgs.cover = res.data.vedioPic;
+        });
           break;
       }
     },

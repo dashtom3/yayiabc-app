@@ -20,7 +20,53 @@ export default {
    　　 return '0';
 　　}
   },
-
+  wxShare(shareData) {
+    var that = this
+    $.ajax({
+      url: baseUrl+'/weixin/share',// 此处url请求地址需要替换成你自己实际项目中服务器数字签名服务地址
+      type: 'post',
+      data: {
+        url: location.href.split('#')[0] // 将当前URL地址上传至服务器用于产生数字签名
+      }
+    }).done(function (res) {
+      // console.log(location.href.split('#')[0],'url')
+      var r = res.data
+      // 开始配置微信JS-SDK
+      wx.config({
+        debug: false,
+        appId: r.appId,
+        timestamp: r.timestamp,
+        nonceStr: r.nonceStr,
+        signature: r.signature,
+        jsApiList: [
+          'checkJsApi',
+          'onMenuShareTimeline',
+          'onMenuShareAppMessage',
+          'onMenuShareQQ',
+          'onMenuShareWeibo',
+          'hideMenuItems',
+          'chooseImage'
+        ]
+      });
+      wx.ready(function () {
+        var sdata = {
+          title: shareData.title,
+          desc: shareData.desc,
+          // link: `http://www.yayiabc.com/get-weixin-code.html?appid=wx4b1a6fde77626a32&scope=snsapi_userinfo&state=${that.salePhone}&redirect_uri=http%3a%2f%2fwap.yayiabc.com%2f%23%2fwx_user`,
+          link: shareData.link,
+          imgUrl: shareData.imgUrl,
+          success: function () {
+               alert('分享成功 :)');
+          },
+          cancel: function () {
+            alert('分享出错 :(');
+          }
+        };
+        wx.onMenuShareTimeline(sdata);
+        wx.onMenuShareAppMessage(sdata);
+      });
+    })
+  },
   success(obj, msg, url) {
     obj.$message({
       message: msg,

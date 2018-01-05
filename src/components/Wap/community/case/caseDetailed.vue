@@ -146,9 +146,9 @@
       this.mBack('back')
     },
     mounted(){
-      if(this.args.userId == this.myUserId){
-        this.payRel(this.args.chargeNumber);
-      }
+      // if(this.args.userId == this.myUserId){
+      //   this.payRel(this.args.chargeNumber);
+      // }
     },
     methods:{
       //确认支付
@@ -237,6 +237,7 @@
           } else if (this.caseDetailArgs.classify === 5) {
             this.caseDetailArgs.classify = '口腔正畸'
           }
+          this.$store.commit('SAVE_SHARE_DATA',{title:this.args.headline,desc:this.args.freeContent,link:window.location.href,imgUrl:this.userPic,momentContentId:this.$route.query.id,momentName:'病例'});
           this.time(this.caseDetailArgs);
         })
       },

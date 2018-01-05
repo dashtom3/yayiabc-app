@@ -61,7 +61,7 @@ const state = {
   video: null, //视频播放唯一性
   casedetail: null,
   videodetail: null,
-
+  shareData: null,
   //资料库关键词
   databaseKeyword: null
 }
@@ -128,6 +128,9 @@ const mutations = {
       state.video.videoState = 1;
     }
     state.video = payload
+  },
+  [types.SAVE_SHARE_DATA](state,all) {
+    state.shareData = all
   },
   [types.SAVE_DATABASE_KEYWORD](state,all) {
     state.databaseKeyword = all

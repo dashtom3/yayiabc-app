@@ -187,7 +187,7 @@
           </div>
         </div>
       </div>
-      <share v-if="isShareShow" v-on:cancelShare="isShareShow = false" :shareData="shareData"></share>
+      <share v-if="isShareShow" v-on:cancelShare="isShareShow = false"></share>
     </div>
 </template>
 <script>
