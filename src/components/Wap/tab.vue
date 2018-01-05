@@ -24,6 +24,7 @@
   import index from './index/main'
   import classifyIndex from './classify/classifyIndex'
   import { GET_CAR_ROUTERSTATE } from '@vuex/types'
+  import global from './global/global.js'
   // var tab03 = Vue.extend({
   //   template: '<div>this is 待评价03</div>',
   // });
@@ -53,6 +54,7 @@
     },
     created: function() {
       var that = this
+      // alert(global.webFrom())
     },
     methods: {
       handleChange (val) {

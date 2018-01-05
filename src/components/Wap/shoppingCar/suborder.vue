@@ -157,6 +157,7 @@
   import Util from '../../../vuex/util'
   import { tokenMethods } from '../../../vuex/util'
   import {mapGetters} from 'vuex'
+  import global from '../global/global.js'
   export default {
     name: 'suborder',
     data () {
@@ -276,12 +277,9 @@
       },
       freight: function() {
         var that = this
-        let total = that.gwcTotal + that.freight
-        if (that.allQb >= total) {
-          that.nowQb = total
-          that.qianbi_des = that.nowQb
-          Toast({message: '本单最多只可使用' + that.nowQb + '乾币！', duration: 1500})
-        }
+        that.nowQb = that.allQb >= (that.gwcTotal + that.freight) ? (that.gwcTotal + that.freight) : that.allQb
+        that.qianbi_des = that.nowQb
+        Toast({message: '本单最多只可使用' + that.nowQb + '乾币！', duration: 1500})
       }
     },
     created: function() {
@@ -334,12 +332,8 @@
         that.$store.dispatch('GET_QB_NOW', obj).then((res) => {
           if (res.callStatus === 'SUCCEED') {
               that.allQb = res.fl;
-              that.nowQb = res.fl;
+              that.nowQb = that.allQb >= (that.gwcTotal + that.freight) ? (that.gwcTotal + that.freight) : that.allQb
               that.qianbi_des = that.nowQb
-              let total = that.gwcTotal + that.freight
-              if (that.allQb >= total) {
-                that.nowQb = total
-              }
               //用户首单
               if(res.msg == "0") {
                 MessageBox({message:'首单满120元(不含运费),可使用60乾币(注册赠送所得)!',title:'温馨提示',cancelButtonText:'不需优惠',confirmButtonText:'立即凑单',showCancelButton: true}).then(action => {
@@ -416,10 +410,8 @@
           if (res.callStatus === 'SUCCEED') {
             // console.log(res.data.postFee,'freight')
             that.freight = res.data.postFee
-            let total = that.gwcTotal + that.freight
-            if (that.allQb >= total) {
-              that.nowQb = total
-            }
+            that.nowQb = that.allQb >= (that.gwcTotal + that.freight) ? (that.gwcTotal + that.freight) : that.allQb
+            // that.qianbi_des = that.nowQb
             var qbCount = window.sessionStorage.getItem('qbCount')
             if (qbCount) {
               that.selectUse()
@@ -521,7 +513,12 @@
                 this.$store.dispatch('COMPANY_INVOICE' , {});//重置发票信息为空
                 window.sessionStorage.removeItem('paper');
                 window.sessionStorage.removeItem('departure');
-                that.$router.push({ path:'/pay' })
+                // alert(global.webFrom())
+                if(global.webFrom() == 'WEIXIN'){
+                  that.$router.push({ path:'/payWeChat' })
+                } else {
+                  that.$router.push({ path:'/pay' })
+                }
               }
             }
           } else {

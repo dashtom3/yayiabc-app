@@ -10,6 +10,17 @@ export default {
   // baseUrl: 'http://47.93.48.111:6181/api',
   qiNiuUrl: 'http://upload-z2.qiniu.com/',
   qiniuShUrl: 'http://orl5769dk.bkt.clouddn.com/',
+  //判断手机、APP、公众号
+  webFrom(){
+    var ua = navigator.userAgent.toLowerCase();
+　　var isWeixin = ua.indexOf('micromessenger') != -1;
+　　if (isWeixin) {
+   　　 return 'WEIXIN';   //微信
+　　}else{
+   　　 return '0';
+　　}
+  },
+
   success(obj, msg, url) {
     obj.$message({
       message: msg,
