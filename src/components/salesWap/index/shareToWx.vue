@@ -1,12 +1,12 @@
 <template>
   <div class="wrap">
-    <div class="eachBox">
+    <div class="eachBox eachBox1">
       <div class="imgBox" @click="shareHref('WXSceneSession')">
         <img src="../../../images/case/wxPal.png" alt="">
       </div>
       <p>微信好友</p>
     </div>
-    <div class="eachBox" @click="shareHref('WXSceneTimeline')">
+    <div class="eachBox eachBox2" @click="shareHref('WXSceneTimeline')">
       <div class="imgBox">
         <img src="../../../images/case/wxCircle.png" alt="">
       </div>
@@ -81,6 +81,12 @@
     padding: px2vw(10) px2vw(150);
     display: flex;
     justify-content:space-around;
+    .eachBox1{
+      padding-right: px2vw(50);
+    }
+    .eachBox2{
+      padding-left: px2vw(50);
+    }
     .eachBox{
       height: px2vw(140);
       font-size: px2vw(30);

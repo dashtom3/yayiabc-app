@@ -12,7 +12,7 @@
       <img class="search_img" src="../../../images/index/search.png" alt="img">
       <div class="cancel_btn" @click="cancelSearch">取消</div>
     </div>
-    <div class="history_box">
+    <div class="history_box  history1">
       <div class="history_container">
         <p class="history_word">历史搜索</p>
         <img class="delete_img" @click="deleteHistory" src="../../../images/index/delete.png" alt="img">
@@ -190,7 +190,9 @@ input[type=search]::-webkit-search-cancel-button{
   width: 100vw;
   height: px2vw(88);
   z-index: 2000;
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
   background-color: $themeColor;
   border-bottom: px2vw(1) solid #E5E5E5;
    .close-wrapper{
@@ -232,9 +234,13 @@ input[type=search]::-webkit-search-cancel-button{
   font-size: px2vw(28);
   margin-right: px2vw(28);
 }
+.history1{
+    margin-top:px2vw(80);
+  }
 .history_box {
   width: 100vw;
   padding: px2vw(23) px2vw(17);
+  
   .history_container {
     width: 100&;
     height: px2vw(50);

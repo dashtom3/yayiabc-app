@@ -1,7 +1,7 @@
 <template>
   <div class="invite-wrapper">
     <div class="invite-header">
-      <span class="header-title">邀请好友，赢钱币</span>
+      <span class="header-title">邀请好友，赢乾币</span>
       <span @click="goBack()" class="back-img">
         <img src="../../../images/case/backer.png" alt="">
       </span>
