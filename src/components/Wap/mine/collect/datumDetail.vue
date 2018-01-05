@@ -12,7 +12,7 @@
         <div class="collectBox">
           <span class="starBox" @click="collect">
             <img class="starImg" src="../../../../images/mine/colloct/star.png" alt="img" v-if="dataDetail.isCollect">
-            <img class="starImg" src="../../../../images/mine/star.png" alt="img" v-else="">
+            <img class="starImg" src="../../../../images/mine/star.png" alt="img" v-if="!dataDetail.isCollect">
           </span>
           <span class="enjoyBox" @click="isSharing(dataDetail.id)">
             <img class="enjoyImg" src="../../../../images/mine/colloct/enjoy.png" alt="img">
@@ -81,7 +81,7 @@
       getDetail(){
         this.$store.dispatch(MATER_DETAIL, this.args).then(res=>{
           this.dataDetail = res.data;
-          this.dataDetail.isCollect = this.dataDetail.isCollect ? true:false;
+          this.dataDetail.isCollect = this.dataDetail.isCollect == '1' ? true:false;
         })
       },
       collect(){

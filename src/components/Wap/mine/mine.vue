@@ -689,7 +689,7 @@
   }
 
   .mine {
-    padding-bottom: px2vw(100);
+    margin-bottom: px2vw(100);
     font-weight: 300;
   }
 
@@ -1036,4 +1036,3 @@
     vertical-align: top;
   }
 </style>
-

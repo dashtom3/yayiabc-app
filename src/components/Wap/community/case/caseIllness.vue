@@ -258,7 +258,7 @@
   }
   .classBox span{
     display: inline-block;
-    height: px2vh(88);
+    height: px2vw(88);
     padding-top: px2vw(22);
     width: px2vw(100);
     text-align: center;
@@ -285,7 +285,7 @@
     position: fixed;
     top:0;
     width: 100vw;
-    height: px2vh(88);
+    height: px2vw(88);
     background-color: $themeColor;
     z-index: 100;
   }
@@ -300,13 +300,14 @@
   }
   .container{
     position: fixed;
-    top:px2vh(194);
+    top:px2vw(186);
     // padding-top: px2vw(186);
     left: 0;
     width: 100%;
     -webkit-overflow-scrolling: touch;
     overflow: scroll;
-    height: px2vh(1070);
+    // height: px2vw(1070);
+    bottom:px2vw(88)
     // max-height: 93vh;
   }
   .dressingBox>.dressingBtn{
@@ -384,10 +385,10 @@
   }
   .dressingBox{
     position: fixed;
-    top:px2vh(88);
+    top:px2vw(88);
     // top:px2vh(88);
     width: 100vw;
-    height:px2vh(90);
+    height:px2vw(88);
     // height: px2vh(64);
     font-size: px2vw(30);
     background-color: #ffffff;

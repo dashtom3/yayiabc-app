@@ -3,9 +3,9 @@
     <div class="search_box">
       <!-- 原来的地址 http://47.93.48.111:6181/api/item/itemSearch -->
       <form action="http://116.62.228.3:8080/api/item/itemSearch" method="post" enctype="multipart/form-data" v-on:submit.prevent="search_cargo">
-        <input class="search_word" type="search" name="keyWord" @focus="searchActive()" v-focus autofocus="autofocus" @keyup.enter="search_cargo" v-model="listParams.keyWord" autocomplete="on" placeholder="请输入关键字" >
+        <input class="search_word" type="search" name="keyWord" @focus="searchActive()" v-focus autofocus="autofocus" @keyup.enter="search_cargo" v-model="searchCargo" autocomplete="on" placeholder="请输入关键字" >
       </form>
-      <span v-show="closeShow" class="close-wrapper" @click="closeKeyWord">
+      <span v-show="searchCargo != ''" class="close-wrapper" @click="closeKeyWord">
           <img class="close" src="../../../images/saleman/close.png" alt="关闭">
       </span>
       <img class="search_img" src="../../../images/index/search.png" alt="img">
@@ -67,20 +67,8 @@
         secondClassifyArr:['不限','外科','内科','修复','种植','正畸'],
         secondClassify: '不限',
         secondClassifyShow: false,
-        caseClassNum: 0,
-//        caseListArgs: {
-//          classify: null,
-//          currentPage: 1,
-//          numberPerPage: 10,
-//          order: 0,
-//        },
-//      listParams: {
-       listParams: {
-        keyWord: '',
-        currentPage: 1,
-        numberPerPage: 10,
-         },
-      closeShow:false
+        caseClassNum: 0
+
       }
     },
     components: {
@@ -115,9 +103,7 @@
     },
     methods: {
       closeKeyWord() {
-      this.listParams.keyWord = '';
-      this.enterpriseList = [];
-      this.listParams.currentPage = 1;
+        this.searchCargo = '';
       },
       //搜索框
       search_cargo: function(item,index) {
@@ -199,18 +185,7 @@
           this.$router.push('/caseOfIllness');
           window.clearTimeout(timer1);
         },350)
-      },
-    },
-    watch: {
-    'listParams.keyWord': {
-      handler: function (val) {
-        if (val == '') {
-          this.closeShow = false
-        } else {
-          this.closeShow = true
-        }
       }
-    }
   }
 }
 </script>
