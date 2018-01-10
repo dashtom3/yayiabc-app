@@ -1,5 +1,9 @@
 <template>
   <div class="FAQContainer" ref="scrollBox">
+    <div class="noData" v-if="questList.length == 0">
+      <img src="../../../../images/question/noQuestionList.png" alt="">
+      <p>暂无任何问题~</p>
+    </div>
     <mt-loadmore :top-method="loadMore" :bottom-method="getQuestListMore" :bottom-all-loaded="allLoaded" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState" v-on:bottom-status-change="isStateB" class="loadMore">
       <topLoadMore ref="topLoadMore" slot="top" :loading="topLoading" :loaded="isLoaded"></topLoadMore>
       <div class="scrollBox">
@@ -27,10 +31,7 @@
           - End -
         </div>
         <!-- <div class="noData" v-if="(noData && !questList)||(noData && questList.length == 0)"> -->
-        <div class="noData" v-if="questList.length == 0">
-          <img src="../../../../images/question/noQuestionList.png" alt="">
-          <p>暂无任何问题~</p>
-        </div>
+
       </div>
       <bottomLoadMore ref="bottomLoadMore" slot="bottom" :loading="bottomLoading" :loaded="isLoadedB"></bottomLoadMore>
     </mt-loadmore>
@@ -62,6 +63,12 @@
           order:0,
           type:4,
           numberPerPage:10
+        },
+        collectArgs: {
+          classify: null,
+          numberPerPage: 10,
+          userId:tokenMethods.getWapUser() == null ? null : tokenMethods.getWapUser().userId,
+          type:'问答', //1 病例列表 2 我的病例列表
         },
         questList:[],
         totalPage:0,
@@ -143,9 +150,12 @@
               }else {
                 this.noData = true;
               }
+            }).catch(()=>{
+              this.closeTopBottomLoading();
             });
             break;
           case this.$router.history.current.name === 'myQuestion':
+            this.backName = '/myQandA/myQuestion'
             this.$store.dispatch(MY_QUESTION, this.args).then(res=>{
               if(res.data){
                 this.dataCompute(res.data)
@@ -158,11 +168,14 @@
               }else {
                 this.noData = true;
               }
+            }).catch(()=>{
+              this.closeTopBottomLoading();
             });
             //我的
             break;
           case this.$router.history.current.name === 'questCollect':
-            this.$store.dispatch(COLLECT, this.args).then(res=>{
+            this.collectArgs.currentPage = this.args.currentPage;
+            this.$store.dispatch(COLLECT, this.collectArgs).then(res=>{
               if(res.data){
                 this.dataCompute(res.data)
                 this.questList = this.questList.concat(res.data);
@@ -174,6 +187,8 @@
               }else {
                 this.noData = true;
               }
+            }).catch(()=>{
+              this.closeTopBottomLoading();
             });
             //收藏
             break;
@@ -191,6 +206,8 @@
               }else {
                 this.noData = true;
               }
+            }).catch(()=>{
+              this.closeTopBottomLoading();
             });
             //搜索
             break;
@@ -210,6 +227,8 @@
               }else {
                 this.noData = true;
               }
+            }).catch(()=>{
+              this.closeTopBottomLoading();
             });
             break;
         }
@@ -380,21 +399,30 @@
           }
         }
       }
-      .noData{
-        width: 100%;
-        margin-top: px2vw(360);
-        text-align: center;
-        img{
-          width: px2vw(120);
-        }
-        p{
-          font-size: px2vw(28);
-          color: #999;
-          line-height: px2vw(60);
-        };
+
+    }
+    .noData{
+      z-index: 9999;
+      // position: fixed;
+
+      left: 50%;
+      // transform: translate(-50%,0);
+      font-size: px2vw(30);
+      color: #666666;
+      text-align: center;
+      height: 79vh;
+      // width: 100%;
+      // text-align: center;
+      img{
+        margin-top: 43%;
+        // margin:px2vw(400) auto px2vw(30);
+        width: px2vw(150);
+      }
+      p{
+        font-size: px2vw(30);
+        // color:$themeColor;
       }
     }
-
     .edit{
       width: px2vw(100);
       height: px2vw(100);
@@ -415,7 +443,7 @@
       text-align: center;
       line-height: px2vw(80);
       margin-bottom:  px2vw(20);
-    
+
     }
   }
 </style>

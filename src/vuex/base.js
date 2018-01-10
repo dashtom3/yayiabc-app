@@ -8,10 +8,8 @@ import {Toast, Indicator, MessageBox} from 'mint-ui';
 
 // const HOST = 'http://wap.yayiabc.com:6181/api';
 const HOST = 'http://116.62.228.3:8080/api';
+// const HOST = 'http://192.168.1.101:8080/api';
 // const HOST = 'http://localhost:8080/api';
-  //  const HOST = 'http://wap.yayiabc.com:8080/api';
-// const HOST = 'http://123.56.220.72:8089/api'; //测试端口
-// const HOST = 'http://47.93.48.111:6181/api';  //正式数据端口
 axios.defaults.timeout = 15000;
 export default function (url, params = {}) {
   return new Promise((resolve, reject) => {
@@ -233,26 +231,52 @@ export function post(url, params) {
         temp.append(item[0], item[1]);
       }
     });
-    axios.post(HOST + url, temp)
-      .then((res) => {
-        console.log("post请求:"+res)
-        if (res.status === 500 || res.status === 503 || res.status === 504 || res.status === 404 || res.status === 502) {
+    // if(url == '/weixin/share') {
+    //   console.log(params);
+    //   const temp1 = new FormData();
+    //   temp1.append('url','http://wap.yayiabc.com')
+    //   axios.post('http://47.93.48.111:8080/api/weixin/share', temp1)
+    //     .then((res) => {
+    //       console.log("post请求:"+res)
+    //       if (res.status === 500 || res.status === 503 || res.status === 504 || res.status === 404 || res.status === 502) {
+    //         Indicator.close();
+    //         ServerError();
+    //         return
+    //       }
+    //       if (res.data.callStatus === 'SUCCEED') {
+    //         resolve(res);
+    //       } else {
+    //         resolve(res);
+    //       }
+    //       Indicator.close();
+    //     }).catch((err) => {
+    //       reject('网络请求错误');
+    //       console.log("post请求Error:"+err)
+    //       ServerError();
+    //       Indicator.close();
+    //   });
+    // }else {
+      axios.post(HOST + url, temp)
+        .then((res) => {
+          console.log("post请求:"+res)
+          if (res.status === 500 || res.status === 503 || res.status === 504 || res.status === 404 || res.status === 502) {
+            Indicator.close();
+            ServerError();
+            return
+          }
+          if (res.data.callStatus === 'SUCCEED') {
+            resolve(res);
+          } else {
+            resolve(res);
+          }
           Indicator.close();
+        }).catch((err) => {
+          reject('网络请求错误');
+          console.log("post请求Error:"+err)
           ServerError();
-          return
-        }
-        if (res.data.callStatus === 'SUCCEED') {
-          resolve(res);
-        } else {
-          resolve(res);
-        }
-        Indicator.close();
-      }).catch((err) => {
-        reject('网络请求错误');
-        console.log("post请求Error:"+err)
-        ServerError();
-        Indicator.close();
-    });
+          Indicator.close();
+      });
+    // }
   });
 }
 

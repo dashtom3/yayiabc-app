@@ -335,7 +335,14 @@ export function wxH5Pay(params) {
 export function upLoadCase(params) {
   return getWithToken('/cottoms/add', params)
 }
-
+//获取微信共享CODE
+export function getShareCode(params) {
+  return post('/weixin/share', params)
+}
+// 微信公众号内订单支付
+export function wxOrderPay(params) {
+  return postWithToken('/wxRoom/unifiedOrderReturnUrl', params);
+}
 //发布新的牙医圈
 export function newTrend(params) {
   return postWithToken('/moment/add', params)
@@ -629,7 +636,7 @@ export function postEditSaleinfo(params) {
 }
 // 获取发现病例列表信息
 export function getCaseList(params) {
-  return geters('/cottoms/queryPost', params)
+  return getWithTokenNoLoading('/cottoms/queryPost', params)
 }
 // 获取发现病例详情信息
 export function getCaseDetail(params) {
@@ -653,7 +660,7 @@ export function collect(params) {
 }
 //视频播放
 export function getVideoList(params) {
-  return posts('/vid/showVid', params)
+  return postWithTokenNoLoading('/vid/showVid', params)
 }
 //视频播放
 export function saveMCollect(params) {
@@ -683,9 +690,9 @@ export function deleteMyCase(params) {
 export function payCaseDetail(params) {
   return getWithToken('/cottoms/playChargePost', params)
 }
-//病例支付
+//收藏
 export function caseCollect(params) {
-  return getWithToken('/cottoms/collect', params)
+  return getWithToken('/collect/star', params)
 }
 // 资料库
 export function getDatumBaseList(params) {

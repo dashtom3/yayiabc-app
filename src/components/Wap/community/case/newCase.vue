@@ -554,6 +554,7 @@
     width: 100%;
     z-index: 101;
     overflow: hidden;
+    background-color: #fff;
     .classPicker{
       text-align: center;
       color: #000;

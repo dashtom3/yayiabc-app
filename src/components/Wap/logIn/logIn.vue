@@ -32,8 +32,10 @@
         <logMsg></logMsg>
       </div>
     </div>
-    <div class="third_btn">第三方账号登录</div>
-    <img @click="checkState" class="wx_btn" src="../../../images/logIn/wx.png" alt="img">
+    <div v-if="thirdLogin">
+      <div class="third_btn">第三方账号登录</div>
+      <img @click="checkState" class="wx_btn" src="../../../images/logIn/wx.png" alt="img">
+    </div>
   </div>
 </template>
 
@@ -42,6 +44,7 @@
   import {Toast} from 'mint-ui'
   import {tokenMethods} from '../../../vuex/util'
   import logMsg from './logInMsg'
+  import global from './../global/global.js'
 
   export default {
     name: 'logIn',
@@ -54,11 +57,16 @@
         activeTab: 'tab1',
         isActive1: false,
         isActive2: true,
+        thirdLogin: true
       }
     },
     created: function () {
       var that = this;
       that.mBack("back");
+      this.thirdLogin = global.webFrom() == 'WEIXIN' ? false: true;
+      // if(global.webFrom() == 'WEIXIN') {
+      //   this.thirdLogin = true
+      // }
     },
     components: {
       logMsg,

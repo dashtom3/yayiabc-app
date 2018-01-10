@@ -144,6 +144,11 @@ export default {
   },
   created() {
     var that = this;
+    // alert(window.location.href);
+    if(window.location.path != '/') {
+      window.location.href= window.location.origin+'/#'+window.location.pathname+window.location.search
+      // this.$router.push({path:window.location.pathname+window.location.search})
+    }
     console.log(tokenMethods.getWapToken())
     // 检查更新的弹框是否显示
     if (sessionStorage.getItem("isShow") === null) {

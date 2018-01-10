@@ -16955,11 +16955,18 @@
       onValuesChange(picker, values) {
         console.log(picker,values)
         if (values[0]) {
+          this.slots[1].values = []
+          // var temp = address.filter((item, index) => {
           this.slots[1].values = address.filter((item, index) => {
             if (item.apid === values[0].aid) {
               return item;
             }
           });
+          // this.slots[1].values = []
+          // this.slots[1].values =
+          // this.slots[1].values = Array.assign([], this.slots[1].values, temp)
+          // this.$set(this.slots[1].values,temp)
+          console.log(values[0],this.slots[1].values)
         }
         if (values[1]) {
           this.slots[2].values = address.filter((item, index) => {

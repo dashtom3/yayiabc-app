@@ -122,7 +122,7 @@
 }
 .big_box {
   width: 100vw;
-  height: px2vw(88);
+  height: px2vw(100);
   background-color: #fff;
   position: fixed;
   left: 0;

@@ -107,6 +107,8 @@
   import { tokenMethods } from '../../../../vuex/util';
   import Util from '../../../../vuex/util'
   import {mapGetters} from 'vuex'
+  import global from '../../global/global.js'
+
   export default {
     data(){
       return{
@@ -140,6 +142,8 @@
       ])
     },
     created (){
+      // console.log(window.location)
+      // console.log(this.$route)
       this.getCaseData();
       this.getUserCoin();
       this.timeStamp = Date.parse(new Date());
@@ -238,6 +242,7 @@
             this.caseDetailArgs.classify = '口腔正畸'
           }
           this.$store.commit('SAVE_SHARE_DATA',{title:this.args.headline,desc:this.args.freeContent,link:window.location.href,imgUrl:this.userPic,momentContentId:this.$route.query.id,momentName:'病例'});
+          global.wxShare({title:this.args.writer+" 发表了病例:",desc:this.args.headline,link:window.location.href,imgUrl:this.userPic,momentContentId:this.$route.query.id,momentName:'病例'},this)
           this.time(this.caseDetailArgs);
         })
       },

@@ -3,7 +3,7 @@
     <div class="header">
       <span class="back-click-area" @click="goBack"></span>
       <span class="share" @click="isSharing(detailData.faqQuestionId)"></span>
-      <span class="collect" @click="collect" v-if="!isStar"></span>
+      <span class="collect" @click="collect" v-if="detailData.isCollect == 0"></span>
       <span class="isCollected" @click="collect" v-else></span>
     </div>
     <div class="container">
@@ -72,6 +72,8 @@
   import { tokenMethods } from '../../../../vuex/util'
   import doComment from '../../index/doComment.vue'
   import share from '../../index/share.vue';
+  import global from '../../global/global.js'
+
 
   export default {
     data(){
@@ -82,12 +84,16 @@
           faqQuestionId:this.$route.query.faqQuestionId,
           currentPage:1,
         },
+        collectArgs: {
+          postId:this.$route.query.faqQuestionId,
+          type:'问答', //1 病例列表 2 我的病例列表
+        },
         totalPage:0,
         timeStamp:null,
         detailData:{},
         answerList:[],
         showFoldSwitch:false,
-        myUserId:tokenMethods.getWapUser() ? tokenMethods.getWapUser().userId:'',
+        myUserId:tokenMethods.getWapUser() == null ? null:tokenMethods.getWapUser().userId,
         showAnswerBtn:false,
         isComment:false,
         commentInfo:{},
@@ -104,7 +110,6 @@
       this.timeStamp = Date.parse(new Date());
       this.getdetail();
       this.mBack('goBack');
-
     },
     methods:{
       getdetail(){
@@ -113,7 +118,7 @@
 //          console.log(res.data);
           if(this.args.currentPage === 1){
             this.detailData = res.data;
-            this.detailData.isStar = res.data.isStar == 1 ? true : false;
+            // this.detailData.isStar = res.data.isStar == 1 ? true : false;
             this.dataCompute(this.detailData);
             if(this.detailData.faqQuestionContent){
               if(this.detailData.faqQuestionContent.length > 50){
@@ -121,6 +126,7 @@
               }
             }
             this.$store.commit('SAVE_SHARE_DATA',{title:this.detailData.faqQuestionTitle,desc:null,link:window.location.href,imgUrl:null,momentContentId:this.$route.query.faqQuestionId,momentName:'问答'});
+            global.wxShare({title:this.detailData.faqQuestionTitle,desc:null,link:window.location.href,imgUrl:null,momentContentId:this.$route.query.faqQuestionId,momentName:"问答"},this)
           }
           res.data.faqAnswerList.forEach(item =>{
             if(item.faqAnswerTime!= null) {
@@ -143,7 +149,7 @@
           if(this.myUserId != res.data.userId){
             this.showAnswerBtn = true
           }
-          this.isStar = this.detailData.isStar ? true : false;
+          // this.isStar = this.detailData.isStar ? true : false;
           this.answerList = res.data.faqAnswerList.concat(this.answerList);
           this.totalPage = res.totalPage
           this.isLoading = false;
@@ -193,6 +199,8 @@
       goBack(){
         if(this.$route.query.collectType){
           this.$router.push(this.$route.query.backName)
+        }else if(this.$route.query.backName != null){
+          this.$router.push(this.$route.query.backName)
         }else {
           this.$router.go(-1);
         }
@@ -200,9 +208,9 @@
       },
       collect(){
         if (this.pointLogin()) {
-          this.$store.dispatch(FAQ_STAR, this.args).then(res => {
+          this.$store.dispatch('CASE_COLLECT', this.collectArgs).then(res => {
             if (res.callStatus === 'SUCCEED') {
-              this.isStar = !this.isStar;
+              this.detailData.isCollect = this.detailData.isCollect == 1 ? 0:1;
             }
           })
         }else {

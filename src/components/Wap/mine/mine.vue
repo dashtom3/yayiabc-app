@@ -236,7 +236,7 @@
           </li>
           <li class="mine_function_bottom_item">
             <img src="../../../images/mine/wenda.png" alt="">
-            <div>我的培训</div>
+            <div>我的回答</div>
           </li>
           <li class="mine_function_bottom_item">
             <img src="../../../images/mine/dongtai.png" alt="">
@@ -318,7 +318,8 @@
             console.log(res.data)
             this.msgNum = res.data.commentNumber == 0? parseInt(tokenMethods.getInfoNum()) : Number(res.data.commentNumber);
           }else {
-            this.msgNum = Number(res.data.commentNumber);
+            // this.msgNum = Number(res.data.commentNumber);
+            this.msgNum = 0;
           }
           tokenMethods.setInfoNum(this.msgNum);
         });

@@ -3,6 +3,7 @@
     <div class="search_box">
       <!-- 原来的地址 http://47.93.48.111:6181/api/item/itemSearch -->
       <form action="http://116.62.228.3:8080/api/item/itemSearch" method="post" enctype="multipart/form-data" v-on:submit.prevent="search_cargo">
+      <!-- <form action="http://192.168.1.101:8080/api/item/itemSearch" method="post" enctype="multipart/form-data" v-on:submit.prevent="search_cargo"> -->
         <input class="search_word" type="search" name="keyWord" @focus="searchActive()" v-focus autofocus="autofocus" @keyup.enter="search_cargo" v-model="searchCargo" autocomplete="on" placeholder="请输入关键字" >
       </form>
       <span v-show="searchCargo != ''" class="close-wrapper" @click="closeKeyWord">

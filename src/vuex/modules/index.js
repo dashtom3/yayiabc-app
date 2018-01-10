@@ -7,6 +7,8 @@ const state = {
   direction: 'forward',
   // baseUrl: 'http://wap.yayiabc.com:6181/api',
   baseUrl: 'http://116.62.228.3:8080/api',
+  // baseUrl: 'http://192.168.1.101:8080/api',
+
   // baseUrl: 'http://localhost:8080/api',
   // baseUrl: 'http://wap.yayiabc.com:6181/api',
   // baseUrl: 'http://wap.yayiabc.com:8080/api',
@@ -124,6 +126,7 @@ const mutations = {
       state.video.centerPlayImg = true;
       state.video.controlShow = false;
       state.video.currentTime = state.video.video.currentTime
+      state.video.video.preload = 'none';
       state.video.video.load();
       state.video.videoState = 1;
     }
@@ -832,6 +835,16 @@ const actions = {
       });
     });
   },
+  // 微信公众号内订单支付
+[types.WX_ORDER_PAY](context, params) {
+  return new Promise((resolve, reject) => {
+    api.wxOrderPay(params).then((data) => {
+      resolve(data);
+    }).catch((err) => {
+      resolve(data);
+    });
+  });
+},
   // 充值乾币优惠码
   [types.QB_DISCOUNT](context, params) {
     return new Promise((resolve, reject) => {
@@ -999,7 +1012,16 @@ const actions = {
       });
     });
   },
-
+  //
+  [types.GET_SHARE_CODE](context, params) {
+    return new Promise((resolve, reject) => {
+      api.getShareCode(params).then((data) => {
+        resolve(data);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  },
   //发布新的牙医圈
   [types.NEW_TREND](context, params) {
     return new Promise((resolve, reject) => {
@@ -1127,7 +1149,7 @@ const actions = {
         // state.productData = data.data.data
         resolve(data);
       }).catch((err) => {
-        resolve(data);
+        resolve(err);
       });
     });
   },

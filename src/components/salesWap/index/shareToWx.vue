@@ -12,62 +12,65 @@
       </div>
       <p>朋友圈</p>
     </div>
+      <shareBg v-if="shareBg" ></shareBg>
   </div>
+
+
 </template>
 
 <script type="text/ecmascript-6">
-
+import shareBg from './../../Wap/index/shareBg'
+  import { tokenMethods } from '../../../vuex/util'
+  import { MessageBox} from 'mint-ui';
+import global from './../../Wap/global/global.js'
   export default {
     data(){
       return{
-
+        shareBg:false
       }
     },
-    props:[
-      'userId','resType'
-    ],
+    created(){
+      if(this.pointLogin()){
+        console.log(tokenMethods.getWapUser())
+        console.log()
+        global.wxShare({type:"register",userId:tokenMethods.getWapUser().userId,userType:"1",title:tokenMethods.getWapUser().trueName+"邀请您注册yayiabc社区",desc:"注册即享60元优惠！",link:window.location.href,},this)
+      }
+    },
+    components: {shareBg},
+    // props:[
+    //   'userId','resType'
+    // ],
     methods:{
-      shareHref(ex){
-        let ids = {
-          id: "weixin",
-          ex: ex  /*微信好友*//*微信朋友圈*/
-        };
-        alert(JSON.stringify(ids))
-        this.shareAction(ids.id, ids.ex);
-      },
-      shareAction(id, ex){
-        var so = shares[id];
-        alert(JSON.stringify(so))
-        if (so.authenticated) {
-          alert("---已授权---");
-          this.shareMessage(so, ex);
+      shareHref(){
+        if(this.pointLogin()){
+          this.shareBg = !this.shareBg
+          // alert(this.userId,this.resType)
+
+          setTimeout(() => {
+            this.shareBg = !this.shareBg;
+            // this.cancelShare();
+          }, 3000)
         } else {
-          alert("---未授权---");
-          so.authorize(function() {
-            this.shareMessage(so, ex);
-          }, function(e) {
-            alert("认证授权失败");
-          });
+          this.isLogin()
         }
+
       },
-      shareMessage(s, ex){
-        var msg = {
-          content: '能提现的App|新上电镀金刚石车针，多种型号任你挑选。',
-          href: 'http://wap.yayiabc.com/#/inviteRegist?userId=' + this.userId +'&type=' + this.resType,
-          title: '注册牙医abc账号，领60乾币！（下单抵60元）',
-          thumbs: ['../../../images/yayiCircle/noImgDefault.png'],
-          pictures: ['../../../images/yayiCircle/noImgDefault.png'],
-          extra: {
-            scene: ex
-          }
-        };
-        alert(JSON.stringify(msg))
-        s.send(msg, function() {
-          alert("分享成功!");
-        }, function(e) {
-          alert("分享失败!");
+      //判断是否登录
+      pointLogin() {
+        let userToken = tokenMethods.getWapToken();
+        return userToken;
+      },
+      //提示需要登录
+      isLogin() {
+        MessageBox.confirm("请先登录!").then(action => {
+          this.$router.push({
+            path: "/logIn",
+            query: { backName: this.$route.fullPath }
+          });
+        }).catch(function(error) {
+          return "";
         });
-      },
+      }
     }
   }
 </script>

@@ -123,7 +123,7 @@
         this.showUploadIco = false;
       },
       onValuesChange(picker, values) {
-      
+
         console.log(this.slots[0].values.indexOf(values[0]));
         this.classify = this.slots[0].values.indexOf(values[0]) + 1;
       },
@@ -288,16 +288,21 @@
   }
   .pickers{
     position: fixed;
+    height: px2vw(450);
     bottom: 0;
     left: 0;
     width: 100%;
     z-index: 101;
+    // z-index: 101;
+    overflow: hidden;
+    background-color: #fff;
     .classPicker{
       text-align: center;
       color: #000;
       font-size: px2vw(32);
-      height: 40px;
-      line-height: 40px;
+      height: px2vw(90);
+      // height: 40px;
+      line-height: px2vw(90);
       border-bottom: px2vw(1) solid #f4f4f4;
       box-sizing: border-box;
       .classPickerCancel{

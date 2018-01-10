@@ -194,6 +194,9 @@
           <i v-else class="el-icon-plus avatar-uploader-icon fl"></i>
         </el-upload>
       </div> -->
+      <mt-field @click.native="focus" label="邀请人ID" class="must" placeholder="邀请人ID" readonly="true" v-model="registerData.id" v-if="registerData.id != null">
+        <!-- <i class="red">*</i> -->
+      </mt-field>
       <div class="submit-wrap" @click="registerHandler">
         <mu-raised-button label="注册" class="reg-button" primary/>
       </div>
@@ -206,6 +209,7 @@
       <birth-date-picker ref="birthDatePicker" @birthdatechange="saveBirthDate"></birth-date-picker>
       <!--城市选择框-->
       <address-picker ref="cityAddressPicker" @addresschange="saveAddress"></address-picker>
+
     </div>
   </div>
 </template>
@@ -258,6 +262,8 @@
           imageUrl_treatment: '',
           imageUrl_id_front: '',
           imageUrl_id_back: '',
+          id:null,
+          userType:1
         },
         sexs: [{
           name: '男',
@@ -281,6 +287,8 @@
     },
     created() {
       this.mBack("back");
+      this.registerData.id = this.$route.query.userId
+      this.registerData.userType = this.$route.query.userType
       //获取七牛token,防止重复请求
       this.$store.dispatch(GET_UPLOAD_TOKEN).then(res => {
         this.qiNiuToken = {

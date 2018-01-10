@@ -46,6 +46,7 @@ export const WX_COIN_SEARCH = 'WX_COIN_SEARCH'                            // 微
 export const WX_ORDER_SEARCH = 'WX_ORDER_SEARCH'                          // 微信支付订单轮询
 export const WX_LOGIN_SEARCH = 'WX_LOGIN_SEARCH'                          // 微信登录是否绑定查询
 export const WX_H5_PAY = 'WX_H5_PAY'                                      // 微信H5支付订单
+export const WX_ORDER_PAY = 'WX_ORDER_PAY'                                //微信公众号内支付订单
 
 // mutstions types
 export const TOGGLE_INDEX_CAROUSEL = 'TOGGLE_INDEX_CAROUSEL'              // 获取首页轮播图
@@ -130,6 +131,7 @@ export const DELETE_COMMENT = 'DELETE_COMMENT'                                  
 export const GET_INFO_DETAIL = 'GET_INFO_DETAIL'                                    //获取消息列表
 export const GET_INFO_NUM = 'GET_INFO_NUM'                                           //获取消息列表数
 export const SAVE_SHARE_DATA = 'SAVE_SHARE_DATA'
+export const GET_SHARE_CODE = 'GET_SHARE_CODE'
 /*
 * 创客系统管理模块
 * */

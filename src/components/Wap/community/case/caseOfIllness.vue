@@ -1,5 +1,9 @@
   <template>
 <div ref="scrollBox" class="wrap loading">
+  <div v-if="listCaseData.length == 0" class="noTrend">
+    <img src="../../../../images/case/myCase/fabu.png" alt="">
+    <p>暂无任何病例~</p>
+  </div>
   <mt-loadmore :top-method="loadMore" :bottom-method="getCaseListMore" :bottom-all-loaded="allLoaded" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState" v-on:bottom-status-change="isStateB">
     <topLoadMore ref="topLoadMore" slot="top" :loading="topLoading" :loaded="isLoaded"></topLoadMore>
     <div class="scrollBox">
@@ -28,10 +32,7 @@
         - End -
       </div>
       <div v-if="listCaseData.length != 0 && caseDate.currentPage == caseDate.totalPage" class="noMoreData2"></div>
-      <div v-if="listCaseData.length == 0" class="noTrend">
-        <img src="../../../../images/case/myCase/fabu.png" alt="">
-        <p>暂无任何病例~</p>
-      </div>
+
     </div>
     <bottomLoadMore ref="bottomLoadMore" slot="bottom" :loading="bottomLoading" :loaded="isLoadedB"></bottomLoadMore>
   </mt-loadmore>
@@ -65,6 +66,12 @@
           postStater:1,
           type:1, //1 病例列表 2 我的病例列表
         },
+        collectArgs: {
+          classify: null,
+          numberPerPage: 10,
+          userId:tokenMethods.getWapUser() == null ? null : tokenMethods.getWapUser().userId,
+          type:'病例', //1 病例列表 2 我的病例列表
+        },
         caseSearchArgs:{
           keyWord:'',
           type:1,
@@ -81,6 +88,7 @@
       }
     },
     created() {
+      // console.log(tokenMethods.getWapUser())
       this.getCaseList();
       this.timeStamp = Date.parse(new Date());
       if(this.$router.history.current.name === 'caseOfIllnessSearch'){
@@ -159,16 +167,20 @@
               }else {
                 this.listCaseData = [];
               }
+            }).catch(()=>{
+              this.closeTopBottomLoading()
             })
             break;
           case this.$router.history.current.name === 'caseOfIllnessCollect':
             this.caseListArgs.currentPage = this.caseDate.currentPage;
-            this.$store.dispatch('COLLECT', this.caseListArgs).then((res) => {
+            this.$store.dispatch('COLLECT', this.collectArgs).then((res) => {
               if(res.data) {
                 this.operateDate(res)
               }else {
                 this.listCaseData = [];
               }
+            }).catch(()=>{
+              this.closeTopBottomLoading()
             })
             break
 
@@ -183,6 +195,8 @@
               } else {
                 this.listCaseData = [];
               }
+            }).catch(()=>{
+              this.closeTopBottomLoading()
             })
         }
       },
@@ -290,15 +304,24 @@
     @import "../../../../common/sass/factory";
 
     .noTrend{
-      width: 100%;
+      z-index: 9999;
+      // position: fixed;
+      font-size: px2vw(30);
+      color: #666666;
       text-align: center;
+      height:79vh;
+      // width: 100%;
+      // text-align: center;
       img{
-        margin:px2vw(400) auto px2vw(30);
+        // margin:px2vw(400) auto px2vw(30);
+        margin-top: 43%;
+        left: 50%;
+        // transform: translate(-50%,0);
         width: px2vw(150);
       }
       p{
         font-size: px2vw(30);
-        color:$themeColor;
+        // color:$themeColor;
       }
     }
     /* 有图添加样式 */
@@ -335,7 +358,7 @@
      }
    }
    .scrollBox{
-     min-height: px2vw(1052);
+     min-height: 79vh;
      background-color: #f4f4f4;
    }
    .userImgBox>img{

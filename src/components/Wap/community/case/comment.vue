@@ -296,9 +296,13 @@ export default {
     collect() {
       if (this.pointLogin()) {
         console.log(this.$route.query.id);
-        this.$store.dispatch("CASE_COLLECT", { postId: this.$route.query.id}).then(res => {
+        this.$store.dispatch("CASE_COLLECT", { postId: this.$route.query.id,type:this.types}).then(res => {
             if (res.callStatus === "SUCCEED") {
-              Toast({ message: "收藏成功", duration: 1500 });
+              if(res.msg == "收藏成功") {
+                Toast({ message: "收藏成功", duration: 1500 });
+              } else {
+                Toast({ message: "取消收藏", duration: 1500 });
+              }
             }
           });
       } else {
@@ -413,12 +417,15 @@ export default {
     likeThisCase(){
       if (this.pointLogin()) {
         this.$store.dispatch("LIKE", {type:this.types,typeId:this.$route.query.id}).then(res => {
-          console.log(res)
+          if (res.callStatus === "SUCCEED") {
+            Toast({ message: "点赞成功", duration: 1500 });
+          }
         })
       }else {
         this.isLogin();
       }
     },
+
     //分享按钮
     shareCase(postId, type) {
       if(this.pointLogin()){

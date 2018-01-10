@@ -27,7 +27,7 @@
   import {GET_USER_WX_STATE} from '../../vuex/types'
   import {Toast, Indicator} from 'mint-ui'
   import {tokenMethods} from '../../vuex/util'
-
+  import global from '../Wap/global/global.js'
   export default {
     name: 'qrcode',
     data() {
@@ -76,7 +76,7 @@
         var that = this
         // 原来的地址 'http://47.93.48.111:6181/api/weixin/share
         $.ajax({
-          url: 'http://116.62.228.3:8080/api/weixin/share',// 此处url请求地址需要替换成你自己实际项目中服务器数字签名服务地址
+          url: global.baseUrl + '/weixin/share',// 此处url请求地址需要替换成你自己实际项目中服务器数字签名服务地址
           type: 'post',
           data: {
             url: location.href.split('#')[0] // 将当前URL地址上传至服务器用于产生数字签名

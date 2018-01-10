@@ -71,6 +71,7 @@
           this.videoArgs = res.data;
           this.videoSwitch = true;
           this.$store.commit('SAVE_SHARE_DATA',{title:this.videoArgs.vidName,desc:null,link:window.location.href,imgUrl:this.videoArgs.vedioPic,momentContentId:this.$route.query.id,momentName:'视频'});
+          global.wxShare({title:this.videoArgs.vidName,desc:null,link:window.location.href,imgUrl:this.videoArgs.vedioPic,momentContentId:this.$route.query.id,momentName:'视频'},this)
         });
       },
       goBack(){

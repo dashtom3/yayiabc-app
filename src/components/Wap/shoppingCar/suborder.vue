@@ -309,11 +309,11 @@
       },
       //失去焦点时
       qbDed: function() {
-        var self = this;
+        var that = this;
         var r = /^\+?[1-9][0-9]*$/　　//正整数
-        if (!r.test(self.qianbi_des)) {
+        if (!r.test(that.qianbi_des)) {
           Toast({message: '请输入整数！', duration: 1500})
-          self.qianbi_des = self.nowQb
+          that.qianbi_des = that.nowQb
           return false
         }
         if (that.qianbi_des > that.nowQb) {
@@ -514,11 +514,11 @@
                 window.sessionStorage.removeItem('paper');
                 window.sessionStorage.removeItem('departure');
                 // alert(global.webFrom())
-                if(global.webFrom() == 'WEIXIN'){
+                // if(global.webFrom() == 'WEIXIN'){
                   that.$router.push({ path:'/payWeChat' })
-                } else {
-                  that.$router.push({ path:'/pay' })
-                }
+                // } else {
+                //   that.$router.push({ path:'/pay' })
+                // }
               }
             }
           } else {

@@ -6,6 +6,7 @@ export default {
   // baseUrl: 'http://192.168.1.103:8081/api',
   //测试用ip，不要用ip地址
   baseUrl: 'http://116.62.228.3:8080/api',
+  // baseUrl: 'http://192.168.1.101:8080/api',
   // baseUrl: 'http://localhost:8080/api',
   // baseUrl: 'http://47.93.48.111:6181/api',
   qiNiuUrl: 'http://upload-z2.qiniu.com/',
@@ -20,51 +21,75 @@ export default {
    　　 return '0';
 　　}
   },
-  wxShare(shareData) {
+  getShareUrl(self){
+    return window.location.origin+self.$route.fullPath
+  },
+  wxShare(shareData,self) {
+    // alert(shareData.title)
+    // alert(encodeURIComponent(this.getShareUrl(self)))
     var that = this
-    $.ajax({
-      url: baseUrl+'/weixin/share',// 此处url请求地址需要替换成你自己实际项目中服务器数字签名服务地址
-      type: 'post',
-      data: {
-        url: location.href.split('#')[0] // 将当前URL地址上传至服务器用于产生数字签名
-      }
-    }).done(function (res) {
-      // console.log(location.href.split('#')[0],'url')
-      var r = res.data
-      // 开始配置微信JS-SDK
+    //  self.$store.dispatch('GET_SHARE_CODE',{url:'http://test.yayiabc.com'}).then((res) => {
+    var linkUrl = shareData.type == 'register' ? (location.href.split('#')[0]+"/register?userId="+shareData.userId+"&userType="+shareData.userType) : that.getShareUrl(self);
+    self.$store.dispatch('GET_SHARE_CODE',{url:location.href.split('#')[0]}).then((res) => {
+      var r = res.data.data
+      // self.appId = r.appId;
       wx.config({
         debug: false,
         appId: r.appId,
-        timestamp: r.timestamp,
+        timestamp: String(r.timestamp),
         nonceStr: r.nonceStr,
         signature: r.signature,
         jsApiList: [
-          'checkJsApi',
+          // 'checkJsApi',
           'onMenuShareTimeline',
           'onMenuShareAppMessage',
-          'onMenuShareQQ',
-          'onMenuShareWeibo',
+          // 'onMenuShareQQ',
+          // 'onMenuShareWeibo',
           'hideMenuItems',
           'chooseImage'
         ]
       });
-      wx.ready(function () {
-        var sdata = {
-          title: shareData.title,
-          desc: shareData.desc,
-          // link: `http://www.yayiabc.com/get-weixin-code.html?appid=wx4b1a6fde77626a32&scope=snsapi_userinfo&state=${that.salePhone}&redirect_uri=http%3a%2f%2fwap.yayiabc.com%2f%23%2fwx_user`,
-          link: shareData.link,
-          imgUrl: shareData.imgUrl,
-          success: function () {
-               alert('分享成功 :)');
-          },
-          cancel: function () {
-            alert('分享出错 :(');
-          }
-        };
-        wx.onMenuShareTimeline(sdata);
-        wx.onMenuShareAppMessage(sdata);
+      wx.ready(function (res) {
+        wx.onMenuShareTimeline({
+          title: shareData.title, // 分享标题
+          desc: shareData.title, // 分享标题
+          // link: shareData.link, // 分享链接
+          link:linkUrl,
+          imgUrl: shareData.imgUrl, // 分享图标
+          // success: function (res) {
+          //   // 用户确认分享后执行的回调函数
+          //   alert(res);
+          // },
+          // cancel: function () {
+          //   // alert("err");
+          //   // 用户取消分享后执行的回调函数
+          // },
+          // fail: function (res) {
+          //   alert(res);
+          // }
+        });
+        wx.onMenuShareAppMessage({
+          title: shareData.title, // 分享标题
+          desc: shareData.desc, // 分享标题
+          // link: shareData.link, // 分享链接
+          link:linkUrl,
+          imgUrl: shareData.imgUrl, // 分享图标
+          // success: function (res) {
+          //   // 用户确认分享后执行的回调函数
+          //   alert(res);
+          // },
+          // cancel: function () {
+          //   alert("err");
+          //   // 用户取消分享后执行的回调函数
+          // },
+          // fail: function (res) {
+          //   alert(res);
+          // }
+        });
       });
+      // wx.error(function(res){
+      //   alert(res);
+      // });
     })
   },
   success(obj, msg, url) {

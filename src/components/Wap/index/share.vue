@@ -4,12 +4,12 @@
     <div class="fixBox">
     <div class="shareBox">
       <div class="eachBox">
-        <div class="imgBox" @click="shareHref('WXSceneSession')">
+        <div class="imgBox" @click="shareHref()">
           <img src="../../../images/case/wxPal.png" alt="">
         </div>
         <p>微信好友</p>
       </div>
-      <div class="eachBox" @click="shareHref('WXSceneTimeline')">
+      <div class="eachBox" @click="shareHref()">
         <div class="imgBox">
           <img src="../../../images/case/wxCircle.png" alt="">
         </div>
@@ -21,7 +21,7 @@
         </div>
         <p>牙医圈</p>
       </div>
-      <div class="eachBox">
+      <div class="eachBox" @click="shareHref()">
         <div class="imgBox">
           <img src="../../../images/case/copyUrl.png" alt="">
         </div>
@@ -32,16 +32,21 @@
       取消
     </div>
     </div>
+    <shareBg v-if="shareBg" ></shareBg>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+import global from './../global/global.js'
+import shareBg from './shareBg'
   export default {
     data(){
       return{
-        shareData:this.$store.state.index.shareData
+        shareData:this.$store.state.index.shareData,
+        shareBg:false
       }
     },
+    components: { shareBg },
     created(){
       document.body.classList.add('shareBox-ggKula');
       // console.log(window.location.href)
@@ -83,48 +88,28 @@
         document.body.classList.remove('shareBox-ggKula');
         this.$destroy()
       },
-      shareHref(ex){
-        let ids = {
-            id: "weixin",
-            ex: ex  /*微信好友*//*微信朋友圈*/
-          };
-//        alert(JSON.stringify(ids))
-        this.shareAction(ids.id, ids.ex);
+
+      shareHref(){
+
+        this.shareBg = !this.shareBg;
+        setTimeout(() => {
+          this.shareBg = !this.shareBg;
+          this.cancelShare();
+        }, 3000)
+
+        // WeixinJSBridge.invoke('sendAppMessage',{
+        //                     "appid": self.appid,
+        //                     "img_url": self.shareData.imgUrl,
+        //                     "link": self.shareData.title.link,
+        //                     "desc": self.shareData.desc,
+        //                     "title": self.shareData.title
+        //                     }, function(res) {
+        //                     _report('send_msg', res.err_msg);
+        //                     })
+
       },
-      shareAction(id, ex){
-        var so = shares[id];
-//        alert(JSON.stringify(so))
-        if (so.authenticated) {
-//          alert("---已授权---");
-          this.shareMessage(so, ex);
-        } else {
-//          alert("---未授权---");
-          so.authorize(function() {
-            this.shareMessage(so, ex);
-          }, function(e) {
-//            alert("认证授权失败");
-          });
-        }
-      },
-      shareMessage(s, ex){
-        var msg = {
-          content: '分享牙医abc测试',
-          href: window.location.href,
-          title: '分享测试',
-          thumbs: ['../../../images/yayiCircle/noImgDefault.png'],
-          pictures: ['../../../images/yayiCircle/noImgDefault.png'],
-          extra: {
-            scene: ex
-          }
-        };
-        alert(JSON.stringify(msg))
-        s.send(msg, function() {
-          alert(msg.href)
-          alert("分享成功!");
-        }, function(e) {
-          alert("分享失败!");
-        });
-      },
+
+
     }
   }
 </script>

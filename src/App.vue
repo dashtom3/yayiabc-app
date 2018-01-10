@@ -36,20 +36,20 @@
 //        return false;
 //      }
 
-        var originalHeight=document.documentElement.clientHeight || document.body.clientHeight;
-console.log("app.vue"+originalHeight);
-        window.onresize=function(){
-          console.log(document);
-//软键盘弹起与隐藏  都会引起窗口的高度发生变化
-var  resizeHeight=document.documentElement.clientHeight || document.body.clientHeight;
-    console.log(originalHeight,resizeHeight);
-    if(resizeHeight*1<originalHeight*1){ //resizeHeight<originalHeight证明窗口被挤压了
-      
-    plus.webview.currentWebview().setStyle({
-        height:originalHeight
-    });
-      }
-    }
+//         var originalHeight=document.documentElement.clientHeight || document.body.clientHeight;
+// console.log("app.vue"+originalHeight);
+//         window.onresize=function(){
+//           console.log(document);
+// //软键盘弹起与隐藏  都会引起窗口的高度发生变化
+// var  resizeHeight=document.documentElement.clientHeight || document.body.clientHeight;
+//     console.log(originalHeight,resizeHeight);
+//     if(resizeHeight*1<originalHeight*1){ //resizeHeight<originalHeight证明窗口被挤压了
+//
+//     plus.webview.currentWebview().setStyle({
+//         height:originalHeight
+//     });
+//       }
+//     }
     },
     computed: {
     },

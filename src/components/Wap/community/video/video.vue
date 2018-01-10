@@ -67,7 +67,7 @@
       return{
         typeVideo: 'video',
         //获取当前登录账号的userID
-        myUserId:tokenMethods.getWapUser() ? tokenMethods.getWapUser().userId:'',
+        myUserId:tokenMethods.getWapUser() == null ? null : tokenMethods.getWapUser().userId,
         videoSwitch: true,
         isLoading:true,
         videoListArgs:{
@@ -75,6 +75,12 @@
           videoCategory: '', //视频分类:1.外科2.内科3.修复4.种植5.正畸6全部 (非必须)  //当前第几页
           numberPerPage:10, //每页显示多少条视频
           type:2
+        },
+        collectArgs: {
+          classify: null,
+          numberPerPage: 10,
+          userId:tokenMethods.getWapUser() == null ? null : tokenMethods.getWapUser().userId,
+          type:'视频', //1 病例列表 2 我的病例列表
         },
         caseSearchArgs:{
           keyWord:'',
@@ -129,23 +135,23 @@
       collect (vid, isStar, index){
         if(this.pointLogin())
         {
-          this.$store.dispatch('SAVE_COLLECT', {viId: vid}).then((res)=>{
+          this.collectArgs.postId = vid
+
+          this.$store.dispatch('CASE_COLLECT', {postId:vid,type:'视频'}).then((res)=>{
               if(res.callStatus === "SUCCEED")
               {
-                if(isStar === 0)  //未收藏
+                if(res.msg == '收藏成功')  //未收藏
                 {
                   this.videoArgs[index].isStar = 1;
                   this.videoArgs[index].starNumber = Number(this.videoArgs[index].starNumber) + 1;
                   Toast({message: '收藏成功', duration: 1500})
                 }else {
-                  MessageBox.confirm('确定取消收藏?').then(action => {
-                    if(this.$router.history.current.name === 'videoCollect'){
-                      this.videoArgs.splice(index,1);
-                    }
-                    this.videoArgs[index].isStar = 0;
-                    this.videoArgs[index].starNumber = Number(this.videoArgs[index].starNumber) - 1;
-                    Toast({message: '已取消收藏', duration: 1500})
-                  }).catch(reject =>{});
+                  if(this.$router.history.current.name === 'videoCollect'){
+                    this.videoArgs.splice(index,1);
+                  }
+                  this.videoArgs[index].isStar = 0;
+                  this.videoArgs[index].starNumber = Number(this.videoArgs[index].starNumber) - 1;
+                  Toast({message: '已取消收藏', duration: 1500})
                 }
               }else {
                 Toast({message: '收藏失败', duration: 1500})
@@ -181,8 +187,8 @@
             }
           })
         } else if (this.$router.history.current.name === 'videoCollect') {
-          this.caseSearchArgs.currentPage = this.pageAll.currentPage
-          this.$store.dispatch('COLLECT', this.caseSearchArgs).then( (res) => {
+          this.collectArgs.currentPage = this.pageAll.currentPage
+          this.$store.dispatch('COLLECT', this.collectArgs).then( (res) => {
             this.videoArgs = this.videoArgs.concat(res.data);
             this.videoArgs.forEach(item =>{
               item.isStar = 1
@@ -212,12 +218,12 @@
             this.$nextTick( ()=>{
               this.videoSwitch = true;
             });
-            if(res.data.length > 0)
+            if(res.data.data.length > 0)
             {
               console.log(res.data)
-              this.videoArgs = this.videoArgs.concat(res.data);
-              this.pageAll.totalPage = res.totalPage;
-              this.pageAll.currentPage = res.currentPage;
+              this.videoArgs = this.videoArgs.concat(res.data.data);
+              this.pageAll.totalPage = res.data.totalPage;
+              this.pageAll.currentPage = res.data.currentPage;
               // this.videoArgs['totalPage'] = res.totalPage;
               this.isLoading = false;
               this.videoArgs = this.videoArgs.filter((item) =>{
@@ -291,15 +297,17 @@
 }
 .noneVideo{
   z-index: 9999;
-  position: fixed;
-  top: 43%;
+  // position: fixed;
+  // top: 43%;
   left: 50%;
-  transform: translate(-50%,0);
+  // transform: translate(-50%,0);
   font-size: px2vw(30);
   color: #666666;
+  height: 79vh;
   text-align: center;
 }
 .noneV img{
+  margin-top: 43%;
   width: px2vw(150);
   height: px2vw(149);
 }
@@ -364,7 +372,7 @@
   height: px2vw(30);
   position: absolute;
   top:px2vw(28);
-  right: px2vw(-8);
+  right: px2vw(-2);
  }
   .collection-text{
   display: inline-block;

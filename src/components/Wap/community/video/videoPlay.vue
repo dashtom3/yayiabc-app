@@ -353,6 +353,7 @@
     .videoBox{
       position: relative;
       background-color: black;
+      z-index: 1;
     }
     .video-mask{
       position: absolute;
