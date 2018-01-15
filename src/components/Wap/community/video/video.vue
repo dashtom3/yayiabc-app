@@ -18,7 +18,9 @@
               <video-play :isVideo="typeVideo" v-if="videoSwitch" :title="item.vidName">
                 <!--<video  src=""  controls="" x5-playsinline="" playsinline="" webkit-playsinline="" poster="" preload="auto"></video>-->
                 <!--posterSrc:视频封面地址  slot必须带class="video"-->
-                <video  webkit-playsinline playsinline x5-playsinline x-webkit-airplay="allow" :src="item.vidRoute" :poster="item.vedioPic"  slot="video"  class="video" preload="none">
+                <video   playsinline x-webkit-airplay="true" webkit-playsinline x5-video-player-type="h5" x5-video-player-fullscreen="true" :src="item.vidRoute" :poster="item.vedioPic"  slot="video"  class="video" preload="none">
+
+                <!-- <video  webkit-playsinline playsinline x5-playsinline x-webkit-airplay="allow" :src="item.vidRoute" :poster="item.vedioPic"  slot="video"  class="video" preload="none"> -->
                 <!--<source slot="sourceSrc"  type="video/mp4"></source>-->
                 </video>
               </video-play>

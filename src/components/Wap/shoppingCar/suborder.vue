@@ -429,6 +429,7 @@
           return false
         }
         // that.isLoading = true;
+        console.log(that.orderItem);
         for (var i = 0; i < that.orderItem.length; i++) {
           // that.orderItem[i].itemName = that.orderItem[i].name
           // that.orderItem[i].picPath = that.orderItem[i].pic
@@ -456,6 +457,11 @@
           delete that.orderItem[i].itemPropertyFiveValue
           delete that.orderItem[i].itemPropertySixName
           delete that.orderItem[i].itemPropertySixValue
+          delete that.orderItem[i].goodQb
+          delete that.orderItem[i].goodSort
+          delete that.orderItem[i].goodBrandName
+          delete that.orderItem[i].itemQb
+
         }
         var orderItem = JSON.stringify(that.orderItem)
         var obj = {
@@ -513,11 +519,11 @@
                 this.$store.dispatch('COMPANY_INVOICE' , {});//重置发票信息为空
                 window.sessionStorage.removeItem('paper');
                 window.sessionStorage.removeItem('departure');
-                // alert(global.webFrom())
+
                 // if(global.webFrom() == 'WEIXIN'){
-                  that.$router.push({ path:'/payWeChat' })
+                //   that.$router.push({ path:'/payWeChat' })
                 // } else {
-                //   that.$router.push({ path:'/pay' })
+                  that.$router.push({ path:'/pay' })
                 // }
               }
             }

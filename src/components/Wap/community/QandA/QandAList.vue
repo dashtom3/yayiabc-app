@@ -4,9 +4,9 @@
       <img src="../../../../images/question/noQuestionList.png" alt="">
       <p>暂无任何问题~</p>
     </div>
-    <mt-loadmore :top-method="loadMore" :bottom-method="getQuestListMore" :bottom-all-loaded="allLoaded" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState" v-on:bottom-status-change="isStateB" class="loadMore">
+    <mt-loadmore :top-method="loadMore" :bottom-method="getQuestListMore" :bottom-all-loaded="allLoaded" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState" v-on:bottom-status-change="isStateB" class="loadMore" v-if="questList.length != 0">
       <topLoadMore ref="topLoadMore" slot="top" :loading="topLoading" :loaded="isLoaded"></topLoadMore>
-      <div class="scrollBox">
+      <div class="scrollBox" >
         <div class="eachContainer" @click="gotoDetail(value.faqQuestionId)" v-for="(value,index) in questList" v-if="questList.length > 0">
           <div class="headLine">
             <div class="headImg">
@@ -148,9 +148,11 @@
                 Indicator.close();
                 console.log(res,1)
               }else {
+                this.closeTopBottomLoading();
                 this.noData = true;
               }
             }).catch(()=>{
+
               this.closeTopBottomLoading();
             });
             break;

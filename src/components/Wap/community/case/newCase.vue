@@ -377,7 +377,7 @@
             return
         }
         this.$store.dispatch(UPLOAD_CASE,this.args).then(res => {
-          if (this.args.postStater === 1) {
+          if (this.args.postStater === 0) {
             Toast({message: '病例发布成功！', duration: 1500});
             if (this.share) {
               //把返回结果的postid传进去

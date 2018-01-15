@@ -97,6 +97,8 @@ import datum from '../../mine/collect/datum.vue'
       dress(index,value){
         this.args.selected = index;
         this.keyWord = index > 0 ? value :'';
+        console.log(index,value,this.keyWord)
+        this.$store.commit('SAVE_DATABASE_KEYWORD',this.keyWord);
       },
       search(){
         this.$router.push('/dataSearch')

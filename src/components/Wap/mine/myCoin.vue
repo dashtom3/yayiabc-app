@@ -323,10 +323,11 @@
       position: fixed;
       top: px2vw(380);
       left: 0;
+
       width: 100%;
-      height: 72vh;
+      // height: 72vh;
       overflow: scroll;
-      bottom: 0;
+      bottom: px2vw(100);
       -webkit-overflow-scrolling: touch;
     }
 
@@ -346,4 +347,3 @@
       z-index: 110;
     }
 </style>
-

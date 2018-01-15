@@ -242,7 +242,7 @@
             this.caseDetailArgs.classify = '口腔正畸'
           }
           this.$store.commit('SAVE_SHARE_DATA',{title:this.args.headline,desc:this.args.freeContent,link:window.location.href,imgUrl:this.userPic,momentContentId:this.$route.query.id,momentName:'病例'});
-          global.wxShare({title:this.args.writer+" 发表了病例:",desc:this.args.headline,link:window.location.href,imgUrl:this.userPic,momentContentId:this.$route.query.id,momentName:'病例'},this)
+          global.wxShare({title:res.data.writer+" 发表了病例:",desc:this.args.headline,link:window.location.href,imgUrl:this.userPic,momentContentId:this.$route.query.id,momentName:'病例'},this)
           this.time(this.caseDetailArgs);
         })
       },

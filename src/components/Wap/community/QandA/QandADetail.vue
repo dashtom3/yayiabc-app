@@ -126,7 +126,7 @@
               }
             }
             this.$store.commit('SAVE_SHARE_DATA',{title:this.detailData.faqQuestionTitle,desc:null,link:window.location.href,imgUrl:null,momentContentId:this.$route.query.faqQuestionId,momentName:'问答'});
-            global.wxShare({title:this.detailData.faqQuestionTitle,desc:null,link:window.location.href,imgUrl:null,momentContentId:this.$route.query.faqQuestionId,momentName:"问答"},this)
+            global.wxShare({title:this.detailData.userName + "发表了问答:",desc:this.detailData.faqQuestionTitle,link:window.location.href,imgUrl:null,momentContentId:this.$route.query.faqQuestionId,momentName:"问答"},this)
           }
           res.data.faqAnswerList.forEach(item =>{
             if(item.faqAnswerTime!= null) {

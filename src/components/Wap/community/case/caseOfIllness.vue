@@ -6,7 +6,7 @@
   </div>
   <mt-loadmore :top-method="loadMore" :bottom-method="getCaseListMore" :bottom-all-loaded="allLoaded" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState" v-on:bottom-status-change="isStateB">
     <topLoadMore ref="topLoadMore" slot="top" :loading="topLoading" :loaded="isLoaded"></topLoadMore>
-    <div class="scrollBox">
+    <div class="scrollBox" v-if="listCaseData.length != 0">
       <div @click="goCaseDetailed(item)" v-for="(item, index) in listCaseData" class="caseBox" :key="index">
         <div class="userBox" :class="{'addChange1': item.cover !== ''}">
           <div class="userPicture">
@@ -34,7 +34,9 @@
       <div v-if="listCaseData.length != 0 && caseDate.currentPage == caseDate.totalPage" class="noMoreData2"></div>
 
     </div>
+
     <bottomLoadMore ref="bottomLoadMore" slot="bottom" :loading="bottomLoading" :loaded="isLoadedB"></bottomLoadMore>
+
   </mt-loadmore>
   <!--编辑按钮-->
   <!-- <div class="edit" @click="gotoPage('/newCase')" v-if="showNewCase">
@@ -310,7 +312,7 @@
       color: #666666;
       text-align: center;
       height:79vh;
-      // width: 100%;
+      width: 100%;
       // text-align: center;
       img{
         // margin:px2vw(400) auto px2vw(30);

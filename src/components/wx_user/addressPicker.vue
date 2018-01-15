@@ -16951,32 +16951,29 @@
             return item;
           }
         });
+        // console.log(this.slots)
       },
-      onValuesChange(picker, values) {
-        console.log(picker,values)
+      onValuesChange(picker, values , res) {
+        // console.log(picker,values,res)
         if (values[0]) {
-          this.slots[1].values = []
-          // var temp = address.filter((item, index) => {
+          var temp = picker.getSlotValue(0);
           this.slots[1].values = address.filter((item, index) => {
-            if (item.apid === values[0].aid) {
+            if (item.apid === temp.aid) {
               return item;
             }
           });
-          // this.slots[1].values = []
-          // this.slots[1].values =
-          // this.slots[1].values = Array.assign([], this.slots[1].values, temp)
-          // this.$set(this.slots[1].values,temp)
-          console.log(values[0],this.slots[1].values)
+
         }
         if (values[1]) {
+          var temp = picker.getSlotValue(1);
           this.slots[2].values = address.filter((item, index) => {
-            if (item.apid === values[1].aid) {
+            if (item.apid === temp.aid) {
               return item;
             }
           });
         }
         if (values[2]) {
-          this.temp_addr = values[0].aname + ' ' + values[1].aname + ' ' + values[2].aname;
+          this.temp_addr = picker.getSlotValue(0).aname + ' ' + picker.getSlotValue(1).aname + ' ' + picker.getSlotValue(2).aname;
         }
       },
       open() {

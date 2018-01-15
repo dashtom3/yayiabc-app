@@ -690,7 +690,7 @@
   }
 
   .mine {
-    margin-bottom: px2vw(100);
+    margin-bottom: px2vw(120);
     font-weight: 300;
   }
 

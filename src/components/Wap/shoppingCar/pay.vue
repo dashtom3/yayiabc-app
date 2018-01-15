@@ -38,7 +38,7 @@
       <div class="payWay_font">
         选择支付方式
       </div>
-      <div @click="zfb_pay" class="payZFB">
+      <div @click="zfb_pay" class="payZFB" v-if="webFrom != 'WEIXIN'">
         <img class="zfb_img" src="../../../images/mine/zhifubao.png" alt="">
         <span :class="{ active: isActive1 }">支付宝</span>
         <img v-show="payShow" class="yesBlue" src="../../../images/mine/yesBlue.png" alt="">
@@ -57,26 +57,49 @@
 <script>
   import {tokenMethods} from '../../../vuex/util'
   import {Toast, MessageBox, Indicator} from 'mint-ui'
-
+  import global from '../global/global.js'
   export default {
     name: 'pay',
     data() {
       return {
         orderId: '',
         payMoney: '',
+        canHasCoin: '',
         payShow: true,
         isActive1: true,
         isActive2: false,
         kk: null,
+        webFrom:'',
+        moduleShow:false
       }
     },
     created() {
+      if(global.webFrom() == 'WEIXIN'){
+        this.webFrom = 'WEIXIN';
+      }
       this.mBack('back');
       var that = this
       var order = JSON.parse(window.sessionStorage.getItem('order'))
+      var code = this.queryToArgs()['code']
+      // alert(window.location.search)
       // window.sessionStorage.removeItem('suborderData')
       that.orderId = order.OrderId
       that.payMoney = order.actualPay
+      that.canHasCoin = order.giveQbNum
+      // console.log(Number(order.giveQbNum));
+      var wx_state = JSON.parse(window.sessionStorage.getItem('wxState'))
+      if(wx_state ==1) {
+        Indicator.open({
+          text: '支付数据处理中...',
+          spinnerType: 'fading-circle'
+        });
+        that.moduleShow = true;
+        // alert('wxstate',wx_state)
+        if (code && wx_state == 1) {
+          // alert('openPay',code)
+          that.wxOpenPay()
+        }
+      }
     },
     methods: {
       back() {
@@ -86,9 +109,19 @@
           showCancelButton: true
         }).then(action => {
           this.$router.push({name: 'orderSubpage', params: {order_state: 0}})
+          that.moduleShow = false;
+          window.sessionStorage.removeItem('wxState')
           // this.$router.go(-1)
         }).catch(err => {
         })
+      },
+      isWeiXin(){
+        var ua = window.navigator.userAgent.toLowerCase();
+        if(ua.match(/MicroMessenger/i) == 'micromessenger'){
+          return true;
+        }else{
+          return false;
+        }
       },
       wx_pay() {
         this.payShow = false
@@ -100,9 +133,32 @@
         this.isActive1 = true
         this.isActive2 = false
       },
+      queryToArgs() {
+        let query = window.location.search.substr(1),
+          args = {}
+        if (!query) return {}
+        query.split('&').forEach(item => {
+          let temp = item.split('=')
+          args[temp[0]] = temp[1]
+        })
+        return args
+      },
       confirmPay() {
         var that = this
         //支付宝支付
+        if(this.webFrom == "WEIXIN") {
+          // 微信手机网站支付
+            var wxUrl = 'http://wap.yayiabc.com/#/pay'
+            var payData = {
+              orderId: that.orderId,
+              payMoney: that.payMoney,
+            }
+          var wxState = 1
+          window.sessionStorage.setItem('wxState', JSON.stringify(wxState))
+          window.sessionStorage.setItem('wxPay', JSON.stringify(payData))
+          window.location.href ="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx4b1a6fde77626a32&redirect_uri=http%3A%2F%2Fwap.yayiabc.com%2F%23%2Fpay&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
+
+        }else {
         if (this.payShow == true) {
           //支付宝支付app端
           plus.nativeUI.showWaiting()
@@ -129,7 +185,7 @@
                     if (res.msg == '成功') {
                       clearInterval(timer)
                       plus.nativeUI.closeWaiting()
-                      that.$router.push({name: 'paySucced', params: {orderId: that.orderId, payMoney: that.payMoney}})
+                      that.$router.push({name: 'paySucced', params: {orderId: that.orderId, payMoney: that.payMoney, canHasCoin:that.canHasCoin}})
                       // plus.nativeUI.alert("支付成功")
                     } else {
                       console.log('支付失败')
@@ -181,7 +237,7 @@
                     if (res.num == 2) {
                       clearInterval(timer)
                       plus.nativeUI.closeWaiting()
-                      that.$router.push({name: 'paySucced', params: {orderId: that.orderId, payMoney: that.payMoney}})
+                      that.$router.push({name: 'paySucced', params: {orderId: that.orderId, payMoney: that.payMoney,canHasCoin:that.canHasCoin}})
                       // plus.nativeUI.alert("支付成功")
                     } else {
                       plus.nativeUI.closeWaiting()
@@ -199,7 +255,96 @@
             }
           })
         }
-      }
+        }
+      },
+      wxOpenPay() {
+        var that = this
+        var code = this.queryToArgs()['code']
+        var wxDataPay = JSON.parse(window.sessionStorage.getItem('wxPay'))
+          var obj = {
+            orderId: wxDataPay.orderId,
+            code: code,
+          }
+          // alert(JSON.stringify(obj),'2323')
+          that.$store.dispatch('WX_ORDER_PAY',obj).then((res) => {
+            // alert(res.data)
+            if (res.data.callStatus == 'SUCCEED') {
+              wx.config({
+                debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                appId: res.data.data.appid, // 必填，公众号的唯一标识
+                timestamp: String(res.data.data.timestamp), // 必填，生成签名的时间戳
+                nonceStr: res.data.data.noncestr, // 必填，生成签名的随机串
+                signature: res.data.data.partnerid,// 必填，签名，见附录1
+                jsApiList: ['chooseWXPay'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+              });
+              wx.ready(function(){
+                wx.chooseWXPay({
+                  "timestamp": String(res.data.data.timestamp), // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+                  "nonceStr": res.data.data.noncestr, // 支付签名随机串，不长于 32 位
+                  "package": 'prepay_id=' + res.data.data.prepayid, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
+                  "signType": 'MD5', // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+                  "paySign": res.data.data.sign, // 支付签名
+                  success: function (res) {
+                    // 支付成功后的回调函数
+//                    if(res.err_msg == "get_brand_wcpay_request:ok" ) {
+                      that.kk = 1
+                      var timer = setInterval(function () {
+                        if (that.kk == 600) {
+                          clearInterval(timer)
+                          that.moduleShow = false;
+                          Indicator.close()
+                          return false
+                        }
+                        var obj = {
+                          out_trade_no: wxDataPay.orderId
+                        }
+                        that.$store.dispatch('WX_ORDER_SEARCH', obj).then((res) => {
+                          // plus.nativeUI.alert(JSON.stringify(res),'lihui')
+                          if (res.num == 2) {
+                            clearInterval(timer)
+                            that.moduleShow = false;
+                            Indicator.close()
+                            that.$router.push({name: 'paySucced', params: {orderId: wxDataPay.orderId, payMoney: wxDataPay.payMoney}})
+                            window.sessionStorage.removeItem('wxCoin')
+                            window.sessionStorage.removeItem('wxState')
+                            // plus.nativeUI.alert("支付成功")
+                          } else {
+                            that.moduleShow = false;
+                            Indicator.close()
+                            window.sessionStorage.removeItem('wxState')
+                            console.log("支付失败")
+                          }
+                        })
+                      }, 2000)
+                      //Toast({message: '支付成功', duration: 1500})
+//                    }
+                    // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
+//                    else{
+//                      that.$router.go(-1)
+//                    }
+                  },
+                  cancel: function (res) {
+                    that.moduleShow = false;
+                    window.sessionStorage.removeItem('wxState')
+                    that.$router.go(-1)
+                    Indicator.close()
+                  }
+                });
+              });
+              wx.error(function(res){
+                that.moduleShow = false;
+                Indicator.close()
+                window.sessionStorage.removeItem('wxState')
+                return false;
+              });
+            } else {
+              that.moduleShow = false;
+              console.log("支付失败")
+              Indicator.close()
+              window.sessionStorage.removeItem('wxState')
+            }
+          })
+      },
     }
   }
 </script>

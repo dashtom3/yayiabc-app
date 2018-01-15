@@ -185,7 +185,7 @@ export default {
   },
   methods: {
     back(){
-      this.$router.push({ name: 'productList', params: { oneClassify: '展会推荐' , twoClassify: ''}});
+      this.$router.push({ name: 'productList', params: { oneClassify: '商品推荐' , twoClassify: ''}});
     },
     searchActive: function() {
       this.$router.push({ path: "/searchWord", query: { data: "focus" } });

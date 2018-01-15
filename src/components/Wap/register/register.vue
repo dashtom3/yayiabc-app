@@ -194,7 +194,7 @@
           <i v-else class="el-icon-plus avatar-uploader-icon fl"></i>
         </el-upload>
       </div> -->
-      <mt-field @click.native="focus" label="邀请人ID" class="must" placeholder="邀请人ID" readonly="true" v-model="registerData.id" v-if="registerData.id != null">
+      <mt-field @click.native="focus" label="邀请人ID" class="must" placeholder="邀请人ID" :readonly="inviteTrue" v-model="registerData.id" v-if="registerData.id != null">
         <!-- <i class="red">*</i> -->
       </mt-field>
       <div class="submit-wrap" @click="registerHandler">
@@ -234,6 +234,7 @@
           url: 'http://upload-z2.qiniu.com/',
           ShUrl: 'http://orl5769dk.bkt.clouddn.com/'
         },
+        inviteTrue: true,
         pwd_input: true,
         rg_hYzm: true,
         rg_Yzm1: '',
@@ -288,7 +289,7 @@
     created() {
       this.mBack("back");
       this.registerData.id = this.$route.query.userId
-      this.registerData.userType = this.$route.query.userType
+      this.registerData.userType = this.$route.query.userType != null ? this.$route.query.userType : 1
       //获取七牛token,防止重复请求
       this.$store.dispatch(GET_UPLOAD_TOKEN).then(res => {
         this.qiNiuToken = {
@@ -338,7 +339,8 @@
             trueName: this.registerData.trueName,
             sex: this.registerData.sex,
             birthday: this.registerData.birthday,
-            userType: 1
+            userType: this.registerData.userType,
+            id:this.registerData.id
           }
           params['certification.type'] = this.registerData.type;
           params['certification.companyName'] = this.registerData.companyName;

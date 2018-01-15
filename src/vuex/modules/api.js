@@ -248,6 +248,11 @@ export function wxCoinSearch(params) {
   return getWithToken('/appPay/checkChargeState', params);
 }
 
+// 微信公众号内乾币充值
+export function wxCoinPay(params) {
+  return postWithToken('/wxRoom/unifiedOrderCharge', params);
+}
+
 // 微信支付订单轮询
 export function wxOrderSearch(params) {
   return getWithToken('/weixin/checkOrderState', params);

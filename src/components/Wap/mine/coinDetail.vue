@@ -42,7 +42,7 @@
       <div class="payWay_font">
         支付方式
       </div>
-      <div @click="zfb_pay" class="payZFB">
+      <div @click="zfb_pay" class="payZFB" v-if="webFrom != 'WEIXIN'">
         <img class="zfb_img" src="../../../images/mine/zhifubao.png" alt="">
         <span>支付宝</span>
         <img v-show="payShow" class="yesBlue" src="../../../images/mine/yesBlue.png" alt="">
@@ -66,6 +66,8 @@
 
   import {tokenMethods} from '../../../vuex/util'
   import {Toast,Indicator} from 'mint-ui'
+  import global from '../global/global.js'
+  import {mapActions} from 'vuex'
   // import {mapActions} from 'vuex'
   export default {
     name: 'coinDetail',
@@ -77,6 +79,7 @@
         amount : '',
         qbType : 'c_qb',
         kk: null,
+        webFrom:''
       }
     },
     watch:{
@@ -141,16 +144,159 @@
       }
     },
     created: function() {
+      // var that = this
+      if(global.webFrom() == 'WEIXIN') {
+        this.webFrom = 'WEIXIN'
+      }
       var that = this
-    },
+  var code = this.queryToArgs()['code']
+    //  alert('code',code);
+  var wx_state = JSON.parse(window.sessionStorage.getItem('wxState'))
+  if(wx_state ==1){
+    Indicator.open({
+      text: '支付数据处理中...',
+      spinnerType: 'fading-circle'
+    });
+    // alert('wx_state',wx_state);
+    that.setModuleStatus(true)
+    // that.moduleShow = true;
+    if (code && wx_state == 1) {
+      var wxData = JSON.parse(window.sessionStorage.getItem('wxCoin'))
+//        Indicator.open()
+      var obj = {
+        token: tokenMethods.getWapToken(),
+        qbType: wxData.qbType,
+        code: code,
+        money: parseInt(wxData.money),
+      }
+      that.placeH = wxData.money
+      that.coin = false
+      that.qbType = wxData.qbType;
+      that.coinallprice = wxData.amount
+      that.moneyCoins = wxData.money
+      //  alert(JSON.stringify(obj))
+
+      that.$store.dispatch('WX_COIN_PAY',obj).then((res) => {
+        //  alert(JSON.stringify(res.data))
+//          window.location.reload();
+        if (res.data.callStatus == 'SUCCEED') {
+          wx.config({
+            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            appId: res.data.data.appid, // 必填，公众号的唯一标识
+            timestamp: String(res.data.data.timestamp), // 必填，生成签名的时间戳
+            nonceStr: res.data.data.noncestr, // 必填，生成签名的随机串
+            signature: res.data.data.partnerid,// 必填，签名，见附录1
+            jsApiList: ['chooseWXPay'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+          });
+          wx.ready(function(){
+            wx.chooseWXPay({
+              "timestamp": String(res.data.data.timestamp), // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+              "nonceStr": res.data.data.noncestr, // 支付签名随机串，不长于 32 位
+              "package": 'prepay_id=' + res.data.data.prepayid, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
+              "signType": 'MD5', // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+              "paySign": res.data.data.sign, // 支付签名
+              success: function (res) {
+                // 支付成功后的回调函数
+                that.kk = 1
+                var timer = setInterval(function(){
+                  if (that.kk == 600) {
+                    clearInterval(timer)
+                    // that.moduleShow = false;
+                    that.setModuleStatus(false)
+                    Indicator.close()
+                    return false
+                  }
+                  that.$store.dispatch('WX_COIN_SEARCH').then((res) => {
+                    if (res.num == 2) {
+                      clearInterval(timer)
+//                          alert(window.location.href);
+                      that.$router.push({ name: 'payResult', params: {moneyCoins: wxData.money, amount: wxData.amount}})
+                      // that.moduleShow = false;
+                      that.setModuleStatus(false)
+                      Indicator.close()
+                      window.sessionStorage.removeItem('wxState')
+                      window.sessionStorage.removeItem('wxCoin')
+                    } else {
+                      // that.moduleShow = false;
+                      that.setModuleStatus(false)
+                      Indicator.close()
+                      window.sessionStorage.removeItem('wxState')
+                      console.log("充值失败")
+                    }
+                  })
+                },2000)
+              },
+              cancel: function (res) {
+                // that.moduleShow = false;
+                that.setModuleStatus(false)
+                Indicator.close()
+                that.$router.go(-1)
+                window.sessionStorage.removeItem('wxState')
+              }
+            });
+          });
+          wx.error(function(res){
+//              alert(res.err_msg);
+//              alert('aa');
+            // that.moduleShow = false;
+            that.setModuleStatus(false)
+            Indicator.close()
+            window.sessionStorage.removeItem('wxState')
+            return false;
+          });
+        } else {
+          // that.moduleShow = false;
+          that.setModuleStatus(false)
+          Indicator.close()
+          console.log("充值失败")
+          window.sessionStorage.removeItem('wxState')
+        }
+      })
+    } else {
+      that.placeH = '请输入本次充值乾币个数'
+      that.coin = true
+      window.sessionStorage.removeItem('wxCoin');
+      // that.moduleShow = false;
+      that.setModuleStatus(false)
+      Indicator.close()
+    }
+  }
+},
     methods:{
+      queryToArgs() {
+        let query = window.location.search.substr(1),
+          args = {}
+        if (!query) return {}
+        query.split('&').forEach(item => {
+          let temp = item.split('=')
+          args[temp[0]] = temp[1]
+        })
+        return args
+      },
+      ...mapActions([
+        'setModuleStatus'
+      ]),
       pay(){
         var that = this
         //判断总价钱是否为0
         if(that.amount == 0) {
           Toast({message: '请输入正确的充值的数量', duration: 800})
         } else {
-          //支付宝支付app端
+          //微信网页公众号充值
+          if(this.webFrom == 'WEIXIN') {
+            var wxUrl = 'http://wap.yayiabc.com/?#/coinDetail'
+            var data = {
+              money: that.moneyCoins,
+              amount: that.amount,
+              qbType: that.qbType
+            }
+            // +encodeURI(wxUrl)+
+            window.sessionStorage.setItem('wxCoin', JSON.stringify(data))
+            var wxState = 1
+            window.sessionStorage.setItem('wxState', JSON.stringify(wxState))
+            window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx4b1a6fde77626a32&redirect_uri=http%3A%2F%2Fwap.yayiabc.com%2F%23%2FcoinDetail&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
+          } else {
+            //支付宝支付app端
           if(that.payShow == true) {
             //查询个人信息
             console.log(that.qbType)
@@ -197,48 +343,6 @@
               }
             });
 
-            // let obj = {
-            //   token: tokenMethods.getWapToken(),
-            //   money: this.moneyCoins,
-            //   qbType: this.qbType,
-            //   computerOrPhone: 'app'
-            // };
-            // this.$store.dispatch('PAY_ZFB_COIN', obj).then((res) => {
-            //   plus.nativeUI.closeWaiting()
-            //   if (res) {
-            //       plus.payment.request(aliChannel, res.data, function(result) {
-            //           console.log(JSON.stringify(result),'data1');
-            //           plus.nativeUI.alert(JSON.stringify(result), title);
-            //           plus.nativeUI.alert("充值成功", title);
-            //       }, function(e) {
-            //           console.log(JSON.stringify(e),'data2');
-            //           alert(JSON.stringify(e));
-            //           plus.nativeUI.alert("充值失败", title);
-            //       });
-            //   } else {
-            //       plus.nativeUI.alert("支付失败");
-            //   }
-            // })
-            // mui.get("http://47.93.48.111:6181/api/pay/recharge", {
-            //   token: tokenMethods.getWapToken(),
-            //   qbNum: this.moneyCoins,
-            //   qbType: this.qbType,
-            //   computerOrPhone: 'phone'
-            // }, function(data) {
-            //   console.log(data,'datata')
-            // })
-            // 支付宝支付手机网站端
-            // window.location.href = 'http://47.93.48.111:6181/api/pay/recharge' + '?token=' + tokenMethods.getWapToken() + '&qbNum=' + this.moneyCoins + '&qbType=' + this.qbType + '&computerOrPhone=phone'
-            // let obj = {
-            //   token: tokenMethods.getWapToken(),
-            //   qbNum: this.moneyCoins,
-            //   qbType: this.qbType,
-            //   computerOrPhone: 'phone'
-            // };
-            // this.$store.dispatch('PAY_ZFB_COIN', obj).then((res) => {
-            //   console.log(res,'opopo')
-            //   window.location.href = res.request.responseURL
-            // })
           } else {
             // 微信充值乾币app端
             plus.nativeUI.showWaiting()
@@ -290,42 +394,8 @@
                   plus.nativeUI.alert("充值失败，请稍后再试！");
               }
             })
-            // 手机网站微信充值乾币
-            // plus.nativeUI.showWaiting()
-            // Indicator.open();
-            // mui.post("http://47.93.48.111:6181/api/weixinPhone/unifiedOrderCharge", {
-            //   token: tokenMethods.getWapToken(),
-            //   money: this.moneyCoins,
-            //   qbType: this.qbType,
-            // }, function(data) {
-            //   // plus.nativeUI.alert(JSON.stringify(data),'lihui');
-            //   // plus.nativeUI.alert(dataPay);
-            //   console.log(data,'data')
-            //   Indicator.close()
-            //   that.kk = 1
-            //   var timer = setInterval(function(){
-            //     if (that.kk == 600) {
-            //       clearInterval(timer)
-            //       return false
-            //     }
-            //     that.$store.dispatch('WX_COIN_SEARCH').then((res) => {
-            //       // plus.nativeUI.alert(JSON.stringify(res),'lihui')
-            //       if (res.num == 2) {
-            //         clearInterval(timer)
-            //         Indicator.close()
-            //         that.$router.push({ name: 'payResult', params: {moneyCoins: that.moneyCoins, amount: that.amount}})
-            //         Toast({message: '充值成功', duration: 3000})
-            //       } else {
-            //         Indicator.close()
-            //         console.log("充值失败")
-            //       }
-            //     })
-            //   },2000)
-            //   // if (data.callStatus == 'SUCCEED') {
-            //   // } else {
-            //   //   Toast({message: '充值失败', duration: 3000})
-            //   // }
-            // })
+          }
+
           }
         }
       },
@@ -473,4 +543,3 @@
     height: px2vw(21);
   }
 </style>
-

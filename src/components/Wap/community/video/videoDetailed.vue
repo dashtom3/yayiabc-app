@@ -51,6 +51,7 @@
 <script>
   import videoPlay from './videoPlay.vue'
   import comment from '../case/comment.vue'
+  import global from '../../global/global.js'
   export default {
     data(){
       return{
@@ -67,11 +68,12 @@
     },
     methods:{
       getVideosDetail(){
+        var self = this
         this.$store.dispatch('GET_VIDEOS_DETAIL', {viId: this.$route.query.id}).then((res)=>{
           this.videoArgs = res.data;
           this.videoSwitch = true;
           this.$store.commit('SAVE_SHARE_DATA',{title:this.videoArgs.vidName,desc:null,link:window.location.href,imgUrl:this.videoArgs.vedioPic,momentContentId:this.$route.query.id,momentName:'视频'});
-          global.wxShare({title:this.videoArgs.vidName,desc:null,link:window.location.href,imgUrl:this.videoArgs.vedioPic,momentContentId:this.$route.query.id,momentName:'视频'},this)
+          global.wxShare({title:"yayiabc社区牙医视频推荐:",desc:this.videoArgs.vidName,link:window.location.href,imgUrl:this.videoArgs.vedioPic,momentContentId:this.$route.query.id,momentName:'视频'},self)
         });
       },
       goBack(){

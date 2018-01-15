@@ -66,7 +66,7 @@
         if (val == 'index') {
           that.$router.push({path: '/yayi/index'});
         } else if (val == 'classify') {
-          that.$router.push({ name: 'productList', params: { oneClassify: '展会推荐' , twoClassify: ''}});
+          that.$router.push({ name: 'productList', params: { oneClassify: '商品推荐' , twoClassify: ''}});
         } else if (val == 'caseOfIllness') {
           that.$router.push({path: '/yayi/find'});
         } else if (val == 'yayiCircle') {

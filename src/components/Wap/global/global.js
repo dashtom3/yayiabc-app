@@ -2,13 +2,12 @@ import axios from 'axios'
 
 export default {
   //正式用url
-  // baseUrl: 'http://wap.yayiabc.com:8080/api',
+  baseUrl: 'http://47.93.48.111:8080/api',
   // baseUrl: 'http://192.168.1.103:8081/api',
   //测试用ip，不要用ip地址
-  baseUrl: 'http://116.62.228.3:8080/api',
+  // baseUrl: 'http://116.62.228.3:8080/api',
   // baseUrl: 'http://192.168.1.101:8080/api',
   // baseUrl: 'http://localhost:8080/api',
-  // baseUrl: 'http://47.93.48.111:6181/api',
   qiNiuUrl: 'http://upload-z2.qiniu.com/',
   qiniuShUrl: 'http://orl5769dk.bkt.clouddn.com/',
   //判断手机、APP、公众号
@@ -29,7 +28,8 @@ export default {
     // alert(encodeURIComponent(this.getShareUrl(self)))
     var that = this
     //  self.$store.dispatch('GET_SHARE_CODE',{url:'http://test.yayiabc.com'}).then((res) => {
-    var linkUrl = shareData.type == 'register' ? (location.href.split('#')[0]+"/register?userId="+shareData.userId+"&userType="+shareData.userType) : that.getShareUrl(self);
+    var linkUrl = shareData.type == 'register' ? (location.href.split('#')[0]+"register?userId="+shareData.userId+"&userType="+shareData.userType) : that.getShareUrl(self);
+    console.log(linkUrl)
     self.$store.dispatch('GET_SHARE_CODE',{url:location.href.split('#')[0]}).then((res) => {
       var r = res.data.data
       // self.appId = r.appId;
@@ -52,7 +52,7 @@ export default {
       wx.ready(function (res) {
         wx.onMenuShareTimeline({
           title: shareData.title, // 分享标题
-          desc: shareData.title, // 分享标题
+          desc: shareData.desc, // 分享标题
           // link: shareData.link, // 分享链接
           link:linkUrl,
           imgUrl: shareData.imgUrl, // 分享图标

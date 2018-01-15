@@ -45,7 +45,7 @@
         },
         dataList:[],
         backName:'',
-        allLoaded:false,
+        allLoaded:false
       }
     },
     props:{
@@ -56,16 +56,20 @@
     components:{
       bottomLoadMore
     },
+    computed: {
+      keyWordChange() {
+        return this.$store.state.index.databaseKeyword;
+      }
+    },
     watch:{
-      // keyWords:{
-      //   handler:function (val) {
-      //     this.args.keyWord = val;
-      //     console.log("key:"+keyWords);
-      //     this.args.currentPage = 1;
-      //     this.noData = false;
-      //     this.loadMore();
-      //   }
-      // }
+      keyWordChange(){
+          this.dataList = []
+          this.args.keyWord = this.$store.state.index.databaseKeyword;
+          console.log("key:",this.args.keyWord);
+          this.args.currentPage = 1;
+          this.noData = false;
+          this.loadMore();
+      }
     },
     created(){
       this.timeStamp = Date.parse(new Date());

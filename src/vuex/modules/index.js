@@ -6,12 +6,9 @@ import axios from 'axios'
 const state = {
   direction: 'forward',
   // baseUrl: 'http://wap.yayiabc.com:6181/api',
-  baseUrl: 'http://116.62.228.3:8080/api',
+  // baseUrl: 'http://116.62.228.3:8080/api',
   // baseUrl: 'http://192.168.1.101:8080/api',
-
-  // baseUrl: 'http://localhost:8080/api',
-  // baseUrl: 'http://wap.yayiabc.com:6181/api',
-  // baseUrl: 'http://wap.yayiabc.com:8080/api',
+  baseUrl: 'http://47.93.48.111:8080/api',
   bannerList: [],
   brandListData: [],
   classifyList: [],
@@ -65,7 +62,8 @@ const state = {
   videodetail: null,
   shareData: null,
   //资料库关键词
-  databaseKeyword: null
+  databaseKeyword: null,
+  moduleShow: false, //保存乾币充值页面的模态框状态
 }
 
 const getters = {
@@ -110,6 +108,9 @@ const getters = {
   },
   caseOfIllness : state => {
     return state.caseOfIllness
+  },
+  moduleShow: state => {
+    return state.moduleShow
   }
 };
 
@@ -234,6 +235,9 @@ const mutations = {
   // 保存病例信息
   [types.SAVE_CASEOFILLNESS](state, all){
     state.caseOfIllness = all
+  },
+  [types.SET_MODULE_STATUS](state, status) {
+    state.moduleShow = status
   }
 }
 
@@ -267,6 +271,9 @@ const actions = {
   //保存钱币提现的数量
   [types.PUSH_TQB_NUM_TYPE]({commit}, all){
     commit(types.PUSH_TQB_NUM_TYPE,all)
+  },
+  setModuleStatus({commit}, status) {
+    commit(types.SET_MODULE_STATUS, status)
   },
   // 获取首页轮播图
   [types.GET_CAROUSEL]() {
@@ -303,6 +310,17 @@ const actions = {
         resolve(data);
       }).catch((err) => {
         reject(err);
+      });
+    });
+  },
+  // 微信公众号内qian乾币支付
+  [types.WX_COIN_PAY](context, params) {
+    return new Promise((resolve, reject) => {
+      api.wxCoinPay(params).then((data) => {
+        console.log(JSON.stringify(data))
+        resolve(data);
+      }).catch((err) => {
+        resolve(data);
       });
     });
   },
