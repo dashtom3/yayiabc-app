@@ -1,24 +1,15 @@
 <template>
-  <div class="index">
+  <!-- <div class="index">
     <div class="search_box">
-<!--       <img class="book_menu" src="../../../images/index/book.png" @click="book_up" alt="img"> -->
       <input class="search_word" type="text" @focus="searchActive" @keyup.enter="search_cargo" v-model="searchCargo" autocomplete="on" placeholder="请输入关键字">
       <img class="search_img" src="../../../images/index/search.png" alt="img">
     </div>
-    <!--  左侧按钮弹出 开始 -->
-<!--     <mt-popup v-model="popupVisible" position="left">
-      <div class="book_up_box">
-        <div class="classify_item" v-for="item in $store.state.index.classifyList" @click="goToList(item)">{{item.oneClassify}}</div>
-      </div>
-    </mt-popup> -->
-    <!--  左侧按钮弹出 结束 -->
+
     <Carousel></Carousel>
     <mainEnter></mainEnter>
     <classifyBox></classifyBox>
-<!--     <Brand></Brand>
-    <Classify></Classify> -->
     <div class="redPacketWrapper" v-show="isShow2">
-      <img class="redPacket" src="../../../images/index/redPacket.png">
+      <img class="redPacket" src="../../../images/index/redPacket1.png">
       <div class="btn-use" @click.stop="useRedPacket"></div>
       <img class="close" src="../../../images/index/close.png" @click.stop="hideRedPacket">
     </div>
@@ -35,7 +26,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script>
@@ -76,7 +67,8 @@ export default {
         document.addEventListener('plusready',that.plusReady,false);
 //      document.addEventListener('plusready',that.checkUpdate,false);
       }
-    } 
+    }
+    console.log(this.$route)
     // console.log(sessionStorage.getItem("redPacket"));
     if (this.$route.params.redPacket === true) {
       this.isShow2 = true;
@@ -351,4 +343,3 @@ export default {
   color: rgb(54, 118, 182)
 }
 </style>
-

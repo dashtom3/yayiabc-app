@@ -519,12 +519,7 @@
                 this.$store.dispatch('COMPANY_INVOICE' , {});//重置发票信息为空
                 window.sessionStorage.removeItem('paper');
                 window.sessionStorage.removeItem('departure');
-
-                // if(global.webFrom() == 'WEIXIN'){
-                //   that.$router.push({ path:'/payWeChat' })
-                // } else {
                   that.$router.push({ path:'/pay' })
-                // }
               }
             }
           } else {

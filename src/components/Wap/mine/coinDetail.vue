@@ -285,6 +285,7 @@
           //微信网页公众号充值
           if(this.webFrom == 'WEIXIN') {
             var wxUrl = 'http://wap.yayiabc.com/?#/coinDetail'
+            // var wxUrl = 'http://test.yayiabc.com/?#/coinDetail'
             var data = {
               money: that.moneyCoins,
               amount: that.amount,

@@ -23,7 +23,6 @@
       </div>
       <div id="quillFee">
         <quill-editor ref="editorFee"
-                      :content="args.freeContent"
                       :options = "editorOptionFee"
                       @change="onEditorChangeFee($event)"
                       @focus="onEditorFocusFee($event)">
@@ -31,7 +30,6 @@
       </div>
       <div id="quillCharge">
         <quill-editor ref="editorCharge"
-                      :content="args.chargeContent"
                       :options = "editorOptionCharge"
                       @change="onEditorChangeCharge($event)"
                       @focus="onEditorFocusCharge($event)">
@@ -54,7 +52,7 @@
         </div>
         <!-- <div class="line" v-if="args.postStater == 2"> -->
         <div class="line">
-          <el-checkbox @change="isShare" fill="'#3676B5'" class="needclick"></el-checkbox><span @click.stop="labelFor"> 分享到牙医圈</span>
+          <el-checkbox v-model="share" fill="'#3676B5'" class="needclick"></el-checkbox><span @click.stop="labelFor"> 分享到牙医圈</span>
         </div>
       </div>
       <!-- <div class="blur" @click="blurClass"></div> -->
@@ -260,9 +258,11 @@
         let that = this
         this.contImgList.push(that.qiNiuConfig.ShUrl + file.response.key);
         if(this.isFee) {
-          this.editorFee.insertEmbed(10, 'image', this.qiNiuConfig.ShUrl + file.response.key)
+          // console.log(this.editorFee.getSelection().index)
+          this.editorFee.insertEmbed(this.editorFee.getSelection().index, 'image', this.qiNiuConfig.ShUrl + file.response.key)
         }else {
-          this.editorCharge.insertEmbed(10, 'image', this.qiNiuConfig.ShUrl + file.response.key)
+          // console.log(this.editorFee.getIndex())
+          this.editorCharge.insertEmbed(this.editorCharge.getSelection().index, 'image', this.qiNiuConfig.ShUrl + file.response.key)
         }
         Indicator.close();
       },
@@ -278,6 +278,7 @@
         }
       },
       foucsInput() {
+        console.log(1)
         this.$refs.moneyInput.focus()
       },
       //监听选择病例类型变化
@@ -360,6 +361,10 @@
             break;
           }
         }
+
+        // this.args.freeContent = html.replace(/img/g,"img style='max-width:100%;'");
+
+        // this.args.sign = this.share ? 1 : 0
         //下面就要调用接口了
         switch (true){
           case !this.args.headline:
@@ -380,8 +385,9 @@
           if (this.args.postStater === 0) {
             Toast({message: '病例发布成功！', duration: 1500});
             if (this.share) {
+              // console.log(res.num)
               //把返回结果的postid传进去
-              this.shareCase(res.data.num);
+              this.shareCase(res.num);
             }
           }
           else {
@@ -390,7 +396,7 @@
           // this.$router.push('/caseOfIllness');
            this.$router.go(-1);
           //this.$router.push({path: '/myCase', query: {state: this.$route.query.state}})
-          this.$destroy();
+            this.$destroy();
         })
       },
       //是否分享到牙医圈功能

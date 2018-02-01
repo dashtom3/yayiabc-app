@@ -77,20 +77,10 @@
         </div>
       </div>
     </div>
-    <div class="dialog_wrapper reg" v-show="isShow2">
-      <div class="dialog">
-        <div class="dialog_body">
-          <h2 class="title">注册成功</h2>
-          <span class="info">现在完善资质信息，赠您60 乾币！</span>
-          <span class="text-info"><br/>(首单满120元，可直接抵扣 60 元！)</span>
-        </div>
-        <div class="dialog_footer">
-          <span class="dialog_bottom">
-            <button @click="goToPage('/account')" type="button" class="btn-half button_primary"><span>立即认证</span></button>
-            <button @click="isShow2 = false" type="button" class="btn-half"><span>下次再说</span></button>
-          </span>
-        </div>
-      </div>
+    <div class="redPacketWrapper" v-show="isShow2">
+      <img class="redPacket" src="../../../images/index/redPacket1.png">
+      <div class="btn-use" @click.stop="useRedPacket"></div>
+      <img class="close" src="../../../images/index/close.png" @click.stop="hideRedPacket">
     </div>
     <div class="dialog_wrapper" v-show="isShow">
       <div class="dialog">
@@ -143,42 +133,41 @@ export default {
     };
   },
   created() {
-    var that = this;
-    // alert(window.location.href);
-    if(window.location.path != '/') {
-      window.location.href= window.location.origin+'/#'+window.location.pathname+window.location.search
-      // this.$router.push({path:window.location.pathname+window.location.search})
-    }
-    console.log(tokenMethods.getWapToken())
-    // 检查更新的弹框是否显示
-    if (sessionStorage.getItem("isShow") === null) {
-      if (window.plus) {
-        that.plusReady();
-      } else {
-        document.addEventListener("plusready", that.plusReady, false);
-      }
-    }
-    // 判断是否注册成功是否显示
-    if (this.$route.params.redPacket === true) {
-      this.isShow2 = true;
-    } else {
-      this.isShow2 = false;
-    }
-    mui.back = function() {
-      mui.confirm("确定要退出应用吗？", "牙医abc", ["确定", "取消"], function(
-        e
-      ) {
-        if (e.index === 0) {
-          plus.runtime.quit();
-        }
-      });
-      return false;
-    };
-    //  that.$store.dispatch("GET_CLASSIFY_QUERY");
-    that.$emit("listenToChildEvent", "index");
-    that.getList();
-    setInterval(that.getList, 3600000);
-    that.intervalId = setInterval(that.scroll, 2000);
+    // var that = this;
+    // console.log(window.location.path);
+    // if(window.location.path != '/') {
+    //   window.location.href= window.location.origin+'/#'+window.location.pathname+window.location.search
+    //   // this.$router.push({path:window.location.pathname+window.location.search})
+    // }
+    // // 检查更新的弹框是否显示
+    // if (sessionStorage.getItem("isShow") === null) {
+    //   if (window.plus) {
+    //     that.plusReady();
+    //   } else {
+    //     document.addEventListener("plusready", that.plusReady, false);
+    //   }
+    // }
+    // // 判断是否注册成功是否显示
+    // if (this.$route.params.redPacket === true) {
+    //   this.isShow2 = true;
+    // } else {
+    //   this.isShow2 = false;
+    // }
+    // mui.back = function() {
+    //   mui.confirm("确定要退出应用吗？", "牙医abc", ["确定", "取消"], function(
+    //     e
+    //   ) {
+    //     if (e.index === 0) {
+    //       plus.runtime.quit();
+    //     }
+    //   });
+    //   return false;
+    // };
+    // //  that.$store.dispatch("GET_CLASSIFY_QUERY");
+    // that.$emit("listenToChildEvent", "index");
+    // that.getList();
+    // setInterval(that.getList, 3600000);
+    // that.intervalId = setInterval(that.scroll, 2000);
   },
   destroyed() {
     clearInterval(this.intervalId);
@@ -195,7 +184,6 @@ export default {
       var that = this;
     },
     refreshTo(index) {
-      console.log("11111")
       this.activeIndex = index;
       if (index === 0) {
         this.$router.push({ path: "/main/caseOfIllness" });
@@ -238,14 +226,25 @@ export default {
     checkUpdate: function() {
       var that = this;
       plus.nativeUI.showWaiting();
-      mui.get(this.$store.state.index.baseUrl + "/appVer/Ver", function(data) {
-        plus.nativeUI.closeWaiting();
-        that.newVer = data.data[0].versionNumber;
-        if (that.wgtVer && that.newVer && that.wgtVer != that.newVer) {
-          that.isShow = true;
-        } else {
-          that.isShow = false;
-        }
+      console.log("执行更新");
+      mui.ajax(this.$store.state.index.baseUrl + "/appVer/Ver",{
+        type:'get',
+        timeout:10000,
+        success:function(data){
+          console.log("213:",data);
+          plus.nativeUI.closeWaiting();
+          that.newVer = data.data[0].versionNumber;
+          if (that.wgtVer && that.newVer && that.wgtVer != that.newVer) {
+            that.isShow = true;
+          } else {
+            that.isShow = false;
+          }
+	      },
+	      error:function(xhr,type,errorThrown){
+		      //异常处理；
+          plus.nativeUI.closeWaiting();
+		      console.log(type);
+	      }
       });
     },
     downWgt: function() {
@@ -320,12 +319,52 @@ export default {
       console.log('运行了scan.start()')
       scan.start();
     },
+    useRedPacket() {
+      this.isShow2 = false;
+      this.$router.push({ name: 'productList', params: { oneClassify: '商品推荐' , twoClassify: ''}})
+    },
+    hideRedPacket() {
+      this.isShow2 = false;
+    }
   }
 };
 </script>
 
 <style lang="scss" scoped>
 @import "../../../common/sass/factory";
+.redPacketWrapper{
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, .2);
+  z-index: 9999;
+  .redPacket{
+    position: absolute;
+    top: px2vw(328);
+    left: 50%;
+    transform: translateX(-50%);
+    width: px2vw(450);
+    height: px2vw(576);
+  }
+  .btn-use{
+    position: absolute;
+    top: px2vw(789);
+    left: 50%;
+    transform: translateX(-50%);
+    width: px2vw(236);
+    height: px2vw(70);
+  }
+  .close{
+    position: absolute;
+    top: px2vw(947);
+    left: 50%;
+    transform: translateX(-50%);
+    width: px2vw(60);
+    height: px2vw(60);
+  }
+}
 .index {
   width: 100vw;
   // height: px2vw(1234);

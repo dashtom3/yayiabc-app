@@ -51,8 +51,8 @@ export default {
       });
       wx.ready(function (res) {
         wx.onMenuShareTimeline({
-          title: shareData.title, // 分享标题
-          desc: shareData.desc, // 分享标题
+          title: shareData.title+shareData.desc, // 分享标题
+          // desc: , // 分享标题
           // link: shareData.link, // 分享链接
           link:linkUrl,
           imgUrl: shareData.imgUrl, // 分享图标
@@ -129,6 +129,15 @@ export default {
       res.push(arr[i])
     }
     return res
+  },
+  getSmallImageStr(width,height){
+    var temp = "?imageView2/2/w/"+ parseInt(width*this.getScreenWidth()/750) +"/h/"+ parseInt(height*this.getScreenWidth()/750)
+    console.log(temp)
+    return temp;
+  },
+  getScreenWidth(){
+    console.log(window.screen.width)
+    return window.screen.width;
   },
   postHttpData(data) {
     var formData = new FormData()

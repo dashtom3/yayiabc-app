@@ -2,12 +2,9 @@ import axios from 'axios'
 import router from '../router'
 import {tokenMethods} from "./util"
 import {Toast, Indicator, MessageBox} from 'mint-ui';
+import global from '../components/Wap/global/global.js';
 
-
-const HOST = 'http://47.93.48.111:8080/api'; //测试端口
-
-// const HOST = 'http://wap.yayiabc.com:6181/api';
-// const HOST = 'http://116.62.228.3:8080/api';
+const HOST = global.baseUrl; //测试端口
 
 axios.defaults.timeout = 15000;
 export default function (url, params = {}) {

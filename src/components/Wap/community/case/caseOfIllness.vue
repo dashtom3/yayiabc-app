@@ -17,7 +17,7 @@
           <div class="caseContent">{{item.headline}}</div>
         </div>
         <div v-if="item.cover !== '' && item.cover != null" class="userImgBox" :class="{'addChange2': item.cover !== ''}">
-          <img :src="item.cover" alt="">
+          <img :src="item.cover+global.getSmallImageStr(160,160)" alt="">
         </div>
         <div class="readeBox">
           <span class="readeClass">{{item.classify}}</span>
@@ -337,17 +337,7 @@
       display: inline-block !important;
       width: px2vw(508) !important;
     }
-    /* 有图添加样式 */
 
-    /*<!--.wrap{-->
-     <!--position: fixed;-->
-     <!--z-index: -1;-->
-     <!--top: px2vw(208);-->
-     <!--bottom: 0;-->
-     <!--overflow: scroll;-->
-     <!--width: 100%;-->
-     <!-- -webkit-overflow-scrolling: touch;-->
-   <!--}-->*/
    .edit{
      width: px2vw(100);
      height: px2vw(100);

@@ -149,9 +149,11 @@
         if(this.webFrom == "WEIXIN") {
           // 微信手机网站支付
             var wxUrl = 'http://wap.yayiabc.com/#/pay'
+            // var wxUrl = 'http://test.yayiabc.com/#/pay'
             var payData = {
               orderId: that.orderId,
               payMoney: that.payMoney,
+              canHasCoin: that.canHasCoin
             }
           var wxState = 1
           window.sessionStorage.setItem('wxState', JSON.stringify(wxState))
@@ -304,7 +306,7 @@
                             clearInterval(timer)
                             that.moduleShow = false;
                             Indicator.close()
-                            that.$router.push({name: 'paySucced', params: {orderId: wxDataPay.orderId, payMoney: wxDataPay.payMoney}})
+                            that.$router.push({name: 'paySucced', params: {orderId: wxDataPay.orderId, payMoney: wxDataPay.payMoney,canHasCoin:wxDataPay.canHasCoin}})
                             window.sessionStorage.removeItem('wxCoin')
                             window.sessionStorage.removeItem('wxState')
                             // plus.nativeUI.alert("支付成功")

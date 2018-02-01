@@ -9,7 +9,6 @@ const shoppingCar = resolve => require(['@/components/Wap/shoppingCar/shoppingCa
 const shoppingCarEntry = resolve => require(['@/components/Wap/shoppingCar/shoppingCarEntry'], resolve)
 const suborder = resolve => require(['@/components/Wap/shoppingCar/suborder'], resolve)
 const pay = resolve => require(['@/components/Wap/shoppingCar/pay'], resolve)
-const payWeChat = resolve => require(['@/components/Wap/shoppingCar/payWeChat'], resolve)
 const mine = resolve => require(['@/components/Wap/mine/mine'], resolve)
 const details = resolve => require(['@/components/Wap/brandDes/brandDes'], resolve)
 const logIn = resolve => require(['@/components/Wap/logIn/logIn'], resolve)
@@ -246,11 +245,6 @@ let router = new Router({
       path: '/pay',
       name: 'pay',
       component: pay,
-    },
-    {
-      path: '/payWeChat',
-      name: 'payWeChat',
-      component: payWeChat,
     },
     {
       path: '/forgetPwd',
@@ -730,12 +724,12 @@ let router = new Router({
   ],
 })
 
-router.beforeEach((to, from, next) => {
-  if (window.navigator.onLine == true) {
-    next()
-  } else {
-    plus.nativeUI.alert("网络请求失败，请检查网络！")
-  }
-})
+// router.beforeEach((to, from, next) => {
+//   if (window.navigator.onLine == true) {
+//     next()
+//   } else {
+//     // plus.nativeUI.alert("网络请求失败，请检查网络！")
+//   }
+// })
 
 export default router

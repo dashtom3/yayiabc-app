@@ -1,14 +1,11 @@
 import * as types from '../types'
 import * as api from './api';
 import axios from 'axios'
-// import { Toast } from 'mint-ui';
+import global from '../../components/Wap/global/global.js'
 
 const state = {
   direction: 'forward',
-  // baseUrl: 'http://wap.yayiabc.com:6181/api',
-  // baseUrl: 'http://116.62.228.3:8080/api',
-  // baseUrl: 'http://192.168.1.101:8080/api',
-  baseUrl: 'http://47.93.48.111:8080/api',
+  baseUrl: global.baseUrl,
   bannerList: [],
   brandListData: [],
   classifyList: [],

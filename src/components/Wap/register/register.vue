@@ -209,7 +209,6 @@
       <birth-date-picker ref="birthDatePicker" @birthdatechange="saveBirthDate"></birth-date-picker>
       <!--城市选择框-->
       <address-picker ref="cityAddressPicker" @addresschange="saveAddress"></address-picker>
-
     </div>
   </div>
 </template>
@@ -303,6 +302,13 @@
       }
     },
     methods: {
+      useRedPacket() {
+        this.redPacket = false;
+        this.$router.push({path: '/productList'})
+      },
+      hideRedPacket() {
+        this.redPacket = false;
+      },
       focus(event) {
         let target = '';
         if (event.target.className === 'mint-cell-wrapper') {
@@ -407,14 +413,14 @@
             //   cancelButtonText:"下次再说",
             //   showCancelButton: true
             // });
-            MessageBox.confirm("现在完善资质信息，赠您60乾币！(首单满120元)，可直接抵扣60元,是否前往？",'注册成功').then(action => {
-                 window.location.href = "#/account/qualifications";
-            })
+            // MessageBox.confirm("现在完善资质信息，赠您60乾币！(首单满120元，可直接抵扣60元）,是否前往？",'注册成功').then(action => {
+            //      window.location.href = "#/account/qualifications";
+            // })
             Indicator.close();
             try{
               tokenMethods.setWapToken(res.data.token)
               tokenMethods.setWapUser(res.data.data)
-              this.$router.push({name: 'index', params: {redPacket: true}})
+              this.$router.push({name: 'caseOfIllnessIndex', params: {redPacket: true}})
               // sessionStorage.setItem("redPacket", true);
             }catch(e){
               console.log(e)

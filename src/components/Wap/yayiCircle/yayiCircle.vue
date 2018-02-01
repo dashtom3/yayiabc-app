@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="container inputAreaAB"  :class="{myYayiCircle:headTitle === '我的动态'}">
-      <mt-loadmore :top-method="getYayiCircle" :bottom-method="loadMore" :bottom-all-loaded="allLoaded" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState" v-on:bottom-status-change="isStateB" class="innerContainerWrap">
+      <mt-loadmore :top-method="loadTop" :bottom-method="loadMore" :bottom-all-loaded="allLoaded" :auto-fill=false ref="loadmore"  v-on:top-status-change="isState" v-on:bottom-status-change="isStateB" class="innerContainerWrap">
         <topLoadMore ref="topLoadMore" slot="top" :loading="topLoading" :loaded="isLoaded"></topLoadMore>
         <!--有数据的状态-->
         <div class="innerContainer">
@@ -140,7 +140,7 @@
       seeImg
     },
     created(){
-      Indicator.open();
+      // Indicator.open();
       this.timeStamp = Date.parse(new Date());
       this.getYayiCircle();
     },
@@ -164,26 +164,28 @@
         if(this.$router.history.current.name === 'myYayiCircle'){
           this.headTitle = '我的动态';
           this.$store.dispatch(MY_YAYI_CIRCLE, this.args).then(res =>{
+            self.yayiCircleData = res.currentPage == 1 ? [] : self.yayiCircleData;
             self.dataCompute(res.data);
-            console.log(11)
             self.topLoading = false;
             self.bottomLoading = false;
             self.totalPage = res.totalPage
             self.isAllLoaded();
-            Indicator.close();
+            // Indicator.close();
           })
         }
         else if(this.$router.history.current.name === 'yayiCircle'){
           this.headTitle = '牙医圈';
           this.$store.dispatch(YAYI_CIRCLE, this.args).then(res =>{
-            console.log(11)
+            // console.log(11)
+            self.yayiCircleData = res.currentPage == 1 ? [] : self.yayiCircleData;
             self.dataCompute(res.data);
             self.topLoading = false;
             self.bottomLoading = false;
             self.totalPage = res.totalPage
             self.isAllLoaded();
-            Indicator.close();
+            // Indicator.close();
           })
+          // this.closeTopBottomLoading();
         }
       },
       dataCompute(res){
@@ -342,7 +344,7 @@
       loadTop(){
         this.args.currentPage = 1;
         this.timeStamp = Date.parse(new Date());
-        this.yayiCircleData = [];
+        // this.yayiCircleData = [];
         this.topLoading = true;
         this.getYayiCircle();
         //把所有参数回归为初始值，并且重新获得时间戳
@@ -367,7 +369,7 @@
       },
       isAllLoaded(){
         this.allLoaded = this.totalPage <= this.args.currentPage ? true : false;
-        console.log(this.allLoaded);
+        // console.log(this.allLoaded);
       }
     },
   }

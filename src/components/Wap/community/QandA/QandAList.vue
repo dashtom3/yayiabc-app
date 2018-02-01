@@ -42,7 +42,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import { LoadMore, MessageBox,Indicator } from 'mint-ui';
+  import { LoadMore, MessageBox} from 'mint-ui';
   import {mapGetters} from 'vuex';
   import { tokenMethods } from '../../../../vuex/util'
   import topLoadMore from '../../../salesWap/index/topLoadMore.vue';
@@ -93,7 +93,6 @@
         handler:function (val) {
           this.noData = false;
           this.args.faqQuestionType = val;
-          Indicator.open();
           this.loadMore();
         }
       },
@@ -101,14 +100,12 @@
         handler:function (val) {
           this.noData = false;
           this.args.order = val;
-          Indicator.open();
           this.loadMore();
         }
       }
     },
     created(){
       this.timeStamp = Date.parse(new Date());
-      Indicator.open();
       if(this.saveCaseSearching){
         this.args.keyWord = this.saveCaseSearching;
         this.args.type = 3
@@ -145,7 +142,6 @@
                 this.totalPage = res.totalPage;
                 this.closeTopBottomLoading();
                 this.isAllLoaded();
-                Indicator.close();
                 console.log(res,1)
               }else {
                 this.closeTopBottomLoading();
@@ -165,7 +161,6 @@
                 this.totalPage = res.totalPage;
                 this.closeTopBottomLoading();
                 this.isAllLoaded();
-                Indicator.close();
                 console.log(res,2)
               }else {
                 this.noData = true;
@@ -184,7 +179,6 @@
                 this.totalPage = res.totalPage;
                 this.closeTopBottomLoading();
                 this.isAllLoaded();
-                Indicator.close();
                 console.log(res,3)
               }else {
                 this.noData = true;
@@ -203,7 +197,6 @@
                 this.totalPage = res.totalPage;
                 this.closeTopBottomLoading();
                 this.isAllLoaded();
-                Indicator.close();
                 console.log(res,3)
               }else {
                 this.noData = true;
@@ -224,7 +217,6 @@
                 this.totalPage = res.totalPage;
                 this.isLoading = false;
                 this.isAllLoaded();
-                Indicator.close();
                 console.log(res,1)
               }else {
                 this.noData = true;
