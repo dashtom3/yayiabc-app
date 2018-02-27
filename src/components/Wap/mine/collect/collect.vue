@@ -65,9 +65,9 @@
         }
       })
     },
-//    created(){
-//      this.changeClass(this.routerNum);
-//    }
+   created(){
+     this.mBack("goBack");
+   }
   }
 </script>
 

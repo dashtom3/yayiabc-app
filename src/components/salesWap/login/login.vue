@@ -36,8 +36,10 @@
     </div>
     <!-- <div class="third_btn">其他方式登录</div>
     <img class="wx_btn" src="../../../images/saleman/wechart.png" alt="img"> -->
+    <div v-if="thirdLogin">
     <div class="third_btn">第三方账号登录</div>
     <img @click="checkState" class="wx_btn" src="../../../images/logIn/wx.png" alt="img">
+    </div>
   </div>
 </template>
 
@@ -47,6 +49,7 @@
   import {tokenMethods} from '../../../vuex/util'
   import {SALE_LOGIN} from '../../../vuex/types'
   import logMsg from './logInMsg'
+  import global from './../../Wap/global/global.js'
 
   export default {
     name: 'salesLogin',
@@ -59,11 +62,13 @@
         activeTab: 'tab1',
         isActive1: false,
         isActive2: true,
+        thirdLogin:false
       }
     },
     created: function () {
       var that = this;
       that.mBack("back");
+      this.thirdLogin = global.webFrom() == 'WEIXIN' ? false: true;
     },
     components: {
       logMsg,
@@ -424,4 +429,3 @@
     color: #cb1700;
   }
 </style>
-

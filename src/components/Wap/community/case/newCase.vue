@@ -428,7 +428,7 @@
       }
     },
     created() {
-//      this.mBack("back");
+     this.mBack("closePage");
 //      this.qiNiuConfig = this.$store.state.index.qiNiuConfig
       //获取postId，请求数据
       //获取旧的文章接口数据，有数据就返到args里

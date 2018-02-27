@@ -427,7 +427,9 @@ export default {
 
 <style scoped lang="scss" rel="stylesheet/scss">
 @import "../../../common/sass/factory";
-
+.brandDes {
+  height: 100vh;
+}
 .logIn_header {
   width: 100vw;
   height: px2vw(88);

@@ -46,6 +46,9 @@
         text: ''
       }
     },
+    created(){
+      this.mBack("goBack")
+    },
     methods: {
       goBack() {
         this.$router.go(-1);

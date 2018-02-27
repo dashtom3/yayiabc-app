@@ -3,7 +3,12 @@
     <!-- v-html="itemDetail.itemUse" -->
     <div v-if="itemDetail.vidManage != null" class="instruction">
       <!-- <video class="video-play" webkit-playsinline controls :src="itemDetail.video" preload="none"></video> -->
-      <video-play :isVideo="typeVideo" ref="videoPlay">
+      <!-- <video-play :isVideo="typeVideo" ref="videoPlay">
+        <video :poster="itemDetail.vidManage.vedioPic" slot="video" webkit-playsinline="true" playsinline="true" class="video" preload="none">
+          <source slot="sourceSrc" :src="itemDetail.vidManage.vidRoute" type="video/mp4"></source>
+        </video>
+      </video-play> -->
+      <video-play :isVideo="typeVideo" ref="videoPlay" >
         <video :poster="itemDetail.vidManage.vedioPic" slot="video" webkit-playsinline="true" playsinline="true" class="video" preload="none">
           <source slot="sourceSrc" :src="itemDetail.vidManage.vidRoute" type="video/mp4"></source>
         </video>
@@ -25,7 +30,7 @@ export default {
   name: 'cargoUse',
   data () {
     return {
-      typeVideo: 'videoDetail',
+      typeVideo: 'videoProduct',
       videoSwitch: false,
       itemDetail: {},
       isActive: true,
@@ -58,15 +63,24 @@ export default {
 }
 </script>
 <style >
- .instruction img{
+ /*.instruction img{
   max-width: 100% !important;
   display: block;
   margin: 20px auto;
-}
+}*/
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss" rel="stylesheet/scss">
 @import "../../../common/sass/factory";
+.instruction{
+  position: absolute;
+  // top:px2vw(88);
+  width: 100vw;
+  height: 56.533vw;
+}
+.instruction video {
+    height: 56.533vw;
+}
 .goodIntroduce {
   width: 90vw;
   margin: 0 auto;

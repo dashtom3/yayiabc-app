@@ -4,9 +4,12 @@
       <div class="search-box">
         <input class="search-word" type="text" @focus="searchActive" v-model="searchCargo" autocomplete="on" placeholder="请输入关键字">
         <img class="search-img" src="../../../images/index/search.png" alt="img">
-        <a href="./static/barcode.html" class="scan-wrapper" ref="scan" id="scan">
+        <!-- <a href="./static/barcode.html" class="scan-wrapper" ref="scan" id="scan">
           <img class="search-qr" src="../../../images/index/qrCode.png" alt="扫码">
-        </a>
+        </a> -->
+        <div class="scan-wrapper" @click.stop="clickQR">
+          <img class="search-qr" src="../../../images/index/qrCode.png" alt="扫码">
+        </div>
       </div>
       <div class="index">
         <carousel></carousel>
@@ -41,7 +44,7 @@
             <span class="item-img"><img class="item-icon" src="../../../images/index/video.png" alt="视频"></span>
             <span class="item-name">视频</span>
           </div>
-          <div class="main-item" @click="back">
+          <div class="main-item" @click="goToShop">
             <span class="item-img"><img class="item-icon" src="../../../images/index/shop.png" alt="商城"></span>
             <span class="item-name">商城</span>
           </div>
@@ -108,7 +111,8 @@
 <script>
 import Carousel from "./carousel";
 import { tokenMethods } from "@vuex/util";
-import { Progress } from 'mint-ui'
+import { Progress,Toast } from 'mint-ui'
+import global from "../global/global.js";
 export default {
   name: "index",
   components: {
@@ -133,48 +137,53 @@ export default {
     };
   },
   created() {
-    // var that = this;
-    // console.log(window.location.path);
-    // if(window.location.path != '/') {
-    //   window.location.href= window.location.origin+'/#'+window.location.pathname+window.location.search
-    //   // this.$router.push({path:window.location.pathname+window.location.search})
-    // }
-    // // 检查更新的弹框是否显示
-    // if (sessionStorage.getItem("isShow") === null) {
-    //   if (window.plus) {
-    //     that.plusReady();
-    //   } else {
-    //     document.addEventListener("plusready", that.plusReady, false);
-    //   }
-    // }
-    // // 判断是否注册成功是否显示
-    // if (this.$route.params.redPacket === true) {
-    //   this.isShow2 = true;
-    // } else {
-    //   this.isShow2 = false;
-    // }
-    // mui.back = function() {
-    //   mui.confirm("确定要退出应用吗？", "牙医abc", ["确定", "取消"], function(
-    //     e
-    //   ) {
-    //     if (e.index === 0) {
-    //       plus.runtime.quit();
-    //     }
-    //   });
-    //   return false;
-    // };
-    // //  that.$store.dispatch("GET_CLASSIFY_QUERY");
-    // that.$emit("listenToChildEvent", "index");
-    // that.getList();
-    // setInterval(that.getList, 3600000);
-    // that.intervalId = setInterval(that.scroll, 2000);
+    var that = this;
+    console.log(window.location.path);
+    if(global.webFrom() == "WEIXIN"){
+      if(window.location.path != '/') {
+        window.location.href= window.location.origin+'/#'+window.location.pathname+window.location.search
+        // this.$router.push({path:window.location.pathname+window.location.search})
+      }
+    }
+    // 检查更新的弹框是否显示
+    if (sessionStorage.getItem("isShow") === null) {
+      if (window.plus) {
+        that.plusReady();
+      } else {
+        document.addEventListener("plusready", that.plusReady, false);
+      }
+    }
+    // 判断是否注册成功是否显示
+    if (this.$route.params.redPacket === true) {
+      this.isShow2 = true;
+    } else {
+      this.isShow2 = false;
+    }
+    mui.back = function() {
+      mui.confirm("确定要退出应用吗？", "牙医abc", ["确定", "取消"], function(
+        e
+      ) {
+        if (e.index === 0) {
+          plus.runtime.quit();
+        }
+      });
+      return false;
+    };
+    //  that.$store.dispatch("GET_CLASSIFY_QUERY");
+    that.$emit("listenToChildEvent", "index");
+    that.getList();
+    setInterval(that.getList, 3600000);
+    that.intervalId = setInterval(that.scroll, 2000);
   },
   destroyed() {
     clearInterval(this.intervalId);
   },
   methods: {
-    back(){
+    goToShop(){
       this.$router.push({ name: 'productList', params: { oneClassify: '商品推荐' , twoClassify: ''}});
+    },
+    clickQR(){
+      Toast({message: '暂不支持该功能', duration: 1500})
     },
     searchActive: function() {
       this.$router.push({ path: "/searchWord", query: { data: "focus" } });
@@ -381,6 +390,7 @@ export default {
   left: 0;
   z-index: 2000;
   background-color: $themeColor;
+  // border-bottom: px2vw(1) solid #E5E5E5;
 }
 .search-word {
   width: px2vw(632);

@@ -465,8 +465,6 @@
 <style scoped lang="scss" rel="stylesheet/scss">
 @import "../../../common/sass/factory";
 
-
-
 .swiperBox{
   position: fixed;
   top:0;

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="videoDetail">
       <div class="backgroundImg"></div>
       <div class="wrapTop">
         <span class="title">视频详情</span>
@@ -22,13 +22,13 @@
           <div class="productContent">
             <!--左-->
             <span class="productImgBox">
-              <img src="" alt="">
+              <img :src="videoArgs.itemInfo.itemDetail.itemPica+'?imageView2/1/w/200/h/200'" alt="">
             </span>
             <!--右-->
             <div class="productNameBox">
               <div class="productName">{{videoArgs.itemInfo.itemName}}</div>
               <div class="classBox">
-                <span>{{videoArgs.itemInfo.itemBrand}}</span>
+                <span>{{videoArgs.itemInfo.itemBrand.itemBrandName}}</span>
                 <span>销量:{{videoArgs.itemInfo.sales != null ? videoArgs.itemInfo.sales : 0}}</span>
               </div>
               <div class="productPrice">
@@ -72,7 +72,7 @@
         this.$store.dispatch('GET_VIDEOS_DETAIL', {viId: this.$route.query.id}).then((res)=>{
           this.videoArgs = res.data;
           this.videoSwitch = true;
-          this.$store.commit('SAVE_SHARE_DATA',{title:this.videoArgs.vidName,desc:null,link:window.location.href,imgUrl:this.videoArgs.vedioPic,momentContentId:this.$route.query.id,momentName:'视频'});
+          this.$store.commit('SAVE_SHARE_DATA',{title:"yayiabc社区牙医视频推荐:",desc:this.videoArgs.vidName,link:window.location.href,imgUrl:this.videoArgs.vedioPic,momentContentId:this.$route.query.id,momentName:'视频'});
           global.wxShare({title:"yayiabc社区牙医视频推荐:",desc:this.videoArgs.vidName,link:window.location.href,imgUrl:this.videoArgs.vedioPic,momentContentId:this.$route.query.id,momentName:'视频'},self)
         });
       },
@@ -96,6 +96,9 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss" rel="stylesheet/scss">
     @import "../../../../common/sass/factory";
+    .videoDetail {
+      height: 100vh;
+    }
     .boxBox{
       min-height: px2vw(422);
       transition: all 0.5s;
@@ -165,7 +168,7 @@
     display: inline-block;
     width: px2vw(171);
     height: px2vw(175);
-    border: 1px solid black;
+    // border: 1px solid black;
     vertical-align: middle;
   }
   .productImgBox img{

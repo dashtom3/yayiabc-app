@@ -143,6 +143,7 @@
       // Indicator.open();
       this.timeStamp = Date.parse(new Date());
       this.getYayiCircle();
+      this.mBack("goBack");
     },
     methods:{
       newTrend(){

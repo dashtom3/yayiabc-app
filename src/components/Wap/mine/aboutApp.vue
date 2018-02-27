@@ -1,12 +1,17 @@
 <template>
   <div class="box">
-    <salesHeader headerText="设置"></salesHeader>
+    <div class="top">
+      <div class="back" @click="goBack">
+         <img src="../../../images/logIn/back.png" alt="返回">
+      </div>
+      <span>关于牙医app</span>
+    </div>
     <div class="setting-wrap">
       <div class="img-wrap">
         <img src="../../../images/mine/logo.jpg" alt="">
       </div>
       <div class="version">
-        v{{wgtVer}}
+        v1.2.7
       </div>
       <div class="setting-box">
         <div class="line" @click="goto('/comIntro')">
@@ -31,10 +36,12 @@
     },
     data(){
       return {
-        wgtVer: null
+        wgtVer: null,
+        path:'appSetting'
       }
     },
     created: function(){
+      this.mBack("goBack")
       var that = this
       if (window.plus) {
         that.plusReady();
@@ -45,6 +52,9 @@
     methods:{
       goto(it){
         this.$router.push(it)
+      },
+      goBack(){
+        this.$router.push({path: this.path})
       },
       plusReady: function(){
         // 获取本地应用资源版本号
@@ -59,7 +69,34 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../common/sass/factory";
-
+  .top{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: px2vw(88);
+    line-height: px2vw(88);
+    text-align: center;
+    font-size: 0;
+    color: #fff;
+    background: rgb(54,118,182);
+    .back{
+      position: absolute;
+      top: px2vw(29);
+      left: px2vw(3);
+      width: px2vw(40);
+      height: px2vw(40);
+      font-size: 0;
+      img{
+        vertical-align: top;
+        width: px2vw(18);
+        height: px2vw(29);
+      }
+    }
+    span{
+      font-size: px2vw(36)
+    }
+  }
   .box{
     height: 93.2vh;
     background-color: #f4f4f4;

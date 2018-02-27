@@ -101,6 +101,7 @@ export default {
   },
   created() {
     this.getCaseList();
+    this.mBack("goBack");
     if (this.$route.query.state == undefined) {
       return;
     }

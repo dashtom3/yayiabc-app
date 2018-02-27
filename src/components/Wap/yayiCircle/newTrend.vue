@@ -101,6 +101,7 @@
       }
     },
     created(){
+      this.mBack("closePage");
       this.$store.dispatch(GET_UPLOAD_TOKEN).then(res => {
         this.qiNiuToken = {
           token: res.msg

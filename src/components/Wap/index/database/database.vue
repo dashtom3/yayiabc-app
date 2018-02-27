@@ -70,6 +70,7 @@ import datum from '../../mine/collect/datum.vue'
     components:{datum},
     created(){
       console.log(this.$router.history.current.name);
+      this.mBack('goBack')
     },
     mounted(){
       this.lengthCompute(this.isSelect)

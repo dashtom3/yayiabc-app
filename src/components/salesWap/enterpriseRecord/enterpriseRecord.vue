@@ -35,7 +35,9 @@ export default {
       mapIconShow: true
     };
   },
-  created() {},
+  created() {
+    this.mBack('toBack');
+  },
   methods: {
     toBack() {
       this.$router.push({ path: "/yayi/index" });

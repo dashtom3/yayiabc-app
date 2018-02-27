@@ -111,6 +111,7 @@
         this.args.type = 3
       }
       this.getQuestList();//这里可能会有问题
+
     },
     methods:{
       //下拉刷新

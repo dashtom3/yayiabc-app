@@ -18,10 +18,10 @@
           <img class="close" src="../../../images/saleman/close.png" alt="关闭">
         </span>
       </div>
-      <div class="map-wrapper">
+      <!-- <div class="map-wrapper">
         <img src="../../../images/salesWap/customer/map.png" alt="地图">
         <span>地图</span>
-      </div>
+      </div> -->
     </div>
     <div class="enterprise-list">
       <div v-if="tipsShow" class="tips-wrapper">

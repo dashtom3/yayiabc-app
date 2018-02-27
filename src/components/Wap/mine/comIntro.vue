@@ -1,6 +1,11 @@
 <template>
   <div>
-    <salesHeader headerText="公司简介"></salesHeader>
+    <div class="top">
+      <div class="back" @click="goBack">
+         <img src="../../../images/logIn/back.png" alt="返回">
+      </div>
+      <span>公司简介</span>
+    </div>
     <div class="wrap">
       <p>我们——yayiabc.com（牙医abc）—— 一个致力于构建牙科医疗服务系统的互联网平台；隶属于上海庄乾牙科科技有限公司。</p>
       <p>我们的愿望——汇聚资源/服务用户。</p>
@@ -19,12 +24,47 @@
     components: {
       salesHeader
     },
+    created(){
+      this.mBack("goBack")
+    },
+    methods:{
+      goBack(){
+        this.$router.go(-1);
+      }
+    }
   }
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../common/sass/factory";
-
+  .top{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: px2vw(88);
+    line-height: px2vw(88);
+    text-align: center;
+    font-size: 0;
+    color: #fff;
+    background: rgb(54,118,182);
+    .back{
+      position: absolute;
+      top: px2vw(29);
+      left: px2vw(3);
+      width: px2vw(40);
+      height: px2vw(40);
+      font-size: 0;
+      img{
+        vertical-align: top;
+        width: px2vw(18);
+        height: px2vw(29);
+      }
+    }
+    span{
+      font-size: px2vw(36)
+    }
+  }
   .wrap{
     margin-top: px2vw(130);
     width: 100%;

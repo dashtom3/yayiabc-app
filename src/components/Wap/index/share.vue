@@ -4,12 +4,12 @@
     <div class="fixBox">
     <div class="shareBox">
       <div class="eachBox">
-        <div class="imgBox" @click="shareHref()">
+        <div class="imgBox" @click="shareHref('WXSceneSession')">
           <img src="../../../images/case/wxPal.png" alt="">
         </div>
         <p>微信好友</p>
       </div>
-      <div class="eachBox" @click="shareHref()">
+      <div class="eachBox" @click="shareHref('WXSceneTimeline')">
         <div class="imgBox">
           <img src="../../../images/case/wxCircle.png" alt="">
         </div>
@@ -21,7 +21,7 @@
         </div>
         <p>牙医圈</p>
       </div>
-      <div class="eachBox" @click="shareHref()">
+      <div class="eachBox" @click="shareHref()" v-if="showCopy">
         <div class="imgBox">
           <img src="../../../images/case/copyUrl.png" alt="">
         </div>
@@ -43,13 +43,15 @@ import shareBg from './shareBg'
     data(){
       return{
         shareData:this.$store.state.index.shareData,
-        shareBg:false
+        shareBg:false,
+        showCopy:true,
       }
     },
     components: { shareBg },
     created(){
       document.body.classList.add('shareBox-ggKula');
       // console.log(window.location.href)
+      this.showCopy = global.webFrom() == "WEIXIN" ? true:false
     },
     mounted(){
       console.log(this.$router)
@@ -88,27 +90,29 @@ import shareBg from './shareBg'
         document.body.classList.remove('shareBox-ggKula');
         this.$destroy()
       },
-
-      shareHref(){
-
-        this.shareBg = !this.shareBg;
-        setTimeout(() => {
+      shareHref(params){
+        if(global.webFrom() == "WEIXIN"){
           this.shareBg = !this.shareBg;
-          this.cancelShare();
-        }, 3000)
-
-        // WeixinJSBridge.invoke('sendAppMessage',{
-        //                     "appid": self.appid,
-        //                     "img_url": self.shareData.imgUrl,
-        //                     "link": self.shareData.title.link,
-        //                     "desc": self.shareData.desc,
-        //                     "title": self.shareData.title
-        //                     }, function(res) {
-        //                     _report('send_msg', res.err_msg);
-        //                     })
-
-      },
-
+          setTimeout(() => {
+            this.shareBg = !this.shareBg;
+            this.cancelShare();
+          }, 3000)
+        } else {
+          console.log(this.shareData);
+          var msg = {title:this.shareData.title,content:this.shareData.desc,extra:{scene:params}}
+          if(this.shareData.imgUrl) {
+            msg.pictures = [this.shareData.imgUrl]
+          }
+          if(params == "WXSceneTimeline") {
+            msg.title = msg.title + msg.content
+          }
+          msg.href = "wap.yayiabc.com/#"+this.shareData.backName
+          global.appShare('weixin',msg,null);
+          setTimeout(() => {
+            this.cancelShare();
+          }, 3000)
+        }
+      }
 
     }
   }

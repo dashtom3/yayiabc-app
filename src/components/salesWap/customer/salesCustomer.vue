@@ -68,7 +68,6 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import salesHeader from '../salesHeader.vue'
   import salesFooter from '../salesFooter.vue'
   import topLoadMore from '../index/topLoadMore.vue'
   import {InfiniteScroll, LoadMore} from 'mint-ui'
@@ -241,7 +240,6 @@
         }
       },
       components:{
-        salesHeader,
         salesFooter,
         topLoadMore
       }

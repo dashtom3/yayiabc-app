@@ -72,7 +72,6 @@
 </template>
 
 <script>
-  import salesHeader from '../salesHeader.vue'
   import salesFooter from '../salesFooter.vue'
 
   export default {
@@ -231,7 +230,6 @@
       }
     },
     components: {
-      salesHeader,
       salesFooter
     }
   }
@@ -364,9 +362,6 @@
   .name {
     font-size: px2vw(30);
   }
-  .salesHeader{
-    position: static !important;
-  }
   .address_name{
     display: inline-block;
     font-size: px2vw(24);
@@ -450,4 +445,3 @@
     vertical-align: middle;
   }
 </style>
-

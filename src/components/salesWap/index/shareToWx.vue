@@ -32,8 +32,9 @@ import global from './../../Wap/global/global.js'
     created(){
       if(this.pointLogin()){
         console.log(tokenMethods.getWapUser())
-        console.log()
+        // var linkUrl = window.location.href.split('#')[0]+"register?userId="+tokenMethods.getWapUser().userId+"&userType=1";
         global.wxShare({type:"register",userId:tokenMethods.getWapUser().userId,userType:"1",title:tokenMethods.getWapUser().trueName+"邀请您注册yayiabc社区",desc:"注册即享60元优惠！",link:window.location.href,},this)
+        // global.wxShare({title:tokenMethods.getWapUser().trueName+"邀请您注册yayiabc社区",desc:"注册即享60元优惠！",link:window.location.href,},this)
       }
     },
     components: {shareBg},
@@ -41,19 +42,29 @@ import global from './../../Wap/global/global.js'
     //   'userId','resType'
     // ],
     methods:{
-      shareHref(){
+      shareHref(params){
         if(this.pointLogin()){
-          this.shareBg = !this.shareBg
-          // alert(this.userId,this.resType)
-
-          setTimeout(() => {
-            this.shareBg = !this.shareBg;
-            // this.cancelShare();
-          }, 3000)
+          if(global.webFrom() == "WEIXIN"){
+            this.shareBg = !this.shareBg
+            // alert(this.userId,this.resType)
+            setTimeout(() => {
+              this.shareBg = !this.shareBg;
+              // this.cancelShare();
+            }, 3000)
+          } else {
+            var msg = {title:tokenMethods.getWapUser().trueName+"邀请您注册yayiabc社区:",content:"注册即享60元优惠！",extra:{scene:params}}
+            if(params == "WXSceneTimeline") {
+              msg.title = msg.title + msg.content
+            }
+            msg.href = "wap.yayiabc.com/register?userId="+tokenMethods.getWapUser().userId+"&userType=1"
+            global.appShare('weixin',msg,null);
+            setTimeout(() => {
+              // this.cancelShare();
+            }, 3000)
+          }
         } else {
           this.isLogin()
         }
-
       },
       //判断是否登录
       pointLogin() {

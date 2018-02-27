@@ -47,7 +47,7 @@ export default {
       myAnswer:'',
       args_info:{
         type:"评论",
-        token : tokenMethods.getWapToken(),    
+        token : tokenMethods.getWapToken(),
       },
       args_answer:{
         type:"问答",
@@ -61,6 +61,7 @@ export default {
   created(){
     this.inits();
     this.getAnswer();
+    this.mBack("goBack")
   },
   methods:{
     inits(){

@@ -38,7 +38,7 @@
               <!--总时长-->
               {{videos.allTime}}
             </span>
-            <span  class="allVideo">
+            <span  class="allVideo" v-if="this.isVideo != 'videoProduct'">
               <img src="../../../../images/video/fullScreen.png" alt="" v-if="!full">
               <img src="../../../../images/video/smallScreen.png" alt="" v-if="full">
             </span>
@@ -51,7 +51,11 @@
 </template>
 
 <script>
+import global from "../../global/global.js"
+
+
   export default {
+
     props:{
       isVideo:{
         type: String,
@@ -80,6 +84,85 @@
     },
 
     created(){
+      this.mBack("goBack");
+
+    },
+    methods:{
+      goBack(){
+        
+      },
+      fullScreen(){
+        let _this = this
+        let video = this.$el.querySelector('.video');
+        let Screen = _this.$el.querySelector('.videoEl'); //最外边边框
+        let container = document.getElementsByClassName('container')[0]
+        let instruction = document.getElementsByClassName('instruction')[0]
+        let cc = document.getElementsByClassName('mu-paper')[0]
+        _this.full = !_this.full;
+        let conW = window.screen.width ;  //屏幕的宽
+        // let conH = global.webFrom()=="WEIXIN" ? document.body.clientHeight : window.screen.height; //屏幕的高
+        let conH = document.body.clientHeight;
+        if (window.plus) {
+          if(_this.full) {
+            plus.navigator.setFullscreen(true);
+            conH = conH + plus.navigator.getStatusbarHeight()
+          } else {
+            plus.navigator.setFullscreen(false);
+          }
+        }
+        if(_this.isVideo === "video") //视频列表
+        {
+          if(_this.full)  //全屏的时候
+          {
+            console.log(1);
+            // video.style.height = 'auto';
+            video.style.height = '100%';
+            cc.style.display = "none";
+            container.style.zIndex = "9999";
+            container.style.overflow = "visible";
+            Screen.style.width = conH + "px";
+            Screen.style.height = conW + "px";
+            Screen.style.transformOrigin = "center center";
+            Screen.style.transform = "rotate(90deg) translate("+((conH-conW)/2)+"px,"+((conH-conW)/2)+"px)";
+            Screen.style.top = 0;
+            Screen.style.left = 0;
+          }else {  //非全屏
+            console.log(2);
+            video.style.height = '56.533vw';
+            // video.style.width = "100% !import";
+            cc.style.display = "block";
+            container.style.zIndex = "0";
+            Screen.style.width = conW + "px";
+            Screen.style.height = "auto";
+            Screen.style.transform = "rotate(0deg) translate(0,0)";
+            container.style.overflow = "scroll";
+          }
+        }else {  //视频详情  商品详情
+          if(_this.full)  //全屏的时候
+          {
+            console.log(3);
+            // video.style.height = conH+"px";
+            video.style.height = '100%';
+            Screen.style.width = conH + "px";
+            if(instruction) {
+              instruction.style.zIndex = "9999";
+              instruction.style.overflow = "visible";
+            }
+            Screen.style.height = conW + "px";
+            Screen.style.transformOrigin = "center center";
+            Screen.style.transform = "rotate(90deg) translate("+((conH-conW)/2)+"px,"+((conH-conW)/2)+"px)";
+            Screen.style.top = 0;
+            Screen.style.left = 0;
+          }else {  //非全屏
+            console.log(4);
+            video.style.height = '56.533vw';
+            Screen.style.width = conW + "px";
+            Screen.style.height = "auto";
+            video.style.width = "100% !import";
+            Screen.style.transform = "rotate(0deg) translate(0,0)";
+          }
+        }
+      }
     },
     mounted(){
       let timer;
@@ -136,12 +219,6 @@
           _this.videos.videoState = true;
         },4500)
       }
-      // video.onloadstart = function () {
-      //   console.log(123);
-      // };
-      // video.onloadeddata = function(){
-      //   console.log(1231);
-      // };
       video.onwaiting = function(){
         _this.videos.videoState = 2;
       };
@@ -232,69 +309,16 @@
 //      }
       let Screen = _this.$el.querySelector('.videoEl'); //最外边边框
       let container = document.getElementsByClassName('container')[0]
+      let instruction = document.getElementsByClassName('instruction')[0]
       let cc = document.getElementsByClassName('mu-paper')[0]
-      let W = Screen.offsetWidth;  //视频的宽
-      let H = Screen.offsetHeight; //视频的高
+      // let W = Screen.offsetWidth;  //视频的宽
+      // let H = Screen.offsetHeight; //视频的高
       // 全屏按钮 ~~~~~~~
-      expand.addEventListener('click',function () {
-        let conW = window.screen.width ;  //屏幕的宽
-        let conH = window.screen.height  ; //屏幕的高
-        _this.full = !_this.full;
-        if(_this.isVideo === "video") //视频列表
-        {
-          if(_this.full)  //全屏的时候
-          {
-            // video.style.height = 'auto';
-            video.style.height = '100%';
-            cc.style.display = "none";
-            console.log(container);
-            container.style.zIndex = "9999";
-            container.style.overflow = "visible";
-            Screen.style.width = conH + "px";
-            Screen.style.height = conW + "px";
-            Screen.style.transformOrigin = "center center";
-            Screen.style.transform = "rotate(90deg) translate("+((conH-conW)/2)+"px,"+((conH-conW)/2)+"px)";
-            Screen.style.top = 0;
-            Screen.style.left = 0;
-            plus.navigator.setFullscreen(true);
-          }else {  //非全屏
-            video.style.height = '56.533vw';
-            // video.style.width = "100% !import";
-            cc.style.display = "block";
-            container.style.zIndex = "0";
-            Screen.style.width = W + "px";
-            Screen.style.height = "auto";
-            Screen.style.transform = "rotate(0deg) translate(0,0)";
-            container.style.overflow = "scroll";
-            plus.navigator.setFullscreen(false);
-          }
-        }else {  //视频详情
-          if(_this.full)  //全屏的时候
-          {
-            video.style.height = '100%';
-            Screen.style.width = conH + "px";
-            Screen.style.height = conW + "px";
-            Screen.style.transformOrigin = "center center";
-            Screen.style.transform = "rotate(90deg) translate("+((conH-conW)/2)+"px,"+((conH-conW)/2)+"px)";
-            Screen.style.top = 0;
-            Screen.style.left = 0;
-            plus.navigator.setFullscreen(true);
-          }else {  //非全屏
-            video.style.height = '56.533vw';
-            Screen.style.width = W + "px";
-            Screen.style.height = "auto";
-            video.style.width = "100% !import";
-            Screen.style.transform = "rotate(0deg) translate(0,0)";
-            plus.navigator.setFullscreen(false);
-          }
-        }
-//        if(_this.full)  //添加手机监听旋转事件
-//        {
-//          window.addEventListener(evt,resize,false);
-//        }else {
-//          window.removeEventListener(evt,resize);
-//      }
-      },false);
+
+      if(expand){
+        expand.addEventListener('click',this.fullScreen,false);
+      }
+
 //      progressBox.addEventListener('touchmove',function (event) {
 //        if(event.targetTouches.length > 1 || event.scale && event.scale !== 1) return;
 //        let touch = event.targetTouches[0].target;
@@ -339,9 +363,85 @@
     },
     computed:{
 
-    },
-    methods:{},
+    }
+  }
+  function fullScreen(){
+    _this.full = !_this.full;
+    if (window.plus) {
+      console.log("DDD")
+      if(_this.full) {
+        plus.navigator.setFullscreen(true);
+      } else {
+        plus.navigator.setFullscreen(false);
+      }
+    }
+    let conW = window.screen.width ;  //屏幕的宽
+    // let conH = global.webFrom()=="WEIXIN" ? document.body.clientHeight : window.screen.height; //屏幕的高
+    let conH = document.body.clientHeight;
+    console.log("高1:"+document.body.clientHeight);
+    console.log("高2:"+window.screen.height)
+    console.log("高3:"+screen.height)
+    if(_this.isVideo === "video") //视频列表
+    {
+      if(_this.full)  //全屏的时候
+      {
+        console.log(1);
+        // video.style.height = 'auto';
+        video.style.height = '100%';
+        cc.style.display = "none";
+        container.style.zIndex = "9999";
+        container.style.overflow = "visible";
+        Screen.style.width = conH + "px";
+        Screen.style.height = conW + "px";
+        Screen.style.transformOrigin = "center center";
+        Screen.style.transform = "rotate(90deg) translate("+((conH-conW)/2)+"px,"+((conH-conW)/2)+"px)";
+        Screen.style.top = 0;
+        Screen.style.left = 0;
+      }else {  //非全屏
+        console.log(2);
+        video.style.height = '56.533vw';
+        // video.style.width = "100% !import";
+        cc.style.display = "block";
+        container.style.zIndex = "0";
+        Screen.style.width = W + "px";
+        Screen.style.height = "auto";
+        Screen.style.transform = "rotate(0deg) translate(0,0)";
+        container.style.overflow = "scroll";
+      }
+    }else {  //视频详情  商品详情
+      if(_this.full)  //全屏的时候
+      {
+        console.log(3);
+        // video.style.height = conH+"px";
+        video.style.height = '100%';
+        Screen.style.width = conH + "px";
+        if(instruction) {
+          instruction.style.zIndex = "9999";
+          instruction.style.overflow = "visible";
+        }
+        Screen.style.height = conW + "px";
 
+        Screen.style.transformOrigin = "center center";
+        Screen.style.transform = "rotate(90deg) translate("+((conH-conW)/2)+"px,"+((conH-conW)/2)+"px)";
+        Screen.style.top = 0;
+        Screen.style.left = 0;
+        // plus.navigator.setFullscreen(true);
+      }else {  //非全屏
+        console.log(4);
+        video.style.height = '56.533vw';
+        Screen.style.width = W + "px";
+        Screen.style.height = "auto";
+        video.style.width = "100% !import";
+        Screen.style.transform = "rotate(0deg) translate(0,0)";
+        // plus.navigator.setFullscreen(false);
+      }
+    }
+//        if(_this.full)  //添加手机监听旋转事件
+//        {
+//          window.addEventListener(evt,resize,false);
+//        }else {
+//          window.removeEventListener(evt,resize);
+//      }
   }
 </script>
 
@@ -433,7 +533,6 @@
     }
 
     .allVideo{
-      margin-right: px2vw(20);
       img {
         height: px2vw(24);
         // width: px2vw(20);
@@ -503,8 +602,8 @@
       justify-content: space-between;
       align-items: center;
       z-index: 10;
-      padding-left: px2vw(12);
-
+      padding-left: px2vw(20);
+      padding-right: px2vw(20);
     }
 
     .fullScreen{

@@ -111,6 +111,7 @@
       seeImg
     },
     created(){
+      this.mBack("goBack")
       this.timeStamp = Date.parse(new Date());
       console.log(this.$router.history.current.name)
       this.getOneTrend();

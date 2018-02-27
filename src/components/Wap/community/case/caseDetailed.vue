@@ -241,7 +241,7 @@
           } else if (this.caseDetailArgs.classify === 5) {
             this.caseDetailArgs.classify = '口腔正畸'
           }
-          this.$store.commit('SAVE_SHARE_DATA',{title:this.args.headline,desc:this.args.freeContent,link:window.location.href,imgUrl:this.userPic,momentContentId:this.$route.query.id,momentName:'病例'});
+          this.$store.commit('SAVE_SHARE_DATA',{title:res.data.writer+" 发表了病例:",desc:this.args.headline,link:window.location.href,imgUrl:this.userPic,momentContentId:this.$route.query.id,momentName:'病例'});
           global.wxShare({title:res.data.writer+" 发表了病例:",desc:this.args.headline,link:window.location.href,imgUrl:this.userPic,momentContentId:this.$route.query.id,momentName:'病例'},this)
           this.time(this.caseDetailArgs);
         })
@@ -267,8 +267,12 @@
         }
       },
       back (){
-        this.$router.push({path: this.$route.query.backName})
-        // this.$router.go(-1);
+        if(this.$route.query.backName){
+          this.$router.push({path: this.$route.query.backName})
+        } else {
+          this.$router.go(-1);
+        }
+        //
         this.$destroy();
       },
       //子组件返回按钮

@@ -1,6 +1,12 @@
 <template>
   <div class="box">
-    <salesHeader :back-to="path" headerText="设置"></salesHeader>
+    <!-- <salesHeader :back-to="path" headerText="设置"></salesHeader> -->
+    <div class="top">
+      <div class="back" @click="goBack">
+         <img src="../../../images/logIn/back.png" alt="返回">
+      </div>
+      <span>设置</span>
+    </div>
     <div class="setting-wrap">
       <div class="setting-box">
         <!--<div class="line" @click="clearTmp">-->
@@ -53,7 +59,7 @@
         ver:'',
         newVer:'',
         logOutShow:true,
-        path: '',
+        path: '/mine',
       }
     },
     components:{
@@ -68,10 +74,14 @@
       if (tokenMethods.getWapToken() == null) {
         this.logOutShow = false
       }
+      this.mBack("goBack")
     },
     methods:{
       aboutApp(){
         this.$router.push('/aboutApp')
+      },
+      goBack(){
+        this.$router.push({path:'/yayi/mine'})
       },
 //      clearTmp(){
 //        MessageBox.confirm('清除后，图片视频等多媒体消息需要重新下载观看').then(action => {
@@ -129,6 +139,34 @@
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../common/sass/factory";
 
+  .top{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: px2vw(88);
+    line-height: px2vw(88);
+    text-align: center;
+    font-size: 0;
+    color: #fff;
+    background: rgb(54,118,182);
+    .back{
+      position: absolute;
+      top: px2vw(29);
+      left: px2vw(3);
+      width: px2vw(40);
+      height: px2vw(40);
+      font-size: 0;
+      img{
+        vertical-align: top;
+        width: px2vw(18);
+        height: px2vw(29);
+      }
+    }
+    span{
+      font-size: px2vw(36)
+    }
+  }
   .box{
     height: 93.2vh;
     background-color: #f4f4f4;

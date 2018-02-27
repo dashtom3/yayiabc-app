@@ -158,7 +158,7 @@
         this.allLoaded = this.caseDate.totalPage == this.caseDate.currentPage ? true : false;
       },
       getCaseList (){
-        console.log(this.$router.history.current.name)
+        // console.log(this.$router.history.current.name)
         var self = this
         switch (true){
           case this.$router.history.current.name === 'caseOfIllnessSearch':
@@ -234,16 +234,16 @@
       },
       //mt中接受的val值作为参数传入我的组件里
       isState(val){
-        console.log(val)
+        // console.log(val)
         this.$refs.topLoadMore.states(val)
       },
       //把下拉刷新完成之后回调的mt的方法传入我的组件里
       isLoaded(val){
-        console.log(val)
+        // console.log(val)
         this.$refs.loadmore.onTopLoaded();
       },
       isStateB(val){
-        console.log(val)
+        // console.log(val)
         // this.$refs.bottomLoadMore.states(val)
       },
       isLoadedB(){

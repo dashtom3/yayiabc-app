@@ -1,6 +1,11 @@
 <template>
   <div class="box">
-    <salesHeader headerText="意见反馈"></salesHeader>
+    <div class="top">
+      <div class="back" @click="goBack">
+         <img src="../../../images/logIn/back.png" alt="返回">
+      </div>
+      <span>意见反馈</span>
+    </div>
     <textarea type="text" placeholder="请留下您的宝贵意见和建议，我们将努力改进" style="resize:none" v-model="comments"></textarea>
     <input type="text" placeholder="请留下手机号码方便我们联系您" v-model="tel">
     <button @click="submit" :class="{act:comments.length > 0 && text1 == true}">提交</button>
@@ -40,6 +45,9 @@ export default {
       }
     )
   },
+  created(){
+    this.mBack("goBack")
+  },
   methods:{
     submit(){
       if(this.comments.length <= 0){
@@ -68,6 +76,9 @@ export default {
           console.log(err);
           Indicator.close();
         });
+    },
+    goBack(){
+      this.$router.go(-1);
     }
   }
 }
@@ -75,7 +86,34 @@ export default {
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../common/sass/factory";
-
+  .top{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: px2vw(88);
+    line-height: px2vw(88);
+    text-align: center;
+    font-size: 0;
+    color: #fff;
+    background: rgb(54,118,182);
+    .back{
+      position: absolute;
+      top: px2vw(29);
+      left: px2vw(3);
+      width: px2vw(40);
+      height: px2vw(40);
+      font-size: 0;
+      img{
+        vertical-align: top;
+        width: px2vw(18);
+        height: px2vw(29);
+      }
+    }
+    span{
+      font-size: px2vw(36)
+    }
+  }
   .box{
     height: 100vh;
     background-color: #f4f4f4;

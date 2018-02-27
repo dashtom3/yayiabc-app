@@ -128,7 +128,7 @@
         this.classify = this.slots[0].values.indexOf(values[0]) + 1;
       },
       onClassPicker(num){
-      this.changes = false;
+        this.changes = false;
         if(num){
           if(this.classify < 1){
             this.args.faqQuestionType = 2
@@ -142,7 +142,6 @@
           this.args.faqQuestionType = null;
           this.classifyName = ''
         }
-//        console.log(this.args.classify);
         this.isClassPicker = false
       },
       chooseImg(){
@@ -167,6 +166,9 @@
         Indicator.close();
 //        console.log(this.contImgList)
       },
+    },
+    created(){
+      this.mBack("closePage");
     }
   }
 </script>

@@ -12,7 +12,7 @@
         <div class="container">
           <div  class="comments commentBox">
             <div class="headReadPicBox">
-              <img v-if="item.userPic" :src="item.userPic" alt="头像">
+              <img v-if="commentChild.comment.userPic" :src="commentChild.comment.userPic" alt="头像">
               <img v-else src="../../../../images/case/hPic.png" alt="头像">
               <!-- <img src="../../../../images/case/caseOfIllness/4.jpg" alt=""> -->
             </div>

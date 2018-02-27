@@ -27,6 +27,7 @@
       if(this.$router.history.current.path == '/myQandA/myAnswer') {
         this.caseClassNum = 1;
       }
+      this.mBack("goBack")
     },
     methods:{
       changeClass(index){

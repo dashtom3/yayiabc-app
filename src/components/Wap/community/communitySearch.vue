@@ -1,11 +1,10 @@
 <template>
   <div class="searchWord">
     <div class="search_box">
-      <!-- 原来的地址 http://47.93.48.111:6181/api/item/itemSearch -->
-      <form action="http://47.93.48.111:8080/api/item/itemSearch" method="post" enctype="multipart/form-data" v-on:submit.prevent="search_cargo">
-      <!-- <form action="http://192.168.1.101:8080/api/item/itemSearch" method="post" enctype="multipart/form-data" v-on:submit.prevent="search_cargo"> -->
+
+      <!-- <form action="http://47.93.48.111:8080/api/item/itemSearch" method="post" enctype="multipart/form-data" v-on:submit.prevent="search_cargo"> -->
         <input class="search_word" type="search" name="keyWord" @focus="searchActive()" v-focus autofocus="autofocus" @keyup.enter="search_cargo" v-model="searchCargo" autocomplete="on" placeholder="请输入关键字" >
-      </form>
+      <!-- </form> -->
       <span v-show="searchCargo != ''" class="close-wrapper" @click="closeKeyWord">
           <img class="close" src="../../../images/saleman/close.png" alt="关闭">
       </span>
@@ -204,11 +203,18 @@
     width: 100vw;
   }
   .search_box {
+    // width: 100vw;
+    // height: px2vw(88);
+    // position: relative;
+    // background-color: $themeColor;
+    // border-bottom: px2vw(1) solid #E5E5E5
     width: 100vw;
     height: px2vw(88);
-    position: relative;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2000;
     background-color: $themeColor;
-    border-bottom: px2vw(1) solid #E5E5E5;
       .close-wrapper{
       position: absolute;
       top: px2vw(28);
@@ -222,24 +228,41 @@
     }
   }
   .search_word {
-    width: px2vw(606);
+    // width: px2vw(606);
+    // height: px2vw(64);
+    // border: none;
+    // // border: px2vw(1) solid #e9e9e9;
+    // border-radius: px2vw(28);
+    // background-color: #fff;
+    // outline: medium;
+    // color: #333;
+    // padding-left: px2vw(80);
+    // margin-left: px2vw(30);
+    // margin-top: px2vw(13);
+    width: px2vw(632);
     height: px2vw(64);
-    border: none;
-    // border: px2vw(1) solid #e9e9e9;
+    line-height: px2vw(64);
+    margin: 0 auto;
+    border: px2vw(1) solid #e9e9e9;
+    box-sizing: border-box;
     border-radius: px2vw(28);
     background-color: #fff;
     outline: medium;
-    color: #333;
-    padding-left: px2vw(80);
-    margin-left: px2vw(30);
+    padding-left: 10vw;
+    margin-left: px2vw(20);
     margin-top: px2vw(13);
   }
   .search_img {
+    // width: 4.75vw;
+    // height: 4.75vw;
+    // position: absolute;
+    // top: px2vw(26);
+    // left: px2vw(61);
     width: 4.75vw;
     height: 4.75vw;
     position: absolute;
-    top: px2vw(26);
-    left: px2vw(61);
+    top: 3.5vw;
+    left: 6vw;
   }
   .cancel_btn {
     float: right;

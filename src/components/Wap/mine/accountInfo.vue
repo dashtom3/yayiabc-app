@@ -60,6 +60,7 @@ export default {
       return
     }
     this.init();
+    this.mBack("back")
   },
   methods: {
     //获取个人信息

@@ -59,6 +59,7 @@
     },
     created(){
       this.getTheList();
+      this.mBack("goBack");
     },
     mounted(){
     },

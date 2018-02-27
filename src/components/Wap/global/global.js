@@ -23,9 +23,35 @@ export default {
   getShareUrl(self){
     return window.location.origin+self.$route.fullPath
   },
+  //微信app分享
+  appShare(id, msg, callback) {
+      var service = shares[id];
+      if(!service) {
+        callback && callback(false);
+        return;
+      }
+      var _share = function() {
+        service.send(msg, function() {
+          plus.nativeUI.toast("分享到\"" + service.description + "\"成功！");
+          callback && callback(true);
+        }, function(e) {
+          plus.nativeUI.toast("分享到\"" + service.description + "\"失败！");
+          callback && callback(false);
+        })
+      };
+      if(service.authenticated) {
+        _share(service, msg, callback);
+      } else {
+      service.authorize(function() {
+            _share(service, msg, callback);
+          }, function(e) {
+            console.log("认证授权失败");
+            callback && callback(false);
+          })
+      }
+  },
+  //微信公众号分享
   wxShare(shareData,self) {
-    // alert(shareData.title)
-    // alert(encodeURIComponent(this.getShareUrl(self)))
     var that = this
     //  self.$store.dispatch('GET_SHARE_CODE',{url:'http://test.yayiabc.com'}).then((res) => {
     var linkUrl = shareData.type == 'register' ? (location.href.split('#')[0]+"register?userId="+shareData.userId+"&userType="+shareData.userType) : that.getShareUrl(self);
@@ -52,21 +78,8 @@ export default {
       wx.ready(function (res) {
         wx.onMenuShareTimeline({
           title: shareData.title+shareData.desc, // 分享标题
-          // desc: , // 分享标题
-          // link: shareData.link, // 分享链接
           link:linkUrl,
           imgUrl: shareData.imgUrl, // 分享图标
-          // success: function (res) {
-          //   // 用户确认分享后执行的回调函数
-          //   alert(res);
-          // },
-          // cancel: function () {
-          //   // alert("err");
-          //   // 用户取消分享后执行的回调函数
-          // },
-          // fail: function (res) {
-          //   alert(res);
-          // }
         });
         wx.onMenuShareAppMessage({
           title: shareData.title, // 分享标题
@@ -74,22 +87,8 @@ export default {
           // link: shareData.link, // 分享链接
           link:linkUrl,
           imgUrl: shareData.imgUrl, // 分享图标
-          // success: function (res) {
-          //   // 用户确认分享后执行的回调函数
-          //   alert(res);
-          // },
-          // cancel: function () {
-          //   alert("err");
-          //   // 用户取消分享后执行的回调函数
-          // },
-          // fail: function (res) {
-          //   alert(res);
-          // }
         });
       });
-      // wx.error(function(res){
-      //   alert(res);
-      // });
     })
   },
   success(obj, msg, url) {
@@ -132,11 +131,11 @@ export default {
   },
   getSmallImageStr(width,height){
     var temp = "?imageView2/2/w/"+ parseInt(width*this.getScreenWidth()/750) +"/h/"+ parseInt(height*this.getScreenWidth()/750)
-    console.log(temp)
+    // console.log(temp)
     return temp;
   },
   getScreenWidth(){
-    console.log(window.screen.width)
+    // console.log(window.screen.width)
     return window.screen.width;
   },
   postHttpData(data) {
